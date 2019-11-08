@@ -1,11 +1,13 @@
-//Layout container
-import master from 'src/layouts/master'
-
-//Middleware
-import auth from '@imagina/quser/_router/middlewares/auth'
-import access from '@imagina/quser/_router/middlewares/access'
 
 export default {
-
-
+  userStores: {
+		activated: true,
+		path: '/userStores',
+		name: 'qmarketplace.user.stores',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/userStores/index'),
+    layout: () => import('src/layouts/master'),
+    title: 'qmarketplace.sidebar.adminStores',
+		icon: 'far fa-store',
+    authenticated: true,
+	},
 }
