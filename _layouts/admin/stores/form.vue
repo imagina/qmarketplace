@@ -13,7 +13,7 @@
 
               <q-card-section class="q-px-xl q-pb-xl form-general">
 
-                <div class="q-headline text-primary q-mb-xs capitalize">{{company.name}}</div>
+                <div class="q-headline text-primary q-mb-xs capitalize">Tienda: {{company.name}}</div>
                 <div class="q-subheading text-secondary">
                   Completa la configuración de tu tienda, ¡es muy fácil!
                 </div>
@@ -151,7 +151,14 @@
                           </q-tooltip>
                         </q-btn>
                       </p> -->
-                      <tree-select
+                      <q-select
+                      filled
+                      v-model="company.categories"
+                      multiple
+                      :options="categoryOptions"
+                      style="width: 250px"
+                      />
+                      <!-- <tree-select
                         :clearable="false"
                         :append-to-body="true"
                         class="q-mb-md"
@@ -159,7 +166,7 @@
                         value-consists-of="BRANCH_PRIORITY"
                         v-model="company.categories"
                         placeholder=""
-                      />
+                      /> -->
                       <!-- <q-select multiple v-model="company.categories" :options="categoryOptions" /> -->
                     </q-field>
 
@@ -359,13 +366,15 @@
 
           <div class="col-12 text-right">
               <q-field class="q-mb-xl">
-                <q-btn class="bg-primary text-white btn-arrow-send-pink" @click="createStore()">Crear</q-btn>
+                <q-btn class="bg-primary text-white btn-arrow-send-pink" @click="updateStore()" v-if="storeId!=null">Actualizar</q-btn>
+                <q-btn class="bg-primary text-white btn-arrow-send-pink" @click="createStore()" v-else>Crear</q-btn>
               </q-field>
           </div>
 
         </div>
       </div>
-
+      <!--Loading-->
+      <inner-loading :visible="loading"/>
   </q-page>
 </template>
 <script>
@@ -379,6 +388,7 @@ export default {
   },
   data() {
     return {
+      loading:true,
       stores:[],
       storesOptions:[],
       storeId:false,
@@ -506,37 +516,7 @@ export default {
       ],
       cityOptions: [],
       provincesOptions: [],
-      categoryOptions: [
-        // {
-        //   label: 'Comida',
-        //   value: '1',
-        //   id: '1',
-        //   children: [
-        //     { label: 'Restaurantes', value: '2' , id: '2' },
-        //     { label: 'Comidas rápidas', value: '3', id: '3'  },
-        //     { label: 'Panaderías', value: '4', id: '4' }
-        //   ]
-        // },
-        // {
-        //   label: 'Good service (disabled node)',
-        //   value: '2',
-        //   id: '2',
-        //   children: [
-        //     { label: 'Prompt attention', value: '2', id: '2' },
-        //     { label: 'Professional waiter', value: '3', id: '3' }
-        //   ]
-        // },
-        // {
-        //   label: 'Pleasant surroundings',
-        //   value: '3',
-        //   id: '3',
-        //   children: [
-        //     { label: 'Happy atmosphere', value: '2', id: '2' },
-        //     { label: 'Good table presentation', value: '3', id: '3' },
-        //     { label: 'Pleasing decor', value: '4', id: '4' }
-        //   ]
-        // }
-      ],
+      categoryOptions: [],
       statusOptions: [
         {
           label: 'Habilitado',
@@ -617,16 +597,16 @@ export default {
   },
   methods: {
     async init(){
+      await this.getStoreCategories();//
+      await this.getProvinces();//
+      await this.getThemes();//
       if (this.$route.params.id) this.storeId = this.$route.params.id
       if (this.storeId) await this.getData()//Get data if is edit
-      this.getStoreCategories();//
-      this.getProvinces();//
-      this.getThemes();//
+      this.loading=false;
     },
     //Get data item
     getData() {
       return new Promise((resolve, reject) => {
-        // this.loading.page = true
         const itemId = this.$clone(this.storeId)
 
         if (itemId) {
@@ -641,11 +621,14 @@ export default {
           //Request
           this.$crud.show(this.configName, itemId, params).then(response => {
             this.company = this.$clone(response.data);
-            // this.loading.page = false;
+            this.company.categories=this.$array.tree(response.data.categories);
+            this.company.name=this.company[this.lang].name;
+            this.company.slug=this.company[this.lang].slug;
+            this.company.description=this.company[this.lang].description;
+            this.company.slogan=this.company[this.lang].slogan;
             resolve(true)//Resolve
           }).catch(error => {
             this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
-            // this.loading.page = false
             reject(false)//Resolve
           })
         } else {
@@ -687,13 +670,8 @@ export default {
         }
       };//params
       this.$crud.index("apiRoutes.qmarketplace.category",params).then(response => {
-        this.categoryOptions=response.data;//
-        // for(var i=0;i<this.stores.length;i++){
-        //   this.storesOptions.push({
-        //     label:this.stores[i][this.lang].name,
-        //     value:i
-        //   });
-        // }//for
+        // this.categoryOptions=response.data;//
+        this.categoryOptions=this.$array.tree(response.data);//
       });
 
     },
@@ -709,20 +687,14 @@ export default {
         }
       };//params
       this.$crud.index("apiRoutes.qmarketplace.theme",params).then(response => {
-        this.themes_option=response.data;//
-        // for(var i=0;i<this.stores.length;i++){
-        //   this.storesOptions.push({
-        //     label:this.stores[i][this.lang].name,
-        //     value:i
-        //   });
-        // }//for
+        this.themes_option=this.$array.tree(response.data);//
       });
 
     },
 
     clearForm(){
       //Clear data of form create store
-      this.company.name="Nombre de tienda";
+      this.company.name="";
       this.company.slogan="";
       this.company.description="";
       this.company.address="";
@@ -786,6 +758,37 @@ export default {
       // this.company.schedules=[this.company.schedule];
       this.$crud.create("apiRoutes.qmarketplace.store", this.company).then(response => {
         this.$alert.success({message: this.$tr('ui.message.recordCreated'), pos: 'bottom'})
+        this.$router.push({
+          name: 'qmarketplace.admin.stores.index'
+        })
+      }).catch(error => {
+        this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+      })
+    },
+    updateStore(){
+      this.company[this.lang]={
+        name:this.company.name,
+        slogan:this.company.slogan,
+        description:this.company.description,
+        slug:this.slugable(this.company.name)
+      };
+      if(this.theme.id!=null){
+        this.company.theme_id=this.theme.id;
+        this.company.options.theme_config.color_primary=this.theme.primary;
+        this.company.options.theme_config.color_secondary=this.theme.secondary;
+        this.company.options.theme_config.background=this.theme.background;
+      }
+      var data=this.company;
+      var categories=[];
+      for(var i=0;i<this.company.categories.length;i++){
+        categories.push(this.company.categories[i].id);
+      }
+      data.categories=categories;
+      this.$crud.update("apiRoutes.qmarketplace.store", this.storeId,data).then(response => {
+        this.$alert.success({message: this.$tr('ui.message.recordUpdated'), pos: 'bottom'})
+        this.$router.push({
+          name: 'qmarketplace.admin.stores.index'
+        })
       }).catch(error => {
         this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
       })
