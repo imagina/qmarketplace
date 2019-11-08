@@ -23,14 +23,14 @@
                 <div class="row gutter-lg">
                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
 
-                    <q-field class="q-mb-lg">
-                      <p class="caption q-mb-md">Agregar Logo
+                    <q-field class="q-mb-lg" label="Agregar Logo" stack-label>
+                      <!-- <p class="caption q-mb-md">Agregar Logo
                         <q-btn round class="no-shadow" size="6px" color="tertiary" icon="fas fa-question" >
                           <q-tooltip>
                             Agrega una imagen como logo de la tienda
                           </q-tooltip>
                         </q-btn>
-                      </p>
+                      </p> -->
                       <upload-media
                       v-model="company.mediasSingle"
                       entity="Modules\Marketplace\Entities\Store"
@@ -41,14 +41,14 @@
 
                   </div>
                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                     <q-field class="q-mb-lg">
-                        <p class="caption q-mb-md">Agregar imágenes para slider
+                     <q-field class="q-mb-lg" label="Agregar imágenes para slider" stack-label>
+                        <!-- <p class="caption q-mb-md">Agregar imágenes para slider
                           <q-btn round class="no-shadow" size="6px" color="tertiary" icon="fas fa-question">
                           <q-tooltip>
                             Agrega imágenes promociones de tu tienda
                           </q-tooltip>
                         </q-btn>
-                        </p>
+                        </p> -->
 
                         <upload-media
                           multiple
@@ -66,100 +66,111 @@
 
                 <div class="row gutter-lg">
                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
-                    <q-field class="q-mb-xl">
-                      <p class="caption q-mb-sm">Nombre de tu empresa
+                    <q-field class="q-mb-xl" label="Nombre de tu empresa" stack-label>
+                      <!-- <p class="caption q-mb-sm">Nombre de tu empresa
                         <q-btn round class="no-shadow" size="6px" color="tertiary" icon="fas fa-question">
                           <q-tooltip>
                             Ingresa el nombre de tu tienda
                           </q-tooltip>
                         </q-btn>
-                      </p>
+                      </p> -->
                       <q-input v-model="company.name" placeholder="WAFFEE" />
                     </q-field>
-                    <q-field class="q-mb-xl">
-                      <p class="caption q-mb-sm">Slogan
+                    <q-field class="q-mb-xl" label="Slogan" stack-label>
+                      <!-- <p class="caption q-mb-sm">Slogan
                         <q-btn round class="no-shadow" size="6px" color="tertiary" icon="fas fa-question">
                           <q-tooltip>
                             Agrega un slogan para tu tienda
                           </q-tooltip>
                         </q-btn>
-                      </p>
+                      </p> -->
                       <q-input v-model="company.slogan" placeholder="Lorem Ipsum" />
                     </q-field>
-                    <q-field class="q-mb-xl">
-                      <p class="caption q-mb-sm">Descripción de la empresa
+
+                    <!--Description-->
+                    <q-field class="q-mb-xl" label="Descripción de la empresa" stack-label>
+                      <!-- <p class="caption q-mb-sm">Descripción de la empresa
                         <q-btn round class="no-shadow" size="6px" color="tertiary" icon="fas fa-question">
                           <q-tooltip>
                             Ingresa una breve descripción de tu empresa
                           </q-tooltip>
                         </q-btn>
-                      </p>
-                      <q-editor v-model="company.description" />
+                      </p> -->
+                      <q-editor v-model="company.description" class="full-width"
+                      :toolbar="editorText.toolbar" content-class="text-grey-9" toolbar-text-color="grey-9"/>
                     </q-field>
-                    <q-field  class="q-mb-xl">
-                      <p class="caption q-mb-sm">Dirección de la empresa
+                    <q-field  class="q-mb-xl" label="Dirección de la empresa" stack-label>
+                      <!-- <p class="caption q-mb-sm">Dirección de la empresa
                         <q-btn round class="no-shadow" size="6px" color="tertiary" icon="fas fa-question">
                           <q-tooltip>
                             Ingresa la dirección de tu empresa
                           </q-tooltip>
                         </q-btn>
-                      </p>
+                      </p> -->
                       <q-input  v-model="company.address" placeholder="Lorem Ipsum"
                         :before="[{ icon: 'fas fa-map-marker-alt'}]" />
                     </q-field>
-                    <q-field  class="q-mb-xl">
-                      <p class="caption q-mb-sm">Url mapa
+                    <q-field  class="q-mb-xl" label="Url Mapa" stack-label>
+                      <!-- <p class="caption q-mb-sm">Url mapa
                         <q-btn round class="no-shadow" size="6px" color="tertiary" icon="fas fa-question">
                           <q-tooltip>
                             Ingresa la dirección de tu empresa vía google maps
                           </q-tooltip>
                         </q-btn>
-                      </p>
+                      </p> -->
                       <q-input  v-model="company.options.map" placeholder="google maps"  />
                     </q-field>
-                    <q-field  class="q-mb-xl">
-                      <p class="caption q-mb-sm">Horario de atención
+                    <q-field  class="q-mb-xl" label="Horario de atención" stack-label>
+                      <!-- <p class="caption q-mb-sm">Horario de atención
                         <q-btn round class="no-shadow" size="6px" color="tertiary" icon="fas fa-question">
                           <q-tooltip>
                             Aquí puedes ingresar tu horario de atención al público
                           </q-tooltip>
                         </q-btn>
-                      </p>
+                      </p> -->
                       <q-input  v-model="company.schedules[0]" placeholder="Lunes - Sabado 7am - 6pm"
                         :before="[{ icon: 'far fa-clock'}]" />
                     </q-field>
-                    <q-field  class="q-mb-xl">
-                      <p class="caption q-mb-sm">Enlace de youtube
+                    <q-field  class="q-mb-xl" label="Enlace de youtube" stack-label>
+                      <!-- <p class="caption q-mb-sm">Enlace de youtube
                         <q-btn round class="no-shadow" size="6px" color="tertiary" icon="fas fa-question">
                           <q-tooltip>
                             Aquí puedes ingresar el link de un video promocional
                           </q-tooltip>
                         </q-btn>
-                      </p>
+                      </p> -->
                       <q-input  v-model="company.options.youtube" placeholder="youtube.com"  />
                     </q-field>
                   </div>
                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
-                    <q-field class="q-mb-xl">
-                      <p class="caption q-mb-xs">Categoría
+                    <q-field class="q-mb-xl" label="Categoría" stack-label>
+                      <!-- <p class="caption q-mb-xs">Categoría
                         <q-btn round class="no-shadow" size="6px" color="tertiary" icon="fas fa-question">
                           <q-tooltip>
                             Selecciona las categorías a las que pertenece tu empresa
                           </q-tooltip>
                         </q-btn>
-                      </p>
-
-                      <q-select multiple v-model="company.categories" :options="categoryOptions" />
+                      </p> -->
+                      <tree-select
+                        :clearable="false"
+                        :append-to-body="true"
+                        class="q-mb-md"
+                        :options="categoryOptions"
+                        value-consists-of="BRANCH_PRIORITY"
+                        v-model="company.categories"
+                        placeholder=""
+                      />
+                      <!-- <q-select multiple v-model="company.categories" :options="categoryOptions" /> -->
                     </q-field>
 
-                    <q-field class="q-mb-xl">
-                      <p class="caption q-mb-sm">Barrio
+                    <q-field class="q-mb-xl" label="Barrio" stack-label>
+                      <!-- <p class="caption q-mb-sm">Barrio
                         <q-btn round class="no-shadow" size="6px" color="tertiary" icon="fas fa-question">
                           <q-tooltip>
                             Selecciona el barrio al que pertenece tu empresa
                           </q-tooltip>
                         </q-btn>
-                      </p>
+                      </p> -->
                       <q-input v-model="company.neighborhood" placeholder="Lorem Ipsum" />
                     </q-field>
 
@@ -173,46 +184,65 @@
                       </p>
                       <q-select v-model="company.neighborhood" :options="sectorOptions" />
                     </q-field> -->
-                    <q-field  class="q-mb-xl">
-                      <p class="caption q-mb-sm">Provincia
+                    <q-field  class="q-mb-xl" label="Provincia" stack-label>
+                      <!-- <p class="caption q-mb-sm">Provincia
                         <q-btn round class="no-shadow" size="6px" color="tertiary" icon="fas fa-question">
                           <q-tooltip>
                             Selecciona la provincia a la que pertenece tu empresa
                           </q-tooltip>
                         </q-btn>
-                      </p>
-                      <q-select @input="val => { getCities() }" v-model="company.province_id" :options="provincesOptions" />
+                      </p> -->
+                      <tree-select
+                        :clearable="false"
+                        :append-to-body="true"
+                        class="q-mb-md"
+                        :options="provincesOptions"
+                        value-consists-of="BRANCH_PRIORITY"
+                        v-model="company.province_id"
+                        @input="val => { getCities() }"
+                        placeholder=""
+                      />
+                      <!-- <q-select @input="val => { getCities() }" v-model="company.province_id" :options="provincesOptions" /> -->
                     </q-field>
 
-                    <q-field  class="q-mb-xl">
-                      <p class="caption q-mb-sm">Cuidad
+                    <q-field  class="q-mb-xl" label="Ciudad" stack-label>
+                      <!-- <p class="caption q-mb-sm">Cuidad
                         <q-btn round class="no-shadow" size="6px" color="tertiary" icon="fas fa-question">
                           <q-tooltip>
                             Selecciona la ciudad a la que pertenece tu empresa
                           </q-tooltip>
                         </q-btn>
-                      </p>
-                      <q-select v-model="company.city_id" :options="cityOptions" />
+                      </p> -->
+                      <tree-select
+                        :clearable="false"
+                        :append-to-body="true"
+                        class="q-mb-md"
+                        :options="cityOptions"
+                        value-consists-of="BRANCH_PRIORITY"
+                        v-model="company.city_id"
+                        placeholder=""
+                      />
+                      <!-- <q-select v-model="company.city_id" :options="cityOptions" /> -->
                     </q-field>
-                    <q-field  class="q-mb-xl">
-                      <p class="caption q-mb-sm">Correo electrónico
+                    <q-field  class="q-mb-xl" label="Correo electrónico" stack-label>
+                      <!-- <p class="caption q-mb-sm">Correo electrónico
                         <q-btn round class="no-shadow" size="6px" color="tertiary" icon="fas fa-question">
                           <q-tooltip>
                             Ingresa un correo electrónico para el contacto cliente - tienda
                           </q-tooltip>
                         </q-btn>
-                      </p>
+                      </p> -->
                       <q-input v-model="company.options.email" placeholder="info@lorem.com"
                         :before="[{ icon: 'fas fa-envelope'}]" />
                     </q-field>
-                    <q-field class="q-mb-lg" v-if="company.gallery.length>0">
-                        <p class="caption q-mb-md">Galeria de la empresa
+                    <q-field class="q-mb-lg" v-if="company.gallery.length>0"  label="Galería de la empresa" stack-label>
+                        <!-- <p class="caption q-mb-md">Galeria de la empresa
                           <q-btn round class="no-shadow" size="6px" color="tertiary" icon="fas fa-question">
                           <q-tooltip>
                             Ingresa múltiples imágenes promocionales de tu empresa
                           </q-tooltip>
                         </q-btn>
-                        </p>
+                        </p> -->
 
                         <upload-media
                           multiple
@@ -235,22 +265,22 @@
 
               <q-card-section class="q-px-xl form-general">
 
-                <q-field class="q-my-lg">
-                  <p class="caption q-mb-lg">Redes sociales de tu tienda
+                <q-field class="q-my-lg"  label="Redes sociales de tu tienda" stack-label>
+                  <!-- <p class="caption q-mb-lg">Redes sociales de tu tienda
                     <q-btn round class="no-shadow" size="6px" color="tertiary" icon="fas fa-question">
                       <q-tooltip>
                         Puedes seleccionar las redes sociales disponibles de tu empresa
                       </q-tooltip>
                     </q-btn>
-                  </p>
+                  </p> -->
 
                   <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
                       <div v-for="(item,index) in company.social" :key="index">
                         <div class="row items-center q-mb-md">
                           <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
-                            <q-checkbox v-model="item.active">
-                              <q-icon class="q-mx-md" :color="item.color" :name="item.icon" />  {{item.name}}:
+                            <q-checkbox left-label v-model="item.active" :label="item.name+':'">
+                              <q-icon class="q-mx-md" :color="item.color" :name="item.icon" />
                             </q-checkbox>
                           </div>
                           <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
@@ -268,15 +298,15 @@
             <q-card class="rounded-md bg-white w-100 q-mb-xl">
               <q-card-section class="q-px-xl form-general">
 
-                <q-field class="q-my-lg">
-
+                <q-field class="q-my-lg" label="¿Que metodos de pago aceptas?" stack-label>
+<!--
                   <p class="caption q-mb-lg">¿Que metodos de pago aceptas?
                     <q-btn round class="no-shadow" size="6px" color="tertiary" icon="fas fa-question">
                       <q-tooltip>
                         Puedes seleccionar los métodos de pago disponibles en tu empresa
                       </q-tooltip>
                     </q-btn>
-                  </p>
+                  </p> -->
 
                   <div v-for="(item,index) in company.options.payment_methods" :key="index">
                     <div class="row items-center q-py-md border-bottom-gray">
@@ -298,15 +328,15 @@
             <q-card class="rounded-md bg-white w-100 q-mb-lg">
               <q-card-section class="q-px-xl form-general">
 
-                <q-field class="q-my-lg">
-
+                <q-field class="q-my-lg" label="¿Cuales son los medotos de envío?" stack-label>
+<!--
                   <p class="caption q-mb-lg">¿Cuales son los medotos de envío?
                     <q-btn round class="no-shadow" size="6px" color="tertiary" icon="fas fa-question">
                       <q-tooltip>
                         Puedes seleccionar los métodos de envío disponibles en tu empresa
                       </q-tooltip>
                     </q-btn>
-                  </p>
+                  </p> -->
 
                   <div v-for="(item,index) in company.options.shipping_methods" :key="index">
                     <div class="row items-center q-py-md border-bottom-gray">
@@ -352,9 +382,7 @@ export default {
       stores:[],
       storesOptions:[],
       storeId:false,
-      //Vars to active tab of menu
-      myStore:false,
-      //Vars to active tab of menu
+      configName: 'apiRoutes.qmarketplace.store',
       lang: this.$i18n.locale,
       userId: this.$store.state.quserAuth.userId,
       company: {
@@ -367,8 +395,8 @@ export default {
           ""
         ],
         city: '',
-        city_id: null,
-        province_id: null,
+        city_id: 0,
+        province_id: 0,
         neighborhood: '',
         categories:[],
         logo: {
@@ -479,35 +507,35 @@ export default {
       cityOptions: [],
       provincesOptions: [],
       categoryOptions: [
-        {
-          label: 'Comida',
-          value: '1',
-          id: '1',
-          children: [
-            { label: 'Restaurantes', value: '2' , id: '2' },
-            { label: 'Comidas rápidas', value: '3', id: '3'  },
-            { label: 'Panaderías', value: '4', id: '4' }
-          ]
-        },
-        {
-          label: 'Good service (disabled node)',
-          value: '2',
-          id: '2',
-          children: [
-            { label: 'Prompt attention', value: '2', id: '2' },
-            { label: 'Professional waiter', value: '3', id: '3' }
-          ]
-        },
-        {
-          label: 'Pleasant surroundings',
-          value: '3',
-          id: '3',
-          children: [
-            { label: 'Happy atmosphere', value: '2', id: '2' },
-            { label: 'Good table presentation', value: '3', id: '3' },
-            { label: 'Pleasing decor', value: '4', id: '4' }
-          ]
-        }
+        // {
+        //   label: 'Comida',
+        //   value: '1',
+        //   id: '1',
+        //   children: [
+        //     { label: 'Restaurantes', value: '2' , id: '2' },
+        //     { label: 'Comidas rápidas', value: '3', id: '3'  },
+        //     { label: 'Panaderías', value: '4', id: '4' }
+        //   ]
+        // },
+        // {
+        //   label: 'Good service (disabled node)',
+        //   value: '2',
+        //   id: '2',
+        //   children: [
+        //     { label: 'Prompt attention', value: '2', id: '2' },
+        //     { label: 'Professional waiter', value: '3', id: '3' }
+        //   ]
+        // },
+        // {
+        //   label: 'Pleasant surroundings',
+        //   value: '3',
+        //   id: '3',
+        //   children: [
+        //     { label: 'Happy atmosphere', value: '2', id: '2' },
+        //     { label: 'Good table presentation', value: '3', id: '3' },
+        //     { label: 'Pleasing decor', value: '4', id: '4' }
+        //   ]
+        // }
       ],
       statusOptions: [
         {
@@ -544,6 +572,24 @@ export default {
           }
         }
       ],
+      editorText: {
+        toolbar: [
+          ['bold', 'italic', 'strike', 'underline', 'removeFormat'],
+          ['link'],
+          [
+            {
+              label: 'Font Size',
+              icon: 'format_size',
+              fixedLabel: true,
+              fixedIcon: true,
+              list: 'no-icons',
+              options: ['size-1', 'size-2', 'size-3', 'size-4', 'size-5', 'size-6', 'size-7']
+            }
+          ],
+          ['quote', 'unordered', 'ordered'],
+          ['fullscreen']
+        ]
+      },
       product: {
         name: '',
         summary: '',
@@ -570,6 +616,44 @@ export default {
     }
   },
   methods: {
+    async init(){
+      if (this.$route.params.id) this.storeId = this.$route.params.id
+      if (this.storeId) await this.getData()//Get data if is edit
+      this.getStoreCategories();//
+      this.getProvinces();//
+      this.getThemes();//
+    },
+    //Get data item
+    getData() {
+      return new Promise((resolve, reject) => {
+        // this.loading.page = true
+        const itemId = this.$clone(this.storeId)
+
+        if (itemId) {
+          //Params
+          let params = {
+            refresh: true,
+            params: {
+              include: 'categories',
+              filter: {allTranslations: true}
+            }
+          }
+          //Request
+          this.$crud.show(this.configName, itemId, params).then(response => {
+            this.company = this.$clone(response.data);
+            // this.loading.page = false;
+            resolve(true)//Resolve
+          }).catch(error => {
+            this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
+            // this.loading.page = false
+            reject(false)//Resolve
+          })
+        } else {
+          resolve(true)//Resolve
+        }
+
+      })
+    },
     slugable: function(title) {
       var slug = "";
       // Change to lower case
@@ -721,38 +805,38 @@ export default {
       };//params
       this.$crud.index("apiRoutes.ilocations.provinces",params).then(response => {
         this.provincesOptions=[];
-        this.provincesOptions.push({label:"Selecciona una provincia",value:null,id:null});
+        this.provincesOptions.push({label:"Selecciona una provincia",value:0,id:0});
         for(var i=0;i<response.data.length;i++){
           this.provincesOptions.push({label:response.data[i].name,value:response.data[i].id,id:response.data[i].id});
         }
       });
     },
     getCities(){
-      let params = {
-        remember: false,
-        params: {
-          include: '',
-          filter:{
-            allTranslations: true,
-            province_id:this.company.province_id
+      if(this.company.province_id){
+        let params = {
+          remember: false,
+          params: {
+            include: '',
+            filter:{
+              allTranslations: true,
+              province_id:this.company.province_id
+            }
           }
-        }
-      };//params
-      this.$crud.index("apiRoutes.ilocations.cities",params).then(response => {
-        this.cityOptions=[];
-        this.cityOptions.push({label:"Selecciona una ciudad",value:null,id:null});
-        for(var i=0;i<response.data.length;i++){
-          this.cityOptions.push({label:response.data[i].name,value:response.data[i].id,id:response.data[i].id});
-        }
-      });
+        };//params
+        this.$crud.index("apiRoutes.ilocations.cities",params).then(response => {
+          this.cityOptions=[];
+          this.cityOptions.push({label:"Selecciona una ciudad",value:0,id:0});
+          for(var i=0;i<response.data.length;i++){
+            this.cityOptions.push({label:response.data[i].name,value:response.data[i].id,id:response.data[i].id});
+          }
+        });
+      }
     }
 
 
   },
   mounted(){
-    this.getStoreCategories();//
-    this.getProvinces();//
-    this.getThemes();//
+    this.init();
   }
 }
 </script>
