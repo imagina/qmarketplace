@@ -1,6 +1,6 @@
 const pages = config('pages') // Get Pages from config
 
-//Suscriptions
+//Marketplace
 export default [
   {
     title: 'qmarketplace.sidebar.adminStores',

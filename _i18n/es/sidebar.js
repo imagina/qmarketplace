@@ -1,5 +1,5 @@
 export default {
-  adminStores : 'Mis tiendas',
+  adminStores : "Mis tiendas",
   adminTheme : 'Configuración de tema',
   adminProducts : 'Productos',
 
