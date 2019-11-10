@@ -42,5 +42,27 @@ export default {
     icon: 'fas fa-store',
     authenticated: true
   },
+  storeProducts: {
+    // permission: 'qmarketplace.stores.manage',
+    activated: true,
+    path: '/qmarketplace/products/store/:id',
+    name: 'qmarketplace.admin.products.store.index',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/stores/products/index'),
+    layout: () => import('src/layouts/master'),
+    title: 'qmarketplace.sidebar.adminProduct',
+    icon: 'fas fa-store',
+    authenticated: true
+  },
+  storeProductsCreate: {
+    // permission: 'qmarketplace.stores.manage',
+    activated: true,
+    path: '/qmarketplace/products/create/:storeId',
+    name: 'qmarketplace.admin.products.store.create',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/stores/products/form'),
+    layout: () => import('src/layouts/master'),
+    title: 'qmarketplace.sidebar.adminProduct',
+    icon: 'fas fa-store',
+    authenticated: true
+  },
 
 }
