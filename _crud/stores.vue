@@ -13,7 +13,7 @@
           read: {
             columns: [
               {name: 'id', label: this.$tr('ui.form.id'), field: 'id', style: 'width: 50px'},
-              {name: 'name', label: this.$tr('ui.form.title'), field: 'name', style: 'width: 50px', align: 'rigth'},
+              {name: 'name', label: this.$tr('ui.form.name'), field: 'name', style: 'width: 50px', align: 'rigth'},
               {
                 name: 'createdAt', label: this.$tr('ui.form.createdAt'), field: 'createdAt', align: 'left',
                 format: val => val ? this.$trd(val) : '-',
@@ -24,12 +24,18 @@
               include: 'categories',
               filter:{
                 allTranslations: true,
-                userId:this.userId,
+                userId:this.$store.state.quserAuth.userId,
               }
             },
-            filters: {
-
-            },
+            filters: {},
+            actions : [
+              {
+                icon : 'fas fa-palette',
+                color : 'warning',
+                route : 'qmarketplace.admin.theme.store.index',
+                tooltip:this.$tr('qmarketplace.sidebar.adminTheme')
+              }
+            ]
           },
           update: {
             title: this.$tr('qmarketplace.layout.editStore'),

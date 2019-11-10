@@ -31,5 +31,16 @@ export default {
     icon: 'far fa-store',
     authenticated: true,
   },
+  storesTheme: {
+    // permission: 'qmarketplace.stores.manage',
+    activated: true,
+    path: '/qmarketplace/theme/store/:id',
+    name: 'qmarketplace.admin.theme.store.index',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/stores/theme/index'),
+    layout: () => import('src/layouts/master'),
+    title: 'qmarketplace.sidebar.adminTheme',
+    icon: 'fas fa-store',
+    authenticated: true
+  },
 
 }
