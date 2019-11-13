@@ -1,85 +1,111 @@
 <template>
   <q-page class="bg-fondo-q store-page layout-padding">
 
-      <div class="q-container" style="padding-top: 40px;">
-        <div class="row gutter-md">
+      <div class="q-container">
+        <div class="row">
           <div class="col-12">
 
-            <!-- DISENO -->
-            <div class="col-12">
-              <h3 class="text-center q-my-xl">Diseño</h3>
-            </div>
+            <q-card class="rounded-md q-mb-xl full-width">
 
-            <div class="col-12">
+              <q-card-actions align="right" no-caps class="q-px-lg q-pt-lg q-pb-none">
+                <q-btn class="rounded-sm  font-family-secondary" no-caps color="primary" icon="fas fa-eye" label="Vista previa"/>
+              </q-card-actions>
 
-              <q-card  class="rounded-md bg-white w-100 q-mb-xl">
+              <q-card-section class="q-px-xl form-general">
 
-                <q-card-actions no-caps class="q-pa-lg">
-                  <q-btn class="rounded-sm  font-family-secondary" no-caps color="primary" icon="fas fa-eye" label="Vista previa"/>
-                </q-card-actions>
-
-                <q-card-section class="q-px-xl q-pb-xl form-general">
-                  <div class="q-headline text-primary q-mb-xs">Eligue tu tema</div>
-                  <div class="q-subheading text-secondary">
+                <div class="text-h5 text-primary q-mb-xs font-family-secondary">Eligue tu tema</div>
+                <div class="text-subtitle1 text-secondary">
                     Elige el tema que más se adapte a tu empresa y personalizalo
-                  </div>
-                  <div class="q-my-lg line-grey w-100"></div>
+                </div>
+                <div class="q-my-lg line-grey full-width"></div>
 
-                  <div class="row gutter-md justify-center">
-                    <div @click="themeId=t.id;" class="col-xs-12 col-sm-12 col-md-6 col-lg-5 q-mb-md cursor-pointer" v-for="(t,index) in themes_option" :key="index">
-                      <div class="ratio-1 line-grey">
-                        <img :src="t.mainImage.path">
-                      </div>
-                      <div class="q-pa-md" :class="[themeId == t.id ? 'bg-secondary text-light' : 'bg-light text-secondary']">
-                         Diseño #{{index+1}} - {{t.name}}
-                      </div>
+                <div class="row q-col-gutter-md justify-center">
+                  <div @click="themeId=t.id;" class="col-xs-12 col-sm-12 col-md-6 col-lg-5 q-mb-md cursor-pointer" v-for="(t,index) in themes_option" :key="index">
+                    <div class="line-grey">
+                      <q-img :ratio="1" :src="t.mainImage.path" />
                     </div>
-                  </div>
-
-                  <div class="q-my-lg line-grey w-100"></div>
-
-                  <div class="q-headline text-primary q-mb-xs">Personaliza tu sitio web</div>
-                  <div class="q-subheading text-secondary q-mb-lg">
-                    Elige los colores de acuerdo a la imagen corporativa de tu empresa
-                  </div>
-
-                  <div class="row gutter-sm items-center  q-mb-sm">
-                    <div class="col-xs-6 col-sm-5 col-md-3">
-                      <p class="caption q-mb-none">Primario</p>
-                    </div>
-                    <div class="col-xs-6 col-sm-5 col-md-3">
-                      <q-color class="q-pa-md line-grey text-center" v-model="options.theme_config.color_primary" :style="{ 'background-color': options.theme_config.color_primary }" />
+                    <div class="q-pa-md" :class="[themeId == t.id ? 'bg-secondary text-light' : 'bg-light text-secondary']">
+                       Diseño #{{index+1}} - {{t.name}}
                     </div>
                   </div>
-                  <div class="row gutter-sm items-center  q-mb-sm">
-                    <div class="col-xs-6 col-sm-5 col-md-3">
-                      <p class="caption q-mb-none">Secondario</p>
-                    </div>
-                    <div class="col-xs-6 col-sm-5 col-md-3">
-                      <q-color class="q-pa-md line-grey text-center" v-model="options.theme_config.color_secondary" :style="{ 'background-color': options.theme_config.color_secondary }" />
-                    </div>
-                  </div>
-                  <div class="row gutter-sm items-center  q-mb-sm">
-                    <div class="col-xs-6 col-sm-5 col-md-3">
-                      <p class="caption q-mb-none">Fondo</p>
-                    </div>
-                    <div class="col-xs-6 col-sm-5 col-md-3">
-                      <q-color class="q-pa-md line-grey text-center" v-model="options.theme_config.background" :style="{ 'background-color': options.theme_config.background }" />
-                    </div>
-                  </div>
+                </div>
 
-                </q-card-section>
-              </q-card>
+                <div class="q-my-lg line-grey full-width"></div>
 
-            </div>
-            <!-- DISENO -->
+                <div class="text-h5 text-primary q-mb-xs font-family-secondary">Personaliza tu sitio web</div>
+                <div class="text-subtitle1 text-secondary q-mb-lg">
+                  Elige los colores de acuerdo a la imagen corporativa de tu empresa
+                </div>
+
+                <div class="row q-col-gutter-sm items-center  q-mb-md">
+                  <div class="col-xs-6 col-sm-5 col-md-3">
+                    <p class="caption q-mb-none">Primario</p>
+                  </div>
+                  <div class="col-xs-6 col-sm-5 col-md-3">
+                    <q-input filled
+                      v-model="options.theme_config.color_primary"
+                      :style="{ 'background-color': options.theme_config.color_primary }"
+                    >
+                      <template v-slot:append>
+                        <q-icon name="colorize" class="cursor-pointer">
+                          <q-popup-proxy transition-show="scale" transition-hide="scale">
+                            <q-color v-model="options.theme_config.color_primary" />
+                          </q-popup-proxy>
+                        </q-icon>
+                      </template>
+                    </q-input>
+
+                  </div>
+                </div>
+                <div class="row q-col-gutter-sm items-center  q-mb-md">
+                  <div class="col-xs-6 col-sm-5 col-md-3">
+                    <p class="caption q-mb-none">Secondario</p>
+                  </div>
+                  <div class="col-xs-6 col-sm-5 col-md-3">
+                    <q-input filled
+                      v-model="options.theme_config.color_secondary"
+                      :style="{ 'background-color': options.theme_config.color_secondary }"
+                    >
+                      <template v-slot:append>
+                        <q-icon name="colorize" class="cursor-pointer">
+                          <q-popup-proxy transition-show="scale" transition-hide="scale">
+                            <q-color v-model="options.theme_config.color_secondary" />
+                          </q-popup-proxy>
+                        </q-icon>
+                      </template>
+                    </q-input>
+                  </div>
+                </div>
+                <div class="row q-col-gutter-sm items-center q-mb-lg">
+                  <div class="col-xs-6 col-sm-5 col-md-3">
+                    <p class="caption q-mb-none">Fondo</p>
+                  </div>
+                  <div class="col-xs-6 col-sm-5 col-md-3">
+                    <q-input filled
+                      v-model="options.theme_config.background"
+                      :style="{ 'background-color': options.theme_config.background }"
+                    >
+                      <template v-slot:append>
+                        <q-icon name="colorize" class="cursor-pointer">
+                          <q-popup-proxy transition-show="scale" transition-hide="scale">
+                            <q-color v-model="options.theme_config.background" />
+                          </q-popup-proxy>
+                        </q-icon>
+                      </template>
+                    </q-input>
+                  </div>
+                </div>
+
+              </q-card-section>
+            </q-card>
 
           </div>
+          <!-- DISENO -->
 
           <div class="col-12 text-right">
-              <q-field class="q-mb-xl">
-                <q-btn class="bg-primary text-white btn-arrow-send-pink" @click="updateStore()" v-if="storeId!=null">Actualizar</q-btn>
-              </q-field>
+            <div class="q-mt-lg">
+              <q-btn class="bg-primary text-white btn-arrow-send-pink" @click="updateStore()" v-if="storeId!=null">Actualizar</q-btn>
+            </div>
           </div>
 
         </div>
