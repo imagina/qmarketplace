@@ -284,7 +284,7 @@
 
 <script>
   //Components
-  import locales from '@imagina/qsite/_components/locales'
+  // import locales from '@imagina/qsite/_components/locales'
   import recursiveList from 'src/components/master/recursiveListSelect'
   import uploadMedia from '@imagina/qmedia/_components/form'
   import crudOptions from '@imagina/qcommerce/_components/admin/products/crudOptions'
@@ -296,7 +296,6 @@
   export default {
     components: {
       crudOptions,
-      locales,
       recursiveList,
       uploadMedia,
     },
