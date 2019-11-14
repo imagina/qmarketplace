@@ -109,7 +109,7 @@
                       </p>
                       <q-input dense  v-model="company.address" placeholder="Lorem Ipsum">
                         <template v-slot:prepend>
-                          <q-icon name="fas fa-map-marker-alt" />
+                          <q-icon name="fas fa-map-marker-alt" color="primary"/>
                         </template>
                       </q-input>
                     </div>
@@ -133,7 +133,7 @@
                       </p>
                       <q-input dense  v-model="company.schedules[0]" placeholder="Lunes - Sabado 7am - 6pm">
                         <template v-slot:prepend>
-                          <q-icon name="far fa-clock" />
+                          <q-icon name="far fa-clock" color="primary"/>
                         </template>
                       </q-input>
                     </div>
@@ -245,18 +245,18 @@
                       </p>
                       <q-input dense v-model="company.options.email" placeholder="info@lorem.com">
                         <template v-slot:prepend>
-                          <q-icon name="fas fa-envelope" />
+                          <q-icon name="fas fa-envelope" color="primary"/>
                         </template>
                       </q-input>
                     </div>
                     <div class="q-mb-lg" v-if="company.gallery.length>0"  label="Galería de la empresa" stack-label>
-                        <!-- <p class="caption q-mb-md">Galeria de la empresa
+                        <p class="caption q-mb-md">Galeria de la empresa
                           <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
                           <q-tooltip>
                             Ingresa múltiples imágenes promocionales de tu empresa
                           </q-tooltip>
                         </q-btn>
-                        </p> -->
+                        </p>
 
                         <upload-media
                           multiple
@@ -358,7 +358,7 @@
                         </q-checkbox>
                       </div>
                       <div class="col-auto">
-                        <q-icon color="grey-6" name="fas fa-edit" size="sm" />
+                        <q-icon color="grey-6" name="fas fa-edit" size="sm"/>
                       </div>
                     </div>
                   </div>
@@ -774,11 +774,13 @@ export default {
         this.company.options.theme_config.background=this.theme.background;
       }
       var data=this.company;
-      var categories=[];
-      for(var i=0;i<this.company.categories.length;i++){
-        categories.push(this.company.categories[i].id);
-      }
-      data.categories=categories;
+      // var categories=[];
+      // for(var i=0;i<this.company.categories.length;i++){
+      //   categories.push(this.company.categories[i].id);
+      // }
+      // data.categories=categories;
+      console.log('data update');
+      console.log(data);
       this.$crud.update("apiRoutes.qmarketplace.store", this.storeId,data).then(response => {
         this.$alert.success({message: this.$tr('ui.message.recordUpdated'), pos: 'bottom'})
         this.$router.push({
