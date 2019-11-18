@@ -31,13 +31,13 @@
             actions : [
               {
                 icon : 'fas fa-palette',
-                color : 'warning',
+                color : 'info',
                 route : 'qmarketplace.admin.theme.store.index',
                 tooltip:this.$tr('qmarketplace.sidebar.adminTheme')
               },
               {
                 icon : 'fas fa-shopping-basket',
-                color : 'warning',
+                color : 'primary',
                 route : 'qmarketplace.admin.products.store.index',
                 tooltip:this.$tr('qmarketplace.sidebar.adminProducts')
               },
