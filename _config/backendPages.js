@@ -1,5 +1,27 @@
 
 export default {
+  themes: {
+    // permission: 'qmarketplace.stores.manage',
+    activated: true,//
+    path: '/qmarketplace/themes/index',
+    name: 'qmarketplace.admin.themes.index',//
+    page: () => import('@imagina/qmarketplace/_layouts/admin/themes/index'),
+    layout: () => import('src/layouts/master'),
+    title: 'qmarketplace.sidebar.adminThemes',
+    icon: 'fas fa-store',
+    authenticated: true
+  },
+  categories: {
+    // permission: 'qmarketplace.stores.manage',
+    activated: true,//
+    path: '/qmarketplace/categories/index',
+    name: 'qmarketplace.admin.categories.index',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/categories/index'),
+    layout: () => import('src/layouts/master'),
+    title: 'qmarketplace.sidebar.adminCategories',
+    icon: 'fas fa-store',
+    authenticated: true
+  },
   stores: {
     // permission: 'qmarketplace.stores.manage',
     activated: true,

@@ -7,6 +7,8 @@ export default [
     icon: 'fas fa-map-marked-alt',
     children: [
       pages.qmarketplace.stores, // my Stores setup
+      pages.qmarketplace.categories, // categories
+      pages.qmarketplace.themes, // themes
     ]
   },
 ]
