@@ -5,6 +5,7 @@ export default {
   editCategory : 'Editar categoría',
   newTheme : 'Nuevo tema',
   editTheme : 'Editar tema',
+  store : 'Tienda',
 
 
 }
