@@ -29,7 +29,7 @@ export default {
     name: 'qmarketplace.admin.stores.index',
     page: () => import('@imagina/qmarketplace/_layouts/admin/stores/index'),
     layout: () => import('src/layouts/master'),
-    title: 'qmarketplace.sidebar.adminStores',
+    title: 'qmarketplace.sidebar.adminMarketplace',
     icon: 'fas fa-store',
     authenticated: true
   },
@@ -40,7 +40,7 @@ export default {
     page: () => import('@imagina/qmarketplace/_layouts/admin/stores/form'),
     layout: () => import('src/layouts/master'),
     title: 'qmarketplace.sidebar.adminStores',
-    icon: 'far fa-store',
+    icon: 'fas fa-store',
     authenticated: true,
   },
   storesEdit:{
@@ -50,7 +50,17 @@ export default {
     page: () => import('@imagina/qmarketplace/_layouts/admin/stores/form'),
     layout: () => import('src/layouts/master'),
     title: 'qmarketplace.sidebar.adminStores',
-    icon: 'far fa-store',
+    icon: 'fas fa-store',
+    authenticated: true,
+  },
+  myStore:{
+    activated: true,
+    path: '/qmarketplace/stores/myStore',
+    name: 'qmarketplace.admin.stores.my.store',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/stores/formMyStore'),
+    layout: () => import('src/layouts/master'),
+    title: 'qmarketplace.sidebar.adminMyStore',
+    icon: 'fas fa-store',
     authenticated: true,
   },
   storesTheme: {

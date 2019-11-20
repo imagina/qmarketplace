@@ -1,0 +1,860 @@
+<template>
+  <q-page class="bg-fondo-q store-page layout-padding">
+
+      <div class="q-container">
+        <div class="row">
+          <div class="col-12">
+
+            <q-card class="rounded-md q-mb-xl">
+
+              <!--<q-card-actions align="right" no-caps class="q-px-lg q-pt-lg q-pb-none">
+                <q-btn class="rounded-sm  font-family-secondary" no-caps color="primary" icon="fas fa-eye" label="Vista previa"/>
+              </q-card-actions> -->
+
+              <q-card-section class="q-pa-xl form-general">
+
+                <div class="text-h5 text-primary q-mb-xs font-family-secondary capitalize">Tienda {{company.name}}</div>
+                <div class="text-subtitle1 text-secondary">
+                  Completa la configuración de tu tienda, ¡es muy fácil!
+                </div>
+                <div class="q-my-lg line-grey full-width"></div>
+
+
+                <div class="row q-col-gutter-xl justify-center">
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+
+                    <div class="q-mb-lg">
+                      <p class="caption q-mb-md">Agregar Logo
+                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question" >
+                          <q-tooltip>
+                            Agrega una imagen como logo de la tienda
+                          </q-tooltip>
+                        </q-btn>
+                      </p>
+                      <upload-media
+                      v-model="company.mediasSingle"
+                      entity="Modules\Marketplace\Entities\Store"
+                      :entity-id="storeId ? storeId : null"
+                      zone='mainimage'
+                      />
+                    </div>
+
+                  </div>
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                     <div class="q-mb-lg">
+                        <p class="caption q-mb-md">Agregar imágenes para slider
+                          <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                            <q-tooltip>
+                              Agrega imágenes promociones de tu tienda
+                            </q-tooltip>
+                          </q-btn>
+                        </p>
+
+                        <upload-media
+                          multiple
+                          v-model="company.mediasMulti"
+                          entity="Modules\Marketplace\Entities\Store"
+                          :entity-id="storeId ? storeId : null"
+                          zone='slider'
+                        />
+
+                      </div>
+                  </div>
+                </div>
+
+                <div class="q-mt-lg q-mb-xl line-grey full-width"></div>
+
+                <div class="row q-col-gutter-xl">
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                    <div class="q-mb-xl">
+                      <p class="caption q-mb-sm">Nombre de tu empresa
+                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                          <q-tooltip>
+                            Ingresa el nombre de tu tienda
+                          </q-tooltip>
+                        </q-btn>
+                      </p>
+                      <q-input dense v-model="company.name" placeholder="WAFFEE" />
+                    </div>
+                    <div class="q-mb-xl">
+                      <p class="caption q-mb-sm">Slogan
+                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                          <q-tooltip>
+                            Agrega un slogan para tu tienda
+                          </q-tooltip>
+                        </q-btn>
+                      </p>
+                      <q-input dense v-model="company.slogan" placeholder="Lorem Ipsum" />
+                    </div>
+
+                    <!--Description-->
+                    <div class="q-mb-xl">
+                      <p class="caption q-mb-sm">Descripción de la empresa
+                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                          <q-tooltip>
+                            Ingresa una breve descripción de tu empresa
+                          </q-tooltip>
+                        </q-btn>
+                      </p>
+                      <q-editor v-model="company.description" class="full-width"
+                      :toolbar="editorText.toolbar" content-class="text-grey-9" toolbar-text-color="grey-9"/>
+                    </div>
+                    <div class="q-mb-xl">
+                      <p class="caption q-mb-sm">Dirección de la empresa
+                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                          <q-tooltip>
+                            Ingresa la dirección de tu empresa
+                          </q-tooltip>
+                        </q-btn>
+                      </p>
+                      <q-input dense  v-model="company.address" placeholder="Lorem Ipsum">
+                        <template v-slot:prepend>
+                          <q-icon name="fas fa-map-marker-alt" color="primary"/>
+                        </template>
+                      </q-input>
+                    </div>
+                    <div  class="q-mb-xl">
+                      <p class="caption q-mb-sm">Url mapa
+                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                          <q-tooltip>
+                            Ingresa la dirección de tu empresa vía google maps
+                          </q-tooltip>
+                        </q-btn>
+                      </p>
+                      <q-input dense  v-model="company.options.map" placeholder="google maps"  />
+                    </div>
+                    <div  class="q-mb-xl">
+                      <p class="caption q-mb-sm">Horario de atención
+                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                          <q-tooltip>
+                            Aquí puedes ingresar tu horario de atención al público
+                          </q-tooltip>
+                        </q-btn>
+                      </p>
+                      <q-input dense  v-model="company.schedules[0]" placeholder="Lunes - Sabado 7am - 6pm">
+                        <template v-slot:prepend>
+                          <q-icon name="far fa-clock" color="primary"/>
+                        </template>
+                      </q-input>
+                    </div>
+                    <div  class="q-mb-xl">
+                      <p class="caption q-mb-sm">Enlace de youtube
+                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                          <q-tooltip>
+                            Aquí puedes ingresar el link de un video promocional
+                          </q-tooltip>
+                        </q-btn>
+                      </p>
+                      <q-input dense v-model="company.options.youtube" placeholder="youtube.com"  />
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                    <div class="q-mb-xl">
+                      <p class="caption q-mb-xs">Categoría
+                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                          <q-tooltip>
+                            Selecciona las categorías a las que pertenece tu empresa
+                          </q-tooltip>
+                        </q-btn>
+                      </p>
+                      <q-select dense
+                      v-model="company.categories"
+                      multiple
+                      :options="categoryOptions"
+                      />
+                      <!-- <tree-select
+                        :clearable="false"
+                        :append-to-body="true"
+                        class="q-mb-md"
+                        :options="categoryOptions"
+                        value-consists-of="BRANCH_PRIORITY"
+                        v-model="company.categories"
+                        placeholder=""
+                      /> -->
+                      <!-- <q-select multiple v-model="company.categories" :options="categoryOptions" /> -->
+                    </div>
+
+                    <div class="q-mb-xl">
+                      <p class="caption q-mb-sm">Barrio
+                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                          <q-tooltip>
+                            Selecciona el barrio al que pertenece tu empresa
+                          </q-tooltip>
+                        </q-btn>
+                      </p>
+                      <q-input dense v-model="company.neighborhood" placeholder="Lorem Ipsum" />
+                    </div>
+
+                    <!-- <div  class="q-mb-xl">
+                      <p class="caption q-mb-sm">Barrio
+                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                          <q-tooltip>
+                            Some text as content of Tooltip
+                          </q-tooltip>
+                        </q-btn>
+                      </p>
+                      <q-select v-model="company.neighborhood" :options="sectorOptions" />
+                    </div> -->
+                    <div  class="q-mb-xl">
+                      <p class="caption q-mb-sm">Provincia
+                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                          <q-tooltip>
+                            Selecciona la provincia a la que pertenece tu empresa
+                          </q-tooltip>
+                        </q-btn>
+                      </p>
+                      <tree-select
+                        :clearable="false"
+                        :append-to-body="true"
+                        class="q-mb-md"
+                        :options="provincesOptions"
+                        value-consists-of="BRANCH_PRIORITY"
+                        v-model="company.province_id"
+                        @input="val => { getCities() }"
+                        placeholder=""
+                      />
+                      <!-- <q-select @input="val => { getCities() }" v-model="company.province_id" :options="provincesOptions" /> -->
+                    </div>
+
+                    <div  class="q-mb-xl" v-if="cityOptions.length>0">
+                      <p class="caption q-mb-sm">Cuidad
+                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                          <q-tooltip>
+                            Selecciona la ciudad a la que pertenece tu empresa
+                          </q-tooltip>
+                        </q-btn>
+                      </p>
+                      <tree-select
+                        :clearable="false"
+                        :append-to-body="true"
+                        class="q-mb-md"
+                        :options="cityOptions"
+                        value-consists-of="BRANCH_PRIORITY"
+                        v-model="company.city_id"
+                        placeholder=""
+                      />
+                      <!-- <q-select v-model="company.city_id" :options="cityOptions" /> -->
+                    </div>
+                    <div class="q-mb-xl">
+                      <p class="caption q-mb-sm">Correo electrónico
+                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                          <q-tooltip>
+                            Ingresa un correo electrónico para el contacto cliente - tienda
+                          </q-tooltip>
+                        </q-btn>
+                      </p>
+                      <q-input dense v-model="company.options.email" placeholder="info@lorem.com">
+                        <template v-slot:prepend>
+                          <q-icon name="fas fa-envelope" color="primary"/>
+                        </template>
+                      </q-input>
+                    </div>
+                    <div class="q-mb-lg" v-if="company.gallery.length>0"  label="Galería de la empresa" stack-label>
+                        <p class="caption q-mb-md">Galeria de la empresa
+                          <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                          <q-tooltip>
+                            Ingresa múltiples imágenes promocionales de tu empresa
+                          </q-tooltip>
+                        </q-btn>
+                        </p>
+
+                        <upload-media
+                          multiple
+                          v-model="company.mediasMulti"
+                          entity="Modules\Marketplace\Entities\Store"
+                          :entity-id="storeId ? storeId : null"
+                          zone='gallery'
+                        />
+
+                      </div>
+
+                  </div>
+                </div>
+
+
+              </q-card-section>
+            </q-card>
+
+            <q-card class="rounded-md bg-white full-width q-mb-xl">
+
+              <q-card-section class="q-px-xl form-general">
+
+                <div class="q-my-lg">
+                  <p class="caption q-mb-lg">Redes sociales de tu tienda
+                    <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                      <q-tooltip>
+                        Puedes seleccionar las redes sociales disponibles de tu empresa
+                      </q-tooltip>
+                    </q-btn>
+                  </p>
+
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
+                      <div v-for="(item,index) in company.social" :key="index">
+                        <div class="row items-center q-mb-md">
+                          <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                            <q-checkbox  v-model="item.active" :label="item.name+':'">
+                              <q-icon class="q-mx-md" :color="item.color" :name="item.icon" />
+                            </q-checkbox>
+                          </div>
+                          <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                            <q-input dense v-model="item.url" placeholder="@lorem_ipsom" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </q-card-section>
+            </q-card>
+
+            <q-card class="rounded-md bg-white full-width q-mb-xl">
+              <q-card-section class="q-px-xl q-pb-lg form-general">
+
+                <div class="q-my-lg">
+                  <p class="caption q-mb-lg">¿Que metodos de pago aceptas?
+                    <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                      <q-tooltip>
+                        Puedes seleccionar los métodos de pago disponibles en tu empresa
+                      </q-tooltip>
+                    </q-btn>
+                  </p>
+                  <div v-for="(item,index) in company.options.payment_methods" :key="index">
+                    <div class="row items-center q-py-sm border-bottom-gray">
+                      <div class="col">
+                        <q-checkbox v-model="item.active">
+                          <span class="q-px-sm">{{item.name}}</span>
+                        </q-checkbox>
+                      </div>
+                      <div class="col-auto">
+                        <q-icon color="grey-6" name="fas fa-edit" size="sm" />
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </q-card-section>
+            </q-card>
+
+            <q-card class="rounded-md bg-white full-width q-mb-lg">
+              <q-card-section class="q-px-xl q-pb-lg form-general">
+
+                <div class="q-my-lg">
+
+                  <p class="caption q-mb-lg">¿Cuales son los medotos de envío?
+                    <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                      <q-tooltip>
+                        Puedes seleccionar los métodos de envío disponibles en tu empresa
+                      </q-tooltip>
+                    </q-btn>
+                  </p>
+
+                  <div v-for="(item,index) in company.options.shipping_methods" :key="index">
+                    <div class="row items-center q-py-sm border-bottom-gray">
+                      <div class="col">
+                        <q-checkbox v-model="item.active">
+                          <span class="q-px-sm">{{item.name}}</span>
+                        </q-checkbox>
+                      </div>
+                      <div class="col-auto">
+                        <q-icon color="grey-6" name="fas fa-edit" size="sm"/>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </q-card-section>
+            </q-card>
+
+          </div>
+
+          <div class="col-12 text-right">
+              <div class="q-mt-lg">
+                <q-btn class="bg-primary text-white btn-arrow-send-pink" @click="updateStore()" v-if="storeId!=null && storeId!=false">Actualizar</q-btn>
+                <q-btn class="bg-primary text-white btn-arrow-send-pink" @click="createStore()" v-else>Crear</q-btn>
+              </div>
+          </div>
+
+        </div>
+      </div>
+      <!--Loading-->
+      <inner-loading :visible="loading"/>
+  </q-page>
+</template>
+<script>
+import uploadMedia from 'src/components/qmedia/form'
+
+
+export default {
+  name: 'PageTienda',
+  components: {
+    uploadMedia,
+  },
+  data() {
+    return {
+      loading:true,
+      stores:[],
+      storesOptions:[],
+      storeId:false,
+      configName: 'apiRoutes.qmarketplace.store',
+      lang: this.$i18n.locale,
+      userId: this.$store.state.quserAuth.userId,
+      company: {
+        name:'',
+        slogan: '',
+        description: '',
+        user_id: this.$store.state.quserAuth.userId,
+        address: '',
+        schedules: [
+          ""
+        ],
+        city: '',
+        city_id: 0,
+        province_id: 0,
+        neighborhood: '',
+        categories:[],
+        logo: {
+          path:'/statics/img/fondo.jpg',
+          mimeType:''
+        },
+        category: '',
+        mediasSingle: {},
+        mediasMulti: {},
+        slider: [
+          {
+            path:'/statics/img/fondo.jpg',
+            mimeType:''
+          },{
+            path:'/statics/img/fondo.jpg',
+            mimeType:''
+          }
+        ],
+        gallery: [
+          {
+            path:'/statics/img/fondo.jpg',
+            mimeType:''
+          },{
+            path:'/statics/img/fondo.jpg',
+            mimeType:''
+          }
+        ],
+        options:{
+          youtube: '',
+          email: '',
+          map: '',
+          theme_config:{
+            color_primary:"#4CAF50",
+            color_secondary:"#E91E63",
+            background:"#FFFFFF",
+          },
+          payment_methods: [
+            // {
+            //   name: 'Contraentrega',
+            //   active: false
+            // },
+            // {
+            //   name: 'Paypal',
+            //   active: false
+            // },
+            // {
+            //   name: 'Entrega de Tienda',
+            //   active: false
+            // },
+            // {
+            //   name: 'PayU',
+            //   active: false
+            // }
+          ],
+          shipping_methods: [
+            {
+              name: 'Recoger en Tienda',
+              active: false
+            },
+            {
+              name: 'Servicio a Domicilio',
+              active: false
+            },
+            {
+              name: 'A convenir',
+              active: false
+            }
+          ]
+        },
+        social: [
+          {
+            icon: 'fab fa-twitter',
+            name: 'Twitter',
+            color: 'blue-4',
+            url: '',
+            active: false
+          },
+          {
+            icon: 'fab fa-facebook',
+            name: 'Facebook',
+            color: 'indigo',
+            url: '',
+            active: false
+          },
+          {
+            icon: 'fab fa-instagram',
+            name: 'Instagram',
+            color: 'primary',
+            url: '',
+            active: false
+          }
+        ]
+      },
+      showingPrimary: false,
+      showingSecondary: false,
+      showingBackground: false,
+      searchModel: '',
+      sectorOptions: [
+        // {
+        //   label: 'Barrios',
+        //   value: '1'
+        // },
+        // {
+        //   label: 'Barrioswert',
+        //   value: '2'
+        // }
+      ],
+      cityOptions: [],
+      provincesOptions: [],
+      categoryOptions: [],
+      statusOptions: [
+        {
+          label: 'Habilitado',
+          value: '1', id: '1'
+        },
+        {
+          label: 'Inhabilitado',
+          value: '2', id: '2'
+        }
+      ],
+      theme: {
+        id: null,
+        image: '/statics/img/product.jpg',
+        primary: '#4CAF50',
+        secondary: '#E91E63',
+        background: '#FFFFFF'
+      },
+      themes_option: [
+        {
+          id: 1,
+          name: 'Tienda personal',
+          mainImage:{
+            path:'/statics/img/product.jpg',
+            mimeType:'jpg'
+          }
+        },
+        {
+          id: 2,
+          name: 'Tienda corporativa',
+          mainImage:{
+            path:'/statics/img/pregunta.jpg',
+            mimeType:'jpg'
+          }
+        }
+      ],
+      editorText: {
+        toolbar: [
+          ['bold', 'italic', 'strike', 'underline', 'removeFormat'],
+          ['link'],
+          [
+            {
+              label: 'Font Size',
+              icon: 'format_size',
+              fixedLabel: true,
+              fixedIcon: true,
+              list: 'no-icons',
+              options: ['size-1', 'size-2', 'size-3', 'size-4', 'size-5', 'size-6', 'size-7']
+            }
+          ],
+          ['quote', 'unordered', 'ordered'],
+          ['fullscreen']
+        ]
+      }
+    }
+  },
+  methods: {
+    async init(){
+      await this.getStoreCategories();//
+      await this.getProvinces();//
+      await this.getThemes();//
+      await this.getPaymentMethods();//
+      this.storeId=this.$store.state.qmarketplaceStores.storeSelected;
+      // console.log(this.$store.state.qmarketplaceStores.storeSelected);
+      // console.log(this.$store.getters['qmarketplaceStores/userStoresSelect']);
+      if (this.$route.params.id) this.storeId = this.$route.params.id
+      if (this.storeId) await this.getData()//Get data if is edit
+      this.loading=false;
+    },
+    getPaymentMethods(){
+      //Get
+      this.$crud.index("apiRoutes.qsubscription.paymentMethods").then(response => {
+        for(var i=0;i<response.data.length;i++){
+          this.company.options.payment_methods.push({id:response.data[i].id,name:response.data[i].name,active:false});
+        }
+      })
+    },
+    //Get data item
+    getData() {
+      return new Promise((resolve, reject) => {
+        const itemId = this.$clone(this.storeId)
+
+        if (itemId) {
+          //Params
+          let params = {
+            refresh: true,
+            params: {
+              include: 'categories',
+              filter: {allTranslations: true}
+            }
+          }
+          //Request
+          this.$crud.show(this.configName, itemId, params).then(response => {
+            var paymentMethods=this.company.options.payment_methods;
+            for(var i=0;i<paymentMethods.length;i++){
+              for(var o=0;o<response.data.options.payment_methods.length;o++){
+                if(response.data.options.payment_methods[o].id==paymentMethods[i].id){
+                    paymentMethods[i].active=response.data.options.payment_methods[o].active;
+                    break;
+                }
+              }
+            }//for
+            this.company = this.$clone(response.data);
+            this.company.categories=this.$array.tree(response.data.categories);
+            this.company.name=this.company[this.lang].name;
+            this.company.slug=this.company[this.lang].slug;
+            this.company.description=this.company[this.lang].description;
+            this.company.slogan=this.company[this.lang].slogan;
+            this.company.options.payment_methods=paymentMethods;
+            resolve(true)//Resolve
+          }).catch(error => {
+            this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
+            reject(false)//Resolve
+          })
+        } else {
+          resolve(true)//Resolve
+        }
+
+      })
+    },
+    slugable: function(title) {
+      var slug = "";
+      // Change to lower case
+      var titleLower = title.toLowerCase();
+      // Letter "e"
+      slug = titleLower.replace(/e|é|è|ẽ|ẻ|ẹ|ê|ế|ề|ễ|ể|ệ/gi, 'e');
+      // Letter "a"
+      slug = slug.replace(/a|á|à|ã|ả|ạ|ă|ắ|ằ|ẵ|ẳ|ặ|â|ấ|ầ|ẫ|ẩ|ậ/gi, 'a');
+      // Letter "o"
+      slug = slug.replace(/o|ó|ò|õ|ỏ|ọ|ô|ố|ồ|ỗ|ổ|ộ|ơ|ớ|ờ|ỡ|ở|ợ/gi, 'o');
+      // Letter "u"
+      slug = slug.replace(/u|ú|ù|ũ|ủ|ụ|ư|ứ|ừ|ữ|ử|ự/gi, 'u');
+      // Letter "d"
+      slug = slug.replace(/đ/gi, 'd');
+      // Trim the last whitespace
+      slug = slug.replace(/\s*$/g, '');
+      // Change whitespace to "-"
+      slug = slug.replace(/\s+/g, '-');
+
+      return slug;
+    },
+    getStoreCategories(){
+      //Get stores of user
+      let params = {
+        remember: false,
+        params: {
+          include: '',
+          filter:{
+            allTranslations: true,
+          }
+        }
+      };//params
+      this.$crud.index("apiRoutes.qmarketplace.category",params).then(response => {
+        // this.categoryOptions=response.data;//
+        this.categoryOptions=this.$array.tree(response.data);//
+      });
+
+    },
+    getThemes(){
+      //Get stores of user
+      let params = {
+        remember: false,
+        params: {
+          include: '',
+          filter:{
+            allTranslations: true,
+          }
+        }
+      };//params
+      this.$crud.index("apiRoutes.qmarketplace.theme",params).then(response => {
+        this.themes_option=this.$array.tree(response.data);//
+      });
+
+    },
+
+    clearForm(){
+      //Clear data of form create store
+      this.company.name="";
+      this.company.slogan="";
+      this.company.description="";
+      this.company.address="";
+      this.company.schedules[0]="";
+      this.company.options.map="";
+      this.company.options.youtube="";
+      this.company.categories=[];
+      this.company.city="";
+      this.company.city_id=null;
+      this.company.province_id=null;
+      this.company.neighborhood="";
+      this.company.options.email="";
+      this.company.mediasSingle={};
+      this.company.mediasMulti={};
+      this.company.logo={
+        path:'/statics/img/fondo.jpg',
+        mimeType:""
+      };
+      this.company.slider=[
+        {
+          path:'/statics/img/fondo.jpg',
+          mimeType:''
+        },{
+          path:'/statics/img/fondo.jpg',
+          mimeType:''
+        }
+      ];
+      this.company.gallery=[
+        {
+          path:'/statics/img/fondo.jpg',
+          mimeType:''
+        },{
+          path:'/statics/img/fondo.jpg',
+          mimeType:''
+        }
+      ];
+      this.theme.id=null;
+      this.theme.primary='#4CAF50';
+      this.theme.secondary='#E91E63';
+      this.theme.background='#FFFFFF';
+
+      for(var i=0;i<this.company.social.length;i++){
+        this.company.social[i].active=false;
+        this.company.social[i].url=null;
+      }
+      for(var i=0;i<this.company.options.payment_methods.length;i++){
+        this.company.options.payment_methods[i].active=false;
+      }
+      for(var i=0;i<this.company.options.shipping_methods.length;i++){
+        this.company.options.shipping_methods[i].active=false;
+      }
+    },
+    createStore(){
+      this.company[this.lang]={
+        name:this.company.name,
+        slogan:this.company.slogan,
+        description:this.company.description,
+        slug:this.slugable(this.company.name)
+      };
+      this.company.user_id=this.userId;
+      var categories=[];
+      for(var i=0;i<this.company.categories.length;i++){
+        categories.push(this.company.categories[i].id);
+      }
+      this.company.categories=categories;
+      this.$crud.create("apiRoutes.qmarketplace.store", this.company).then(response => {
+        this.$alert.success({message: this.$tr('ui.message.recordCreated'), pos: 'bottom'})
+        this.$router.push({
+          name: 'qmarketplace.admin.stores.index'
+        })
+      }).catch(error => {
+        this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+      })
+    },
+    updateStore(){
+      this.company[this.lang]={
+        name:this.company.name,
+        slogan:this.company.slogan,
+        description:this.company.description,
+        slug:this.slugable(this.company.name)
+      };
+      if(this.theme.id!=null){
+        this.company.theme_id=this.theme.id;
+        this.company.options.theme_config.color_primary=this.theme.primary;
+        this.company.options.theme_config.color_secondary=this.theme.secondary;
+        this.company.options.theme_config.background=this.theme.background;
+      }
+      var data=this.company;
+      var categories=[];
+      for(var i=0;i<this.company.categories.length;i++){
+        categories.push(this.company.categories[i].id);
+      }
+      data.categories=categories;
+      this.$crud.update("apiRoutes.qmarketplace.store", this.storeId,data).then(response => {
+        this.$alert.success({message: this.$tr('ui.message.recordUpdated'), pos: 'bottom'})
+        this.$router.push({
+          name: 'qmarketplace.admin.stores.index'
+        })
+      }).catch(error => {
+        this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+      })
+    },
+    getProvinces(){
+      // cityOptions
+      // sectorOptions
+      let params = {
+        remember: false,
+        params: {
+          include: '',
+          filter:{
+            allTranslations: true,
+            country:48
+          }
+        }
+      };//params
+      this.$crud.index("apiRoutes.ilocations.provinces",params).then(response => {
+        this.provincesOptions=[];
+        this.provincesOptions.push({label:"Selecciona una provincia",value:0,id:0});
+        for(var i=0;i<response.data.length;i++){
+          this.provincesOptions.push({label:response.data[i].name,value:response.data[i].id,id:response.data[i].id});
+        }
+      });
+    },
+    getCities(){
+      if(this.company.province_id){
+        let params = {
+          remember: false,
+          params: {
+            include: '',
+            filter:{
+              allTranslations: true,
+              province_id:this.company.province_id
+            }
+          }
+        };//params
+        this.$crud.index("apiRoutes.ilocations.cities",params).then(response => {
+          this.cityOptions=[];
+          this.cityOptions.push({label:"Selecciona una ciudad",value:0,id:0});
+          for(var i=0;i<response.data.length;i++){
+            this.cityOptions.push({label:response.data[i].name,value:response.data[i].id,id:response.data[i].id});
+          }
+        });
+      }
+    }
+
+
+  },
+  mounted(){
+    this.init();
+  }
+}
+</script>
+<style lang="stylus">
+.store-page
+  .border-bottom-gray
+    border-bottom 1px solid #E1E1E1
+  .btn-arrow-send-pink:after
+    right 92px
+</style>
