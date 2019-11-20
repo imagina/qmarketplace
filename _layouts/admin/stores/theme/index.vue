@@ -180,6 +180,7 @@ export default {
           }
           //Request
           this.$crud.show(this.configName, itemId, params).then(response => {
+            this.options=response.data.options;
             if(response.data.themeId !== undefined)
             this.themeId=response.data.themeId;
             this.options.theme_config.color_primary=response.data.options.theme_config.color_primary;
