@@ -611,12 +611,22 @@ export default {
           }
           //Request
           this.$crud.show(this.configName, itemId, params).then(response => {
+            var paymentMethods=this.company.options.payment_methods;
+            for(var i=0;i<paymentMethods.length;i++){
+              for(var o=0;o<response.data.options.payment_methods.length;o++){
+                if(response.data.options.payment_methods[o].id==paymentMethods[i].id){
+                    paymentMethods[i].active=response.data.options.payment_methods[o].active;
+                    break;
+                }
+              }
+            }//for
             this.company = this.$clone(response.data);
             this.company.categories=this.$array.tree(response.data.categories);
             this.company.name=this.company[this.lang].name;
             this.company.slug=this.company[this.lang].slug;
             this.company.description=this.company[this.lang].description;
             this.company.slogan=this.company[this.lang].slogan;
+            this.company.options.payment_methods=paymentMethods;
             resolve(true)//Resolve
           }).catch(error => {
             this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
@@ -774,13 +784,11 @@ export default {
         this.company.options.theme_config.background=this.theme.background;
       }
       var data=this.company;
-      // var categories=[];
-      // for(var i=0;i<this.company.categories.length;i++){
-      //   categories.push(this.company.categories[i].id);
-      // }
-      // data.categories=categories;
-      console.log('data update');
-      console.log(data);
+      var categories=[];
+      for(var i=0;i<this.company.categories.length;i++){
+        categories.push(this.company.categories[i].id);
+      }
+      data.categories=categories;
       this.$crud.update("apiRoutes.qmarketplace.store", this.storeId,data).then(response => {
         this.$alert.success({message: this.$tr('ui.message.recordUpdated'), pos: 'bottom'})
         this.$router.push({
