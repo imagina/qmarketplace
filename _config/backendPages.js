@@ -63,6 +63,39 @@ export default {
     icon: 'fas fa-store',
     authenticated: true,
   },
+  myStoreTheme: {
+    // permission: 'qmarketplace.stores.manage',
+    activated: true,
+    path: '/qmarketplace/stores/myStore/theme',
+    name: 'qmarketplace.admin.stores.my.store.theme',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/stores/theme/formStoreTheme'),
+    layout: () => import('src/layouts/master'),
+    title: 'qmarketplace.sidebar.adminTheme',
+    icon: 'fas fa-store',
+    authenticated: true
+  },
+  myStoreProducts: {
+    // permission: 'qmarketplace.stores.manage',
+    activated: true,
+    path: '/qmarketplace/stores/myStore/products',
+    name: 'qmarketplace.admin.stores.my.store.products',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/stores/products/indexStoreProducts'),
+    layout: () => import('src/layouts/master'),
+    title: 'qmarketplace.sidebar.adminProducts',
+    icon: 'fas fa-store',
+    authenticated: true
+  },
+  myStoreProductCreate: {
+    // permission: 'qmarketplace.stores.manage',
+    activated: true,
+    path: '/qmarketplace/products/create',
+    name: 'qmarketplace.admin.stores.my.store.products.create',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/stores/products/formMyStore'),
+    layout: () => import('src/layouts/master'),
+    title: 'qmarketplace.sidebar.adminProducts',
+    icon: 'fas fa-store',
+    authenticated: true
+  },
   storesTheme: {
     // permission: 'qmarketplace.stores.manage',
     activated: true,
@@ -81,7 +114,7 @@ export default {
     name: 'qmarketplace.admin.products.store.index',
     page: () => import('@imagina/qmarketplace/_layouts/admin/stores/products/index'),
     layout: () => import('src/layouts/master'),
-    title: 'qmarketplace.sidebar.adminProduct',
+    title: 'qmarketplace.sidebar.adminProducts',
     icon: 'fas fa-store',
     authenticated: true
   },
@@ -92,7 +125,7 @@ export default {
     name: 'qmarketplace.admin.products.store.create',
     page: () => import('@imagina/qmarketplace/_layouts/admin/stores/products/form'),
     layout: () => import('src/layouts/master'),
-    title: 'qmarketplace.sidebar.adminProduct',
+    title: 'qmarketplace.sidebar.adminProducts',
     icon: 'fas fa-store',
     authenticated: true
   },
