@@ -11,7 +11,7 @@
             <q-item-section>
               <div class="q-subheading text-weight-bold q-mb-sm">Dirección:</div>
               <div class="q-subheading">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                {{address}}
               </div>
             </q-item-section>
           </q-item>
@@ -27,18 +27,15 @@
             </q-item-section>
             <q-item-section>
               <div class="q-subheading text-weight-bold q-mb-sm">Horario de atención:</div>
-              <div class="q-subheading">
-                Lunes a sábado: 11am - 9pm
-              </div>
-              <div class="q-subheading">
-                Domingos y festivos: 2pm - 8pm
+              <div class="q-subheading" v-for="schedule in schedules">
+                {{schedule}}
               </div>
             </q-item-section>
           </q-item>
         </q-list>
 
       </div>
-      <div class="col-md-4 q-pb-xl"> 
+      <div class="col-md-4 q-pb-xl">
 
         <q-list  class="q-mr-md">
           <q-item>
@@ -58,8 +55,12 @@
 </template>
 <script>
 export default {
-    name: 'ContactComponent'
+    name: 'ContactComponent',
+    props: {
+      'address': { type:String, default: ""},
+      'schedules': { type:Array, default: []},
+    },
 }
 </script>
-<style lang="stylus"> 
+<style lang="stylus">
 </style>

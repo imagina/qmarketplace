@@ -34,10 +34,10 @@
     <general-products :products="store.products"></general-products>
 
     <!-- Compartir -->
-    <share></share>
+    <share :social="store.social"></share>
 
     <!-- direcciones -->
-    <contact></contact>
+    <contact :address="store.address" :schedules="store.schedules"></contact>
 
   </q-page>
 </template>
