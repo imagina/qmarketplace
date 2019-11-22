@@ -1,51 +1,49 @@
 <template>
-  <q-card class="card-quiz-2  q-mb-xl">
+  <q-card class="card-quiz-1 rounded-sm full-width q-mb-xl">
 
-    <div class="q-card-title font-family-secondary text-center text-primary q-py-sm">
-      <h6 class="q-mt-md q-mb-none">Participa en </h6>
-      <h3 class="q-my-none">Encuenta</h3>
+    <div class="q-card-title bg-primary rounded-sm text-center text-white q-py-sm">
+      ENCUENTA
     </div>
 
-
     <q-stepper v-if="success && answers.length>0 && !alertContent.active" ref="stepper" v-model="currentStep" class="no-shadow">
-
+      
 
       <q-step :name="question.id" :order="index" :title="question.title" v-for="(question, index) in poll.questions" :key="index">
 
         <q-card-section>
 
-          <div class="text-h6 q-mb-sm text-center">{{question.title}}</div>
-
-          <q-option-group keep-color
+          <div class="text-h6 q-mb-sm">{{question.title}}</div>
+            
+          <q-option-group  color="primary" keep-color
             v-model="selectedOptions"
             :options="answers[index]"
-            type="checkbox" color="primary"
+            type="checkbox"
           />
 
         </q-card-section>
 
-        <q-stepper-navigation  align="right" class="q-pa-md" v-if="index < poll.questions.length - 1" >
+        <q-stepper-navigation  align="center" class="q-pa-md" v-if="index < poll.questions.length - 1" >
           <div class="text-center cursor-pointer" @click="next()">
             <div class="font-family-secondary">Siguiente</div>
             <img src="statics/img/arrow-right-blue.png" style="width:25px;">
           </div>
         </q-stepper-navigation>
-        <q-stepper-navigation align="right" v-else class="send q-pa-md" >
-           <q-btn class="bg-secondary text-white font-family-secondary" @click="saveData">Enviar</q-btn>
+        <q-stepper-navigation align="center" v-else class="q-ma-md">
+           <q-btn class="bg-secondary text-white btn-arrow-send-pink" @click="saveData">Enviar</q-btn>
         </q-stepper-navigation>
-
+        
       </q-step>
 
       <q-inner-loading :visible="loading" />
     </q-stepper>
-
+    
 
     <!-- msj final -->
-    <q-dialog v-if="alertContent.active" :color="alertContent.color" :icon="alertContent.icon" class="q-mx-sm q-mt-xl">
+    <q-alert v-if="alertContent.active" :color="alertContent.color" :icon="alertContent.icon" class="q-mx-sm q-mt-xl">
       <q-card-section class="text-center">
         {{alertContent.msj}}
       </q-card-section>
-    </q-dialog>
+    </q-alert>
 
   </q-card>
 
@@ -98,7 +96,7 @@
                 await this.getUserPolls()
 
             await this.getPolls()
-
+           
             if(this.polls.length>0){
 
               this.poll = this.polls[0]
@@ -133,7 +131,7 @@
           getPolls(){
             return new Promise((resolve, reject) => {
 
-              //filter:
+              //filter: 
               let fixFilter = {}
 
               if(this.userId!=null)
@@ -152,12 +150,12 @@
               }
 
               this.$crud.index("apiRoutes.qquiz.polls",params).then(response => {
-
+               
                 this.polls = response.data
                 resolve(true)//Resolve
               }).catch(error => {
                 this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
-
+                
                 reject(false)//Resolve
               })
 
@@ -174,9 +172,9 @@
                   filter: {allTranslations: true},
                 }
               }
-
+            
               this.$crud.show("apiRoutes.qquiz.questions",questionId,params).then(response => {
-
+               
                 response.data.answers.forEach((answer, index) => {
                   this.answersOptions.push({
                       label:answer.title,
@@ -187,10 +185,10 @@
 
               }).catch(error => {
                 this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
-
+                
                 reject(false)//Resolve
               })
-
+             
 
             })
           },
@@ -198,12 +196,12 @@
           saveData(){
             this.$v.$touch()
             if (!this.$v.$error) {
-
+              
               this.loading = true;
               this.setDataFinal()
-
+              
               this.finalDataSave.forEach((data, index) => {
-
+                
                 this.$crud.create('apiRoutes.qquiz.userQuestionAnswers', data).then(response => {
                   //console.warn("SAVE USER QUESTION ANSWER")
                 }).catch(error => {
@@ -211,17 +209,17 @@
                   this.$alert.error({message: this.$tr('ui.message.recordNoUpdated')})
                   this.loading = false
                 })
-
+               
               })// End Save Answers
 
               // Finished Poll
               if(this.userId!=null)
                 this.saveUserPoll()
-
+              
               this.$v.$reset()//Reset validations
               this.alertContent.active = true
               this.loading = false;
-
+             
             }else{
               this.$alert.error({message: 'Encuesta: Debe seleccionar una respuesta', pos: 'bottom'})
             }
@@ -262,7 +260,7 @@
                 resolve(true)//Resolve
               }).catch(error => {
                 this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
-
+                
                 reject(false)//Resolve
               })
 
@@ -275,7 +273,7 @@
 
               this.setDataFinal()
               this.$refs.stepper.next()
-
+             
             }else{
               this.$alert.error({message: 'Encuesta: Debe seleccionar una respuesta', pos: 'bottom'})
             }
@@ -298,23 +296,27 @@
     }
 </script>
 <style lang="stylus">
-.card-quiz-2
-  background-color var(--q-color-light)
-  border-radius 30px 0 30px 0
+.card-quiz-1
   & .q-card-title
+    position relative
     font-weight bold
-    & .q-option-group
+    &:before
+      content ''
+      background-image url('/statics/img/icon-quiz.png')
+      position absolute
+      bottom 0
+      left 5px
+      height 60px
+      width 60px
+      background-size contain
+      background-repeat no-repeat
+      background-position bottom 
+    & .q-option-group  
       font-size 17px
-  & .send
-    background-image url('/statics/img/arrow-send-pink.png')
-    background-repeat no-repeat
-    background-position 82% 68%
-    background-size 25%
-
+    
   .q-stepper
-    background-color var(--q-color-light)
     .q-stepper__header
       display none
-    .q-stepper__step-inner
+    .q-stepper__step-inner  
       padding 15px
 </style>

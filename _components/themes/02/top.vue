@@ -5,7 +5,6 @@
           <div class="q-container">
             <div class="q-mb-md border-slider" >
               <full-width-gallery system-name="principal"></full-width-gallery>
-              <div style=" margin-bottom: 25px;"></div>
 
               <div class="q-container info-tienda" >
                 <div class="row q-col-gutter-md justify-end q-mx-sm">
@@ -15,17 +14,17 @@
                           <q-card class="card-circle text-center q-mb-sm">
                             <q-card-section class="q-pa-sm">
                               <div class="text-h6">
-                                <q-icon color="white" size="30px" round name="grade" /> 
+                                <q-icon color="white" size="30px" round name="grade" />
                               </div>
                               <div class="text-body2">7.5 de 200 usuarios</div>
                             </q-card-section>
-                          </q-card> 
+                          </q-card>
                         </div>
                         <div class="col-xs-auto col-sm-auto col-md-auto col-lg-12">
                           <q-card class="card-circle text-center q-mb-sm">
                             <q-card-section class="q-pa-sm ">
                               <div class="text-h5">
-                                <q-icon color="white" size="30px" round name="far fa-thumbs-up" /> 
+                                <q-icon color="white" size="30px" round name="far fa-thumbs-up" />
                               </div>
                               <div class="text-body2"> Seguir Tienda</div>
                             </q-card-section>
@@ -72,7 +71,7 @@
                      <q-badge align="top" color="primary" floating>1</q-badge>
                   </q-btn>
                 </div>
-              </div>  
+              </div>
             </div>
             <q-toolbar color="white" text-color="primary" v-else>
               <q-btn flat round dense icon="fas fa-home"  />
@@ -89,16 +88,20 @@
             </q-toolbar>
 
 
-            <p class="text-h6 text-center text-white q-my-xl">Tu pizzería por excelencia, con vista y vientos del mar </p>
+            <p class="text-h6 text-center text-white q-my-xl">{{slogan}} </p>
+            <!-- <p class="text-h6 text-center text-white q-my-xl">Tu pizzería por excelencia, con vista y vientos del mar </p> -->
           </div>
         </div>
       </div>
     </div>
 </template>
 <script>
-import fullWidthGallery from 'src/components/qslider/qcarousel'
+import fullWidthGallery from 'src/components/themes/qcarousel'
 export default {
   name: 'TopComponent',
+  props: {
+    'slogan'              : { type:String, default: null},
+  },
   components: {
     fullWidthGallery
   }
@@ -111,8 +114,8 @@ export default {
     position relative
     z-index 9
   .menu-02
-    min-height 300px 
-    margin-top -150px 
+    min-height 300px
+    margin-top -150px
     padding-top 150px
   .info-tienda
     position absolute
@@ -133,7 +136,7 @@ export default {
       background-color $secondary
       border-radius 50%
       color #ffffff
-      border 5px solid #fff  
+      border 5px solid #fff
       height 100px
       width 100px
       margin 5px auto
@@ -143,10 +146,10 @@ export default {
     .q-field__control
       border-left 1px solid $primary
       border-bottom 0
-      border-right 1px solid $primary 
+      border-right 1px solid $primary
       border-radius 0
-    .q-field--outlined .q-field__control:before  
+    .q-field--outlined .q-field__control:before
       border 0
-    .q-placeholder  
-      color $primary    
+    .q-placeholder
+      color $primary
 </style>

@@ -1,7 +1,7 @@
 <template>
   <q-card :class="className">
     <q-card-section class="q-pa-sm">
-      <q-img :ratio="1" :src="product.image" class="rounded-sm"/>
+      <q-img :ratio="1" :src="product.mainImage.path" class="rounded-sm"/>
     </q-card-section>
     <q-card-section class="card-title bg-primary">
       <q-list>
@@ -18,8 +18,8 @@
         v-model="product.rating" color="secondary"
         :max="5" v-if="product.rating>0"
       />
-      <p class="q-my-sm text-truncate">{{product.name}}</p>
-      <p class="q-my-sm text-truncate"><small>{{product.tienda}}</small></p>  
+      <p class="q-my-sm ">{{product.name}}</p>
+      <p class="q-my-sm "><small>Test2</small></p>
     </q-card-section>
     <q-card-actions>
       <q-btn color="secondary" label="COMPRAR" icon="shopping_cart"/>
@@ -36,6 +36,7 @@ export default {
 .cardProductTwo
   border-radius 20px 20px 20px 0
   position relative
+  margin 8px
   background-color var(--q-color-light)
   & .card-title
     margin-right 30px
@@ -47,7 +48,7 @@ export default {
     border-radius 0 10px 10px 0 !important
   & .card-main
     font-size 16px
-  & .q-card__actions  
+  & .q-card__actions
       .q-btn
         margin-left -7px
         border-radius 0
