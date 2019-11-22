@@ -30,8 +30,12 @@
         <div class="row justify-center">
           <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
             <div class="content text-center">
-              <h4 class="q-my-md text-white">CONOCENOS</h4>
-              <p class="text-white">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur architecto cumque fugit placeat assumenda illum debitis minima ducimus fuga enim quod nihil, ullam non vitae iusto repellat libero voluptate. Cumque.</p>
+              <h4 class="q-my-md text-white">CONÓCENOS</h4>
+              <div class="text-white" v-html="store.description">
+              </div>
+              <!-- <p class="text-white" v-html="store.description"></p> -->
+              <!-- <p class="text-white">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur architecto cumque fugit placeat assumenda illum debitis minima ducimus fuga enim quod nihil, ullam non vitae iusto repellat libero voluptate. Cumque.</p> -->
+<!--  -->
             </div>
           </div>
         </div>
@@ -46,7 +50,7 @@
             <featured-products></featured-products>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
-            <share></share>
+            <share :social="store.social"></share>
 
             <q-btn color="secondary" no-caps class="rounded-sm q-py-lg q-px-xl">
               <div class="text-h6 q-mb-md full-width">¿Tienes alguna duda?</div>
@@ -65,7 +69,7 @@
 
 
     <!-- direcciones -->
-    <contact></contact>
+    <contact :address="store.address" :schedules="store.schedules"></contact>
 
   </q-page>
 </template>
