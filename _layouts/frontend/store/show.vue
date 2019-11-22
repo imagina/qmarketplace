@@ -1,7 +1,7 @@
 <template>
   <q-page  v-if="store">
     <div v-if="store.themeId==1">
-      <layout1></layout1>
+      <layout1 :store="store"></layout1>
     </div>
     <div v-else-if="store.themeId==2">
       <layout2 :store="store"></layout2>

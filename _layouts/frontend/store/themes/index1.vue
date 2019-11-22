@@ -31,7 +31,7 @@
     </div>
 
     <!-- Productos -->
-    <general-products></general-products>
+    <general-products :products="store.products"></general-products>
 
     <!-- Compartir -->
     <share></share>
@@ -52,6 +52,9 @@ import contact from '@imagina/qmarketplace/_components/themes/01/contact'
 import share from '@imagina/qmarketplace/_components/themes/01/shareNetworks'
 export default {
   name: 'PageLayout1',
+  props: {
+    'store'              : { type:Object, default: null},
+  },
   components: {
     imSocial,
     featuredProducts,

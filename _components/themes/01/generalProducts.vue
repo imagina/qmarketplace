@@ -16,69 +16,72 @@
     import product from 'src/components/themes/01/product'
     export default {
       name: 'GeneralProductsComponent',
+      props: {
+        'products': { type:Array, default: []}
+      },
       components: {
         product
       },
       data () {
         return {
-            products:  [
-            {
-                name: 'Mochila 1',
-                image: '/statics/img/product.jpg',
-                tienda: 'artesanias',
-                price: 10.00,
-                rating: 3
-            },
-            {
-                name: 'Mochila 2',
-                image: '/statics/img/contacto.jpg',
-                tienda: 'artesanias',
-                price: 10.00,
-                rating: 3
-            },
-            {
-                name: 'Mochila 3',
-                image: '/statics/img/fondo.jpg',
-                tienda: 'artesanias',
-                price: 10.00,
-                rating: 3
-            },
-            {
-                name: 'Mochila 4 ddel d dedede e  dasd ggggggggg',
-                image: '/statics/img/pregunta.jpg',
-                tienda: 'artesanias',
-                price: 10.00,
-                rating: 2
-            },
-            {
-                name: 'Mochila 5',
-                image: '/statics/img/product.jpg',
-                tienda: 'artesanias',
-                price: 10.00,
-                rating: 1
-            },
-            {
-                name: 'Mochila 6',
-                image: '/statics/img/product.jpg',
-                tienda: 'artesanias',
-                price: 10.00,
-                rating: 3
-            },
-            {
-                name: 'Mochila 7',
-                image: '/statics/img/product.jpg',
-                tienda: 'artesanias',
-                price: 10.00,
-                rating: 3
-            },
-            {
-                name: 'Mochila 8',
-                image: '/statics/img/product.jpg',
-                tienda: 'artesanias',
-                price: 10.00,
-                rating: 3
-            }
-            ]
+            // products:  [
+            // {
+            //     name: 'Mochila 1',
+            //     image: '/statics/img/product.jpg',
+            //     tienda: 'artesanias',
+            //     price: 10.00,
+            //     rating: 3
+            // },
+            // {
+            //     name: 'Mochila 2',
+            //     image: '/statics/img/contacto.jpg',
+            //     tienda: 'artesanias',
+            //     price: 10.00,
+            //     rating: 3
+            // },
+            // {
+            //     name: 'Mochila 3',
+            //     image: '/statics/img/fondo.jpg',
+            //     tienda: 'artesanias',
+            //     price: 10.00,
+            //     rating: 3
+            // },
+            // {
+            //     name: 'Mochila 4 ddel d dedede e  dasd ggggggggg',
+            //     image: '/statics/img/pregunta.jpg',
+            //     tienda: 'artesanias',
+            //     price: 10.00,
+            //     rating: 2
+            // },
+            // {
+            //     name: 'Mochila 5',
+            //     image: '/statics/img/product.jpg',
+            //     tienda: 'artesanias',
+            //     price: 10.00,
+            //     rating: 1
+            // },
+            // {
+            //     name: 'Mochila 6',
+            //     image: '/statics/img/product.jpg',
+            //     tienda: 'artesanias',
+            //     price: 10.00,
+            //     rating: 3
+            // },
+            // {
+            //     name: 'Mochila 7',
+            //     image: '/statics/img/product.jpg',
+            //     tienda: 'artesanias',
+            //     price: 10.00,
+            //     rating: 3
+            // },
+            // {
+            //     name: 'Mochila 8',
+            //     image: '/statics/img/product.jpg',
+            //     tienda: 'artesanias',
+            //     price: 10.00,
+            //     rating: 3
+            // }
+            // ]
         }
       }
     }

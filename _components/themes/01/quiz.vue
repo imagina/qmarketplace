@@ -6,14 +6,14 @@
     </div>
 
     <q-stepper v-if="success && answers.length>0 && !alertContent.active" ref="stepper" v-model="currentStep" class="no-shadow">
-      
+
 
       <q-step :name="question.id" :order="index" :title="question.title" v-for="(question, index) in poll.questions" :key="index">
 
         <q-card-section>
 
           <div class="text-h6 q-mb-sm">{{question.title}}</div>
-            
+
           <q-option-group  color="primary" keep-color
             v-model="selectedOptions"
             :options="answers[index]"
@@ -31,7 +31,7 @@
         <q-stepper-navigation align="center" v-else class="q-ma-md">
            <q-btn class="bg-secondary text-white btn-arrow-send-pink" @click="saveData">Enviar</q-btn>
         </q-stepper-navigation>
-        
+
       </q-step>
 
       <q-inner-loading :visible="loading" />
@@ -39,11 +39,11 @@
     
 
     <!-- msj final -->
-    <q-alert v-if="alertContent.active" :color="alertContent.color" :icon="alertContent.icon" class="q-mx-sm q-mt-xl">
+    <q-dialog v-if="alertContent.active" :color="alertContent.color" :icon="alertContent.icon" class="q-mx-sm q-mt-xl">
       <q-card-section class="text-center">
         {{alertContent.msj}}
       </q-card-section>
-    </q-alert>
+    </q-dialog>
 
   </q-card>
 
@@ -96,7 +96,7 @@
                 await this.getUserPolls()
 
             await this.getPolls()
-           
+
             if(this.polls.length>0){
 
               this.poll = this.polls[0]
@@ -131,7 +131,7 @@
           getPolls(){
             return new Promise((resolve, reject) => {
 
-              //filter: 
+              //filter:
               let fixFilter = {}
 
               if(this.userId!=null)
@@ -150,12 +150,12 @@
               }
 
               this.$crud.index("apiRoutes.qquiz.polls",params).then(response => {
-               
+
                 this.polls = response.data
                 resolve(true)//Resolve
               }).catch(error => {
                 this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
-                
+
                 reject(false)//Resolve
               })
 
@@ -172,9 +172,9 @@
                   filter: {allTranslations: true},
                 }
               }
-            
+
               this.$crud.show("apiRoutes.qquiz.questions",questionId,params).then(response => {
-               
+
                 response.data.answers.forEach((answer, index) => {
                   this.answersOptions.push({
                       label:answer.title,
@@ -185,10 +185,10 @@
 
               }).catch(error => {
                 this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
-                
+
                 reject(false)//Resolve
               })
-             
+
 
             })
           },
@@ -196,12 +196,12 @@
           saveData(){
             this.$v.$touch()
             if (!this.$v.$error) {
-              
+
               this.loading = true;
               this.setDataFinal()
-              
+
               this.finalDataSave.forEach((data, index) => {
-                
+
                 this.$crud.create('apiRoutes.qquiz.userQuestionAnswers', data).then(response => {
                   //console.warn("SAVE USER QUESTION ANSWER")
                 }).catch(error => {
@@ -209,17 +209,17 @@
                   this.$alert.error({message: this.$tr('ui.message.recordNoUpdated')})
                   this.loading = false
                 })
-               
+
               })// End Save Answers
 
               // Finished Poll
               if(this.userId!=null)
                 this.saveUserPoll()
-              
+
               this.$v.$reset()//Reset validations
               this.alertContent.active = true
               this.loading = false;
-             
+
             }else{
               this.$alert.error({message: 'Encuesta: Debe seleccionar una respuesta', pos: 'bottom'})
             }
@@ -260,7 +260,7 @@
                 resolve(true)//Resolve
               }).catch(error => {
                 this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
-                
+
                 reject(false)//Resolve
               })
 
@@ -273,7 +273,7 @@
 
               this.setDataFinal()
               this.$refs.stepper.next()
-             
+
             }else{
               this.$alert.error({message: 'Encuesta: Debe seleccionar una respuesta', pos: 'bottom'})
             }
@@ -310,13 +310,13 @@
       width 60px
       background-size contain
       background-repeat no-repeat
-      background-position bottom 
-    & .q-option-group  
+      background-position bottom
+    & .q-option-group
       font-size 17px
-    
+
   .q-stepper
     .q-stepper__header
       display none
-    .q-stepper__step-inner  
+    .q-stepper__step-inner
       padding 15px
 </style>
