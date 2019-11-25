@@ -1,9 +1,9 @@
 <template>
   <q-card :class="className">
-    <q-img :ratio="1" :src="product.image" />
+    <q-img :ratio="1" :src="product.mainImage.path" />
     <q-card-actions>
       <q-btn flat dense icon="favorite"/>
-      <q-btn flat dense icon="shopping_cart"/>
+      <q-btn @click="addCart" flat dense icon="shopping_cart"/>
     </q-card-actions>
     <q-card-section class="text-left q-pa-sm">
       <q-rating size="20px"
@@ -19,7 +19,38 @@
 <script>
 export default {
     name: 'ProductComponent',
-    props: ['product','className']
+    props: ['product','className'],
+    mounted(){
+      console.log('adsadadadada product component');
+    },
+    methods:{
+      addCart(){
+
+        var cart_id=this.$q.localStorage.getItem("cart_id");
+        if(cart_id){
+          this.$crud.create("apiRoutes.qcommerce.cartProducts", {
+            cart_id:cart_id,
+            product_id:this.product.id,
+            product_name:this.product.name,
+            price:this.product.price,
+            quantity:1
+          }).then(response => {
+            this.$alert.success({message: "Producto agregado al carrito exitosamente.", pos: 'bottom'})
+          }).catch(error => {
+            this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+          })
+        }else{
+          console.log('Adding cart method');
+          this.$crud.create("apiRoutes.qcommerce.cart", {
+            total:0
+          }).then(response => {
+            var id=response.data.id;
+            this.$q.localStorage.set("cart_id", id)
+            this.addCart();
+          })
+        }
+      }//addCart
+    }
 }
 </script>
 <style lang="stylus">
@@ -32,7 +63,7 @@ export default {
     font-size 16px
   & .q-card__actions
     background-color $secondary
-    float right  
+    float right
     margin-top -15px
     z-index 9
     position relative
@@ -40,14 +71,14 @@ export default {
       color #fff
       border-radius 0
     .q-btn:first-child
-      border-left 1px solid #fff      
+      border-left 1px solid #fff
     .q-btn:last-child
       border-right 1px solid #fff
   &:hover
     background-color $secondary
-    color #fff    
+    color #fff
     h5
       color #fff
     & .q-card__actions
-      background-color $primary  
+      background-color $primary
 </style>

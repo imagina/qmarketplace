@@ -65,6 +65,9 @@ export default {
     contact,
     share
   },
+  mounted(){
+    console.log('adsadadadada PageLayout1 component');
+  },
   data() {
     return {
 

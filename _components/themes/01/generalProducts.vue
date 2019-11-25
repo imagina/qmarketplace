@@ -13,9 +13,12 @@
     </div>
 </template>
 <script>
-    import product from 'src/components/themes/01/product'
+    import product from '@imagina/qmarketplace/_components/themes/01/product'
     export default {
       name: 'GeneralProductsComponent',
+      mounted(){
+        console.log('adsadadadada GeneralProductsComponent component');
+      },
       props: {
         'products': { type:Array, default: []}
       },
