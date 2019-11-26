@@ -71,7 +71,7 @@
                     </q-field>
                   </div>
 
-                  <q-radio v-model="paymentMethodIndex" v-for="(shipMethod,index) in shippingMethods" :val="index" :label="shipMethod.title" />
+                  <q-radio v-model="form.shippingMethodId" v-for="(shipMethod,index) in shippingMethods" :val="shipMethod.id" :label="shipMethod.title" />
                   <!-- <div class="col-xs-12 col-sm-6 text-center">
 
                     <q-btn outline size="lg" class="rounded-md" no-caps icon="fa fa-truck text-primary" :label="$tr('qsubscription.layout.form.checkout.homeDelivery')" />
@@ -124,7 +124,7 @@
         </span>
       </div> -->
 
-      <q-radio v-model="paymentMethodIndex" v-for="(payMethod,index) in paymentMethods" :val="index" :label="payMethod.title" />
+      <q-radio v-model="form.paymentMethodId" v-for="(payMethod,index) in paymentMethods" :val="payMethod.id" :label="payMethod.title" />
       <!-- <q-radio v-model="paymentMethod" val="paypal" label="Paypal" />
       <hr class="line-grey q-my-md">
       <q-radio v-model="paymentMethod" val="payu" label="PayU" />
@@ -337,21 +337,22 @@ export default {
         email:'',
         telephone:'',
         paymentAddress1:'',
-        paymentZipCode:'',
+        paymentZipCode:'1234',
         paymentCity:{label:"Selecciona una ciudad",value:0,id:0},
         paymentCountry:{label:"Selecciona una provincia",value:0,id:0},
-        paymentMethod:'',
-        paymentCode:'',
+        paymentMethodId:0,
+        // paymentMethod:'',
+        // paymentCode:'',
         shippingAddress1:'',
-        shippingZipCode:'',
+        shippingZipCode:'1234',
         shippingCity:{label:"Selecciona una ciudad",value:0,id:0},
         shippingCountry:{label:"Selecciona una provincia",value:0,id:0},
-        shippingMethod:'',
-        shippingCode:'',
+        shippingMethodId:0,
+        // shippingMethod:'',
+        // shippingCode:'',
         storeId:0,
-        storeName:0,
-        storeAddress:0,
-        storePhone:0,
+        customerId: this.$store.state.quserAuth.userId,
+        coupon_code:''
       },
 
 
@@ -419,10 +420,28 @@ export default {
       data.shippingCity=data.paymentCity;
       data.paymentCountry="Bogotá";
       data.shippingCountry=data.paymentCountry;
-      data.paymentMethod=this.paymentMethods[this.paymentMethodIndex].title;
-      data.paymentCode=this.paymentMethods[this.paymentMethodIndex].name;
+      data.cartId=this.cart.id;
+      data.storeID=this.storeId;
+      var shippingMethod="";
+      for(var i=0;i<this.shippingMethods.length;i++){
+        if(this.shippingMethods[i].id==this.form.shippingMethodId){
+          shippingMethod=this.shippingMethods[i].name;
+        }
+      }//for
+      data.shipping_method=shippingMethod;
+      data.payment_first_name=data.firstName;
+      data.shipping_first_name=data.firstName;
+      data.payment_last_name=data.lastName;
+      data.shipping_last_name=data.lastName;
+      // data.paymentMethod=this.paymentMethods[this.paymentMethodIndex].title;
+      // data.paymentCode=this.paymentMethods[this.paymentMethodIndex].name;
       console.log('form submit');
       console.log(data);
+      this.$crud.create("apiRoutes.qcommerce.orders", data).then(response => {
+        this.$alert.success({message: this.$tr('ui.message.recordCreated'), pos: 'bottom'})
+      }).catch(error => {
+        this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+      })
     },
     getProvinces(){
       // cityOptions
