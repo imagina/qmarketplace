@@ -71,12 +71,15 @@
                     </q-field>
                   </div>
 
-                  <div class="col-xs-12 col-sm-6 text-center">
+                  <q-radio v-model="paymentMethodIndex" v-for="(shipMethod,index) in shippingMethods" :val="index" :label="shipMethod.title" />
+                  <!-- <div class="col-xs-12 col-sm-6 text-center">
+
                     <q-btn outline size="lg" class="rounded-md" no-caps icon="fa fa-truck text-primary" :label="$tr('qsubscription.layout.form.checkout.homeDelivery')" />
-                  </div>
-                  <div class="col-xs-12 col-sm-6 text-center">
+                  </div> -->
+                  <!-- <div class="col-xs-12 col-sm-6 text-center">
                     <q-btn outline size="lg" class="rounded-md" no-caps icon="fa fa-shopping-basket text-primary" :label="$tr('qsubscription.layout.form.checkout.storePickup')" />
-                  </div>
+                  </div> -->
+
 
                 </div>
               </q-card-section>
@@ -297,15 +300,7 @@ export default {
     return {}
   },
   computed:{
-    subTotal(){
-      var subTotal=0;
-      if(this.cart){
-        for(var i=0;i<this.cart.products.length;i++){
-          subTotal+=this.cart.products[i].total;
-        }
-      }
-      return subTotal;
-    }
+
   },
   data() {
     return {
