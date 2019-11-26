@@ -12,24 +12,46 @@
       />
       <h5 class="q-my-sm">${{product.price}}</h5>
       <p class="q-my-none text-truncate">{{product.name}}</p>
-      <p class="q-my-none text-truncate"><small>{{product.tienda}}</small></p>
+      <p class="q-my-none text-truncate"><small>{{storeName}}</small></p>
     </q-card-section>
   </q-card>
 </template>
 <script>
 export default {
     name: 'ProductComponent',
-    props: ['product','className'],
+    props: ['product','className','storeName','storeId'],
     mounted(){
       console.log('adsadadadada product component');
     },
     methods:{
+      createCart(){
+        this.$crud.create("apiRoutes.qcommerce.cart", {
+          total:0
+        }).then(response => {
+          var id=response.data.id;
+          var carts=this.$q.localStorage.getItem("carts");
+          if(carts){
+            carts.push({id:id,storeId:this.storeId});
+          }else{
+            var carts=[];
+            carts.push({id:id,storeId:this.storeId});
+          }
+          this.$q.localStorage.set("carts", carts)
+          this.addCart();
+        })
+      },
       addCart(){
-
-        var cart_id=this.$q.localStorage.getItem("cart_id");
-        if(cart_id){
+        var carts=this.$q.localStorage.getItem("carts");
+        if(carts){
+          var cartId=0;
+          for (var i=0;carts.length;i++){
+            if(carts[i].storeId==this.storeId){
+              cartId=carts[i].id;
+              break;
+            }//if
+          }//for
           this.$crud.create("apiRoutes.qcommerce.cartProducts", {
-            cart_id:cart_id,
+            cart_id:cartId,
             product_id:this.product.id,
             product_name:this.product.name,
             price:this.product.price,
@@ -41,15 +63,35 @@ export default {
           })
         }else{
           console.log('Adding cart method');
-          this.$crud.create("apiRoutes.qcommerce.cart", {
-            total:0
-          }).then(response => {
-            var id=response.data.id;
-            this.$q.localStorage.set("cart_id", id)
-            this.addCart();
-          })
+          this.createCart();
         }
       }//addCart
+      // addCart(){
+      //
+      //   var cart_id=this.$q.localStorage.getItem("cart_id");
+      //   if(cart_id){
+      //     this.$crud.create("apiRoutes.qcommerce.cartProducts", {
+      //       cart_id:cart_id,
+      //       product_id:this.product.id,
+      //       product_name:this.product.name,
+      //       price:this.product.price,
+      //       quantity:1
+      //     }).then(response => {
+      //       this.$alert.success({message: "Producto agregado al carrito exitosamente.", pos: 'bottom'})
+      //     }).catch(error => {
+      //       this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+      //     })
+      //   }else{
+      //     console.log('Adding cart method');
+      //     this.$crud.create("apiRoutes.qcommerce.cart", {
+      //       total:0
+      //     }).then(response => {
+      //       var id=response.data.id;
+      //       this.$q.localStorage.set("cart_id", id)
+      //       this.addCart();
+      //     })
+      //   }
+      // }//addCart
     }
 }
 </script>

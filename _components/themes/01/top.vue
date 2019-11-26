@@ -55,11 +55,12 @@
                       </q-input>
                   </div>
                   <q-btn flat icon="fas fa-heart" color="white "/>
-                  <q-btn flat icon="fa fa-shopping-cart"  color="white ">
-                     <q-badge align="top" color="secondary" floating>1</q-badge>
+                  <q-btn @click="$router.push({name: 'marketplace.checkout', params:{storeId:store.id}})" flat icon="fa fa-shopping-cart"  color="white ">
+                     <q-badge v-if="cart" align="top" color="secondary" floating>{{cart.products.length}}</q-badge>
+                     <q-badge v-else align="top" color="secondary" floating>0</q-badge>
                   </q-btn>
                 </div>
-              </div> 
+              </div>
             </div>
             <q-toolbar color="primary" v-else>
               <q-btn flat round dense icon="fas fa-home" />
@@ -81,7 +82,7 @@
             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 q-mb-lg">
               <div class="bg-secondary text-white text-center q-pa-md">
                 340<br>
-                <small>usuarios siguen esta tienda</small> 
+                <small>usuarios siguen esta tienda</small>
               </div>
             </div>
           </div>
@@ -92,6 +93,7 @@
 import fullWidthGallery from 'src/components/themes/qcarousel'
 export default {
   name: 'TopComponent',
+  props: ['cart','store'],
   components: {
     fullWidthGallery
   }
@@ -108,15 +110,15 @@ export default {
     .card-rounded
       background-color #ffffff
       border-radius 20px 0 20px 0
-      color $primary 
+      color $primary
   .border-x
     .q-field__control
       border-left 1px solid #fff
       border-bottom 0
-      border-right 1px solid #fff 
+      border-right 1px solid #fff
       border-radius 0
-    .q-field--outlined .q-field__control:before  
+    .q-field--outlined .q-field__control:before
       border 0
-    .q-placeholder  
+    .q-placeholder
       color #ffffff
 </style>

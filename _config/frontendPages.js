@@ -14,7 +14,7 @@ export default {
   checkout: {
     permission: null,
     activated: true,
-    path: 'marketplace/checkout',
+    path: 'marketplace/checkout/:storeId',
     name: 'marketplace.checkout',
     page: () => import('@imagina/qmarketplace/_layouts/frontend/checkout/index'),
     layout: () => import('src/layouts/master'),
