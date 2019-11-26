@@ -1,7 +1,7 @@
 <template>
   <q-page class="theme-layout-01">
     <!-- Imagen textos y menu usuarios que siguen la tienda-->
-    <top></top>
+    <top :store="store" :cart="cart"></top>
 
     <!-- destacado encuesta nuevos y publicidad -->
     <div class="q-pa-md">
@@ -31,7 +31,7 @@
     </div>
 
     <!-- Productos -->
-    <general-products :products="store.products"></general-products>
+    <general-products :store="store" :products="store.products"></general-products>
 
     <!-- Compartir -->
     <share :social="store.social"></share>
@@ -66,11 +66,27 @@ export default {
     share
   },
   mounted(){
-    console.log('adsadadadada PageLayout1 component');
+    this.getCart();
+  },
+  methods:{
+    getCart(){
+      var carts=this.$q.localStorage.getItem("carts");
+      if(carts){
+        var cartId=0;
+        for (var i=0;carts.length;i++){
+          if(carts[i].storeId==this.store.id){
+            this.$crud.show("apiRoutes.qcommerce.cart", carts[i].id, {}).then(response => {
+              this.cart=response.data;
+            });
+            break;
+          }//if
+        }//for
+      }
+    }
   },
   data() {
     return {
-
+      cart:null
     }
   }
 }

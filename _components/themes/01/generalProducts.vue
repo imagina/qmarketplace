@@ -6,7 +6,7 @@
       <div class="q-container">
         <div class="row q-col-gutter-lg q-py-lg">
           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3" v-for="product in products">
-            <product :product="product" className="cardProductOne"></product>
+            <product :storeName="store.name" :storeId="store.id" :product="product" className="cardProductOne"></product>
           </div>
         </div>
       </div>
@@ -20,7 +20,8 @@
         console.log('adsadadadada GeneralProductsComponent component');
       },
       props: {
-        'products': { type:Array, default: []}
+        'products': { type:Array, default: []},
+        'store': { type:Object, default: []}
       },
       components: {
         product
