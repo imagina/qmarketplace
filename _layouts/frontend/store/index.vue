@@ -1,9 +1,5 @@
 <template>
    <q-page class="bg-fondo">
-
-      <pre>
-         {{category}}
-      </pre>
        <q-card class="shadow-no banner-category" style="max-height: 250px; overflow: hidden">
          <q-img
                  :src="category.mainImage.path"
