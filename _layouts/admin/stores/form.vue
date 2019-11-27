@@ -721,7 +721,7 @@ export default {
       this.company.city="";
       this.company.cityId=0;
       this.company.provinceId=0;
-      this.company.neighborhood_id=0;
+      this.company.neighborhoodId=0;
       this.company.options.email="";
       this.company.mediasSingle={};
       this.company.mediasMulti={};

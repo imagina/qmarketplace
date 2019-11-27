@@ -1,386 +1,385 @@
 <template>
   <q-page class="bg-fondo-q store-page layout-padding">
 
-      <div class="q-container">
-        <div class="row">
-          <div class="col-12">
+    <div class="q-container">
+      <div class="row">
+        <div class="col-12">
 
-            <q-card class="rounded-md q-mb-xl">
+          <q-card class="rounded-md q-mb-xl">
 
-              <!--<q-card-actions align="right" no-caps class="q-px-lg q-pt-lg q-pb-none">
-                <q-btn class="rounded-sm  font-family-secondary" no-caps color="primary" icon="fas fa-eye" label="Vista previa"/>
-              </q-card-actions> -->
+            <!--<q-card-actions align="right" no-caps class="q-px-lg q-pt-lg q-pb-none">
+            <q-btn class="rounded-sm  font-family-secondary" no-caps color="primary" icon="fas fa-eye" label="Vista previa"/>
+          </q-card-actions> -->
 
-              <q-card-section class="q-pa-xl form-general">
+          <q-card-section class="q-pa-xl form-general">
 
-                <div class="text-h5 text-primary q-mb-xs font-family-secondary capitalize">Tienda {{company.name}}</div>
-                <div class="text-subtitle1 text-secondary">
-                  Completa la configuración de tu tienda, ¡es muy fácil!
-                </div>
-                <div class="q-my-lg line-grey full-width"></div>
-
-
-                <div class="row q-col-gutter-xl justify-center">
-                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-
-                    <div class="q-mb-lg">
-                      <p class="caption q-mb-md">Agregar Logo
-                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question" >
-                          <q-tooltip>
-                            Agrega una imagen como logo de la tienda
-                          </q-tooltip>
-                        </q-btn>
-                      </p>
-                      <upload-media
-                      v-model="company.mediasSingle"
-                      entity="Modules\Marketplace\Entities\Store"
-                      :entity-id="storeId ? storeId : null"
-                      zone='mainimage'
-                      />
-                    </div>
-
-                  </div>
-                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                     <div class="q-mb-lg">
-                        <p class="caption q-mb-md">Agregar imágenes para slider
-                          <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
-                            <q-tooltip>
-                              Agrega imágenes promociones de tu tienda
-                            </q-tooltip>
-                          </q-btn>
-                        </p>
-
-                        <upload-media
-                          multiple
-                          v-model="company.mediasMulti"
-                          entity="Modules\Marketplace\Entities\Store"
-                          :entity-id="storeId ? storeId : null"
-                          zone='slider'
-                        />
-
-                      </div>
-                  </div>
-                </div>
-
-                <div class="q-mt-lg q-mb-xl line-grey full-width"></div>
-
-                <div class="row q-col-gutter-xl">
-                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
-                    <div class="q-mb-xl">
-                      <p class="caption q-mb-sm">Nombre de tu empresa
-                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
-                          <q-tooltip>
-                            Ingresa el nombre de tu tienda
-                          </q-tooltip>
-                        </q-btn>
-                      </p>
-                      <q-input dense v-model="company.name" placeholder="WAFFEE" />
-                    </div>
-                    <div class="q-mb-xl">
-                      <p class="caption q-mb-sm">Slogan
-                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
-                          <q-tooltip>
-                            Agrega un slogan para tu tienda
-                          </q-tooltip>
-                        </q-btn>
-                      </p>
-                      <q-input dense v-model="company.slogan" placeholder="Lorem Ipsum" />
-                    </div>
-
-                    <!--Description-->
-                    <div class="q-mb-xl">
-                      <p class="caption q-mb-sm">Descripción de la empresa
-                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
-                          <q-tooltip>
-                            Ingresa una breve descripción de tu empresa
-                          </q-tooltip>
-                        </q-btn>
-                      </p>
-                      <q-editor v-model="company.description" class="full-width"
-                      :toolbar="editorText.toolbar" content-class="text-grey-9" toolbar-text-color="grey-9"/>
-                    </div>
-                    <div class="q-mb-xl">
-                      <p class="caption q-mb-sm">Dirección de la empresa
-                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
-                          <q-tooltip>
-                            Ingresa la dirección de tu empresa
-                          </q-tooltip>
-                        </q-btn>
-                      </p>
-                      <q-input dense  v-model="company.address" placeholder="Lorem Ipsum">
-                        <template v-slot:prepend>
-                          <q-icon name="fas fa-map-marker-alt" color="primary"/>
-                        </template>
-                      </q-input>
-                    </div>
-                    <div  class="q-mb-xl">
-                      <p class="caption q-mb-sm">Url mapa
-                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
-                          <q-tooltip>
-                            Ingresa la dirección de tu empresa vía google maps
-                          </q-tooltip>
-                        </q-btn>
-                      </p>
-                      <q-input dense  v-model="company.options.map" placeholder="google maps"  />
-                    </div>
-                    <div  class="q-mb-xl">
-                      <p class="caption q-mb-sm">Horario de atención
-                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
-                          <q-tooltip>
-                            Aquí puedes ingresar tu horario de atención al público
-                          </q-tooltip>
-                        </q-btn>
-                      </p>
-                      <q-input dense  v-model="company.schedules[0]" placeholder="Lunes - Sabado 7am - 6pm">
-                        <template v-slot:prepend>
-                          <q-icon name="far fa-clock" color="primary"/>
-                        </template>
-                      </q-input>
-                    </div>
-                    <div  class="q-mb-xl">
-                      <p class="caption q-mb-sm">Enlace de youtube
-                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
-                          <q-tooltip>
-                            Aquí puedes ingresar el link de un video promocional
-                          </q-tooltip>
-                        </q-btn>
-                      </p>
-                      <q-input dense v-model="company.options.youtube" placeholder="youtube.com"  />
-                    </div>
-                  </div>
-                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
-                    <div class="q-mb-xl">
-                      <p class="caption q-mb-xs">Categoría
-                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
-                          <q-tooltip>
-                            Selecciona las categorías a las que pertenece tu empresa
-                          </q-tooltip>
-                        </q-btn>
-                      </p>
-                      <q-select dense
-                      v-model="company.categories"
-                      multiple
-                      :options="categoryOptions"
-                      />
-                      <!-- <tree-select
-                        :clearable="false"
-                        :append-to-body="true"
-                        class="q-mb-md"
-                        :options="categoryOptions"
-                        value-consists-of="BRANCH_PRIORITY"
-                        v-model="company.categories"
-                        placeholder=""
-                      /> -->
-                      <!-- <q-select multiple v-model="company.categories" :options="categoryOptions" /> -->
-                    </div>
-
-                    <div class="q-mb-xl">
-                      <p class="caption q-mb-sm">Barrio
-                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
-                          <q-tooltip>
-                            Selecciona el barrio al que pertenece tu empresa
-                          </q-tooltip>
-                        </q-btn>
-                      </p>
-                      <q-input dense v-model="company.neighborhood" placeholder="Lorem Ipsum" />
-                    </div>
-
-                    <!-- <div  class="q-mb-xl">
-                      <p class="caption q-mb-sm">Barrio
-                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
-                          <q-tooltip>
-                            Some text as content of Tooltip
-                          </q-tooltip>
-                        </q-btn>
-                      </p>
-                      <q-select v-model="company.neighborhood" :options="sectorOptions" />
-                    </div> -->
-                    <div  class="q-mb-xl">
-                      <p class="caption q-mb-sm">Provincia
-                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
-                          <q-tooltip>
-                            Selecciona la provincia a la que pertenece tu empresa
-                          </q-tooltip>
-                        </q-btn>
-                      </p>
-                      <tree-select
-                        :clearable="false"
-                        :append-to-body="true"
-                        class="q-mb-md"
-                        :options="provincesOptions"
-                        value-consists-of="BRANCH_PRIORITY"
-                        v-model="company.province_id"
-                        @input="val => { getCities() }"
-                        placeholder=""
-                      />
-                      <!-- <q-select @input="val => { getCities() }" v-model="company.province_id" :options="provincesOptions" /> -->
-                    </div>
-
-                    <div  class="q-mb-xl" v-if="cityOptions.length>0">
-                      <p class="caption q-mb-sm">Cuidad
-                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
-                          <q-tooltip>
-                            Selecciona la ciudad a la que pertenece tu empresa
-                          </q-tooltip>
-                        </q-btn>
-                      </p>
-                      <tree-select
-                        :clearable="false"
-                        :append-to-body="true"
-                        class="q-mb-md"
-                        :options="cityOptions"
-                        value-consists-of="BRANCH_PRIORITY"
-                        v-model="company.city_id"
-                        placeholder=""
-                      />
-                      <!-- <q-select v-model="company.city_id" :options="cityOptions" /> -->
-                    </div>
-                    <div class="q-mb-xl">
-                      <p class="caption q-mb-sm">Correo electrónico
-                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
-                          <q-tooltip>
-                            Ingresa un correo electrónico para el contacto cliente - tienda
-                          </q-tooltip>
-                        </q-btn>
-                      </p>
-                      <q-input dense v-model="company.options.email" placeholder="info@lorem.com">
-                        <template v-slot:prepend>
-                          <q-icon name="fas fa-envelope" color="primary"/>
-                        </template>
-                      </q-input>
-                    </div>
-                    <div class="q-mb-lg" v-if="company.gallery.length>0"  label="Galería de la empresa" stack-label>
-                        <p class="caption q-mb-md">Galeria de la empresa
-                          <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
-                          <q-tooltip>
-                            Ingresa múltiples imágenes promocionales de tu empresa
-                          </q-tooltip>
-                        </q-btn>
-                        </p>
-
-                        <upload-media
-                          multiple
-                          v-model="company.mediasMulti"
-                          entity="Modules\Marketplace\Entities\Store"
-                          :entity-id="storeId ? storeId : null"
-                          zone='gallery'
-                        />
-
-                      </div>
-
-                  </div>
-                </div>
+            <div class="text-h5 text-primary q-mb-xs font-family-secondary capitalize">Tienda {{company.name}}</div>
+            <div class="text-subtitle1 text-secondary">
+              Completa la configuración de tu tienda, ¡es muy fácil!
+            </div>
+            <div class="q-my-lg line-grey full-width"></div>
 
 
-              </q-card-section>
-            </q-card>
+            <div class="row q-col-gutter-xl justify-center">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
 
-            <q-card class="rounded-md bg-white full-width q-mb-xl">
-
-              <q-card-section class="q-px-xl form-general">
-
-                <div class="q-my-lg">
-                  <p class="caption q-mb-lg">Redes sociales de tu tienda
-                    <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                <div class="q-mb-lg">
+                  <p class="caption q-mb-md">Agregar Logo
+                    <q-btn round class="no-shadow" size="6px" icon="fas fa-question" >
                       <q-tooltip>
-                        Puedes seleccionar las redes sociales disponibles de tu empresa
+                        Agrega una imagen como logo de la tienda
                       </q-tooltip>
                     </q-btn>
                   </p>
-
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
-                      <div v-for="(item,index) in company.social" :key="index">
-                        <div class="row items-center q-mb-md">
-                          <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
-                            <q-checkbox  v-model="item.active" :label="item.name+':'">
-                              <q-icon class="q-mx-md" :color="item.color" :name="item.icon" />
-                            </q-checkbox>
-                          </div>
-                          <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                            <q-input dense v-model="item.url" placeholder="@lorem_ipsom" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
+                  <upload-media
+                  v-model="company.mediasSingle"
+                  entity="Modules\Marketplace\Entities\Store"
+                  :entity-id="storeId ? storeId : null"
+                  zone='mainimage'
+                  />
                 </div>
-              </q-card-section>
-            </q-card>
 
-            <q-card class="rounded-md bg-white full-width q-mb-xl">
-              <q-card-section class="q-px-xl q-pb-lg form-general">
-
-                <div class="q-my-lg">
-                  <p class="caption q-mb-lg">¿Que metodos de pago aceptas?
-                    <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
-                      <q-tooltip>
-                        Puedes seleccionar los métodos de pago disponibles en tu empresa
-                      </q-tooltip>
-                    </q-btn>
-                  </p>
-                  <div v-for="(item,index) in company.options.payment_methods" :key="index">
-                    <div class="row items-center q-py-sm border-bottom-gray">
-                      <div class="col">
-                        <q-checkbox v-model="item.active">
-                          <span class="q-px-sm">{{item.name}}</span>
-                        </q-checkbox>
-                      </div>
-                      <div class="col-auto">
-                        <q-icon color="grey-6" name="fas fa-edit" size="sm" />
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </q-card-section>
-            </q-card>
-
-            <q-card class="rounded-md bg-white full-width q-mb-lg">
-              <q-card-section class="q-px-xl q-pb-lg form-general">
-
-                <div class="q-my-lg">
-
-                  <p class="caption q-mb-lg">¿Cuales son los medotos de envío?
-                    <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
-                      <q-tooltip>
-                        Puedes seleccionar los métodos de envío disponibles en tu empresa
-                      </q-tooltip>
-                    </q-btn>
-                  </p>
-
-                  <div v-for="(item,index) in company.options.shipping_methods" :key="index">
-                    <div class="row items-center q-py-sm border-bottom-gray">
-                      <div class="col">
-                        <q-checkbox v-model="item.active">
-                          <span class="q-px-sm">{{item.name}}</span>
-                        </q-checkbox>
-                      </div>
-                      <div class="col-auto">
-                        <q-icon color="grey-6" name="fas fa-edit" size="sm"/>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </q-card-section>
-            </q-card>
-
-          </div>
-
-          <div class="col-12 text-right">
-              <div class="q-mt-lg">
-                <q-btn class="bg-primary text-white btn-arrow-send-pink" @click="updateStore()" v-if="storeId!=null && storeId!=false">Actualizar</q-btn>
-                <q-btn class="bg-primary text-white btn-arrow-send-pink" @click="createStore()" v-else>Crear</q-btn>
               </div>
-          </div>
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                <div class="q-mb-lg">
+                  <p class="caption q-mb-md">Agregar imágenes para slider
+                    <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                      <q-tooltip>
+                        Agrega imágenes promociones de tu tienda
+                      </q-tooltip>
+                    </q-btn>
+                  </p>
 
+                  <upload-media
+                  multiple
+                  v-model="company.mediasMulti"
+                  entity="Modules\Marketplace\Entities\Store"
+                  :entity-id="storeId ? storeId : null"
+                  zone='slider'
+                  />
+
+                </div>
+              </div>
+            </div>
+
+            <div class="q-mt-lg q-mb-xl line-grey full-width"></div>
+
+            <div class="row q-col-gutter-xl">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                <div class="q-mb-xl">
+                  <p class="caption q-mb-sm">Nombre de tu empresa
+                    <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                      <q-tooltip>
+                        Ingresa el nombre de tu tienda
+                      </q-tooltip>
+                    </q-btn>
+                  </p>
+                  <q-input dense v-model="company.name" placeholder="WAFFEE" />
+                </div>
+                <div class="q-mb-xl">
+                  <p class="caption q-mb-sm">Slogan
+                    <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                      <q-tooltip>
+                        Agrega un slogan para tu tienda
+                      </q-tooltip>
+                    </q-btn>
+                  </p>
+                  <q-input dense v-model="company.slogan" placeholder="Lorem Ipsum" />
+                </div>
+
+                <!--Description-->
+                <div class="q-mb-xl">
+                  <p class="caption q-mb-sm">Descripción de la empresa
+                    <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                      <q-tooltip>
+                        Ingresa una breve descripción de tu empresa
+                      </q-tooltip>
+                    </q-btn>
+                  </p>
+                  <q-editor v-model="company.description" class="full-width"
+                  :toolbar="editorText.toolbar" content-class="text-grey-9" toolbar-text-color="grey-9"/>
+                </div>
+                <div class="q-mb-xl">
+                  <p class="caption q-mb-sm">Dirección de la empresa
+                    <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                      <q-tooltip>
+                        Ingresa la dirección de tu empresa
+                      </q-tooltip>
+                    </q-btn>
+                  </p>
+                  <q-input dense  v-model="company.address" placeholder="Lorem Ipsum">
+                    <template v-slot:prepend>
+                      <q-icon name="fas fa-map-marker-alt" color="primary"/>
+                    </template>
+                  </q-input>
+                </div>
+                <div  class="q-mb-xl">
+                  <p class="caption q-mb-sm">Url mapa
+                    <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                      <q-tooltip>
+                        Ingresa la dirección de tu empresa vía google maps
+                      </q-tooltip>
+                    </q-btn>
+                  </p>
+                  <q-input dense  v-model="company.options.map" placeholder="google maps"  />
+                </div>
+                <div  class="q-mb-xl">
+                  <p class="caption q-mb-sm">Horario de atención
+                    <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                      <q-tooltip>
+                        Aquí puedes ingresar tu horario de atención al público
+                      </q-tooltip>
+                    </q-btn>
+                  </p>
+                  <q-input dense  v-model="company.schedules[0]" placeholder="Lunes - Sabado 7am - 6pm">
+                    <template v-slot:prepend>
+                      <q-icon name="far fa-clock" color="primary"/>
+                    </template>
+                  </q-input>
+                </div>
+                <div  class="q-mb-xl">
+                  <p class="caption q-mb-sm">Enlace de youtube
+                    <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                      <q-tooltip>
+                        Aquí puedes ingresar el link de un video promocional
+                      </q-tooltip>
+                    </q-btn>
+                  </p>
+                  <q-input dense v-model="company.options.youtube" placeholder="youtube.com"  />
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                <div class="q-mb-xl">
+                  <p class="caption q-mb-xs">Categoría
+                    <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                      <q-tooltip>
+                        Selecciona las categorías a las que pertenece tu empresa
+                      </q-tooltip>
+                    </q-btn>
+                  </p>
+                  <q-select dense
+                  v-model="company.categories"
+                  multiple
+                  :options="categoryOptions"
+                  />
+                  <!-- <tree-select
+                  :clearable="false"
+                  :append-to-body="true"
+                  class="q-mb-md"
+                  :options="categoryOptions"
+                  value-consists-of="BRANCH_PRIORITY"
+                  v-model="company.categories"
+                  placeholder=""
+                  /> -->
+                  <!-- <q-select multiple v-model="company.categories" :options="categoryOptions" /> -->
+                </div>
+
+                <div  class="q-mb-xl">
+                  <p class="caption q-mb-sm">Provincia
+                    <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                      <q-tooltip>
+                        Selecciona la provincia a la que pertenece tu empresa
+                      </q-tooltip>
+                    </q-btn>
+                  </p>
+                  <tree-select
+                  :clearable="false"
+                  :append-to-body="true"
+                  class="q-mb-md"
+                  :options="provincesOptions"
+                  value-consists-of="BRANCH_PRIORITY"
+                  v-model="company.provinceId"
+                  @input="val => { getCities() }"
+                  placeholder=""
+                  />
+                  <!-- <q-select @input="val => { getCities() }" v-model="company.provinceId" :options="provincesOptions" /> -->
+                </div>
+
+                <div  class="q-mb-xl" v-if="cityOptions.length>0">
+                  <p class="caption q-mb-sm">Cuidad
+                    <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                      <q-tooltip>
+                        Selecciona la ciudad a la que pertenece tu empresa
+                      </q-tooltip>
+                    </q-btn>
+                  </p>
+                  <tree-select
+                  :clearable="false"
+                  :append-to-body="true"
+                  class="q-mb-md"
+                  :options="cityOptions"
+                  value-consists-of="BRANCH_PRIORITY"
+                  @input="val => { getNeighborhoods() }"
+                  v-model="company.cityId"
+                  placeholder=""
+                  />
+                  <!-- <q-select v-model="company.cityId" :options="cityOptions" /> -->
+                </div>
+
+                <div v-if="neighborhoodOptions.length>0" class="q-mb-xl">
+                  <p class="caption q-mb-sm">Barrio
+                    <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                      <q-tooltip>
+                        Some text as content of Tooltip
+                      </q-tooltip>
+                    </q-btn>
+                  </p>
+                  <tree-select
+                  :clearable="false"
+                  :append-to-body="true"
+                  class="q-mb-md"
+                  :options="neighborhoodOptions"
+                  value-consists-of="BRANCH_PRIORITY"
+                  v-model="company.neighborhoodId"
+                  placeholder=""
+                  />
+                </div>
+                <div class="q-mb-xl">
+                  <p class="caption q-mb-sm">Correo electrónico
+                    <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                      <q-tooltip>
+                        Ingresa un correo electrónico para el contacto cliente - tienda
+                      </q-tooltip>
+                    </q-btn>
+                  </p>
+                  <q-input dense v-model="company.options.email" placeholder="info@lorem.com">
+                    <template v-slot:prepend>
+                      <q-icon name="fas fa-envelope" color="primary"/>
+                    </template>
+                  </q-input>
+                </div>
+                <div class="q-mb-lg" v-if="company.gallery.length>0"  label="Galería de la empresa" stack-label>
+                  <p class="caption q-mb-md">Galeria de la empresa
+                    <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                      <q-tooltip>
+                        Ingresa múltiples imágenes promocionales de tu empresa
+                      </q-tooltip>
+                    </q-btn>
+                  </p>
+
+                  <upload-media
+                  multiple
+                  v-model="company.mediasMulti"
+                  entity="Modules\Marketplace\Entities\Store"
+                  :entity-id="storeId ? storeId : null"
+                  zone='gallery'
+                  />
+
+                </div>
+
+              </div>
+            </div>
+
+
+          </q-card-section>
+        </q-card>
+
+        <q-card class="rounded-md bg-white full-width q-mb-xl">
+
+          <q-card-section class="q-px-xl form-general">
+
+            <div class="q-my-lg">
+              <p class="caption q-mb-lg">Redes sociales de tu tienda
+                <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                  <q-tooltip>
+                    Puedes seleccionar las redes sociales disponibles de tu empresa
+                  </q-tooltip>
+                </q-btn>
+              </p>
+
+              <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
+                  <div v-for="(item,index) in company.social" :key="index">
+                    <div class="row items-center q-mb-md">
+                      <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                        <q-checkbox  v-model="item.active" :label="item.name+':'">
+                          <q-icon class="q-mx-md" :color="item.color" :name="item.icon" />
+                        </q-checkbox>
+                      </div>
+                      <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                        <q-input dense v-model="item.url" placeholder="@lorem_ipsom" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </q-card-section>
+        </q-card>
+
+        <q-card class="rounded-md bg-white full-width q-mb-xl">
+          <q-card-section class="q-px-xl q-pb-lg form-general">
+
+            <div class="q-my-lg">
+              <p class="caption q-mb-lg">¿Que metodos de pago aceptas?
+                <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                  <q-tooltip>
+                    Puedes seleccionar los métodos de pago disponibles en tu empresa
+                  </q-tooltip>
+                </q-btn>
+              </p>
+              <div v-for="(item,index) in company.options.payment_methods" :key="index">
+                <div class="row items-center q-py-sm border-bottom-gray">
+                  <div class="col">
+                    <q-checkbox v-model="item.active">
+                      <span class="q-px-sm">{{item.name}}</span>
+                    </q-checkbox>
+                  </div>
+                  <div class="col-auto">
+                    <q-icon color="grey-6" name="fas fa-edit" size="sm" />
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </q-card-section>
+        </q-card>
+
+        <q-card class="rounded-md bg-white full-width q-mb-lg">
+          <q-card-section class="q-px-xl q-pb-lg form-general">
+
+            <div class="q-my-lg">
+
+              <p class="caption q-mb-lg">¿Cuales son los medotos de envío?
+                <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                  <q-tooltip>
+                    Puedes seleccionar los métodos de envío disponibles en tu empresa
+                  </q-tooltip>
+                </q-btn>
+              </p>
+
+              <div v-for="(item,index) in company.options.shipping_methods" :key="index">
+                <div class="row items-center q-py-sm border-bottom-gray">
+                  <div class="col">
+                    <q-checkbox v-model="item.active">
+                      <span class="q-px-sm">{{item.name}}</span>
+                    </q-checkbox>
+                  </div>
+                  <div class="col-auto">
+                    <q-icon color="grey-6" name="fas fa-edit" size="sm"/>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </q-card-section>
+        </q-card>
+
+      </div>
+
+      <div class="col-12 text-right">
+        <div class="q-mt-lg">
+          <q-btn class="bg-primary text-white btn-arrow-send-pink" @click="updateStore()" v-if="storeId!=null && storeId!=false">Actualizar</q-btn>
+          <q-btn class="bg-primary text-white btn-arrow-send-pink" @click="createStore()" v-else>Crear</q-btn>
         </div>
       </div>
-      <!--Loading-->
-      <inner-loading :visible="loading"/>
-  </q-page>
+
+    </div>
+  </div>
+  <!--Loading-->
+  <inner-loading :visible="loading"/>
+</q-page>
 </template>
 <script>
 import uploadMedia from 'src/components/qmedia/form'
@@ -410,9 +409,9 @@ export default {
           ""
         ],
         city: '',
-        city_id: 0,
-        province_id: 0,
-        neighborhood: '',
+        cityId: 0,
+        provinceId: 0,
+        neighborhoodId: 0,
         categories:[],
         logo: {
           path:'/statics/img/fondo.jpg',
@@ -519,6 +518,7 @@ export default {
         //   value: '2'
         // }
       ],
+      neighborhoodOptions: [],
       cityOptions: [],
       provincesOptions: [],
       categoryOptions: [],
@@ -618,8 +618,8 @@ export default {
             for(var i=0;i<paymentMethods.length;i++){
               for(var o=0;o<response.data.options.payment_methods.length;o++){
                 if(response.data.options.payment_methods[o].id==paymentMethods[i].id){
-                    paymentMethods[i].active=response.data.options.payment_methods[o].active;
-                    break;
+                  paymentMethods[i].active=response.data.options.payment_methods[o].active;
+                  break;
                 }
               }
             }//for
@@ -630,6 +630,8 @@ export default {
             this.company.description=this.company[this.lang].description;
             this.company.slogan=this.company[this.lang].slogan;
             this.company.options.payment_methods=paymentMethods;
+            this.getCities()
+            this.getNeighborhoods()
             resolve(true)//Resolve
           }).catch(error => {
             this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
@@ -707,9 +709,9 @@ export default {
       this.company.options.youtube="";
       this.company.categories=[];
       this.company.city="";
-      this.company.city_id=null;
-      this.company.province_id=null;
-      this.company.neighborhood="";
+      this.company.cityId=0;
+      this.company.provinceId=0;
+      this.company.neighborhoodId=0;
       this.company.options.email="";
       this.company.mediasSingle={};
       this.company.mediasMulti={};
@@ -823,14 +825,14 @@ export default {
       });
     },
     getCities(){
-      if(this.company.province_id){
+      if(this.company.provinceId){
         let params = {
           remember: false,
           params: {
             include: '',
             filter:{
               allTranslations: true,
-              province_id:this.company.province_id
+              province_id:this.company.provinceId
             }
           }
         };//params
@@ -839,6 +841,27 @@ export default {
           this.cityOptions.push({label:"Selecciona una ciudad",value:0,id:0});
           for(var i=0;i<response.data.length;i++){
             this.cityOptions.push({label:response.data[i].name,value:response.data[i].id,id:response.data[i].id});
+          }
+        });
+      }//if(this.company.provinceId){
+    },
+    getNeighborhoods(){
+      if(this.company.cityId){
+        let params = {
+          remember: false,
+          params: {
+            include: '',
+            filter:{
+              allTranslations: true,
+              city:this.company.cityId
+            }
+          }
+        };//params
+        this.$crud.index("apiRoutes.ilocations.neighborhoods",params).then(response => {
+          this.neighborhoodOptions=[];
+          this.neighborhoodOptions.push({label:"Selecciona un barrio",value:0,id:0});
+          for(var i=0;i<response.data.length;i++){
+            this.neighborhoodOptions.push({label:response.data[i].name,value:response.data[i].id,id:response.data[i].id});
           }
         });
       }
