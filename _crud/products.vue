@@ -10,7 +10,7 @@
             title: this.$tr('qcommerce.layout.newProduct'),
             to : 'qmarketplace.admin.products.store.create',
             params:{
-              storeId: this.$route.params.id
+              store: this.$route.params.id
             }
           },
           read: {
@@ -44,7 +44,7 @@
             requestParams: {
               include: 'category',
               filter:{
-                store: this.$route.params.id
+                store: this.$store.state.qmarketplaceStores.storeSelected
               }
             },
             filters: {

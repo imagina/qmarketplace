@@ -1,7 +1,7 @@
 
 export default {
   themes: {
-    // permission: 'qmarketplace.stores.manage',
+    permission: 'qmarketplace.stores.manage',
     activated: true,//
     path: '/qmarketplace/themes/index',
     name: 'qmarketplace.admin.themes.index',//
@@ -23,7 +23,7 @@ export default {
     authenticated: true
   },
   stores: {
-    // permission: 'qmarketplace.stores.manage',
+    permission: 'qmarketplace.stores.manage',
     activated: true,
     path: '/qmarketplace/stores/index',
     name: 'qmarketplace.admin.stores.index',
