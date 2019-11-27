@@ -13,9 +13,9 @@ export const SET_STORE = ({commit, dispatch, state, rootState}, storeId = false)
             //Search store in cache or Store
             if (!storeSelected) {
                 storeSelected = await cache.get.item('marketplace.store.selected')
+
                 if (!storeSelected && state.userStores.length) storeSelected = state.userStores[0].id
             }
-
             //Set selected store in cache and store
             if (storeSelected) {
                 commit('SET_STORE_SELECTED', storeSelected)
