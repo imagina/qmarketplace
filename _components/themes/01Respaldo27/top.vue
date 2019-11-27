@@ -14,7 +14,7 @@
                     </q-card-section>
                     <div class="absolute-bottom text-right">
                       <q-card-actions align="right">
-                        <q-btn unelevated size="13px" round :style="{'color':store.options.theme_config.color_primary,'background-color':store.options.theme_config.color_secondary}" icon="far fa-thumbs-up" />
+                        <q-btn unelevated size="13px" round  icon="far fa-thumbs-up" />
                       </q-card-actions>
                     </div>
                   </q-card>
@@ -25,7 +25,7 @@
                     </q-card-section>
                     <div class="absolute-bottom text-right">
                         <q-card-actions align="right">
-                          <q-btn unelevated size="13px" round :style="{'color':store.options.theme_config.color_primary,'background-color':store.options.theme_config.color_secondary}" icon="grade" />
+                          <q-btn unelevated size="13px" round color="secondary" icon="grade" />
                         </q-card-actions>
                       </div>
                   </q-card>
@@ -34,7 +34,7 @@
               </div>
             </div>
           </div>
-          <div class="col-12 " :style="{'background-color':store.options.theme_config.color_primary}">
+          <div class="col-12 bg-primary">
             <div class="q-container q-py-sm" v-if="$q.platform.is.desktop">
               <div class="row items-center justify-center">
                 <div class="col">
@@ -48,8 +48,7 @@
                   <div class="q-inline-block q-px-sm border-x">
                     <q-input dense
                       placeholder="¿Qué buscas?"
-                      :style="{'background-color':store.options.theme_config.color_primary}"
-                      outlined  >
+                      color="primary" outlined  >
                       <template v-slot:append>
                         <q-icon name="search" color="white" />
                       </template>
@@ -57,13 +56,13 @@
                   </div>
                   <q-btn flat icon="fas fa-heart" color="white "/>
                   <q-btn @click="$router.push({name: 'marketplace.checkout', params:{storeId:store.id}})" flat icon="fa fa-shopping-cart"  color="white ">
-                     <q-badge v-if="cart" align="top" :style="{'background-color':store.options.theme_config.color_secondary}" floating>{{cart.products.length}}</q-badge>
-                     <q-badge v-else align="top" :style="{'background-color':store.options.theme_config.color_secondary}" floating>0</q-badge>
+                     <q-badge v-if="cart" align="top" color="secondary" floating>{{cart.products.length}}</q-badge>
+                     <q-badge v-else align="top" color="secondary" floating>0</q-badge>
                   </q-btn>
                 </div>
               </div>
             </div>
-            <q-toolbar :style="{'background-color':store.options.theme_config.color_primary}" v-else>
+            <q-toolbar color="primary" v-else>
               <q-btn flat round dense icon="fas fa-home" />
               <q-btn flat round dense icon="fas fa-bars" />
               <q-btn flat round dense icon="fas fa-map-marker-alt"/>
@@ -73,7 +72,7 @@
               <q-btn flat round dense icon="fas fa-search"/>
               <q-btn flat round dense icon="fas fa-heart"/>
               <q-btn flat round dense icon="fa fa-shopping-cart">
-                <q-badge align="top" :style="{'background-color':store.options.theme_config.color_secondary}" floating>1</q-badge>
+                <q-badge align="top" color="secondary" floating>1</q-badge>
               </q-btn>
             </q-toolbar>
           </div>
@@ -81,7 +80,7 @@
         <div class="q-container">
           <div class="row q-col-gutter-lg justify-end">
             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 q-mb-lg">
-              <div :style="{'background-color':store.options.theme_config.color_secondary}" class=" text-white text-center q-pa-md">
+              <div class="bg-secondary text-white text-center q-pa-md">
                 340<br>
                 <small>usuarios siguen esta tienda</small>
               </div>

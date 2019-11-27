@@ -203,7 +203,7 @@
       </div>
     </div>
     <div class="col-xs-1 col-sm-1 col-md-1 self-center">
-      <q-btn round color="primary" icon="fas fa-times" />
+      <q-btn @click="deleteProductCart(product)" round color="primary" icon="fas fa-times" />
     </div>
 
   </div>
@@ -493,38 +493,46 @@ export default {
       }//else
     },
     submitOrder(){
-      var data={};
-      data=this.$clone(this.form)
-      // data=this.form;
-      data.paymentCity=this.city_id.value;
-      data.shippingCity=data.paymentCity;
-      data.paymentCountry="Bogotá";
-      data.shippingCountry=data.paymentCountry;
-      data.cartId=this.cart.id;
-      data.storeID=this.storeId;
-      var shippingMethod="";
-      for(var i=0;i<this.shippingMethods.length;i++){
-        if(this.shippingMethods[i].id==this.form.shippingMethodId){
-          shippingMethod=this.shippingMethods[i].name;
-          break;
-        }
-      }//for
-      data.shippingMethod=shippingMethod;
-      data.payment_first_name=data.addressShippingId.firstName;
-      data.shipping_first_name=data.addressShippingId.firstName;
-      data.payment_last_name=data.addressShippingId.lastName;
-      data.shipping_last_name=data.addressShippingId.lastName;
-      data.paymentAddress1=data.addressShippingId.address1;
-      data.shippingAddress1=data.paymentAddress1;
-      data.addressShippingId=data.addressShippingId.id;
-      data.addressPaymentId=data.addressShippingId;
-      // console.log('form submit');
-      // console.log(data);
-      this.$crud.create("apiRoutes.qcommerce.orders", data).then(response => {
-        this.$alert.success({message: this.$tr('ui.message.recordCreated'), pos: 'bottom'})
-      }).catch(error => {
-        this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
-      })
+      if(this.form.addressShippingId.value==0){
+        this.$alert.error({message: "Debes seleccionar una dirección", pos: 'bottom'})
+      }else if(this.form.shippingMethodId==0){
+        this.$alert.error({message: "Debes seleccionar un método de envío", pos: 'bottom'})
+      }else if(this.form.paymentMethodId==0){
+        this.$alert.error({message: "Debes seleccionar un método de pago", pos: 'bottom'})
+      }else{
+        var data={};
+        data=this.$clone(this.form)
+        // data=this.form;
+        data.paymentCity=this.city_id.value;
+        data.shippingCity=data.paymentCity;
+        data.paymentCountry="Bogotá";
+        data.shippingCountry=data.paymentCountry;
+        data.cartId=this.cart.id;
+        data.storeID=this.storeId;
+        var shippingMethod="";
+        for(var i=0;i<this.shippingMethods.length;i++){
+          if(this.shippingMethods[i].id==this.form.shippingMethodId){
+            shippingMethod=this.shippingMethods[i].name;
+            break;
+          }
+        }//for
+        data.shippingMethod=shippingMethod;
+        data.payment_first_name=data.addressShippingId.firstName;
+        data.shipping_first_name=data.addressShippingId.firstName;
+        data.payment_last_name=data.addressShippingId.lastName;
+        data.shipping_last_name=data.addressShippingId.lastName;
+        data.paymentAddress1=data.addressShippingId.address1;
+        data.shippingAddress1=data.paymentAddress1;
+        data.addressShippingId=data.addressShippingId.id;
+        data.addressPaymentId=data.addressShippingId;
+        // console.log('form submit');
+        // console.log(data);
+        this.$crud.create("apiRoutes.qcommerce.orders", data).then(response => {
+          this.$alert.success({message: this.$tr('ui.message.recordCreated'), pos: 'bottom'})
+        }).catch(error => {
+          this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+        })
+      }
     },
     getProvinces(){
       // cityOptions
@@ -588,7 +596,13 @@ export default {
         this.$alert.success({message: "Producto actualizado correctamente.", pos: 'bottom'})
         this.getCart();
 
-      })
+      });
+    },
+    deleteProductCart(product){
+      this.$crud.delete("apiRoutes.qcommerce.cartProducts", product.id, {}).then(response => {
+        this.$alert.success({message: "Producto eliminado correctamente.", pos: 'bottom'})
+      });
+      this.getCart();
     },
     getCart(){
       if(!this.storeId){
@@ -609,6 +623,11 @@ export default {
         }else{
           this.$crud.show("apiRoutes.qcommerce.cart", this.cartId, {}).then(response => {
             this.cart=response.data;
+            if(this.cart.products.length==0){
+              //Redirect back
+              this.$router.go(-1);
+              this.$alert.error({message: "Debes agregar al menos un producto al carrito de compras", pos: 'bottom'})
+            }
           })
         }//else
       }

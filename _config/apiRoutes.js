@@ -13,4 +13,5 @@ export default {
   setting: `${urlBase}/setting`,
   storeHistory: `${urlBase}/store-history`,
   theme: `${urlBase}/theme`,
+  favoriteStore: `${urlBase}/favorite-store`,
 }
