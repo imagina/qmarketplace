@@ -26,6 +26,18 @@
               <q-card-section class="q-pa-xl form-general">
 
                 <div class="row gutter-md justify-center">
+
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <q-field class="q-mb-xl">
+                      <p class="caption q-mb-sm">Dirección</p>
+                      <q-select
+                      class="full-width"
+                      v-model="form.addressShippingId"
+                      :options="addresses"
+                      />
+                    </q-field>
+                  </div>
+
                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
 
                     <q-field class="q-mb-xl">
@@ -69,6 +81,12 @@
                       :options="optionsCities"
                       />
                     </q-field>
+                    <q-btn
+                    @click="addAddress()"
+                    size="lg"
+                    class="capitalize text-weight-bold rounded-sm q-mb-md" color="primary"
+                    label="Agregar dirección" />
+
                   </div>
 
                   <q-radio v-model="form.shippingMethodId" v-for="(shipMethod,index) in shippingMethods" :val="shipMethod.id" :label="shipMethod.title" />
@@ -331,6 +349,7 @@ export default {
       ],
       optionsCities:[],
       shippingOptions:"lorem",
+      addresses:[],
       form:{
         firstName:'',
         lastName:'',
@@ -338,6 +357,8 @@ export default {
         telephone:'',
         paymentAddress1:'',
         paymentZipCode:'1234',
+        addressPaymentId:0,
+        addressShippingId:{label:"Selecciona una dirección",value:0,id:0},
         paymentCity:{label:"Selecciona una ciudad",value:0,id:0},
         paymentCountry:{label:"Selecciona una provincia",value:0,id:0},
         paymentMethodId:0,
@@ -402,20 +423,47 @@ export default {
   },
   mounted() {
     this.$nextTick(function () {
-      console.log(this.$route.params);
       this.storeId=this.$route.params.storeId;
       this.getCart();
       this.getPaymentMethods();
       this.getShippingMethods();
       this.getProvinces();
+      this.getAddresses();
 
     })
   },
   methods: {
+    getAddresses(){
+      let params = {
+        remember: false,
+        params: {
+          include: '',
+          filter:{
+            userId: this.$store.state.quserAuth.userId,
+          }
+        }
+      };//params
+      this.$crud.index("apiRoutes.quser.addresses",params).then(response => {
+        this.addresses=[];
+        this.addresses.push({label:"Selecciona una dirección",value:0,id:0});
+        for(var i=0;i<response.data.length;i++){
+          this.addresses.push({address1:response.data[i].address1,firstName:response.data[i].firstName,lastName:response.data[i].lastName,label:response.data[i].firstName+' '+response.data[i].lastName+' - '+response.data[i].address1,value:response.data[i].id,id:response.data[i].id});
+        }
+      });
+    },
+    addAddress(){
+
+      this.$crud.create("apiRoutes.quser.addresses", data).then(response => {
+        this.$alert.success({message: this.$tr('ui.message.recordCreated'), pos: 'bottom'})
+        this.getAddresses();
+      }).catch(error => {
+        this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+      });
+    },
     submitOrder(){
       var data={};
-      data=this.form;
-      data.shippingAddress1=data.paymentAddress1;
+      data=this.$clone(this.form)
+      // data=this.form;
       data.paymentCity=this.city_id.value;
       data.shippingCity=data.paymentCity;
       data.paymentCountry="Bogotá";
@@ -426,17 +474,20 @@ export default {
       for(var i=0;i<this.shippingMethods.length;i++){
         if(this.shippingMethods[i].id==this.form.shippingMethodId){
           shippingMethod=this.shippingMethods[i].name;
+          break;
         }
       }//for
-      data.shipping_method=shippingMethod;
-      data.payment_first_name=data.firstName;
-      data.shipping_first_name=data.firstName;
-      data.payment_last_name=data.lastName;
-      data.shipping_last_name=data.lastName;
-      // data.paymentMethod=this.paymentMethods[this.paymentMethodIndex].title;
-      // data.paymentCode=this.paymentMethods[this.paymentMethodIndex].name;
-      console.log('form submit');
-      console.log(data);
+      data.shippingMethod=shippingMethod;
+      data.payment_first_name=data.addressShippingId.firstName;
+      data.shipping_first_name=data.addressShippingId.firstName;
+      data.payment_last_name=data.addressShippingId.lastName;
+      data.shipping_last_name=data.addressShippingId.lastName;
+      data.paymentAddress1=data.addressShippingId.address1;
+      data.shippingAddress1=data.paymentAddress1;
+      data.addressShippingId=data.addressShippingId.id;
+      data.addressPaymentId=data.addressShippingId;
+      // console.log('form submit');
+      // console.log(data);
       this.$crud.create("apiRoutes.qcommerce.orders", data).then(response => {
         this.$alert.success({message: this.$tr('ui.message.recordCreated'), pos: 'bottom'})
       }).catch(error => {
