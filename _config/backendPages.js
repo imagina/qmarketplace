@@ -12,7 +12,7 @@ export default {
     authenticated: true
   },
   categories: {
-    // permission: 'qmarketplace.stores.manage',
+    // permission: 'marketplace.stores.manage',
     activated: true,//
     path: '/qmarketplace/categories/index',
     name: 'qmarketplace.admin.categories.index',
@@ -23,7 +23,7 @@ export default {
     authenticated: true
   },
   stores: {
-    permission: 'qmarketplace.stores.manage',
+    permission: 'marketplace.stores.manage',
     activated: true,
     path: '/qmarketplace/stores/index',
     name: 'qmarketplace.admin.stores.index',
@@ -64,7 +64,7 @@ export default {
     authenticated: true,
   },
   myStoreTheme: {
-    // permission: 'qmarketplace.stores.manage',
+    // permission: 'marketplace.stores.manage',
     activated: true,
     path: '/qmarketplace/stores/myStore/theme',
     name: 'qmarketplace.admin.stores.my.store.theme',
@@ -75,7 +75,7 @@ export default {
     authenticated: true
   },
   myStoreProducts: {
-    // permission: 'qmarketplace.stores.manage',
+    // permission: 'marketplace.stores.manage',
     activated: true,
     path: '/qmarketplace/stores/myStore/products',
     name: 'qmarketplace.admin.stores.my.store.products',
@@ -86,7 +86,7 @@ export default {
     authenticated: true
   },
   myStoreProductCreate: {
-    // permission: 'qmarketplace.stores.manage',
+    // permission: 'marketplace.stores.manage',
     activated: true,
     path: '/qmarketplace/products/create',
     name: 'qmarketplace.admin.stores.my.store.products.create',
@@ -97,7 +97,7 @@ export default {
     authenticated: true
   },
   storesTheme: {
-    // permission: 'qmarketplace.stores.manage',
+    // permission: 'marketplace.stores.manage',
     activated: true,
     path: '/qmarketplace/theme/store/:id',
     name: 'qmarketplace.admin.theme.store.index',
@@ -108,7 +108,7 @@ export default {
     authenticated: true
   },
   storeProducts: {
-    // permission: 'qmarketplace.stores.manage',
+    // permission: 'marketplace.stores.manage',
     activated: true,
     path: '/qmarketplace/products/store/:id',
     name: 'qmarketplace.admin.products.store.index',
@@ -119,7 +119,7 @@ export default {
     authenticated: true
   },
   storeProductsCreate: {
-    // permission: 'qmarketplace.stores.manage',
+    // permission: 'marketplace.stores.manage',
     activated: true,
     path: '/qmarketplace/products/create/:storeId',
     name: 'qmarketplace.admin.products.store.create',
