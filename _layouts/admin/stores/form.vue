@@ -200,11 +200,11 @@
                         class="q-mb-md"
                         :options="provincesOptions"
                         value-consists-of="BRANCH_PRIORITY"
-                        v-model="company.province_id"
+                        v-model="company.provinceId"
                         @input="val => { getCities() }"
                         placeholder=""
                       />
-                      <!-- <q-select @input="val => { getCities() }" v-model="company.province_id" :options="provincesOptions" /> -->
+                      <!-- <q-select @input="val => { getCities() }" v-model="company.provinceId" :options="provincesOptions" /> -->
                     </div>
 
                     <div  class="q-mb-xl" v-if="cityOptions.length>0">
@@ -222,10 +222,10 @@
                         :options="cityOptions"
                         value-consists-of="BRANCH_PRIORITY"
                         @input="val => { getNeighborhoods() }"
-                        v-model="company.city_id"
+                        v-model="company.cityId"
                         placeholder=""
                       />
-                      <!-- <q-select v-model="company.city_id" :options="cityOptions" /> -->
+                      <!-- <q-select v-model="company.cityId" :options="cityOptions" /> -->
                     </div>
 
                     <div v-if="neighborhoodOptions.length>0" class="q-mb-xl">
@@ -242,7 +242,7 @@
                         class="q-mb-md"
                         :options="neighborhoodOptions"
                         value-consists-of="BRANCH_PRIORITY"
-                        v-model="company.neighborhood"
+                        v-model="company.neighborhoodId"
                         placeholder=""
                       />
                     </div>
@@ -422,9 +422,9 @@ export default {
           ""
         ],
         city: '',
-        city_id: 0,
-        province_id: 0,
-        neighborhood: 0,
+        cityId: 0,
+        provinceId: 0,
+        neighborhoodId: 0,
         categories:[],
         logo: {
           path:'/statics/img/fondo.jpg',
@@ -719,9 +719,9 @@ export default {
       this.company.options.youtube="";
       this.company.categories=[];
       this.company.city="";
-      this.company.city_id=0;
-      this.company.province_id=0;
-      this.company.neighborhood=0;
+      this.company.cityId=0;
+      this.company.provinceId=0;
+      this.company.neighborhood_id=0;
       this.company.options.email="";
       this.company.mediasSingle={};
       this.company.mediasMulti={};
@@ -835,14 +835,14 @@ export default {
       });
     },
     getCities(){
-      if(this.company.province_id){
+      if(this.company.provinceId){
         let params = {
           remember: false,
           params: {
             include: '',
             filter:{
               allTranslations: true,
-              province_id:this.company.province_id
+              province_id:this.company.provinceId
             }
           }
         };//params
@@ -856,14 +856,14 @@ export default {
       }
     },
     getNeighborhoods(){
-      if(this.company.city_id){
+      if(this.company.cityId){
         let params = {
           remember: false,
           params: {
             include: '',
             filter:{
               allTranslations: true,
-              city:this.company.city_id
+              city:this.company.cityId
             }
           }
         };//params
