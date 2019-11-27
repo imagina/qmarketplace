@@ -24,7 +24,7 @@
               include: 'categories',
               filter:{
                 allTranslations: true,
-                userId:this.$store.state.quserAuth.userId,
+                user:this.$store.state.quserAuth.userId,
               }
             },
             filters: {},

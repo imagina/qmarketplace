@@ -15,6 +15,7 @@
 import layout1 from '@imagina/qmarketplace/_layouts/frontend/store/themes/index1'
 import layout2 from '@imagina/qmarketplace/_layouts/frontend/store/themes/index2'
 import layout3 from '@imagina/qmarketplace/_layouts/frontend/store/themes/index3'
+import { colors, AddressbarColor } from 'quasar'
 export default {
   name: 'showStore',
   components: {
@@ -53,7 +54,9 @@ export default {
           //Request
           this.$crud.show(this.configName, itemId, params).then(response => {
             this.store = this.$clone(response.data);
-            console.log(this.store);
+            colors.setBrand('storeprimary', this.store.options.theme_config.color_primary)
+            colors.setBrand('storesecondary', this.store.options.theme_config.color_secondary)
+            colors.setBrand('storebackground', this.store.options.theme_config.background)
             resolve(true)//Resolve
           }).catch(error => {
             this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})

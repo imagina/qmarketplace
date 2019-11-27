@@ -33,7 +33,7 @@ export const GET_USER_STORES = ({commit, dispatch, state, rootState}) => {
         if (rootState.quserAuth.authenticated) {
             let params = {
                 refresh: true,
-                params: {filter: {userId: rootState.quserAuth.userId}}
+                params: {filter: {user: rootState.quserAuth.userId}}
             }
 
             //Request

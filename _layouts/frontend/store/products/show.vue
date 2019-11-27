@@ -2,23 +2,11 @@
   <div>
     <div id="showProductPage" class="q-container">
       <div class="row gutter-x-sm q-mt-md">
-        <div class="col-12 col-md-3">
-          <menu-categories class="widgetMenuCategories" title="· Nuestro Menú ·"/>
-        </div>
-
         <!--== Content ==-->
         <div id="showProductContent" class="col-12 col-md-9">
           <div class="relative-position" style="min-height: 150px">
             <!--Product-->
             <div class="row justify-end" v-if="productData">
-              <!--Products of same category-->
-              <div class="selectorOtherProducts col-12 col-md-7">
-                <div class="q-title q-py-sm q-mr-sm title">
-                  Seleccione un Producto:
-                </div>
-                <select-products :category-id="productData.categoryId" v-model="productSelectd"
-                                 @input="$router.push({name: 'product.show', params : {slugProduct : productSelectd}})"/>
-              </div>
 
               <!--Data product-->
               <div class="col-12 row gutter-x-sm content q-mt-lg">
@@ -91,7 +79,8 @@
       //Get data
       getData() {
         this.loading = true
-        let slugProduct = this.$route.params.slugProduct
+        let slugProduct = this.$route.params.product
+        let slugStore=this.$route.params.slug
         let params = {
           refresh: true,
           params: {filter: {field: 'slug'}, include: 'productOptions,optionValues'}
@@ -110,35 +99,4 @@
 </script>
 
 <style lang="stylus">
-  #showProductPage
-    margin 25px auto
-    #showProductContent
-      .border-top
-        border-top 2px solid $grey-3
-
-      .selectorOtherProducts
-        display flex
-
-        .title
-          min-width max-content
-
-      .content
-        img
-          border 1px solid $grey-3
-          border-radius 20px
-
-      #widgetSelectProducts
-        .vue-treeselect
-          border 0px
-          border-bottom 2px solid $tertiary
-
-          .vue-treeselect__single-value
-            font-size 22px
-            color $tertiary
-            line-height 1.3
-
-          .vue-treeselect__control-arrow-container
-            svg
-              color $primary
-
-</style>
+  </style>
