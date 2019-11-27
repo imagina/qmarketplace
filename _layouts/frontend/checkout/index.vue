@@ -452,13 +452,45 @@ export default {
       });
     },
     addAddress(){
+      if(this.form.firstName==""){
+        this.$alert.error({message: "Debes ingresar un nombre", pos: 'bottom'})
+      }else if(this.form.lastName==""){
+        this.$alert.error({message: "Debes ingresar un apellido", pos: 'bottom'})
+      }else if(this.form.telephone==""){
+        this.$alert.error({message: "Debes ingresar un número de teléfono", pos: 'bottom'})
+      }else if(this.form.email==""){
+        this.$alert.error({message: "Debes ingresar un correo electrónico", pos: 'bottom'})
+      }else if(this.province_id.value==0){
+        this.$alert.error({message: "Debes seleccionar una provincia", pos: 'bottom'})
+      }else if(this.city_id.value==0){
+        this.$alert.error({message: "Debes seleccionar una ciudad", pos: 'bottom'})
+      }else if(this.form.paymentAddress1==""){
+        this.$alert.error({message: "Debes ingresar una dirección", pos: 'bottom'})
+      }else{
+        var data={
+          userId: this.$store.state.quserAuth.userId,
+          firstName: this.form.firstName,
+          lastName: this.form.lastName,
+          address1: this.form.paymentAddress1,
+          countryId:48,
+          country:"Colombia",
+          provinceId:this.province_id.value,
+          city:this.city_id.label,
+          type:"shipping"
 
-      this.$crud.create("apiRoutes.quser.addresses", data).then(response => {
-        this.$alert.success({message: this.$tr('ui.message.recordCreated'), pos: 'bottom'})
-        this.getAddresses();
-      }).catch(error => {
-        this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
-      });
+        };
+        this.$crud.create("apiRoutes.quser.addresses", data).then(response => {
+          this.$alert.success({message: this.$tr('ui.message.recordCreated'), pos: 'bottom'});
+          this.form.firstName="";
+          this.form.lastName="";
+          this.form.telephone="";
+          this.form.email="";
+          this.form.paymentAddress1="";
+          this.getAddresses();
+        }).catch(error => {
+          this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+        });
+      }//else
     },
     submitOrder(){
       var data={};
