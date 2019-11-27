@@ -174,7 +174,7 @@
                       <!-- <q-select multiple v-model="company.categories" :options="categoryOptions" /> -->
                     </div>
 
-                    <div class="q-mb-xl">
+                    <!-- <div class="q-mb-xl">
                       <p class="caption q-mb-sm">Barrio
                         <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
                           <q-tooltip>
@@ -183,18 +183,9 @@
                         </q-btn>
                       </p>
                       <q-input dense v-model="company.neighborhood" placeholder="Lorem Ipsum" />
-                    </div>
-
-                    <!-- <div  class="q-mb-xl">
-                      <p class="caption q-mb-sm">Barrio
-                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
-                          <q-tooltip>
-                            Some text as content of Tooltip
-                          </q-tooltip>
-                        </q-btn>
-                      </p>
-                      <q-select v-model="company.neighborhood" :options="sectorOptions" />
                     </div> -->
+
+
                     <div  class="q-mb-xl">
                       <p class="caption q-mb-sm">Provincia
                         <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
@@ -230,11 +221,32 @@
                         class="q-mb-md"
                         :options="cityOptions"
                         value-consists-of="BRANCH_PRIORITY"
+                        @input="val => { getNeighborhoods() }"
                         v-model="company.city_id"
                         placeholder=""
                       />
                       <!-- <q-select v-model="company.city_id" :options="cityOptions" /> -->
                     </div>
+
+                    <div v-if="neighborhoodOptions.length>0" class="q-mb-xl">
+                      <p class="caption q-mb-sm">Barrio
+                        <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                          <q-tooltip>
+                            Some text as content of Tooltip
+                          </q-tooltip>
+                        </q-btn>
+                      </p>
+                      <tree-select
+                        :clearable="false"
+                        :append-to-body="true"
+                        class="q-mb-md"
+                        :options="neighborhoodOptions"
+                        value-consists-of="BRANCH_PRIORITY"
+                        v-model="company.neighborhood"
+                        placeholder=""
+                      />
+                    </div>
+
                     <div class="q-mb-xl">
                       <p class="caption q-mb-sm">Correo electrónico
                         <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
@@ -412,7 +424,7 @@ export default {
         city: '',
         city_id: 0,
         province_id: 0,
-        neighborhood: '',
+        neighborhood: 0,
         categories:[],
         logo: {
           path:'/statics/img/fondo.jpg',
@@ -519,6 +531,7 @@ export default {
         //   value: '2'
         // }
       ],
+      neighborhoodOptions: [],
       cityOptions: [],
       provincesOptions: [],
       categoryOptions: [],
@@ -627,6 +640,8 @@ export default {
             this.company.description=this.company[this.lang].description;
             this.company.slogan=this.company[this.lang].slogan;
             this.company.options.payment_methods=paymentMethods;
+            this.getCities()
+            this.getNeighborhoods()
             resolve(true)//Resolve
           }).catch(error => {
             this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
@@ -704,9 +719,9 @@ export default {
       this.company.options.youtube="";
       this.company.categories=[];
       this.company.city="";
-      this.company.city_id=null;
-      this.company.province_id=null;
-      this.company.neighborhood="";
+      this.company.city_id=0;
+      this.company.province_id=0;
+      this.company.neighborhood=0;
       this.company.options.email="";
       this.company.mediasSingle={};
       this.company.mediasMulti={};
@@ -768,7 +783,7 @@ export default {
         })
       }).catch(error => {
         this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
-      })
+      });
     },
     updateStore(){
       this.company[this.lang]={
@@ -836,6 +851,27 @@ export default {
           this.cityOptions.push({label:"Selecciona una ciudad",value:0,id:0});
           for(var i=0;i<response.data.length;i++){
             this.cityOptions.push({label:response.data[i].name,value:response.data[i].id,id:response.data[i].id});
+          }
+        });
+      }
+    },
+    getNeighborhoods(){
+      if(this.company.city_id){
+        let params = {
+          remember: false,
+          params: {
+            include: '',
+            filter:{
+              allTranslations: true,
+              city:this.company.city_id
+            }
+          }
+        };//params
+        this.$crud.index("apiRoutes.ilocations.neighborhoods",params).then(response => {
+          this.neighborhoodOptions=[];
+          this.neighborhoodOptions.push({label:"Selecciona un barrio",value:0,id:0});
+          for(var i=0;i<response.data.length;i++){
+            this.neighborhoodOptions.push({label:response.data[i].name,value:response.data[i].id,id:response.data[i].id});
           }
         });
       }
