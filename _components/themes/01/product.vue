@@ -19,9 +19,8 @@
 <script>
 export default {
     name: 'ProductComponent',
-    props: ['product','className','storeName','storeId'],
+    props: ['product','className','storeName','storeId','storeThemeConfig'],
     mounted(){
-      console.log('adsadadadada product component');
     },
     methods:{
       createCart(){
