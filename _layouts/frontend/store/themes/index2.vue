@@ -95,9 +95,28 @@ export default {
     top,
     contact
   },
+  mounted(){
+    this.getCart();//
+  },
+  methods:{
+    getCart(){
+      var carts=this.$q.localStorage.getItem("carts");
+      if(carts){
+        var cartId=0;
+        for (var i=0;carts.length;i++){
+          if(carts[i].storeId==this.store.id){
+            this.$crud.show("apiRoutes.qcommerce.cart", carts[i].id, {}).then(response => {
+              this.cart=response.data;
+            });
+            break;
+          }//if
+        }//for
+      }
+    }
+  },
   data() {
     return {
-
+      cart:null
     }
   }
 }

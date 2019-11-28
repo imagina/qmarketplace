@@ -248,7 +248,7 @@
                     </template>
                   </q-input>
                 </div>
-                <div class="q-mb-lg" v-if="company.gallery.length>0"  label="Galería de la empresa" stack-label>
+                <div class="q-mb-lg" label="Galería de la empresa" stack-label>
                   <p class="caption q-mb-md">Galeria de la empresa
                     <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
                       <q-tooltip>
