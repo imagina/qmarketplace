@@ -40,7 +40,7 @@
                 <div class="col">
                   <q-btn flat icon="fas fa-home" no-caps label="Inicio" color="white"/>
                   <q-btn flat icon="fas fa-bars" no-caps label="Category" color="white"/>
-                  <q-btn flat icon="fas fa-map-marker-alt" no-caps label="Info Empresa" color="white"/>
+                  <q-btn @click="infoStore=true" flat icon="fas fa-map-marker-alt" no-caps label="Info Empresa" color="white"/>
                   <q-btn flat icon="far fa-comment-dots" no-caps label="Chatea con la tienda" color="white"/>
                 </div>
 
@@ -48,7 +48,7 @@
                   <div class="q-inline-block q-px-sm border-x">
                     <q-input dense
                       placeholder="¿Qué buscas?"
-                      class="bg-store-primary" 
+                      class="bg-store-primary"
                       outlined  >
                       <template v-slot:append>
                         <q-icon name="search" color="white" />
@@ -88,6 +88,29 @@
             </div>
           </div>
         </div>
+        <q-dialog v-model="infoStore" @hide="infoStore=false;">
+      <q-carousel
+        transition-prev="slide-right"
+        transition-next="slide-left"
+        swipeable
+        animated
+        v-model="slide"
+        control-color="primary"
+        navigation-icon="radio_button_unchecked"
+        navigation
+        padding
+        height="300px"
+        class="bg-white shadow-1 rounded-borders"
+      >
+        <q-carousel-slide :name="1" class="column no-wrap flex-center">
+          <i style="font-size:56px;" class="fas fa-map-marked-alt text-primary"></i>
+          <!-- <q-icon name="style" color="primary" size="56px" /> -->
+          <div class="q-mt-md text-center" v-html="store.description">
+          </div>
+        </q-carousel-slide>
+  
+      </q-carousel>
+    </q-dialog>
     </div>
 </template>
 <script>
@@ -97,6 +120,12 @@ export default {
   props: ['cart','store'],
   components: {
     fullWidthGallery
+  },
+  data(){
+    return {
+      infoStore:false,
+      slide: 1,
+    }
   }
 }
 </script>

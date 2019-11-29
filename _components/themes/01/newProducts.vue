@@ -5,7 +5,7 @@
         </div>
         <div class="row q-col-gutter-lg q-pt-lg">
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6" v-for="product in products">
-            <product :product="product" className="cardProductH01"></product>
+            <product :product="product" :storeName="store.name" :storeId="store.id" :storeThemeConfig="store.options.theme_config" className="cardProductH01"></product>
           </div>
         </div>
     </div>
@@ -17,23 +17,47 @@ export default {
   components: {
     product
   },
+  props: {
+    'store': { type:Object, default: []}
+  },
+  mounted(){
+    this.getProducts();
+  },
+  methods:{
+    getProducts(){
+      //
+      let params = {
+        remember: false,
+        params: {
+          include: '',
+          filter:{
+            store: this.store.id,
+          },
+          take:4
+        }
+      };//params
+      this.$crud.index("apiRoutes.qcommerce.products",params).then(response => {
+        this.products=response.data;
+      });
+    }
+  },
   data () {
     return {
         products:  [
-        {
-            name: 'Mochila 1',
-            image: '/statics/img/product.jpg',
-            tienda: 'artesanias',
-            price: 10.00,
-            rating: 3
-        },
-        {
-            name: 'Mochila 2',
-            image: '/statics/img/contacto.jpg',
-            tienda: 'artesanias',
-            price: 10.00,
-            rating: 3
-        }
+        // {
+        //     name: 'Mochila 1',
+        //     image: '/statics/img/product.jpg',
+        //     tienda: 'artesanias',
+        //     price: 10.00,
+        //     rating: 3
+        // },
+        // {
+        //     name: 'Mochila 2',
+        //     image: '/statics/img/contacto.jpg',
+        //     tienda: 'artesanias',
+        //     price: 10.00,
+        //     rating: 3
+        // }
         ]
     }
   }

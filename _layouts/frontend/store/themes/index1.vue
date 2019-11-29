@@ -8,8 +8,8 @@
       <div class="q-container">
         <div class="row q-col-gutter-lg">
           <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
-            <featured-products></featured-products>
-            <new-products></new-products>
+            <featured-products :store="store" ></featured-products>
+            <new-products :store="store"></new-products>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
             <quiz></quiz>

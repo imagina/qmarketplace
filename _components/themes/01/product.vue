@@ -61,7 +61,6 @@ export default {
             this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
           })
         }else{
-          console.log('Adding cart method');
           this.createCart();
         }
       }//addCart
