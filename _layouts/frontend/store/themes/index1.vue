@@ -8,23 +8,21 @@
       <div class="q-container">
         <div class="row q-col-gutter-lg">
           <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
-            <featured-products></featured-products>
-            <new-products></new-products>
+            <featured-products :store="store" ></featured-products>
+            <new-products :store="store"></new-products>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
             <quiz></quiz>
-
-            <div class="banner-bottom q-mb-xl">
+            <div class="banner-bottom q-mb-xl" style="background-image: url('/statics/img/theme-one/banner-bottom.jpg')">
               <div class="row">
                 <div class="col-12 content">
                   <div class="content text-center">
                     <h4 class="q-my-md text-white">NUEVA <br> COLECCIÓN</h4>
-                    <q-btn  label="Comprar ahora" color="primary"/>
+                    <q-btn  label="Comprar ahora" color="store-primary"/>
                   </div>
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -94,7 +92,6 @@ export default {
 <style lang="stylus">
 .theme-layout-01
   .banner-bottom
-    background-image url('/statics/img/theme-one/banner-bottom.jpg')
     background-size cover
     padding-top 60%
     padding-bottom 40%
@@ -105,9 +102,8 @@ export default {
     &:before
       height 100%
       width 100%
-      background-color  rgba(#282d46, 0.7)
+      background rgba(#282d46, 0.7)
       content ''
       position absolute
       top 0
-
 </style>

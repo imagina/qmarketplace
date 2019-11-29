@@ -46,15 +46,15 @@
             </div>
           </div>
         </div>
-        <div class="col-12 bg-primary menu-02">
+        <div class="col-12 bg-store-primary menu-02">
           <div class="q-container">
             <div class="bg-white rounded-lg text-white q-mx-xl q-py-sm"  v-if="$q.platform.is.desktop">
               <div class="row">
                 <div class="col q-pl-md">
-                  <q-btn flat round dense icon="fas fa-home" no-caps color="primary"/>
-                  <q-btn flat icon="fas fa-bars" no-caps label="Category" color="primary"/>
-                  <q-btn flat icon="fas fa-map-marker-alt" no-caps label="Info Empresa" color="primary"/>
-                  <q-btn flat icon="far fa-comment-dots" no-caps label="Chatea con la tienda" color="primary"/>
+                  <q-btn flat round dense icon="fas fa-home" no-caps color="store-primary"/>
+                  <q-btn flat icon="fas fa-bars" no-caps label="Category" color="store-primary"/>
+                  <q-btn flat icon="fas fa-map-marker-alt" no-caps label="Info Empresa" color="store-primary"/>
+                  <q-btn flat icon="far fa-comment-dots" no-caps label="Chatea con la tienda" color="store-primary"/>
                 </div>
                 <div class="col-auto q-pr-md">
                   <div class="q-inline-block q-px-sm border-x">
@@ -66,14 +66,14 @@
                       </template>
                       </q-input>
                   </div>
-                  <q-btn flat icon="fas fa-heart" color="secondary"/>
-                  <q-btn flat icon="fa fa-shopping-cart"  color="secondary">
-                     <q-badge align="top" color="primary" floating>1</q-badge>
+                  <q-btn flat icon="fas fa-heart" color="store-secondary"/>
+                  <q-btn flat icon="fa fa-shopping-cart"  color="store-secondary">
+                     <q-badge align="top" color="store-primary" floating>1</q-badge>
                   </q-btn>
                 </div>
               </div>
             </div>
-            <q-toolbar color="white" text-color="primary" v-else>
+            <q-toolbar color="white" text-color="store-primary" v-else>
               <q-btn flat round dense icon="fas fa-home"  />
               <q-btn flat round dense icon="fas fa-bars" />
               <q-btn flat round dense icon="fas fa-map-marker-alt"/>
@@ -82,8 +82,8 @@
               </q-toolbar-title>
               <q-btn flat round dense icon="fas fa-search"/>
               <q-btn flat round dense icon="fas fa-heart"/>
-              <q-btn flat round dense icon="fa fa-shopping-cart"  color="secondary">
-                 <q-badge align="top" color="secondary" floating>1</q-badge>
+              <q-btn flat round dense icon="fa fa-shopping-cart"  color="store-secondary">
+                 <q-badge align="top" color="store-secondary" floating>1</q-badge>
               </q-btn>
             </q-toolbar>
 
@@ -124,7 +124,7 @@ export default {
     bottom 0
     right 0
     .card-rounded
-      background-color $secondary
+      background-color $storeSecondary
       border-radius 20px 0 20px 0
       color #ffffff
       border 5px solid #fff
@@ -133,7 +133,7 @@ export default {
       .q-card-section
         line-height 1.1rem
     .card-circle
-      background-color $secondary
+      background-color $storeSecondary
       border-radius 50%
       color #ffffff
       border 5px solid #fff
@@ -144,12 +144,12 @@ export default {
         line-height 1.1rem
   .border-x
     .q-field__control
-      border-left 1px solid $primary
+      border-left 1px solid $storePrimary
       border-bottom 0
-      border-right 1px solid $primary
+      border-right 1px solid $storePrimary
       border-radius 0
     .q-field--outlined .q-field__control:before
       border 0
     .q-placeholder
-      color $primary
+      color $storePrimary
 </style>

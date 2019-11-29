@@ -3,7 +3,7 @@
     <q-card-section class="q-pa-sm">
       <q-img :ratio="1" :src="product.mainImage.path" class="rounded-sm"/>
     </q-card-section>
-    <q-card-section class="card-title bg-primary">
+    <q-card-section class="card-title bg-store-primary">
       <q-list>
         <q-item>
           <q-item-section><h5 class="q-my-none text-white">${{product.price}}</h5></q-item-section>
@@ -15,14 +15,14 @@
     </q-card-section>
     <q-card-section class="card-main q-pt-sm">
       <q-rating size="20px"
-        v-model="product.rating" color="secondary"
+        v-model="product.rating" color="store-secondary"
         :max="5" v-if="product.rating>0"
       />
       <p class="q-my-sm ">{{product.name}}</p>
       <p class="q-my-sm "><small>Test2</small></p>
     </q-card-section>
     <q-card-actions>
-      <q-btn color="secondary" label="COMPRAR" icon="shopping_cart"/>
+      <q-btn color="store-secondary" label="COMPRAR" icon="shopping_cart"/>
     </q-card-actions>
   </q-card>
 </template>

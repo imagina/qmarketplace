@@ -1,7 +1,7 @@
 <template>
     <div class="featured-products q-mb-xl">
         <h4 class="line-text q-mb-lg">
-            <hr class="line-secondary q-my-none full-width">
+            <hr class="line-store-secondary q-my-none full-width">
             <span class="bg-white q-pr-lg">DESTACADOS</span>
         </h4>
         <div class="row q-col-gutter-lg q-py-lg">
@@ -25,7 +25,7 @@
     </div>
 </template>
 <script>
-import product from 'src/components/themes/02/product'
+import product from '@imagina/qmarketplace/_components/themes/02/product'
 export default {
   name: 'FeaturedProductsComponent',
   components: {
@@ -36,35 +36,35 @@ export default {
         products:  [
         {
             name: 'Mochila 1',
-            image: '/statics/img/product.jpg',
+            mainImage: { path: '/statics/img/product.jpg' },
             tienda: 'artesanias',
             price: 10.00,
             rating: 3
         },
         {
             name: 'Mochila 2',
-            image: '/statics/img/contacto.jpg',
+            mainImage: { path: '/statics/img/product.jpg' },
             tienda: 'artesanias',
             price: 10.00,
             rating: 3
         },
         {
             name: 'Mochila 3',
-            image: '/statics/img/fondo.jpg',
+            mainImage: { path: '/statics/img/product.jpg' },
             tienda: 'artesanias',
             price: 10.00,
             rating: 3
         },
         {
             name: 'Mochila 2',
-            image: '/statics/img/contacto.jpg',
+            mainImage: { path: '/statics/img/product.jpg' },
             tienda: 'artesanias',
             price: 10.00,
             rating: 3
         },
         {
             name: 'Mochila 3',
-            image: '/statics/img/fondo.jpg',
+            mainImage: { path: '/statics/img/product.jpg' },
             tienda: 'artesanias',
             price: 10.00,
             rating: 3
@@ -79,8 +79,8 @@ export default {
     .featured-products
         .line-text
           position relative
-          color $secondary
-          .line-secondary
+          color $storeSecondary
+          .line-store-secondary
             position absolute
             top 50%
             z-index 0
@@ -101,7 +101,7 @@ export default {
                 padding-right 10px
                 .VueCarousel-dot
                     background-color #fff !important
-                    border 1px solid $secondary !important
+                    border 1px solid $storeSecondary !important
                     padding 0 !important
                     width 15px !important
                     height 15px !important
@@ -109,5 +109,5 @@ export default {
                     &:focus
                         outline 0 !important
                 .VueCarousel-dot.VueCarousel-dot--active
-                    background-color $secondary !important
+                    background-color $storeSecondary !important
 </style>

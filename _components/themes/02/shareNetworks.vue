@@ -1,6 +1,6 @@
 <template>
   <q-list class="q-mb-lg border-0">
-    <q-item class="bg-secondary text-white rounded-sm q-mb-sm text-center">
+    <q-item class="bg-store-secondary text-white rounded-sm q-mb-sm text-center">
       <q-item-section avatar>
         <q-icon color="white" name="share" />
       </q-item-section>
@@ -9,7 +9,7 @@
     <div v-for="soc in social" v-if="soc.active">
       <q-item clickable>
         <q-item-section avatar>
-          <q-icon color="primary" :name="soc.icon" />
+          <q-icon color="store-primary" :name="soc.icon" />
         </q-item-section class="q-py-md">
         <q-item-section class="q-py-md">{{soc.name}}</q-item-section>
         <q-tooltip>
