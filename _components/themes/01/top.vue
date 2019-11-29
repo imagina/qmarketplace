@@ -2,7 +2,7 @@
     <div>
         <div class="row">
           <div class="col-12 relative-position">
-            <full-width-gallery system-name="principal"></full-width-gallery>
+            <full-width-gallery :storeName="store.name" :gallery="store.gallery" system-name="principal"></full-width-gallery>
 
             <div class="q-container info-tienda">
               <div class="row q-col-gutter-lg justify-end q-mx-sm">
@@ -108,13 +108,13 @@
           <div class="q-mt-md text-center" v-html="store.description">
           </div>
         </q-carousel-slide>
-  
+
       </q-carousel>
     </q-dialog>
     </div>
 </template>
 <script>
-import fullWidthGallery from 'src/components/themes/qcarousel'
+import fullWidthGallery from '@imagina/qmarketplace/_components/themes/qcarousel'
 export default {
   name: 'TopComponent',
   props: ['cart','store'],
