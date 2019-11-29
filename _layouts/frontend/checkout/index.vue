@@ -89,7 +89,7 @@
 
                   </div>
 
-                  <q-radio v-model="form.shippingMethodId" v-for="(shipMethod,index) in shippingMethods" :val="shipMethod.id" :label="shipMethod.title" />
+                  <q-radio v-model="form.shippingMethodId" v-for="(shipMethod,index) in shippingMethods" :key="'shippingMethod'+index" :val="shipMethod.id" :label="shipMethod.title" />
                   <!-- <div class="col-xs-12 col-sm-6 text-center">
 
                     <q-btn outline size="lg" class="rounded-md" no-caps icon="fa fa-truck text-primary" :label="$tr('qsubscription.layout.form.checkout.homeDelivery')" />
@@ -142,7 +142,7 @@
         </span>
       </div> -->
 
-      <q-radio v-model="form.paymentMethodId" v-for="(payMethod,index) in paymentMethods" :val="payMethod.id" :label="payMethod.title" />
+      <q-radio v-model="form.paymentMethodId" v-for="(payMethod,index) in paymentMethods" :key="'paymentMethod'+index" :val="payMethod.id" :label="payMethod.title" />
       <!-- <q-radio v-model="paymentMethod" val="paypal" label="Paypal" />
       <hr class="line-grey q-my-md">
       <q-radio v-model="paymentMethod" val="payu" label="PayU" />
@@ -611,12 +611,15 @@ export default {
       }
       var carts=this.$q.localStorage.getItem("carts");
       if(carts){
-        for (var i=0;carts.length;i++){
+        for (var i=0;i<carts.length;i++){
           if(carts[i].storeId==this.storeId){
             this.cartId=carts[i].id;
             break;
           }//if
         }//for
+        console.log('Carro de compras y storeId: '+this.storeId);
+        console.log(carts);
+        console.log(this.cartId);
         if(!this.cartId){
           this.$alert.error({message: "Se ha producido un error al intentar obtener el carro de compras", pos: 'bottom'})
           this.$router.push({ name: 'home'});

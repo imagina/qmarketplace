@@ -43,53 +43,32 @@ export default {
         var carts=this.$q.localStorage.getItem("carts");
         if(carts){
           var cartId=0;
-          for (var i=0;carts.length;i++){
+          for (var i=0;i<carts.length;i++){
             if(carts[i].storeId==this.storeId){
               cartId=carts[i].id;
               break;
             }//if
           }//for
-          this.$crud.create("apiRoutes.qcommerce.cartProducts", {
-            cart_id:cartId,
-            product_id:this.product.id,
-            product_name:this.product.name,
-            price:this.product.price,
-            quantity:1
-          }).then(response => {
-            this.$alert.success({message: "Producto agregado al carrito exitosamente.", pos: 'bottom'})
-          }).catch(error => {
-            this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
-          })
+          if(cartId==0){
+            this.createCart();
+          }else{
+            this.$crud.create("apiRoutes.qcommerce.cartProducts", {
+              cart_id:cartId,
+              product_id:this.product.id,
+              product_name:this.product.name,
+              price:this.product.price,
+              quantity:1
+            }).then(response => {
+              this.$alert.success({message: "Producto agregado al carrito exitosamente.", pos: 'bottom'})
+            }).catch(error => {
+              this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+            });
+          }
         }else{
           this.createCart();
         }
       }//addCart
-      // addCart(){
-      //
-      //   var cart_id=this.$q.localStorage.getItem("cart_id");
-      //   if(cart_id){
-      //     this.$crud.create("apiRoutes.qcommerce.cartProducts", {
-      //       cart_id:cart_id,
-      //       product_id:this.product.id,
-      //       product_name:this.product.name,
-      //       price:this.product.price,
-      //       quantity:1
-      //     }).then(response => {
-      //       this.$alert.success({message: "Producto agregado al carrito exitosamente.", pos: 'bottom'})
-      //     }).catch(error => {
-      //       this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
-      //     })
-      //   }else{
-      //     console.log('Adding cart method');
-      //     this.$crud.create("apiRoutes.qcommerce.cart", {
-      //       total:0
-      //     }).then(response => {
-      //       var id=response.data.id;
-      //       this.$q.localStorage.set("cart_id", id)
-      //       this.addCart();
-      //     })
-      //   }
-      // }//addCart
+
     }
 }
 </script>

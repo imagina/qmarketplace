@@ -19,17 +19,67 @@
         :max="5" v-if="product.rating>0"
       />
       <p class="q-my-sm ">{{product.name}}</p>
-      <p class="q-my-sm "><small>Test2</small></p>
+      <p class="q-my-sm "><small>{{storeName}}</small></p>
     </q-card-section>
     <q-card-actions>
-      <q-btn color="store-secondary" label="COMPRAR" icon="shopping_cart"/>
+      <q-btn @click="addCart" color="store-secondary" label="COMPRAR" icon="shopping_cart"/>
     </q-card-actions>
   </q-card>
 </template>
 <script>
 export default {
     name: 'ProductComponent',
-    props: ['product','className']
+    props: ['product','className','storeName','storeId','storeThemeConfig'],
+    mounted(){
+    },
+    methods:{
+      createCart(){
+        this.$crud.create("apiRoutes.qcommerce.cart", {
+          total:0
+        }).then(response => {
+          var id=response.data.id;
+          var carts=this.$q.localStorage.getItem("carts");
+          if(carts){
+            carts.push({id:id,storeId:this.product.storeId});
+          }else{
+            carts=[];
+            carts.push({id:id,storeId:this.product.storeId});
+          }
+          this.$q.localStorage.set("carts", carts)
+          this.addCart();
+        })
+      },
+      addCart(){
+        var carts=this.$q.localStorage.getItem("carts");
+        if(carts){
+          var cartId=0;
+          for (var i=0;i<carts.length;i++){
+            if(carts[i].storeId==this.product.storeId){
+              cartId=carts[i].id;
+              break;
+            }//if
+          }///for
+          if(cartId==0){
+            this.createCart();
+          }else{
+            this.$crud.create("apiRoutes.qcommerce.cartProducts", {
+              cart_id:cartId,
+              product_id:this.product.id,
+              product_name:this.product.name,
+              price:this.product.price,
+              quantity:1
+            }).then(response => {
+              this.$alert.success({message: "Producto agregado al carrito exitosamente.", pos: 'bottom'})
+            }).catch(error => {
+              this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+            });
+          }//else
+        }else{
+          this.createCart();
+        }
+      }//addCart
+
+    }
 }
 </script>
 <style lang="stylus">

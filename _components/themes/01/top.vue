@@ -66,14 +66,15 @@
             <q-toolbar class="bg-store-primary" v-else>
               <q-btn flat round dense icon="fas fa-home" />
               <q-btn flat round dense icon="fas fa-bars" />
-              <q-btn flat round dense icon="fas fa-map-marker-alt"/>
+              <q-btn @click="infoStore=true" flat round dense icon="fas fa-map-marker-alt"/>
               <q-btn flat round dense icon="far fa-comment-dots"/>
               <q-toolbar-title>
               </q-toolbar-title>
               <q-btn flat round dense icon="fas fa-search"/>
               <q-btn flat round dense icon="fas fa-heart"/>
               <q-btn flat round dense icon="fa fa-shopping-cart">
-                <q-badge align="top" class="bg-store-secondary" floating>1</q-badge>
+                <q-badge v-if="cart" align="top" class="bg-store-secondary" floating>{{cart.products.length}}</q-badge>
+                <q-badge v-else align="top" class="bg-store-secondary" floating>0</q-badge>
               </q-btn>
             </q-toolbar>
           </div>
@@ -89,28 +90,28 @@
           </div>
         </div>
         <q-dialog v-model="infoStore" @hide="infoStore=false;">
-      <q-carousel
-        transition-prev="slide-right"
-        transition-next="slide-left"
-        swipeable
-        animated
-        v-model="slide"
-        control-color="primary"
-        navigation-icon="radio_button_unchecked"
-        navigation
-        padding
-        height="300px"
-        class="bg-white shadow-1 rounded-borders"
-      >
-        <q-carousel-slide :name="1" class="column no-wrap flex-center">
-          <i style="font-size:56px;" class="fas fa-map-marked-alt text-primary"></i>
-          <!-- <q-icon name="style" color="primary" size="56px" /> -->
-          <div class="q-mt-md text-center" v-html="store.description">
-          </div>
-        </q-carousel-slide>
+          <q-carousel
+          transition-prev="slide-right"
+          transition-next="slide-left"
+          swipeable
+          animated
+          v-model="slide"
+          control-color="primary"
+          navigation-icon="radio_button_unchecked"
+          navigation
+          padding
+          height="300px"
+          class="bg-white shadow-1 rounded-borders"
+          >
+          <q-carousel-slide :name="1" class="column no-wrap flex-center">
+            <i style="font-size:56px;" class="fas fa-map-marked-alt text-primary"></i>
+            <!-- <q-icon name="style" color="primary" size="56px" /> -->
+            <div class="q-mt-md text-center" v-html="store.description">
+            </div>
+          </q-carousel-slide>
 
-      </q-carousel>
-    </q-dialog>
+        </q-carousel>
+      </q-dialog>
     </div>
 </template>
 <script>

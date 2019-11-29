@@ -2,7 +2,8 @@
   <q-page class="theme-layout-02">
     <!-- Imagen textos y menu usuarios que siguen la tienda-->
     <top
-    :slogan="store.slogan"
+    :store="store"
+    :cart="cart"
     >
     </top>
 
@@ -43,7 +44,7 @@
       <div class="q-container">
         <div class="row q-col-gutter-lg">
           <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
-            <featured-products></featured-products>
+            <featured-products :store="store"></featured-products>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
             <share :social="store.social"></share>
@@ -97,7 +98,7 @@ export default {
       var carts=this.$q.localStorage.getItem("carts");
       if(carts){
         var cartId=0;
-        for (var i=0;carts.length;i++){
+        for (var i=0;i<carts.length;i++){
           if(carts[i].storeId==this.store.id){
             this.$crud.show("apiRoutes.qcommerce.cart", carts[i].id, {}).then(response => {
               this.cart=response.data;

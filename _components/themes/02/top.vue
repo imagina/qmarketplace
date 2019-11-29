@@ -1,10 +1,33 @@
 <template>
     <div class="q-mb-lg">
+      <q-dialog v-model="infoStore" @hide="infoStore=false;">
+        <q-carousel
+        transition-prev="slide-right"
+        transition-next="slide-left"
+        swipeable
+        animated
+        v-model="slide"
+        control-color="primary"
+        navigation-icon="radio_button_unchecked"
+        navigation
+        padding
+        height="300px"
+        class="bg-white shadow-1 rounded-borders"
+        >
+        <q-carousel-slide :name="1" class="column no-wrap flex-center">
+          <i style="font-size:56px;" class="fas fa-map-marked-alt text-primary"></i>
+          <!-- <q-icon name="style" color="primary" size="56px" /> -->
+          <div class="q-mt-md text-center" v-html="store.description">
+          </div>
+        </q-carousel-slide>
+
+      </q-carousel>
+    </q-dialog>
       <div class="row">
         <div class="col-12">
           <div class="q-container">
             <div class="q-mb-md border-slider" >
-              <full-width-gallery system-name="principal"></full-width-gallery>
+              <full-width-gallery :storeName="store.name" :gallery="store.gallery" system-name="principal"></full-width-gallery>
 
               <div class="q-container info-tienda" >
                 <div class="row q-col-gutter-md justify-end q-mx-sm">
@@ -53,7 +76,7 @@
                 <div class="col q-pl-md">
                   <q-btn flat round dense icon="fas fa-home" no-caps color="store-primary"/>
                   <q-btn flat icon="fas fa-bars" no-caps label="Category" color="store-primary"/>
-                  <q-btn flat icon="fas fa-map-marker-alt" no-caps label="Info Empresa" color="store-primary"/>
+                  <q-btn @click="infoStore=true" flat icon="fas fa-map-marker-alt" no-caps label="Info Empresa" color="store-primary"/>
                   <q-btn flat icon="far fa-comment-dots" no-caps label="Chatea con la tienda" color="store-primary"/>
                 </div>
                 <div class="col-auto q-pr-md">
@@ -67,8 +90,9 @@
                       </q-input>
                   </div>
                   <q-btn flat icon="fas fa-heart" color="store-secondary"/>
-                  <q-btn flat icon="fa fa-shopping-cart"  color="store-secondary">
-                     <q-badge align="top" color="store-primary" floating>1</q-badge>
+                  <q-btn  @click="$router.push({name: 'marketplace.checkout', params:{storeId:store.id}})"  flat icon="fa fa-shopping-cart"  color="store-secondary">
+                     <q-badge v-if="cart" align="top" color="store-primary" floating>{{cart.products.length}}</q-badge>
+                     <q-badge v-else align="top" color="store-primary" floating>0</q-badge>
                   </q-btn>
                 </div>
               </div>
@@ -76,34 +100,40 @@
             <q-toolbar color="white" text-color="store-primary" v-else>
               <q-btn flat round dense icon="fas fa-home"  />
               <q-btn flat round dense icon="fas fa-bars" />
-              <q-btn flat round dense icon="fas fa-map-marker-alt"/>
+              <q-btn @click="infoStore=true" flat round dense icon="fas fa-map-marker-alt"/>
               <q-btn flat round dense icon="far fa-comment-dots"/>
               <q-toolbar-title>
               </q-toolbar-title>
               <q-btn flat round dense icon="fas fa-search"/>
               <q-btn flat round dense icon="fas fa-heart"/>
-              <q-btn flat round dense icon="fa fa-shopping-cart"  color="store-secondary">
-                 <q-badge align="top" color="store-secondary" floating>1</q-badge>
+              <q-btn flat round dense icon="fa fa-shopping-cart" color="store-secondary">
+                 <q-badge v-if="cart" align="top" color="store-secondary" floating>{{cart.products.length}}</q-badge>
+                 <q-badge v-else align="top" color="store-secondary" floating>1</q-badge>
               </q-btn>
             </q-toolbar>
 
 
-            <p class="text-h6 text-center text-white q-my-xl">{{slogan}} </p>
+            <p class="text-h6 text-center text-white q-my-xl">{{store.slogan}} </p>
             <!-- <p class="text-h6 text-center text-white q-my-xl">Tu pizzería por excelencia, con vista y vientos del mar </p> -->
           </div>
         </div>
       </div>
     </div>
+
 </template>
 <script>
-import fullWidthGallery from 'src/components/themes/qcarousel'
+import fullWidthGallery from '@imagina/qmarketplace/_components/themes/qcarousel'
 export default {
   name: 'TopComponent',
-  props: {
-    'slogan'              : { type:String, default: null},
-  },
+  props: ['cart','store'],
   components: {
     fullWidthGallery
+  },
+  data(){
+    return {
+      infoStore:false,
+      slide: 1,
+    }
   }
 }
 </script>

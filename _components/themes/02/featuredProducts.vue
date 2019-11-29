@@ -16,7 +16,7 @@
                 navigationPrevLabel="<i class='fas fa-angle-left'></i>">
 
                 <slide v-for="(product,index) in products" :key="index">
-                    <product :product="product" className="cardProductTwo"></product>
+                    <product :storeName="store.name" :storeId="store.id" :storeThemeConfig="store.options.theme_config" :product="product" className="cardProductTwo"></product>
                 </slide>
             </carousel>
 
@@ -31,44 +31,36 @@ export default {
   components: {
     product
   },
+  props: {
+    'store': { type:Object, default: []}
+  },
+  mounted(){
+    console.log('store recibido en featured');
+    console.log(this.store);
+    console.log(this.store.id);
+    this.getProducts();//
+  },
+  methods:{
+    getProducts(){
+      let params = {
+        remember: false,
+        params: {
+          include: '',
+          filter:{
+            store: this.store.id,
+            categories:[2]
+          }
+        }
+      };//params
+      this.$crud.index("apiRoutes.qcommerce.products",params).then(response => {
+        this.products=response.data;
+      });
+    }
+  },
   data () {
     return {
         products:  [
-        {
-            name: 'Mochila 1',
-            mainImage: { path: '/statics/img/product.jpg' },
-            tienda: 'artesanias',
-            price: 10.00,
-            rating: 3
-        },
-        {
-            name: 'Mochila 2',
-            mainImage: { path: '/statics/img/product.jpg' },
-            tienda: 'artesanias',
-            price: 10.00,
-            rating: 3
-        },
-        {
-            name: 'Mochila 3',
-            mainImage: { path: '/statics/img/product.jpg' },
-            tienda: 'artesanias',
-            price: 10.00,
-            rating: 3
-        },
-        {
-            name: 'Mochila 2',
-            mainImage: { path: '/statics/img/product.jpg' },
-            tienda: 'artesanias',
-            price: 10.00,
-            rating: 3
-        },
-        {
-            name: 'Mochila 3',
-            mainImage: { path: '/statics/img/product.jpg' },
-            tienda: 'artesanias',
-            price: 10.00,
-            rating: 3
-        }
+
         ]
     }
   }
