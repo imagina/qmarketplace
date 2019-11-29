@@ -36,7 +36,7 @@
 
 <script>
   import icommerceService from '@imagina/qcommerce/_services/index';
-  import product from 'src/components/themes/01/product'
+  import product from '@imagina/qmarketplace/_components/themes/01/product'
   export default {
     components: {
       product

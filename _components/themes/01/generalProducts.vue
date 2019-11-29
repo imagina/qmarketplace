@@ -1,6 +1,6 @@
 <template>
     <div class="bg-light q-py-lg q-px-md">
-      <h4 class="text-center text-secondary">
+      <h4 class="text-center text-store-secondary">
         • PRODUCTOS •
       </h4>
       <div class="q-container">

@@ -1,5 +1,5 @@
 <template>
-  <div class="share-networks">
+  <div class="share-networks" style="background-image: url('/statics/img/theme-one/share-network.jpg');">
     <div class="row items-center">
       <div class="col-12">
         <div class="networks text-center">
@@ -29,7 +29,6 @@ export default {
 <style lang="stylus">
 .theme-layout-01
   .share-networks
-    background-image url('/statics/img/theme-one/share-network.jpg')
     background-attachment fixed
     background-size cover
     padding 10% 0
@@ -50,5 +49,5 @@ export default {
         font-size 2rem
         color #ffffff
         &:hover
-          color $secondary
+          color $storeSecondary
 </style>

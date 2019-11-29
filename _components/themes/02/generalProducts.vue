@@ -2,11 +2,11 @@
     <div class="general-products">
         <div class="q-container">
             <h4 class="line-text text-center q-mb-lg">
-                <hr class="line-secondary q-my-none full-width">
+                <hr class="line-store-secondary q-my-none full-width">
                 <span class="bg-white q-px-lg">LO MÁS RECOMENDADO</span>
             </h4>
         </div>
-        <div class="bg-primary q-py-lg q-px-md">
+        <div class="bg-store-primary q-py-lg q-px-md">
             <div class="q-container">
                 <div class="row q-py-lg">
                     <div class="col-xs-12" >
@@ -31,7 +31,7 @@
     </div>
 </template>
 <script>
-import product from 'src/components/themes/02/product'
+import product from '@imagina/qmarketplace/_components/themes/02/product'
 export default {
   name: 'GeneralProductsComponent',
   props: {
@@ -42,50 +42,6 @@ export default {
   },
   data () {
     return {
-        // products:  [
-        // {
-        //     name: 'Mochila 1',
-        //     image: '/statics/img/product.jpg',
-        //     tienda: 'artesanias',
-        //     price: 10.00,
-        //     rating: 3
-        // },
-        // {
-        //     name: 'Mochila 2',
-        //     image: '/statics/img/contacto.jpg',
-        //     tienda: 'artesanias',
-        //     price: 10.00,
-        //     rating: 3
-        // },
-        // {
-        //     name: 'Mochila 3',
-        //     image: '/statics/img/fondo.jpg',
-        //     tienda: 'artesanias',
-        //     price: 10.00,
-        //     rating: 3
-        // },
-        // {
-        //     name: 'Mochila 4 ',
-        //     image: '/statics/img/contacto.jpg',
-        //     tienda: 'artesanias',
-        //     price: 10.00,
-        //     rating: 2
-        // },
-        // {
-        //     name: 'Mochila 5',
-        //     image: '/statics/img/product.jpg',
-        //     tienda: 'artesanias',
-        //     price: 10.00,
-        //     rating: 1
-        // },
-        // {
-        //     name: 'Mochila 6',
-        //     image: '/statics/img/product.jpg',
-        //     tienda: 'artesanias',
-        //     price: 10.00,
-        //     rating: 3
-        // }
-        // ]
     }
   }
 }
@@ -94,8 +50,8 @@ export default {
 .theme-layout-02
     .line-text
       position relative
-      color $secondary
-      .line-secondary
+      color $storeSecondary
+      .line-store-secondary
         position absolute
         top 50%
         z-index 1

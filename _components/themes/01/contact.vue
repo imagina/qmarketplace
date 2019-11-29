@@ -6,11 +6,11 @@
         <q-list >
           <q-item>
             <q-item-section avatar class="q-mr-md">
-              <q-icon color="primary"  size="lg" name="fas fa-map-marker-alt" />
+              <q-icon color="store-primary"  size="lg" name="fas fa-map-marker-alt" />
             </q-item-section>
             <q-item-section>
-              <div class="q-subheading text-weight-bold q-mb-sm">Dirección:</div>
-              <div class="q-subheading">
+              <div class="text-subtitle1 text-bold">Dirección:</div>
+              <div class="text-subtitle1">
                 {{address}}
               </div>
             </q-item-section>
@@ -23,11 +23,11 @@
         <q-list>
           <q-item>
             <q-item-section avatar class="q-mr-md">
-              <q-icon color="primary"  size="lg" name="far fa-clock" />
+              <q-icon color="store-primary"  size="lg" name="far fa-clock" />
             </q-item-section>
             <q-item-section>
-              <div class="q-subheading text-weight-bold q-mb-sm">Horario de atención:</div>
-              <div class="q-subheading" v-for="schedule in schedules">
+              <div class="text-subtitle1 text-bold">Horario de atención:</div>
+              <div class="text-subtitle1" v-for="schedule in schedules">
                 {{schedule}}
               </div>
             </q-item-section>
@@ -40,11 +40,11 @@
         <q-list  class="q-mr-md">
           <q-item>
             <q-item-section avatar class="q-mr-md">
-              <q-icon color="primary" size="lg" name="far fa-comment-dots" />
+              <q-icon color="store-primary" size="lg" name="far fa-comment-dots" />
             </q-item-section>
             <q-item-section>
-              <div class="q-subheading text-weight-bold q-mb-sm">¿Tienes alguna duda?</div>
-              <div class="q-subheading">Chatea aquí con la Tienda</div>
+              <div class="text-subtitle1 text-bold">¿Tienes alguna duda?</div>
+              <div class="text-subtitle1">Chatea aquí con la Tienda</div>
             </q-item-section>
           </q-item>
         </q-list>

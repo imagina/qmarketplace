@@ -1,54 +1,88 @@
 <template>
   <q-card class="card-quiz-2  q-mb-xl">
 
-    <div class="q-card-title font-family-secondary text-center text-primary q-py-sm">
+    <div class="q-card-title font-family-secondary text-center text-store-primary q-py-sm">
       <h6 class="q-mt-md q-mb-none">Participa en </h6>
       <h3 class="q-my-none">Encuenta</h3>
     </div>
 
 
-    <q-stepper v-if="success && answers.length>0 && !alertContent.active" ref="stepper" v-model="currentStep" class="no-shadow">
-
+    <q-stepper v-if="success && answers.length>0 && !alertContent.active && !showVotes" ref="stepper" v-model="currentStep" class="no-shadow">
+      
 
       <q-step :name="question.id" :order="index" :title="question.title" v-for="(question, index) in poll.questions" :key="index">
 
         <q-card-section>
 
-          <div class="text-h6 q-mb-sm text-center">{{question.title}}</div>
-
+         <div class="text-subtitle1 text-bold q-mb-sm">{{question.title}}</div>
+            
           <q-option-group keep-color
             v-model="selectedOptions"
             :options="answers[index]"
-            type="checkbox" color="primary"
+            color="store-primary"
+            type="checkbox"
           />
 
         </q-card-section>
 
         <q-stepper-navigation  align="right" class="q-pa-md" v-if="index < poll.questions.length - 1" >
-          <div class="text-center cursor-pointer" @click="next()">
+          <div class="text-store-primary text-center cursor-pointer" @click="next()">
             <div class="font-family-secondary">Siguiente</div>
-            <img src="statics/img/arrow-right-blue.png" style="width:25px;">
           </div>
         </q-stepper-navigation>
-        <q-stepper-navigation align="right" v-else class="send q-pa-md" >
-           <q-btn class="bg-secondary text-white font-family-secondary" @click="saveData">Enviar</q-btn>
+        <q-stepper-navigation align="right" v-else class="q-pa-md" >
+           <q-btn class="bg-store-primary text-light font-family-secondary" @click="saveData">Enviar</q-btn>
         </q-stepper-navigation>
-
+        
       </q-step>
 
       <q-inner-loading :visible="loading" />
     </q-stepper>
-
+    
 
     <!-- msj final -->
-    <q-dialog v-if="alertContent.active" :color="alertContent.color" :icon="alertContent.icon" class="q-mx-sm q-mt-xl">
-      <q-card-section class="text-center">
+    <q-card-section v-if="alertContent.active && !showVotes" class="q-py-xl">
+      <div class="font-family-secondary text-center">
         {{alertContent.msj}}
-      </q-card-section>
-    </q-dialog>
+      </div>
+    </q-card-section>
+ 
+
+    <!-- Votes Poll -->
+    <div v-if="showVotes" class="votesPoll text-store-primary q-px-md q-py-md">
+
+        <div class="text-h6 font-family-secondary q-my-sm">Resultados</div>
+        <div class="contentPoll" v-for="(question, index) in votesPoll" :key="index">
+
+          <div class="question q-mb-md">
+            <div class="text-center text-subtitle1">{{question.title}} </div>
+            <table class="q-mx-auto">
+              <thead>
+                <tr>
+                  <th style="width:50%;"></th>
+                  <th class="text-center" style="width:20%;">Votos</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="answers" v-for="(answer, index2) in question.answers" :key="index2">
+                  <td>{{answer.title}}</td> <td class="text-center">  {{answer.votes}} </td>
+                </tr>
+                <tr>
+                 <td>
+                   TOTAL 
+                 </td>
+                 <td class="text-center">
+                   {{question.totalVotes}}
+                 </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+    </div>
 
   </q-card>
-
 
 </template>
 <script>
@@ -81,11 +115,13 @@
                 userId: this.$store.state.quserAuth.userId ? this.$store.state.quserAuth.userId : null,
                 alertContent:{
                   active: false,
-                  color:'secondary',
+                  color:'bg-secondary',
                   icon:'check',
                   msj:'Gracias por participar!!'
                 },
-                currentStep: null
+                currentStep: null,
+                votesPoll: null,
+                showVotes: false
             }
         },
         methods: {
@@ -98,7 +134,7 @@
                 await this.getUserPolls()
 
             await this.getPolls()
-
+           
             if(this.polls.length>0){
 
               this.poll = this.polls[0]
@@ -133,13 +169,13 @@
           getPolls(){
             return new Promise((resolve, reject) => {
 
-              //filter:
+              //filter: 
               let fixFilter = {}
 
               if(this.userId!=null)
                 fixFilter =  {allTranslations: true,status: 1,exclude:this.pollUserIds}
               else
-                fixFilter = {allTranslations: true,status: 1,random:true}
+                fixFilter = {allTranslations: true,status: 1,random:true,logged:0}
 
               //Params
               let params = {
@@ -152,12 +188,12 @@
               }
 
               this.$crud.index("apiRoutes.qquiz.polls",params).then(response => {
-
+               
                 this.polls = response.data
                 resolve(true)//Resolve
               }).catch(error => {
                 this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
-
+                
                 reject(false)//Resolve
               })
 
@@ -174,9 +210,9 @@
                   filter: {allTranslations: true},
                 }
               }
-
+            
               this.$crud.show("apiRoutes.qquiz.questions",questionId,params).then(response => {
-
+               
                 response.data.answers.forEach((answer, index) => {
                   this.answersOptions.push({
                       label:answer.title,
@@ -187,10 +223,10 @@
 
               }).catch(error => {
                 this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
-
+                
                 reject(false)//Resolve
               })
-
+             
 
             })
           },
@@ -198,12 +234,13 @@
           saveData(){
             this.$v.$touch()
             if (!this.$v.$error) {
-
+              
               this.loading = true;
               this.setDataFinal()
-
+              
+             
               this.finalDataSave.forEach((data, index) => {
-
+                
                 this.$crud.create('apiRoutes.qquiz.userQuestionAnswers', data).then(response => {
                   //console.warn("SAVE USER QUESTION ANSWER")
                 }).catch(error => {
@@ -211,17 +248,26 @@
                   this.$alert.error({message: this.$tr('ui.message.recordNoUpdated')})
                   this.loading = false
                 })
-
+               
               })// End Save Answers
 
               // Finished Poll
               if(this.userId!=null)
                 this.saveUserPoll()
+              
 
+              //console.warn("Termino Encuesta")
+              //console.warn("Poll ID "+this.poll.id)
+
+              this.getResultsPoll()
+              
               this.$v.$reset()//Reset validations
-              this.alertContent.active = true
-              this.loading = false;
+              //this.alertContent.active = true // OJOOOOOOO
 
+              this.showVotes = true
+
+              this.loading = false;
+             
             }else{
               this.$alert.error({message: 'Encuesta: Debe seleccionar una respuesta', pos: 'bottom'})
             }
@@ -262,7 +308,7 @@
                 resolve(true)//Resolve
               }).catch(error => {
                 this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
-
+                
                 reject(false)//Resolve
               })
 
@@ -275,7 +321,7 @@
 
               this.setDataFinal()
               this.$refs.stepper.next()
-
+             
             }else{
               this.$alert.error({message: 'Encuesta: Debe seleccionar una respuesta', pos: 'bottom'})
             }
@@ -292,6 +338,33 @@
             })
             this.selectedOptions = []
 
+          },
+          // get Results Poll
+          getResultsPoll(){
+            return new Promise((resolve, reject) => {
+
+              //Params
+              let params = {
+                refresh: true,
+                params: {
+                  filter: {votes:true,pollId: this.poll.id},
+                  include: 'answers'
+                }
+              }
+
+              this.$crud.index("apiRoutes.qquiz.questions",params).then(response => {
+             
+                this.votesPoll = response.data
+                console.warn(this.votesPoll)
+
+                resolve(true)//Resolve
+
+              }).catch(error => {
+                this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
+                reject(false)//Resolve
+              })
+
+            }) 
           }
 
         }
@@ -299,17 +372,13 @@
 </script>
 <style lang="stylus">
 .card-quiz-2
+  min-height  400px
   background-color var(--q-color-light)
   border-radius 30px 0 30px 0
   & .q-card-title
     font-weight bold
     & .q-option-group
       font-size 17px
-  & .send
-    background-image url('/statics/img/arrow-send-pink.png')
-    background-repeat no-repeat
-    background-position 82% 68%
-    background-size 25%
 
   .q-stepper
     background-color var(--q-color-light)

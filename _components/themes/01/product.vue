@@ -10,7 +10,7 @@
         v-model="product.rating"
         :max="5" v-if="product.rating>0"
       />
-      <h5 class="q-my-sm">${{product.price}}</h5>
+      <h5 class="q-my-sm text-store-primary">${{product.price}}</h5>
       <p class="q-my-none text-truncate">{{product.name}}</p>
       <p class="q-my-none text-truncate"><small>{{storeName}}</small></p>
     </q-card-section>
@@ -99,11 +99,11 @@ export default {
   border-radius 0
   background-color #ffffff
   h5
-    color $primary
-  & .q-card-main
+    color $storePrimary
+  & .q-card__section
     font-size 16px
   & .q-card__actions
-    background-color $secondary
+    background-color $storeSecondary
     float right
     margin-top -15px
     z-index 9
@@ -116,10 +116,10 @@ export default {
     .q-btn:last-child
       border-right 1px solid #fff
   &:hover
-    background-color $secondary
-    color #fff
+    background-color $storeSecondary
+    color #fff !important
     h5
-      color #fff
+      color #fff !important
     & .q-card__actions
-      background-color $primary
+      background-color $storePrimary
 </style>
