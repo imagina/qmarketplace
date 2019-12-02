@@ -25,7 +25,7 @@
                     </q-card-section>
                     <div class="absolute-bottom text-right">
                         <q-card-actions align="right">
-                          <q-btn unelevated size="13px" round  color="store-secondary" icon="grade" />
+                          <q-btn unelevated size="13px" @click="ratingStore=true;" round  color="store-secondary" icon="grade" />
                         </q-card-actions>
                       </div>
                   </q-card>
@@ -89,6 +89,7 @@
             </div>
           </div>
         </div>
+        <!-- INFO ADDRESS STORE -->
         <q-dialog v-model="infoStore" @hide="infoStore=false;">
           <q-carousel
           transition-prev="slide-right"
@@ -112,6 +113,27 @@
 
         </q-carousel>
       </q-dialog>
+      <!-- RATING STORE QDIALOG -->
+      <q-dialog v-model="ratingStore" @hide="ratingStore=false;">
+        <q-card>
+          <q-card-section>
+            <div class="text-h6">Calificar tienda</div>
+          </q-card-section>
+
+          <q-card-section>
+            <q-rating size="20px"
+              @input="val => { rating() }"
+              v-model="store.averageRating"
+              :max="5"
+            />
+          </q-card-section>
+
+          <q-card-actions align="right">
+            <q-btn flat label="OK" color="primary" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+
     </div>
 </template>
 <script>
@@ -125,8 +147,55 @@ export default {
   data(){
     return {
       infoStore:false,
+      ratingStore:false,
       slide: 1,
     }
+  },
+  methods:{
+    getData() {
+      return new Promise((resolve, reject) => {
+        const itemId = this.$clone(this.store.slug)
+
+        if (itemId) {
+          //Params--
+          let params = {
+            refresh: true,
+            params: {
+              include: '',
+              filter: {
+                allTranslations: true,
+                field:'slug'
+              },
+            }
+          }//test
+          //Request
+          this.$crud.show(this.configName, itemId, params).then(response => {
+            this.store = this.$clone(response.data);
+            resolve(true)//Resolve
+          }).catch(error => {
+            // this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'});
+            reject(false)//Resolve
+          })
+        } else {
+          resolve(true)//Resolve
+        }
+
+      })
+    },
+    rating(){
+      this.$axios.post(config('apiRoutes.qmarketplace.store')+'/rating/'+this.store.id,{
+        attributes:{
+          rating:this.store.averageRating
+        }
+      }).then(response => {
+        this.$alert.success({message: "Calificación registrada exitosamente", pos: 'bottom'});
+        this.getData();
+        this.ratingStore=false;
+      }).catch(error => {
+        this.$alert.error({message: error.response.data.errors, pos: 'bottom'})
+        console.log(error.response.data.errors);
+      });
+    }//ratingStore
   }
 }
 </script>

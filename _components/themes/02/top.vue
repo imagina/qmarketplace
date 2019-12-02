@@ -34,7 +34,7 @@
                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 q-mb-lg text-center">
                     <div class="row q-col-gutter-xs items-center justify-end">
                         <div class="col-xs-auto col-sm-auto col-md-auto col-lg-12">
-                          <q-card class="card-circle text-center q-mb-sm">
+                          <q-card @click="ratingStore=true;" class="card-circle text-center q-mb-sm">
                             <q-card-section class="q-pa-sm">
                               <div class="text-h6">
                                 <q-icon color="white" size="30px" round name="grade" />
@@ -117,6 +117,26 @@
             <!-- <p class="text-h6 text-center text-white q-my-xl">Tu pizzería por excelencia, con vista y vientos del mar </p> -->
           </div>
         </div>
+        <!-- RATING STORE QDIALOG -->
+        <q-dialog v-model="ratingStore" @hide="ratingStore=false;">
+          <q-card>
+            <q-card-section>
+              <div class="text-h6">Calificar tienda</div>
+            </q-card-section>
+
+            <q-card-section>
+              <q-rating size="20px"
+                @input="val => { rating() }"
+                v-model="store.averageRating"
+                :max="5"
+              />
+            </q-card-section>
+
+            <q-card-actions align="right">
+              <q-btn flat label="OK" color="primary" v-close-popup />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
       </div>
     </div>
 
@@ -132,9 +152,55 @@ export default {
   data(){
     return {
       infoStore:false,
+      ratingStore:false,
       slide: 1,
     }
-  }
+  }, methods:{
+      getData() {
+        return new Promise((resolve, reject) => {
+          const itemId = this.$clone(this.store.slug)
+
+          if (itemId) {
+            //Params--
+            let params = {
+              refresh: true,
+              params: {
+                include: '',
+                filter: {
+                  allTranslations: true,
+                  field:'slug'
+                },
+              }
+            }//test
+            //Request
+            this.$crud.show(this.configName, itemId, params).then(response => {
+              this.store = this.$clone(response.data);
+              resolve(true)//Resolve
+            }).catch(error => {
+              // this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'});
+              reject(false)//Resolve
+            })
+          } else {
+            resolve(true)//Resolve
+          }
+
+        })
+      },
+      rating(){
+        this.$axios.post(config('apiRoutes.qmarketplace.store')+'/rating/'+this.store.id,{
+          attributes:{
+            rating:this.store.averageRating
+          }
+        }).then(response => {
+          this.$alert.success({message: "Calificación registrada exitosamente", pos: 'bottom'});
+          this.getData();
+          this.ratingStore=false;
+        }).catch(error => {
+          this.$alert.error({message: error.response.data.errors, pos: 'bottom'})
+          console.log(error.response.data.errors);
+        });
+      }//ratingStore
+    }
 }
 </script>
 <style lang="stylus">
