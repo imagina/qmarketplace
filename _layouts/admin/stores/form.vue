@@ -422,6 +422,7 @@ export default {
           ""
         ],
         city: '',
+        themeId: 1,
         cityId: 0,
         provinceId: 0,
         neighborhoodId: 0,
@@ -598,7 +599,27 @@ export default {
       await this.getPaymentMethods();//
       if (this.$route.params.id) this.storeId = this.$route.params.id
       if (this.storeId) await this.getData()//Get data if is edit
+      else await this.getSuscription();
       this.loading=false;
+    },
+    getSuscription(){
+      let params={
+        params:{
+          include:'plan.product',
+          filter:{
+            userId:this.$store.state.quserAuth.userId,
+            status:1
+          }
+        }
+      };
+      this.$crud.index("apiRoutes.qsubscription.suscriptions",params).then(response => {
+        this.company.themeId=1;
+        if(response.data.length>0){
+          if(response.data[0].plan.product.id==6){
+            this.company.themeId=3;
+          }
+        }
+      });
     },
     getPaymentMethods(){
       //Get
@@ -779,7 +800,10 @@ export default {
       this.$crud.create("apiRoutes.qmarketplace.store", this.company).then(response => {
         this.$alert.success({message: this.$tr('ui.message.recordCreated'), pos: 'bottom'})
         this.$router.push({
-          name: 'qmarketplace.admin.stores.index'
+          name: 'qmarketplace.admin.theme.store.index',
+          params:{
+            id:response.data.id
+          }
         })
       }).catch(error => {
         this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
