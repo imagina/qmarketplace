@@ -14,7 +14,7 @@ export default {
   store: {
     permission: null,
     activated: true,
-    path: 'tiendas/:slug',
+    path: 'tienda/:slug',
     name: 'stores.show',
     page: () => import('@imagina/qmarketplace/_layouts/frontend/store/show'),
     layout: () => import('src/layouts/master'),
@@ -25,7 +25,7 @@ export default {
   product: {
     permission: null,
     activated: true,
-    path: 'tiendas/:slug/:product',
+    path: 'tienda/:slug/:product',
     name: 'stores.product.show',
     page: () => import('@imagina/qmarketplace/_layouts/frontend/store/products/show'),
     layout: () => import('src/layouts/master'),
@@ -36,7 +36,7 @@ export default {
   category: {
     permission: null,
     activated: true,
-    path: 'tiendas/:slug/categoria/:category',
+    path: 'tienda/:slug/categoria/:category',
     name: 'stores.product.index',
     page: () => import('@imagina/qmarketplace/_layouts/frontend/store/products/index'),
     layout: () => import('src/layouts/master'),
@@ -47,13 +47,23 @@ export default {
   checkout: {
     permission: null,
     activated: true,
-    path: 'marketplace/checkout/:storeId',
+    path: 'tienda/:slug/checkout/',
     name: 'marketplace.checkout',
-    page: () => import('@imagina/qmarketplace/_layouts/frontend/checkout/index'),
+    page: () => import('@imagina/qmarketplace/_layouts/frontend/store/checkout/index'),
     layout: () => import('src/layouts/master'),
     title: 'qmarketplace.sidebar.checkout',
     icon: 'fas fa-layer-group',
     //authenticated: true
   },
-
+  aboutAs: {
+    permission: null,
+    activated: true,
+    path: 'tienda/:slug/nosotros',
+    name: 'marketplace.about',
+    page: () => import('@imagina/qmarketplace/_layouts/frontend/store/about'),
+    layout: () => import('src/layouts/master'),
+    title: 'qmarketplace.sidebar.aboutAs',
+    icon: 'fas fa-layer-group',
+    //authenticated: true
+  },
 }

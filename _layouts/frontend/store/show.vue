@@ -10,6 +10,7 @@
       <layout3></layout3>
     </div>
   </q-page>
+
 </template>
 <script>
 import layout1 from '@imagina/qmarketplace/_layouts/frontend/store/themes/index1'
@@ -18,6 +19,41 @@ import layout3 from '@imagina/qmarketplace/_layouts/frontend/store/themes/index3
 import { colors, AddressbarColor } from 'quasar'
 export default {
   name: 'showStore',
+
+  preFetch({store, currentRoute, previousRoute, redirect, ssrContext}) {
+    return new Promise(async resolve => {
+      //Get data post
+      let storeSlug = currentRoute.params.slug || false
+      console.warn(storeSlug)
+      await store.dispatch('qcrudMaster/SHOW', {
+        indexName: `qmarketplace-store-${storeSlug}`,
+        criteria: storeSlug,
+        apiRoute: 'apiRoutes.qmarketplace.store',
+        requestParams: {refresh: true, params: {include: 'categories,user'}}
+      })
+
+      resolve(true)
+    })
+  },
+  meta() {
+    let storeSlug = this.$route.params.slug
+    let routetitle = storeSlug || 'productos'
+    let siteName = this.$store.getters['qsiteSettings/getSettingValueByName']('core::site-name')
+    let siteDescription = this.$store.getters['qsiteSettings/getSettingValueByName']('core::site-description')
+    //Set category data
+    let store = this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
+    if (store) {
+      routetitle = store.name
+      siteDescription = store.description
+    }
+    return {
+      title: `${routetitle.charAt(0).toUpperCase() + routetitle.slice(1)} | ${siteName}`,
+      meta: {
+        description: {name: 'description', content: (siteDescription || siteName)},
+      },
+    }
+  },
+
   components: {
     layout1,
     layout2,
@@ -64,6 +100,7 @@ export default {
     getData() {
       return new Promise((resolve, reject) => {
         const itemId = this.$clone(this.storeSlug)
+
 
         if (itemId) {
           //Params--
