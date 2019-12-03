@@ -7,8 +7,9 @@
     </q-card-actions>
     <q-card-section class="text-left q-pa-sm">
       <q-rating size="20px"
-        v-model="product.rating"
-        :max="5" v-if="product.rating>0"
+      @input="val => { rating() }"
+        v-model="product.averageRating"
+        :max="5"
       />
       <h5 class="q-my-sm text-store-primary">${{product.price}}</h5>
       <p class="q-my-none text-truncate">{{product.name}}</p>
@@ -23,6 +24,19 @@ export default {
     mounted(){
     },
     methods:{
+      rating(){
+        this.$axios.post(config('apiRoutes.qcommerce.products')+'/rating/'+this.product.id,{
+          attributes:{
+            rating:this.product.averageRating
+          }
+        }).then(response => {
+          this.$alert.success({message: "Calificación registrada exitosamente", pos: 'bottom'});
+          this.getData();
+          this.ratingStore=false;
+        }).catch(error => {
+          this.$alert.error({message: error.response.data.errors, pos: 'bottom'})
+        });
+      },//rating
       createCart(){
         this.$crud.create("apiRoutes.qcommerce.cart", {
           total:0

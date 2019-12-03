@@ -197,7 +197,6 @@ export default {
           this.ratingStore=false;
         }).catch(error => {
           this.$alert.error({message: error.response.data.errors, pos: 'bottom'})
-          console.log(error.response.data.errors);
         });
       }//ratingStore
     }

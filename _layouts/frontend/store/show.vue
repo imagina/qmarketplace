@@ -24,7 +24,6 @@ export default {
     return new Promise(async resolve => {
       //Get data post
       let storeSlug = currentRoute.params.slug || false
-      console.warn(storeSlug)
       await store.dispatch('qcrudMaster/SHOW', {
         indexName: `qmarketplace-store-${storeSlug}`,
         criteria: storeSlug,
@@ -68,42 +67,15 @@ export default {
     }
   },
   mounted(){
-    this.getData(),
-    // this.init(),
-    console.log('asdadad');
+    this.getData()
   },
   methods:{
-    async init(){
-      await this.getData()
-      await this.rating()
-    },
-    rating(){
-      return new Promise((resolve, reject) => {
-
-        this.$axios.post(config('apiRoutes.qmarketplace.store')+'/rating/'+this.store.id,{
-          attributes:{
-            rating:2
-          }
-        })
-        .then(response => {
-          console.log(response.data.data);
-
-          resolve(true);
-        })
-        .catch(error => {
-          reject(error);
-        });
-
-
-      })
-    },
     getData() {
       return new Promise((resolve, reject) => {
         const itemId = this.$clone(this.storeSlug)
 
-
         if (itemId) {
-          //Params--
+          //Params
           let params = {
             refresh: true,
             params: {
@@ -113,7 +85,7 @@ export default {
                 field:'slug'
               },
             }
-          }//test
+          }
           //Request
           this.$crud.show(this.configName, itemId, params).then(response => {
             this.store = this.$clone(response.data);
