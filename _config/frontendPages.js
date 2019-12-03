@@ -37,7 +37,7 @@ export default {
     permission: null,
     activated: true,
     path: 'tienda/:slug/nosotros',
-    name: 'marketplace.about',
+    name: 'stores.about',
     page: () => import('@imagina/qmarketplace/_layouts/frontend/store/about'),
     layout: () => import('src/layouts/master'),
     title: 'qmarketplace.sidebar.aboutAs',

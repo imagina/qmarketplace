@@ -60,6 +60,15 @@ export default {
       'address': { type:String, default: ""},
       'schedules': { type:Array, default: []},
     },
+  mounted() {
+    console.warn('contact', this.storeData)
+  },
+  computed:{
+    storeData(){
+      let storeSlug = this.$route.params.slug
+      return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
+    }
+  },
 }
 </script>
 <style lang="stylus">

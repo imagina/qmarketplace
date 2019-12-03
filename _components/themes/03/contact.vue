@@ -49,11 +49,17 @@
         </div>
       </div>
     </div>
+    <share></share>
   </div>
 </template>
 <script>
+  import share from '@imagina/qmarketplace/_components/themes/03/shareNetworks'
 export default {
-    name: 'ContactComponent'
+    name: 'ContactComponent',
+  components: {
+    share,
+
+  },
 }
 </script>
 <style lang="stylus"> 
