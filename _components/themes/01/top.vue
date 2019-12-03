@@ -2,7 +2,7 @@
     <div>
         <div class="row">
           <div class="col-12 relative-position">
-            <full-width-gallery :storeName="store.name" :gallery="store.gallery" system-name="principal"></full-width-gallery>
+            <full-width-gallery :storeName="storeData.name" :gallery="storeData.gallery" system-name="principal"></full-width-gallery>
 
             <div class="q-container info-tienda">
               <div class="row q-col-gutter-lg justify-end q-mx-sm">
@@ -39,8 +39,16 @@
               <div class="row items-center justify-center">
                 <div class="col">
                   <q-btn flat icon="fas fa-home" no-caps label="Inicio" color="white"/>
-                  <q-btn flat icon="fas fa-bars" no-caps label="Category" color="white"/>
-                  <q-btn @click="infoStore=true" flat icon="fas fa-map-marker-alt" no-caps label="Info Empresa" color="white"/>
+                  <q-btn-dropdown lat icon="fas fa-bars" no-caps label="Categorias" color="store-primary">
+                    <q-list>
+                      <q-item v-for="item in categories" clickable v-close-popup @click="$router.push({name: 'stores.product.index', params : {slug:storeData.slug,category:item.slug}})">
+                        <q-item-section>
+                          <q-item-label>{{item.title}}</q-item-label>
+                        </q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-btn-dropdown>
+                  <q-btn @click="$router.push({name: 'stores.about', params : {slug:storeData.slug}})" flat icon="fas fa-map-marker-alt" no-caps label="Info Empresa" color="white"/>
                   <q-btn flat icon="far fa-comment-dots" no-caps label="Chatea con la tienda" color="white"/>
                 </div>
 
@@ -56,7 +64,7 @@
                       </q-input>
                   </div>
                   <q-btn flat icon="fas fa-heart" color="white"/>
-                  <q-btn @click="$router.push({name: 'marketplace.checkout', params:{storeId:store.id}})" flat icon="fa fa-shopping-cart"  color="white ">
+                  <q-btn @click="$router.push({name: 'marketplace.checkout', params:{storeId:storeData.id}})" flat icon="fa fa-shopping-cart"  color="white ">
                      <q-badge v-if="cart" align="top" class="bg-store-secondary"  floating>{{cart.products.length}}</q-badge>
                      <q-badge v-else align="top" class="bg-store-secondary"  floating>0</q-badge>
                   </q-btn>
@@ -107,7 +115,7 @@
           <q-carousel-slide :name="1" class="column no-wrap flex-center">
             <i style="font-size:56px;" class="fas fa-map-marked-alt text-primary"></i>
             <!-- <q-icon name="style" color="primary" size="56px" /> -->
-            <div class="q-mt-md text-center" v-html="store.description">
+            <div class="q-mt-md text-center" v-html="storeData.description">
             </div>
           </q-carousel-slide>
 
@@ -123,7 +131,7 @@
           <q-card-section>
             <q-rating size="20px"
               @input="val => { rating() }"
-              v-model="store.averageRating"
+              v-model="storeData.averageRating"
               :max="5"
             />
           </q-card-section>
@@ -140,7 +148,7 @@
 import fullWidthGallery from '@imagina/qmarketplace/_components/themes/qcarousel'
 export default {
   name: 'TopComponent',
-  props: ['cart','store'],
+  props: ['cart'],
   components: {
     fullWidthGallery
   },
@@ -149,37 +157,36 @@ export default {
       infoStore:false,
       ratingStore:false,
       slide: 1,
+      categories:[],
+      loading:false
+    }
+  },
+  mounted() {
+   this.getProductCategories()
+  },
+  computed:{
+    storeData(){
+      let storeSlug = this.$route.params.slug
+      return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
     }
   },
   methods:{
-    getData() {
-      return new Promise((resolve, reject) => {
-        const itemId = this.$clone(this.store.slug)
-
-        if (itemId) {
-          //Params--
-          let params = {
-            refresh: true,
-            params: {
-              include: '',
-              filter: {
-                allTranslations: true,
-                field:'slug'
-              },
-            }
-          }//test
-          //Request
-          this.$crud.show(this.configName, itemId, params).then(response => {
-            this.store = this.$clone(response.data);
-            resolve(true)//Resolve
-          }).catch(error => {
-            // this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'});
-            reject(false)//Resolve
-          })
-        } else {
-          resolve(true)//Resolve
+    getProductCategories(){
+      let params = {
+        params: {
+          filter:{
+            'store': this.storeData.id
+          }
         }
-
+      }
+      this.loading = true
+      this.$crud.index('apiRoutes.qcommerce.categories', params).then( response => {
+        this.categories = response.data
+        console.error(this.categories)
+        this.loading = false
+      }).catch( error => {
+        this.$alert.error({ message: this.$tr('ui.message.errorRequest'), pos: 'bottom' })
+        this.loading = false
       })
     },
     rating(){
@@ -195,7 +202,7 @@ export default {
         this.$alert.error({message: error.response.data.errors, pos: 'bottom'})
         console.log(error.response.data.errors);
       });
-    }//ratingStore
+    },//ratingStore
   }
 }
 </script>

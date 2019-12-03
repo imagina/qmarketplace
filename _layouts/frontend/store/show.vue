@@ -1,138 +1,159 @@
 <template>
-  <q-page  v-if="store">
-    <div v-if="store.themeId==1">
-      <layout1 :store="store"></layout1>
-    </div>
-    <div v-else-if="store.themeId==2">
-      <layout2 :store="store"></layout2>
-    </div>
-    <div v-else-if="store.themeId==3">
-      <layout3></layout3>
-    </div>
-  </q-page>
-
+   <q-page v-if="store">
+      <header-store></header-store>
+      <main-store></main-store>
+      <footer-store></footer-store>
+   </q-page>
 </template>
 <script>
-import layout1 from '@imagina/qmarketplace/_layouts/frontend/store/themes/index1'
-import layout2 from '@imagina/qmarketplace/_layouts/frontend/store/themes/index2'
-import layout3 from '@imagina/qmarketplace/_layouts/frontend/store/themes/index3'
-import { colors, AddressbarColor } from 'quasar'
-export default {
-  name: 'showStore',
+   import headerStore from '@imagina/qmarketplace/_components/themes/header'
+   import footerStore from '@imagina/qmarketplace/_components/themes/footer'
+   import mainStore from '@imagina/qmarketplace/_components/themes/main'
+   import {colors, AddressbarColor} from 'quasar'
 
-  preFetch({store, currentRoute, previousRoute, redirect, ssrContext}) {
-    return new Promise(async resolve => {
-      //Get data post
-      let storeSlug = currentRoute.params.slug || false
-      console.warn(storeSlug)
-      await store.dispatch('qcrudMaster/SHOW', {
-        indexName: `qmarketplace-store-${storeSlug}`,
-        criteria: storeSlug,
-        apiRoute: 'apiRoutes.qmarketplace.store',
-        requestParams: {refresh: true, params: {include: 'categories,user'}}
-      })
+   export default {
+      name: 'showStore',
 
-      resolve(true)
-    })
-  },
-  meta() {
-    let storeSlug = this.$route.params.slug
-    let routetitle = storeSlug || 'productos'
-    let siteName = this.$store.getters['qsiteSettings/getSettingValueByName']('core::site-name')
-    let siteDescription = this.$store.getters['qsiteSettings/getSettingValueByName']('core::site-description')
-    //Set category data
-    let store = this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
-    if (store) {
-      routetitle = store.name
-      siteDescription = store.description
-    }
-    return {
-      title: `${routetitle.charAt(0).toUpperCase() + routetitle.slice(1)} | ${siteName}`,
-      meta: {
-        description: {name: 'description', content: (siteDescription || siteName)},
+      preFetch({store, currentRoute, previousRoute, redirect, ssrContext}) {
+         return new Promise(async resolve => {
+            //Get data post
+            let storeSlug = currentRoute.params.slug || false
+            console.warn(storeSlug)
+            await store.dispatch('qcrudMaster/SHOW', {
+               indexName: `qmarketplace-store-${storeSlug}`,
+               criteria: storeSlug,
+               apiRoute: 'apiRoutes.qmarketplace.store',
+               requestParams: {refresh: true, params: {include: 'categories,user'}}
+            })
+            resolve(true)
+         })
       },
-    }
-  },
+      meta() {
+         let storeSlug = this.$route.params.slug
+         let routetitle = storeSlug || 'productos'
+         let siteName = this.$store.getters['qsiteSettings/getSettingValueByName']('core::site-name')
+         let siteDescription = this.$store.getters['qsiteSettings/getSettingValueByName']('core::site-description')
+         //Set category data
+         let store = this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
+         if (store) {
+            routetitle = store.name
+            siteDescription = store.description
+         }
+         return {
+            title: `${routetitle.charAt(0).toUpperCase() + routetitle.slice(1)} | ${siteName}`,
+            meta: {
+               description: {name: 'description', content: (siteDescription || siteName)},
+            },
+         }
+      },
 
-  components: {
-    layout1,
-    layout2,
-    layout3
-  },
-  data() {
-    return {
-      loading:true,
-      configName: 'apiRoutes.qmarketplace.store',
-      storeSlug:this.$route.params.slug,
-      store:null
-    }
-  },
-  mounted(){
-    this.getData(),
-    // this.init(),
-    console.log('asdadad');
-  },
-  methods:{
-    async init(){
-      await this.getData()
-      await this.rating()
-    },
-    rating(){
-      return new Promise((resolve, reject) => {
+      components: {
+         footerStore,
+         mainStore,
+         headerStore,
+      },
+      data() {
+         return {
+            loading: true,
+            configName: 'apiRoutes.qmarketplace.store',
+            storeSlug: this.$route.params.slug,
+            store: null,
+            cart:null
+         }
+      },
+      mounted() {
+         this.$nextTick(async function () {
+            await this.getData().catch(error=>{})
+            await  this.getCart()
+         });
+      },
+      methods: {
+         async init() {
+            await this.getData()
+            await this.rating()
+         },
+         rating() {
+            return new Promise((resolve, reject) => {
 
-        this.$axios.post(config('apiRoutes.qmarketplace.store')+'/rating/'+this.store.id,{
-          attributes:{
-            rating:2
-          }
-        })
-        .then(response => {
-          console.log(response.data.data);
+               this.$axios.post(config('apiRoutes.qmarketplace.store') + '/rating/' + this.store.id, {
+                  attributes: {
+                     rating: 2
+                  }
+               })
+                   .then(response => {
+                      console.log(response.data.data);
 
-          resolve(true);
-        })
-        .catch(error => {
-          reject(error);
-        });
-
-
-      })
-    },
-    getData() {
-      return new Promise((resolve, reject) => {
-        const itemId = this.$clone(this.storeSlug)
+                      resolve(true);
+                   })
+                   .catch(error => {
+                      reject(error);
+                   });
 
 
-        if (itemId) {
-          //Params--
-          let params = {
-            refresh: true,
-            params: {
-              include: 'categories,products',
-              filter: {
-                allTranslations: true,
-                field:'slug'
-              },
+            })
+         },
+         getData() {
+            return new Promise((resolve, reject) => {
+               const itemId = this.$clone(this.storeSlug)
+               if (itemId) {
+                  //Params--
+                  let params = {
+                     refresh: true,
+                     params: {
+                        filter: {
+                           allTranslations: true,
+                           field: 'slug'
+                        },
+                     }
+                  }//test
+                  //Request
+                  this.$crud.show(this.configName, itemId, params).then(response => {
+                     this.store = this.$clone(response.data);
+                     colors.setBrand('storeprimary', this.store.options.theme_config.color_primary)
+                     colors.setBrand('storesecondary', this.store.options.theme_config.color_secondary)
+                     colors.setBrand('storebackground', this.store.options.theme_config.background)
+                     resolve(true)//Resolve
+                  }).catch(error => {
+                     this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
+                     reject(false)//Resolve
+                  })
+               } else {
+                  resolve(true)//Resolve
+               }
+
+            })
+         },
+         getCart(){
+           let params = {
+               params: {
+                  filter:{
+                     field:'store_id',
+                     'user': this.$store.state.quserAuth.userId,
+                     'status':1
+                  }
+               }
             }
-          }//test
-          //Request
-          this.$crud.show(this.configName, itemId, params).then(response => {
-            this.store = this.$clone(response.data);
-            colors.setBrand('storeprimary', this.store.options.theme_config.color_primary)
-            colors.setBrand('storesecondary', this.store.options.theme_config.color_secondary)
-            colors.setBrand('storebackground', this.store.options.theme_config.background)
-            resolve(true)//Resolve
-          }).catch(error => {
-            this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
-            reject(false)//Resolve
-          })
-        } else {
-          resolve(true)//Resolve
-        }
+            this.loading = true
+            this.$crud.show('apiRoutes.qcommerce.cart',this.store.id, params).then( response => {
+               this.cart = response.data
+               console.error('cart',this.cart)
+               this.loading = false
+            }).catch( error => {
+               this.loading = false
+            })
+            if(this.cart){
+               store.dispatch('qcrudMaster/SHOW', {
+                  indexName: `qmarketplace-store-cart-${this.cart.id}`,
+                  criteria: this.cart.id,
+                  apiRoute: 'apiRoutes.qcommerce.cart',
+                  requestParams: {refresh: true, params: {filter:{'field':'id'},include: 'products'}}
+               })
+            }
 
-      })
-    },
-  }
-}
+         }
+
+      }
+   }
 </script>
 <style lang="stylus">
 .theme-layout-02
