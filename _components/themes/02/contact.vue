@@ -4,7 +4,7 @@
       <div class="col-md-4 q-pb-xl text-center">
         <div class="logo">
           <router-link :to="{ name: 'app.home'}">
-            <img :src="logo">
+            <img :src="storeData.logo.path" :alt="storeData.name" width="100%"/>
           </router-link>
         </div>
       </div>
@@ -53,11 +53,12 @@ export default {
     'address': { type:String, default: ""},
     'schedules': { type:Array, default: []},
   },
-  data() {
-    return {
-      logo : this.$store.getters['qsiteSettings/getSettingMediaByName']('isite::logo1').path
+  computed:{
+    storeData(){
+      let storeSlug = this.$route.params.slug
+      return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
     }
-  }
+  },
 }
 </script>
 <style lang="stylus">

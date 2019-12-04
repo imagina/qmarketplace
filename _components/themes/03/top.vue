@@ -56,7 +56,13 @@ export default {
     return {
       logo: this.$store.getters['qsiteSettings/getSettingMediaByName']('isite::logo1').path
     }
-  }
+  },
+   computed:{
+      storeData(){
+         let storeSlug = this.$route.params.slug
+         return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
+      }
+   },
 
 }
 </script>

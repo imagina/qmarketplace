@@ -75,8 +75,16 @@
               <div class="row">
                 <div class="col q-pl-md">
                   <q-btn flat round dense icon="fas fa-home" no-caps color="store-primary"/>
-                  <q-btn flat icon="fas fa-bars" no-caps label="Category" color="store-primary"/>
-                  <q-btn @click="infoStore=true" flat icon="fas fa-map-marker-alt" no-caps label="Info Empresa" color="store-primary"/>
+                  <q-btn-dropdown lat icon="fas fa-bars" no-caps label="Categorias" color="store-primary">
+                    <q-list>
+                      <q-item v-for="item in categories" clickable v-close-popup @click="$router.push({name: 'stores.product.index', params : {slug:storeData.slug,category:item.slug}})">
+                        <q-item-section>
+                          <q-item-label>{{item.title}}</q-item-label>
+                        </q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-btn-dropdown>
+                  <q-btn @click="$router.push({name: 'stores.about', params : {slug:storeData.slug}})" flat icon="fas fa-map-marker-alt" no-caps label="Info Empresa" color="store-primary"/>
                   <q-btn flat icon="far fa-comment-dots" no-caps label="Chatea con la tienda" color="store-primary"/>
                 </div>
                 <div class="col-auto q-pr-md">
@@ -153,53 +161,81 @@ export default {
     return {
       infoStore:false,
       ratingStore:false,
+      followedStore:false,
       slide: 1,
+      categories:[],
+      loading:false
     }
-  }, methods:{
-      getData() {
-        return new Promise((resolve, reject) => {
-          const itemId = this.$clone(this.store.slug)
-
-          if (itemId) {
-            //Params--
-            let params = {
-              refresh: true,
-              params: {
-                include: '',
-                filter: {
-                  allTranslations: true,
-                  field:'slug'
-                },
-              }
-            }//test
-            //Request
-            this.$crud.show(this.configName, itemId, params).then(response => {
-              this.store = this.$clone(response.data);
-              resolve(true)//Resolve
-            }).catch(error => {
-              // this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'});
-              reject(false)//Resolve
-            })
-          } else {
-            resolve(true)//Resolve
-          }
-
-        })
-      },
-      rating(){
-        this.$axios.post(config('apiRoutes.qmarketplace.store')+'/rating/'+this.store.id,{
-          attributes:{
-            rating:this.store.averageRating
-          }
-        }).then(response => {
-          this.$alert.success({message: "Calificación registrada exitosamente", pos: 'bottom'});
-          this.getData();
-          this.ratingStore=false;
-        }).catch(error => {
-          this.$alert.error({message: error.response.data.errors, pos: 'bottom'})
-        });
-      }//ratingStore
+  },
+  mounted() {
+   this.getProductCategories();
+   this.getFollowedStore();
+  },
+  computed:{
+    storeData(){
+      let storeSlug = this.$route.params.slug
+      return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
     }
+  },
+  methods:{
+    getFollowedStore(){
+      this.$crud.index("apiRoutes.qmarketplace.favoriteStore", {
+        params:{
+          filter:{
+            userId:this.$store.state.quserAuth.userId,
+            storeId:this.storeData.id
+          }
+        }
+      }).then(response => {
+        if(response.data.length>0){
+          this.followedStore=true;
+        }
+      }).catch(error => {
+        this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+      });
+    },
+    followStore(){
+      this.$crud.create("apiRoutes.qmarketplace.favoriteStore", {
+        userId:this.$store.state.quserAuth.userId,
+        storeId:this.storeData.id
+      }).then(response => {
+        this.followedStore=true;
+        this.$alert.success({message: "Ahora sigues esta tienda", pos: 'bottom'})
+      }).catch(error => {
+        this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+      });
+    },
+    getProductCategories(){
+      let params = {
+        params: {
+          filter:{
+            'store': this.storeData.id
+          }
+        }
+      }
+      this.loading = true
+      this.$crud.index('apiRoutes.qcommerce.categories', params).then( response => {
+        this.categories = response.data
+        this.loading = false
+      }).catch( error => {
+        this.$alert.error({ message: this.$tr('ui.message.errorRequest'), pos: 'bottom' })
+        this.loading = false
+      })
+    },
+    rating(){
+      this.$axios.post(config('apiRoutes.qmarketplace.store')+'/rating/'+this.storeData.id,{
+        attributes:{
+          rating:this.storeData.averageRating
+        }
+      }).then(response => {
+        this.$alert.success({message: "Calificación registrada exitosamente", pos: 'bottom'});
+        this.getData();
+        this.ratingStore=false;
+      }).catch(error => {
+        this.$alert.error({message: error.response.data.errors, pos: 'bottom'})
+      });
+    },//ratingStore
+  }
 }
 </script>
 <style lang="stylus">
