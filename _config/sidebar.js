@@ -12,6 +12,7 @@ export default [
       pages.qmarketplace.myStore, // themes
       pages.qmarketplace.myStoreTheme, // themes
       pages.qmarketplace.myStoreProducts, // themes
+      pages.qmarketplace.favoriteStore, // Seguidores
     ]
   },
 ]

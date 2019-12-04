@@ -6,5 +6,6 @@ export default {
   adminProducts : 'Productos',
   adminCategories : 'Categorías',
   adminThemes : 'Temas',
+  adminFavoritestores : 'Seguidores',
 
 }

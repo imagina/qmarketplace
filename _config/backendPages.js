@@ -129,5 +129,16 @@ export default {
     icon: 'fas fa-store',
     authenticated: true
   },
+  favoriteStore: {
+    // permission: 'marketplace.stores.manage',
+    activated: true,
+    path: '/qmarketplace/favoriteStore/index',
+    name: 'qmarketplace.admin.favoritestores.index',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/stores/favoritestores/index'),
+    layout: () => import('src/layouts/master'),
+    title: 'qmarketplace.sidebar.adminFavoritestores',
+    icon: 'fas fa-store',
+    authenticated: true
+  },
 
 }
