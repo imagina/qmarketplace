@@ -95,7 +95,7 @@
           <div class="row q-col-gutter-lg justify-end">
             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 q-mb-lg">
               <div class="bg-store-secondary  text-white text-center q-pa-md">
-                <div class="text-h4">340</div>
+                <div class="text-h4">{{storeData.usersFollowing}}</div>
                 <div class="text-subtitle1">usuarios siguen esta tienda</div>
               </div>
             </div>
