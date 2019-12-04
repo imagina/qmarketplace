@@ -1,7 +1,7 @@
 export default {
   adminMyStore : "Mi tienda",
   adminStores : "Mi tienda",
-  adminMarketplace : "Marketplace",
+  adminMarketplace : "Tienda",
   adminTheme : 'Configuración de tema',
   adminProducts : 'Productos',
   adminCategories : 'Categorías',
