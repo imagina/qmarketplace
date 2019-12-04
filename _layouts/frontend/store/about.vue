@@ -129,7 +129,7 @@
                           thumbnails
                           infinite
                   >
-                     <q-carousel-slide v-for="(slide,i) in store.gallery" :name="i" :img-src="slide.path" />
+                     <q-carousel-slide v-for="(slide,i) in store.gallery" :key="i" :name="i" :img-src="slide.path" />
                   </q-carousel>
 
                </div>

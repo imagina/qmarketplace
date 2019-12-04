@@ -77,7 +77,7 @@
                   <q-btn flat round dense icon="fas fa-home" no-caps color="store-primary"/>
                   <q-btn-dropdown lat icon="fas fa-bars" no-caps label="Categorias" color="store-primary">
                     <q-list>
-                      <q-item v-for="item in categories" clickable v-close-popup @click="$router.push({name: 'stores.product.index', params : {slug:storeData.slug,category:item.slug}})">
+                      <q-item v-for="item in categories" :key="item.id" clickable v-close-popup @click="$router.push({name: 'stores.product.index', params : {slug:storeData.slug,category:item.slug}})">
                         <q-item-section>
                           <q-item-label>{{item.title}}</q-item-label>
                         </q-item-section>

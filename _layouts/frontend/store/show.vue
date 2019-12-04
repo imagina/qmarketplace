@@ -89,7 +89,7 @@
                    });
 
 
-            })
+            }).catch(error => {})
          },
          getData() {
             return new Promise((resolve, reject) => {
@@ -121,7 +121,7 @@
                   resolve(true)//Resolve
                }
 
-            })
+            }).catch(error => {})
          },
       }
    }
