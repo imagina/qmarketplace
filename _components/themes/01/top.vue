@@ -14,7 +14,7 @@
                     </q-card-section>
                     <div class="absolute-bottom text-right">
                       <q-card-actions align="right">
-                        <q-btn unelevated size="13px" round  color="store-secondary" icon="far fa-thumbs-up" />
+                        <q-btn @click="followStore()" unelevated size="13px" round  color="store-secondary" icon="far fa-thumbs-up" />
                       </q-card-actions>
                     </div>
                   </q-card>
@@ -171,6 +171,16 @@ export default {
     }
   },
   methods:{
+    followStore(){
+      this.$crud.create("apiRoutes.qmarketplace.favoriteStore", {
+        userId:this.$store.state.quserAuth.userId,
+        storeId:this.storeData.id
+      }).then(response => {
+        this.$alert.success({message: "Ahora sigues esta tienda", pos: 'bottom'})
+      }).catch(error => {
+        this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+      });
+    },
     getProductCategories(){
       let params = {
         params: {
@@ -182,7 +192,6 @@ export default {
       this.loading = true
       this.$crud.index('apiRoutes.qcommerce.categories', params).then( response => {
         this.categories = response.data
-        console.error(this.categories)
         this.loading = false
       }).catch( error => {
         this.$alert.error({ message: this.$tr('ui.message.errorRequest'), pos: 'bottom' })
@@ -190,9 +199,9 @@ export default {
       })
     },
     rating(){
-      this.$axios.post(config('apiRoutes.qmarketplace.store')+'/rating/'+this.store.id,{
+      this.$axios.post(config('apiRoutes.qmarketplace.store')+'/rating/'+this.storeData.id,{
         attributes:{
-          rating:this.store.averageRating
+          rating:this.storeData.averageRating
         }
       }).then(response => {
         this.$alert.success({message: "Calificación registrada exitosamente", pos: 'bottom'});

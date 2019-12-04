@@ -18,7 +18,6 @@
          return new Promise(async resolve => {
             //Get data post
             let storeSlug = currentRoute.params.slug || false
-            console.warn(storeSlug)
             await store.dispatch('qcrudMaster/SHOW', {
                indexName: `qmarketplace-store-${storeSlug}`,
                criteria: storeSlug,
@@ -81,8 +80,6 @@
                   }
                })
                    .then(response => {
-                      console.log(response.data.data);
-
                       resolve(true);
                    })
                    .catch(error => {
@@ -136,7 +133,6 @@
             this.loading = true
             this.$crud.show('apiRoutes.qcommerce.cart',this.store.id, params).then( response => {
                this.cart = response.data
-               console.error('cart',this.cart)
                this.loading = false
             }).catch( error => {
                this.loading = false
