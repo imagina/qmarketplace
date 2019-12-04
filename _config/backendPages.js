@@ -64,17 +64,28 @@ export default {
     authenticated: true,
   },
   myStoreTheme: {
-    // permission: 'marketplace.stores.manage',
+    // permission: 'marketplace.stores.manage',<i class=""></i>
     activated: true,
     path: '/qmarketplace/stores/myStore/theme',
     name: 'qmarketplace.admin.stores.my.store.theme',
     page: () => import('@imagina/qmarketplace/_layouts/admin/stores/theme/formStoreTheme'),
     layout: () => import('src/layouts/master'),
     title: 'qmarketplace.sidebar.adminTheme',
-    icon: 'fas fa-store',
+    icon: 'fas fa-palette',
     authenticated: true
   },
   myStoreProducts: {
+    // permission: 'marketplace.stores.manage',
+    activated: true,
+    path: '/qmarketplace/stores/myStore/products',
+    name: 'qmarketplace.admin.stores.my.store.products',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/stores/products/indexStoreProducts'),
+    layout: () => import('src/layouts/master'),
+    title: 'qmarketplace.sidebar.adminProducts',
+    icon: 'fas fa-store',
+    authenticated: true
+  },
+  myStoreCategoryProducts: {
     // permission: 'marketplace.stores.manage',
     activated: true,
     path: '/qmarketplace/stores/myStore/products',
@@ -129,7 +140,7 @@ export default {
     icon: 'fas fa-store',
     authenticated: true
   },
-  favoriteStore: {
+  favoriteUsers: {
     // permission: 'marketplace.stores.manage',
     activated: true,
     path: '/qmarketplace/favoriteStore/index',
@@ -137,7 +148,7 @@ export default {
     page: () => import('@imagina/qmarketplace/_layouts/admin/stores/favoritestores/index'),
     layout: () => import('src/layouts/master'),
     title: 'qmarketplace.sidebar.adminFavoritestores',
-    icon: 'fas fa-store',
+    icon: 'fas fa-users',
     authenticated: true
   },
 
