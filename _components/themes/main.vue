@@ -23,7 +23,9 @@
          main3
       },
       mounted() {
-         console.warn('ain', this.storeData)
+        /*
+        console.warn('ain', this.storeData)
+        */
       },
       computed:{
          storeData(){

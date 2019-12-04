@@ -4,7 +4,7 @@
       <div class="col-12">
         <div class="networks text-center">
 
-          <i :class="soc.icon" v-for="soc in social" v-if="soc.active">
+          <i :class="soc.icon" v-for="soc in store.social" v-if="soc.active">
             <q-tooltip>
               {{soc.url}}
             </q-tooltip>
@@ -21,8 +21,11 @@
 <script>
 export default {
   name: 'ShareNetworksComponent',
-  props: {
-    'social'              : { type:Array, default: []},
+  computed:{
+    store(){
+      let storeSlug = this.$route.params.slug
+      return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
+    }
   },
 }
 </script>

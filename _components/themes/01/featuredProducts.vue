@@ -4,8 +4,8 @@
       DESTACADOS
     </div>
     <div class="row q-col-gutter-lg q-py-lg">
-      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4" v-for="(product, index) in products" :key="index">
-        <product :storeName="store.name" :storeId="store.id" :storeThemeConfig="store.options.theme_config" :product="product" className="cardProductOne"></product>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4" v-for="(product, index) in store.products" :key="index">
+        <product :product="product" className="cardProductOne"></product>
       </div>
     </div>
   </div>
@@ -17,8 +17,11 @@ export default {
   components: {
     product
   },
-  props: {
-    'store': { type:Object, default: []}
+  computed:{
+    store(){
+      let storeSlug = this.$route.params.slug
+      return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
+    }
   },
   mounted(){
     this.getProducts();

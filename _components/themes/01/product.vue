@@ -13,14 +13,14 @@
          />
          <h5 class="q-my-sm text-store-primary">${{product.price}}</h5>
          <p class="q-my-none text-truncate">{{product.name}}</p>
-         <p class="q-my-none text-truncate"><small>{{storeName}}</small></p>
+         <p class="q-my-none text-truncate"><small>{{storeData.name}}</small></p>
       </q-card-section>
    </q-card>
 </template>
 <script>
    export default {
       name: 'ProductComponent',
-      props: ['product', 'className', 'storeName', 'storeId', 'storeThemeConfig'],
+      props: ['product', 'className'],
       mounted() {
       },
       computed: {
@@ -50,10 +50,10 @@
                var id = response.data.id;
                var carts = this.$q.localStorage.getItem("carts");
                if (carts) {
-                  carts.push({id: id, storeId: this.storeId});
+                  carts.push({id: id, storeId: this.storeData.id});
                } else {
                   var carts = [];
-                  carts.push({id: id, storeId: this.storeId});
+                  carts.push({id: id, storeId: this.storeData.id});
                }
                this.$q.localStorage.set("carts", carts)
                this.addCart();
@@ -64,7 +64,7 @@
             if (carts) {
                var cartId = 0;
                for (var i = 0; i < carts.length; i++) {
-                  if (carts[i].storeId == this.storeId) {
+                  if (carts[i].storeId == this.storeData.id) {
                      cartId = carts[i].id;
                      break;
                   }//if

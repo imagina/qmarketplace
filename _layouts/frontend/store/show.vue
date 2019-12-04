@@ -22,7 +22,10 @@
                indexName: `qmarketplace-store-${storeSlug}`,
                criteria: storeSlug,
                apiRoute: 'apiRoutes.qmarketplace.store',
-               requestParams: {refresh: true, params: {include: 'categories,user'}}
+               requestParams: {
+                 refresh: true,
+                 params: {include: 'categories,user,products'}
+               }
             })
             resolve(true)
          })
@@ -63,7 +66,6 @@
       mounted() {
          this.$nextTick(async function () {
             await this.getData().catch(error=>{})
-            await  this.getCart()
          });
       },
       methods: {
@@ -97,9 +99,10 @@
                   let params = {
                      refresh: true,
                      params: {
+                       include:'products',
                         filter: {
                            allTranslations: true,
-                           field: 'slug'
+                           field: 'slug',
                         },
                      }
                   }//test

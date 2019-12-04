@@ -4,7 +4,7 @@
       <div class="q-container">
         <div class="row q-col-gutter-lg">
           <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
-            <featured-products :store="store" ></featured-products>
+            <featured-products ></featured-products>
             <new-products :store="store"></new-products>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
@@ -24,9 +24,9 @@
       </div>
     </div>
     <!-- Productos -->
-    <general-products :store="store" :products="store.products"></general-products>
+    <general-products ></general-products>
     <!-- Compartir -->
-    <share :social="store.social"></share>
+    <share ></share>
 
 
   </div>
@@ -49,7 +49,9 @@ export default {
     share
   },
   mounted() {
+    /*
     console.warn('block', this.store)
+    */
   },
   computed:{
     store(){

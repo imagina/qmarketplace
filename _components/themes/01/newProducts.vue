@@ -5,7 +5,7 @@
         </div>
         <div class="row q-col-gutter-lg q-pt-lg">
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6" v-for="product in products">
-            <product :product="product" :storeName="store.name" :storeId="store.id" :storeThemeConfig="store.options.theme_config" className="cardProductH01"></product>
+            <product :product="product" className="cardProductH01"></product>
           </div>
         </div>
     </div>
@@ -17,8 +17,11 @@ export default {
   components: {
     product
   },
-  props: {
-    'store': { type:Object, default: []}
+  computed:{
+    store(){
+      let storeSlug = this.$route.params.slug
+      return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
+    }
   },
   mounted(){
     this.getProducts();
