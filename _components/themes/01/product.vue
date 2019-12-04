@@ -1,117 +1,132 @@
 <template>
-  <q-card :class="className">
-    <q-img :ratio="1" :src="product.mainImage.path" />
-    <q-card-actions>
-      <q-btn flat dense icon="favorite"/>
-      <q-btn @click="addCart" flat dense icon="shopping_cart"/>
-    </q-card-actions>
-    <q-card-section class="text-left q-pa-sm">
-      <q-rating size="20px"
-      @input="val => { rating() }"
-        v-model="product.averageRating"
-        :max="5"
-      />
-      <h5 class="q-my-sm text-store-primary">${{product.price}}</h5>
-      <p class="q-my-none text-truncate">{{product.name}}</p>
-      <p class="q-my-none text-truncate"><small>{{storeName}}</small></p>
-    </q-card-section>
-  </q-card>
+   <q-card :class="className">
+      <q-img :ratio="1" :src="product.mainImage.path"/>
+      <q-card-actions>
+         <q-btn flat dense icon="favorite"/>
+         <q-btn @click="addCart" flat dense icon="shopping_cart"/>
+      </q-card-actions>
+      <q-card-section class="text-left q-pa-sm">
+         <q-rating size="20px"
+                   @input="val => { rating() }"
+                   v-model="product.averageRating"
+                   :max="5"
+         />
+         <h5 class="q-my-sm text-store-primary">${{product.price}}</h5>
+         <p class="q-my-none text-truncate">{{product.name}}</p>
+         <p class="q-my-none text-truncate"><small>{{storeName}}</small></p>
+      </q-card-section>
+   </q-card>
 </template>
 <script>
-export default {
-    name: 'ProductComponent',
-    props: ['product','className','storeName','storeId','storeThemeConfig'],
-    mounted(){
-    },
-    methods:{
-      rating(){
-        this.$axios.post(config('apiRoutes.qcommerce.products')+'/rating/'+this.product.id,{
-          attributes:{
-            rating:this.product.averageRating
-          }
-        }).then(response => {
-          this.$alert.success({message: "Calificación registrada exitosamente", pos: 'bottom'});
-          this.getData();
-          this.ratingStore=false;
-        }).catch(error => {
-          this.$alert.error({message: error.response.data.errors, pos: 'bottom'})
-        });
-      },//rating
-      createCart(){
-        this.$crud.create("apiRoutes.qcommerce.cart", {
-          total:0
-        }).then(response => {
-          var id=response.data.id;
-          var carts=this.$q.localStorage.getItem("carts");
-          if(carts){
-            carts.push({id:id,storeId:this.storeId});
-          }else{
-            var carts=[];
-            carts.push({id:id,storeId:this.storeId});
-          }
-          this.$q.localStorage.set("carts", carts)
-          this.addCart();
-        })
+   export default {
+      name: 'ProductComponent',
+      props: ['product', 'className', 'storeName', 'storeId', 'storeThemeConfig'],
+      mounted() {
       },
-      addCart(){
-        var carts=this.$q.localStorage.getItem("carts");
-        if(carts){
-          var cartId=0;
-          for (var i=0;i<carts.length;i++){
-            if(carts[i].storeId==this.storeId){
-              cartId=carts[i].id;
-              break;
-            }//if
-          }//for
-          if(cartId==0){
-            this.createCart();
-          }else{
-            this.$crud.create("apiRoutes.qcommerce.cartProducts", {
-              cart_id:cartId,
-              product_id:this.product.id,
-              product_name:this.product.name,
-              price:this.product.price,
-              quantity:1
+      computed: {
+         storeData() {
+            let storeSlug = this.$route.params.slug
+            return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
+         },
+      },
+      methods: {
+         rating() {
+            this.$axios.post(config('apiRoutes.qcommerce.products') + '/rating/' + this.product.id, {
+               attributes: {
+                  rating: this.product.averageRating
+               }
             }).then(response => {
-              this.$alert.success({message: "Producto agregado al carrito exitosamente.", pos: 'bottom'})
+               this.$alert.success({message: "Calificación registrada exitosamente", pos: 'bottom'});
+               this.getData();
+               this.ratingStore = false;
             }).catch(error => {
-              this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+               this.$alert.error({message: error.response.data.errors, pos: 'bottom'})
             });
-          }
-        }else{
-          this.createCart();
-        }
-      }//addCart
+         },//rating
+         createCart() {
+            this.$crud.create("apiRoutes.qcommerce.cart", {
+               total: 0
+            }).then(response => {
+               var id = response.data.id;
+               var carts = this.$q.localStorage.getItem("carts");
+               if (carts) {
+                  carts.push({id: id, storeId: this.storeId});
+               } else {
+                  var carts = [];
+                  carts.push({id: id, storeId: this.storeId});
+               }
+               this.$q.localStorage.set("carts", carts)
+               this.addCart();
+            })
+         },
+         addCart() {
+            var carts = this.$q.localStorage.getItem("carts");
+            if (carts) {
+               var cartId = 0;
+               for (var i = 0; i < carts.length; i++) {
+                  if (carts[i].storeId == this.storeId) {
+                     cartId = carts[i].id;
+                     break;
+                  }//if
+               }//for
+               if (cartId == 0) {
+                  this.createCart();
+               } else {
+                  this.$crud.create("apiRoutes.qcommerce.cartProducts", {
+                     cart_id: cartId,
+                     product_id: this.product.id,
+                     product_name: this.product.name,
+                     price: this.product.price,
+                     quantity: 1
+                  }).then(response => {
+                     this.$alert.success({message: "Producto agregado al carrito exitosamente.", pos: 'bottom'})
+                  }).catch(error => {
+                     this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+                  });
+               }
+            } else {
+               this.createCart();
+            }
+         }//addCart
 
-    }
-}
+      }
+   }
 </script>
 <style lang="stylus">
-.cardProductOne
-  border-radius 0
-  background-color #ffffff
-  h5
-    color $storePrimary
-  & .q-card__section
-    font-size 16px
-  & .q-card__actions
-    background-color $storeSecondary
-    float right
-    margin-top -15px
-    z-index 9
-    position relative
-    .q-btn
-      color #fff
+   .cardProductOne
       border-radius 0
-    .q-btn:first-child
-      border-left 1px solid #fff
-    .q-btn:last-child
-      border-right 1px solid #fff
-  &:hover
-    background-color $storeSecondary
-    color #fff !important
-    h5
-      color #fff !important
-    & .q-card__actions
-      background-color $storePrimary
+      background-color #ffffff
+
+      h5
+         color $storePrimary
+
+      & .q-card__section
+         font-size 16px
+
+      & .q-card__actions
+         background-color $storeSecondary
+         float right
+         margin-top -15px
+         z-index 9
+         position relative
+
+         .q-btn
+            color #fff
+            border-radius 0
+
+         .q-btn:first-child
+            border-left 1px solid #fff
+
+         .q-btn:last-child
+            border-right 1px solid #fff
+
+      &:hover
+         background-color $storeSecondary
+         color #fff !important
+
+         h5
+            color #fff !important
+
+         & .q-card__actions
+            background-color $storePrimary
 </style>

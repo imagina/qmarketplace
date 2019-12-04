@@ -120,34 +120,6 @@
 
             })
          },
-         getCart(){
-           let params = {
-               params: {
-                  filter:{
-                     field:'store_id',
-                     'user': this.$store.state.quserAuth.userId,
-                     'status':1
-                  }
-               }
-            }
-            this.loading = true
-            this.$crud.show('apiRoutes.qcommerce.cart',this.store.id, params).then( response => {
-               this.cart = response.data
-               this.loading = false
-            }).catch( error => {
-               this.loading = false
-            })
-            if(this.cart){
-               store.dispatch('qcrudMaster/SHOW', {
-                  indexName: `qmarketplace-store-cart-${this.cart.id}`,
-                  criteria: this.cart.id,
-                  apiRoute: 'apiRoutes.qcommerce.cart',
-                  requestParams: {refresh: true, params: {filter:{'field':'id'},include: 'products'}}
-               })
-            }
-
-         }
-
       }
    }
 </script>
