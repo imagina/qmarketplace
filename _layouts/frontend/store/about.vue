@@ -57,7 +57,7 @@
                               </q-item-section>
                               <q-item-section  class="q-pb-lg">
                                  <div class="text-subtitle1 text-bold">Horario de atención</div>
-                                 <div class="text-subtitle1" v-for="(item, i) in store.schedules" :key="i" >{{item}}</div>
+                                 <div class="text-subtitle1" v-for="(item, i) in store.schedules" :key="'schedule'+i" >{{item}}</div>
                               </q-item-section>
                            </q-item>
                         </q-list>
@@ -88,7 +88,7 @@
                            <q-item class="bg-white text-store-primary rounded-sm q-mb-sm">
                               <q-item-section class="q-py-sm q-px-md text-h6">Síguenos en:</q-item-section>
                            </q-item>
-                           <div v-for="(item,i) in store.social" :key="i">
+                           <div v-for="(item,i) in store.social" :key="'social'+i">
                               <q-item clickable :to="item.url">
                                  <q-item-section avatar>
                                     <q-icon color="white" :name="item.icon" />
@@ -129,7 +129,7 @@
                           thumbnails
                           infinite
                   >
-                     <q-carousel-slide v-for="(slide,i) in store.gallery" :name="i" :img-src="slide.path" />
+                     <q-carousel-slide v-for="(slide,i) in store.gallery" :key="'gallery'+i" :name="i" :img-src="slide.path" />
                   </q-carousel>
 
                </div>

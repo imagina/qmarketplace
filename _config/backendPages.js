@@ -1,5 +1,16 @@
 
 export default {
+  categoriesStore: {
+    permission: 'icommerce.categories.index',
+    activated: true,
+    path: '/qmarketplace/categories/store',
+    name: 'qmarketplace.admin.categories.store.index',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/productCategories/index'),
+    layout: () => import('src/layouts/master'),
+    title: 'qcommerce.sidebar.adminCategories',
+    icon: 'fas fa-layer-group',
+    authenticated: true,
+  },
   themes: {
     permission: 'qmarketplace.stores.manage',
     activated: true,//
