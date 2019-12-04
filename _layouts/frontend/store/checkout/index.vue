@@ -1,6 +1,6 @@
 <template>
   <q-page class="page">
-
+    <header-store></header-store>
     <div class="bg-fondo q-px-sm q-py-xl">
       <div class="q-container">
         <div class="row justify-end">
@@ -295,7 +295,7 @@
 </div>
 </div>
 
-
+    <footer-store></footer-store>
 </q-page>
 </template>
 <script>
@@ -303,15 +303,28 @@
 import {required} from 'vuelidate/lib/validators'
 //Components
 import mediaForm from '@imagina/qmedia/_components/form'
+import headerStore from '@imagina/qmarketplace/_components/themes/header'
+import footerStore from '@imagina/qmarketplace/_components/themes/footer'
+import mainStore from '@imagina/qmarketplace/_components/themes/main'
+import {colors, AddressbarColor} from 'quasar'
+
 export default {
   props: {},
-  components: { mediaForm},
+  components: {
+    mediaForm,
+    footerStore,
+    mainStore,
+    headerStore,
+  },
   watch: {},
   validations() {
     return {}
   },
   computed:{
-
+    storeData(){
+      let storeSlug = this.$route.params.slug
+      return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
+    }
   },
   data() {
     return {
@@ -323,7 +336,7 @@ export default {
       // product:[],
       paymentMethods:[],
       shippingMethods:[],
-      storeId: null,
+
       cartId: null,
       //Quantity of product select options
       selectOptions:[
@@ -416,7 +429,6 @@ export default {
   },
   mounted() {
     this.$nextTick(function () {
-      this.storeId=this.$route.params.storeId;
       this.getCart();
       this.getPaymentMethods();
       this.getShippingMethods();
@@ -501,7 +513,7 @@ export default {
         data.paymentCountry="Bogotá";
         data.shippingCountry=data.paymentCountry;
         data.cartId=this.cart.id;
-        data.storeID=this.storeId;
+        data.storeID=this.storeData.id;
         var shippingMethod="";
         for(var i=0;i<this.shippingMethods.length;i++){
           if(this.shippingMethods[i].id==this.form.shippingMethodId){
@@ -598,14 +610,14 @@ export default {
       this.getCart();
     },
     getCart(){
-      if(!this.storeId){
+      if(!this.storeData.id){
         this.$alert.error({message: "Se ha producido un error al intentar ingresar a esta ventana", pos: 'bottom'})
         this.$router.push({ name: 'home'});
       }
       var carts=this.$q.localStorage.getItem("carts");
       if(carts){
         for (var i=0;carts.length;i++){
-          if(carts[i].storeId==this.storeId){
+          if(carts[i].storeId==this.storeData.id){
             this.cartId=carts[i].id;
             break;
           }//if
