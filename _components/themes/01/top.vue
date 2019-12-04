@@ -9,12 +9,16 @@
                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 q-mb-lg">
 
                   <q-card class="card-rounded text-center q-mb-sm">
-                    <q-card-section class="full-height text-center">
+                    <q-card-section class="full-height text-center" v-if="!followedStore">
                       Seguir Tienda
+                    </q-card-section>
+                    <q-card-section class="full-height text-center" v-else>
+                      Ya sigues esa tienda
                     </q-card-section>
                     <div class="absolute-bottom text-right">
                       <q-card-actions align="right">
-                        <q-btn @click="followStore()" unelevated size="13px" round  color="store-secondary" icon="far fa-thumbs-up" />
+                        <q-btn v-if="!followedStore" @click="followStore()" unelevated size="13px" round  color="store-secondary" icon="far fa-thumbs-up" />
+                        <q-btn v-else="followedStore" unelevated size="13px" round  color="store-secondary" icon="far fa-thumbs-up" />
                       </q-card-actions>
                     </div>
                   </q-card>
@@ -156,13 +160,15 @@ export default {
     return {
       infoStore:false,
       ratingStore:false,
+      followedStore:false,
       slide: 1,
       categories:[],
       loading:false
     }
   },
   mounted() {
-   this.getProductCategories()
+   this.getProductCategories();
+   this.getFollowedStore();
   },
   computed:{
     storeData(){
@@ -171,11 +177,28 @@ export default {
     }
   },
   methods:{
+    getFollowedStore(){
+      this.$crud.index("apiRoutes.qmarketplace.favoriteStore", {
+        params:{
+          filter:{
+            userId:this.$store.state.quserAuth.userId,
+            storeId:this.storeData.id
+          }
+        }
+      }).then(response => {
+        if(response.data.length>0){
+          this.followedStore=true;
+        }
+      }).catch(error => {
+        this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+      });
+    },
     followStore(){
       this.$crud.create("apiRoutes.qmarketplace.favoriteStore", {
         userId:this.$store.state.quserAuth.userId,
         storeId:this.storeData.id
       }).then(response => {
+        this.followedStore=true;
         this.$alert.success({message: "Ahora sigues esta tienda", pos: 'bottom'})
       }).catch(error => {
         this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
