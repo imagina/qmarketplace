@@ -124,6 +124,12 @@
                 showVotes: false
             }
         },
+        computed: {
+           storeData() {
+              let storeSlug = this.$route.params.slug
+              return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
+           },
+        },
         methods: {
           // Init Method
           async init() {
@@ -173,9 +179,9 @@
               let fixFilter = {}
 
               if(this.userId!=null)
-                fixFilter =  {allTranslations: true,status: 1,exclude:this.pollUserIds}
+                fixFilter =  {storeId:this.storeData.id,allTranslations: true,status: 1,exclude:this.pollUserIds}
               else
-                fixFilter = {allTranslations: true,status: 1,random:true,logged:0}
+                fixFilter = {storeId:this.storeData.id,allTranslations: true,status: 1,random:true,logged:0}
 
               //Params
               let params = {
