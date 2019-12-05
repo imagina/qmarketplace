@@ -39,7 +39,7 @@
                               <div class="text-h6">
                                 <q-icon color="white" size="30px" round name="grade" />
                               </div>
-                              <div class="text-body2">7.5 de 200 usuarios</div>
+                              <div class="text-body2">{{storeData.countRatings}} han calificado</div>
                             </q-card-section>
                           </q-card>
                         </div>

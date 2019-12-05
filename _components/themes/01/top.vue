@@ -25,7 +25,7 @@
 
                   <q-card class="card-rounded text-center">
                     <q-card-section class="full-height text-center">
-                      7.5 de 200 usuarios
+                      {{storeData.countRatings}} usuario(s) han calificado
                     </q-card-section>
                     <div class="absolute-bottom text-right">
                         <q-card-actions align="right">
@@ -96,7 +96,7 @@
             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 q-mb-lg">
               <div class="bg-store-secondary  text-white text-center q-pa-md">
                 <div class="text-h4">{{storeData.usersFollowing}}</div>
-                <div class="text-subtitle1">usuarios siguen esta tienda</div>
+                <div class="text-subtitle1">usuario (s) siguen esta tienda</div>
               </div>
             </div>
           </div>
