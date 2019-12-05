@@ -1,5 +1,27 @@
 
 export default {
+  orders: {
+    permission: 'icommerce.orders.index',
+    activated: true,
+    path: '/qmarketplace/orders',
+    name: 'qmarketplace.admin.shipping.orders.index',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/order/index'),
+    layout: () => import('src/layouts/master'),
+    title: 'qcommerce.sidebar.adminOrders',
+    icon: 'fas fa-box-open',
+    authenticated: true,
+  },
+  order: {
+    permission: 'icommerce.orders.index',
+    activated: true,
+    path: '/qmarketplace/order/:id',
+    name: 'qmarketplace.admin.shipping.orders.show',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/order/show'),
+    layout: () => import('src/layouts/master'),
+    title: 'qcommerce.sidebar.adminOrders',
+    icon: 'fas fa-box-open',
+    authenticated: true,
+  },
   categoriesStore: {
     permission: 'icommerce.categories.index',
     activated: true,
