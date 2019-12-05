@@ -19,7 +19,7 @@
                             navigationNextLabel="<i class='fas fa-angle-right'></i>"
                             navigationPrevLabel="<i class='fas fa-angle-left'></i>">
 
-                            <slide v-for="(product,index) in products" :key="index">
+                            <slide v-for="(product,index) in store.products" :key="index">
                                 <product :product="product" className="cardProductTwo"></product>
                             </slide>
                         </carousel>
@@ -34,16 +34,15 @@
 import product from '@imagina/qmarketplace/_components/themes/02/product'
 export default {
   name: 'GeneralProductsComponent',
-  props: {
-    'products': { type:Array, default: []}
+  computed:{
+    store(){
+      let storeSlug = this.$route.params.slug
+      return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
+    }
   },
   components: {
     product
   },
-  data () {
-    return {
-    }
-  }
 }
 </script>
 <style lang="stylus">

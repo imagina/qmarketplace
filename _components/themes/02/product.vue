@@ -19,7 +19,7 @@
         :max="5" @input="val => { rating() }"
       />
       <p class="q-my-sm ">{{product.name}}</p>
-      <p class="q-my-sm "><small>{{storeName}}</small></p>
+      <p class="q-my-sm "><small>{{store.name}}</small></p>
     </q-card-section>
     <q-card-actions>
       <q-btn @click="addCart" color="store-secondary" label="COMPRAR" icon="shopping_cart"/>
@@ -29,7 +29,13 @@
 <script>
 export default {
     name: 'ProductComponent',
-    props: ['product','className','storeName','storeId','storeThemeConfig'],
+    props: ['product','className'],
+    computed:{
+      store(){
+        let storeSlug = this.$route.params.slug
+        return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
+      }
+    },
     mounted(){
     },
     methods:{
@@ -40,8 +46,6 @@ export default {
           }
         }).then(response => {
           this.$alert.success({message: "Calificación registrada exitosamente", pos: 'bottom'});
-          this.getData();
-          this.ratingStore=false;
         }).catch(error => {
           this.$alert.error({message: error.response.data.errors, pos: 'bottom'})
         });

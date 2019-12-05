@@ -38,7 +38,6 @@
             }).then(response => {
                this.$alert.success({message: "Calificación registrada exitosamente", pos: 'bottom'});
                this.getData();
-               this.ratingStore = false;
             }).catch(error => {
                this.$alert.error({message: error.response.data.errors, pos: 'bottom'})
             });

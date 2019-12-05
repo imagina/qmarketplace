@@ -6,7 +6,7 @@
       </q-item-section>
       <q-item-section class="q-py-md">COMPARTIR</q-item-section>
     </q-item>
-    <div v-for="soc in social" v-if="soc.active">
+    <div v-for="soc in store.social" v-if="soc.active">
       <q-item clickable>
         <q-item-section avatar>
           <q-icon color="store-primary" :name="soc.icon" />
@@ -37,8 +37,11 @@
 <script>
 export default {
   name: 'ShareNetworksComponent',
-  props: {
-    'social'              : { type:Array, default: []},
+  computed:{
+    store(){
+      let storeSlug = this.$route.params.slug
+      return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
+    }
   },
 }
 </script>

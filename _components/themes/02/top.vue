@@ -45,18 +45,20 @@
                         </div>
                         <div class="col-xs-auto col-sm-auto col-md-auto col-lg-12">
                           <q-card class="card-circle text-center q-mb-sm">
-                            <q-card-section class="q-pa-sm ">
+                            <q-card-section class="q-pa-sm " >
                               <div class="text-h5">
-                                <q-icon color="white" size="30px" round name="far fa-thumbs-up" />
+                                <q-icon v-if="!followedStore" @click="followStore()" color="white" size="30px" round name="far fa-thumbs-up" />
+                                <q-icon v-else color="white" size="30px" round name="far fa-thumbs-up" />
                               </div>
-                              <div class="text-body2"> Seguir Tienda</div>
+                              <div v-if="!followedStore" class="text-body2"> Seguir Tienda</div>
+                              <div v-else class="text-body2"> Ya sigues esta tienda</div>
                             </q-card-section>
                           </q-card>
                         </div>
                         <div class="col-xs-auto col-sm-auto col-md-auto col-lg-12">
                           <q-card class="card-rounded text-center">
                             <q-card-section class="q-pa-sm">
-                              <div class="text-h6">350 </div>
+                              <div class="text-h6">{{storeData.usersFollowing}} </div>
                               <div class="text-body2">Seguidores</div>
                             </q-card-section>
                           </q-card>

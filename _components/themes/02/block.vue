@@ -37,10 +37,10 @@
       <div class="q-container">
         <div class="row q-col-gutter-lg">
           <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
-            <featured-products :store="store"></featured-products>
+            <featured-products ></featured-products>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
-            <share :social="store.social"></share>
+            <share></share>
 
             <q-btn color="store-secondary" no-caps class="rounded-sm q-py-lg q-px-xl">
               <div class="text-h6 q-mb-md full-width">¿Tienes alguna duda?</div>
@@ -53,7 +53,7 @@
       </div>
     </div>
     <!-- Productos -->
-    <general-products :products="store.products"></general-products>
+    <general-products ></general-products>
 
 
   </div>
@@ -62,23 +62,29 @@
 import generalProducts from '@imagina/qmarketplace/_components/themes/02/generalProducts'
 import featuredProducts from '@imagina/qmarketplace/_components/themes/02/featuredProducts'
 import quiz from '@imagina/qmarketplace/_components/themes/02/quiz'
+import share from '@imagina/qmarketplace/_components/themes/02/shareNetworks'
 export default {
   name: 'PageLayout2',
-  props: {
-    'store'              : { type:Object, default: null},
-  },
   components: {
 
     featuredProducts,
     generalProducts,
     quiz,
+    share
   },
-  mounted(){
+  mounted() {
+    /*
+    console.warn('block', this.store)
+    */
+  },
+  computed:{
+    store(){
+      let storeSlug = this.$route.params.slug
+      return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
+    }
   },
   methods:{
   },
-  data() {
-  }
 }
 </script>
 <style lang="stylus">

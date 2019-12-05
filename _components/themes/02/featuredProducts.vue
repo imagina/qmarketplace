@@ -16,7 +16,7 @@
                 navigationPrevLabel="<i class='fas fa-angle-left'></i>">
 
                 <slide v-for="(product,index) in products" :key="index">
-                    <product :storeName="store.name" :storeId="store.id" :storeThemeConfig="store.options.theme_config" :product="product" className="cardProductTwo"></product>
+                    <product :product="product" className="cardProductTwo"></product>
                 </slide>
             </carousel>
 
@@ -31,13 +31,13 @@ export default {
   components: {
     product
   },
-  props: {
-    'store': { type:Object, default: []}
+  computed:{
+    store(){
+      let storeSlug = this.$route.params.slug
+      return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
+    }
   },
   mounted(){
-    console.log('store recibido en featured');
-    console.log(this.store);
-    console.log(this.store.id);
     this.getProducts();//
   },
   methods:{
