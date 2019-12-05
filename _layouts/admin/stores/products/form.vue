@@ -455,8 +455,8 @@
         this.locale = this.$clone(this.dataLocale)//Add fields
         this.productId = this.$route.params.id//Update param from route
         if (this.locale.success) this.$refs.localeComponent.vReset()//Reset locale
-        await this.getData()//Get Data Item
-        await this.getCategories()//Get categories
+        await this.getData().catch(error => {})//Get Data Item
+        await this.getCategories().catch(error => {})//Get categories
         this.success = true//Activate status of page
         this.updateOptions
         this.loading = false

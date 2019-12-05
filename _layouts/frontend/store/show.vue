@@ -70,8 +70,8 @@
       },
       methods: {
          async init() {
-            await this.getData()
-            await this.rating()
+            await this.getData().catch(error => {})
+            await this.rating().catch(error => {})
          },
          rating() {
             return new Promise((resolve, reject) => {

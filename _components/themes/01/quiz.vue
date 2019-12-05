@@ -138,7 +138,7 @@
             if(this.userId!=null)
                 await this.getUserPolls()
 
-            await this.getPolls()
+            await this.getPolls().catch(error => {})
            
             if(this.polls.length>0){
 
@@ -146,7 +146,7 @@
               // Get answers for each question
               for (let i=0;i<this.poll.questions.length;i++) {
                 let qId = this.poll.questions[i].id
-                await this.getAnswers(qId,i)
+                await this.getAnswers(qId,i).catch(error => {})
                 this.answers[i] = this.answersOptions
                 this.answersOptions = []
 
