@@ -1,8 +1,121 @@
 <template>
+  <q-page class="bg-fondo-q store-page layout-padding">
+
+    <div class="q-container">
+
+      <div class="row q-mb-md">
+        <div class="text-h5 text-primary q-mb-xs font-family-secondary">
+          Seguidores
+        </div>
+      </div>
+
+      <div class="row">
+        <q-card class="rounded-md q-mb-xl full-width q-py-md">
+          <q-card-section class="q-px-xl form-general">
+
+            <div v-if="!alertContent.active" class="row q-col-gutter-xl">
+              <!-- select -->
+              <div class="col-xs-12 col-sm-6">
+                
+              </div>
+              <!-- buscador -->
+              <div class="col-xs-12 col-sm-6">
+                <q-input 
+                  rounded 
+                  outlined 
+                  placeholder="busqueda" 
+                  v-model="searchText"
+                  @keydown.enter="searchInfor()"
+                  >
+                  <template v-slot:append>
+                    <q-icon name="search" />
+                  </template>
+                </q-input>
+              </div>
+            </div>
+
+            <!-- Users -->
+            <div class="row q-col-gutter-lg q-my-md">
+              
+              <!-- results -->
+              <div class="col-xs-12 col-sm-6" v-if="favoriteUsers.length>0" v-for="(result, index) in favoriteUsers" :key="index">
+                
+                <!-- USER -->
+                <q-card class="flat bordered">
+
+                  <q-card-section>
+
+                    <div class="row">
+                      <div class="col-4">
+                        <q-avatar size="100px">
+                          <img :src="result.user.mediumImage">
+                        </q-avatar>
+                      </div>
+                      <div class="col-8">
+                        <div class="text-h6">{{result.user.fullName}}</div>
+                        <div class="text-subtitle2">Nivel: Club de Conocidos</div>
+                        <div class="text-subtitle2">{{result.user.email}}</div>
+                      </div>
+                    </div>
+                    
+                  </q-card-section>
+
+                  <q-separator inset />
+
+                  <q-card-section>
+                    <div class="link-profile text-right">
+                      + Ver Perfil
+                    </div>
+                  </q-card-section>
+
+                </q-card>
+
+              </div>
+
+              <!-- not results -->
+              <div v-else class="col-12">
+                <q-banner  class="bg-red q-mx-sm q-mt-xl q-mb-xl">
+                  <template v-slot:avatar>
+                    <q-icon :name="alertContent.icon" color="white" />
+                  </template>
+
+                  <div class="text-center text-white">
+                    NO EXISTEN RESULTADOS DISPONIBLES
+                  </div>
+                </q-banner>
+              </div>
+              
+            </div>
+
+             <!-- msj -->
+            <div v-if="alertContent.active" class="row" >
+              <div class="col-12">
+                <q-banner  :class="alertContent.color" class="q-mx-sm q-mt-xl q-mb-xl">
+                  <template v-slot:avatar>
+                    <q-icon :name="alertContent.icon" color="white" />
+                  </template>
+
+                  <div class="text-center text-white">
+                    {{alertContent.msj}}
+                  </div>
+                </q-banner>
+              </div>
+            </div>
+
+          </q-card-section>
+        </q-card>
+      </div>
+    </div>
+
+    <!--Loading-->
+    <inner-loading :visible="loading"/>
+  </q-page>
+  <!--
   <div id="pageId">
-    <!---Component CRUD-->
     <crud :crud-data="import('@imagina/qmarketplace/_crud/favoriteStores')"/>
   </div>
+  -->
+
 </template>
 <script>
   export default {
@@ -14,12 +127,104 @@
     },
     mounted() {
       this.$nextTick(function () {
+        this.init();
       })
     },
     data() {
-      return {}
+      return {
+        loading: false,
+        success: false,
+        storeId : this.$store.state.qmarketplaceStores.storeSelected ? this.$store.state.qmarketplaceStores.storeSelected : null,
+        favoriteUsers: [],
+        alertContent:{
+          active: false,
+          color:'bg-red',
+          icon:'error',
+          msj:'DEBE TENER UNA TIENDA SELECCIONADA'
+        },
+        searchText: ''
+      }
     },
-    methods: {}
+    methods: {
+      // init Method
+      async init(){
+
+        this.loading = true
+
+        if(this.storeId!=null){
+          this.getUsersByStore()
+        }
+        else{
+          this.alertContent.active = true
+        }
+
+        this.success = true
+        this.loading = false
+        
+      },
+      // Get User By store ID
+      getUsersByStore(){
+        //Params
+        let params = {
+          refresh: true,
+          params: {
+              include: 'user',
+              filter: {storeId:this.storeId},
+              take: 10
+          }
+        }
+
+        this.$crud.index("apiRoutes.qmarketplace.favoriteStore",params).then(response => {
+          this.favoriteUsers = response.data
+
+        }).catch(error => {
+          console.error("ERROR - GET USERS FROM FAVORITE STORES")
+          this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
+            
+        })
+
+      },
+      // search text
+      searchInfor(){
+
+        this.loading = true
+
+        this.favoriteUsers = []
+
+        //Params
+        let params = {
+          refresh: true,
+          params: {
+              include: 'user',
+              filter: {
+                search: this.searchText,
+                storeId:this.storeId
+              },
+              take: 10
+          }
+        }
+
+        this.$crud.index("apiRoutes.qmarketplace.favoriteStore",params).then(response => {
+          this.favoriteUsers = response.data
+
+          if(this.favoriteUsers.length==0)
+            this.$alert.error({message: 'No existen resultados disponbles', pos: 'bottom'})
+        
+          this.loading = false
+
+        }).catch(error => {
+
+          this.loading = false
+
+          console.error("ERROR - SEARCH USERS FROM FAVORITE STORES")
+          this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
+            
+        })
+
+
+      }
+
+    }
   }
 </script>
 <style lang="stylus">
