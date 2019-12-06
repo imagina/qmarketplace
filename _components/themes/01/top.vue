@@ -38,11 +38,11 @@
               </div>
             </div>
           </div>
-          <div class="col-12 bg-store-primary">
+          <div class="col-12 bg-store-primary menuStore">
             <div class="q-container q-py-sm" v-if="$q.platform.is.desktop">
               <div class="row items-center justify-center">
                 <div class="col">
-                  <q-btn flat icon="fas fa-home" no-caps label="Inicio" color="white"/>
+                  <q-btn flat icon="fas fa-home" no-caps label="Inicio" color="white" @click="$router.push({name: 'stores.show', params : {slug:storeData.slug}})" />
                   <q-btn-dropdown lat icon="fas fa-bars" no-caps label="Categorias" color="store-primary">
                     <q-list>
                       <q-item v-for="item in categories" :key="'category'+item.title" clickable v-close-popup @click="$router.push({name: 'stores.product.index', params : {slug:storeData.slug,category:item.slug}})">
@@ -76,17 +76,25 @@
               </div>
             </div>
             <q-toolbar class="bg-store-primary" v-else>
-              <q-btn flat round dense icon="fas fa-home" />
-              <q-btn flat round dense icon="fas fa-bars" />
-              <q-btn @click="infoStore=true" flat round dense icon="fas fa-map-marker-alt"/>
-              <q-btn flat round dense icon="far fa-comment-dots"/>
+              <q-btn flat round dense icon="fas fa-home" @click="$router.push({name: 'stores.show', params : {slug:storeData.slug}})" color="white" />
+              <q-btn-dropdown lat icon="fas fa-bars" no-caps color="store-primary">
+                <q-list>
+                  <q-item v-for="item in categories" :key="'category'+item.title" clickable v-close-popup @click="$router.push({name: 'stores.product.index', params : {slug:storeData.slug,category:item.slug}})">
+                    <q-item-section>
+                      <q-item-label>{{item.title}}</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-btn-dropdown>
+              <q-btn @click="$router.push({name: 'stores.about', params : {slug:storeData.slug}})" flat icon="fas fa-map-marker-alt" no-caps color="white"/>
+              <q-btn flat round dense icon="far fa-comment-dots" color="white"/>
               <q-toolbar-title>
               </q-toolbar-title>
-              <q-btn flat round dense icon="fas fa-search"/>
-              <q-btn flat round dense icon="fas fa-heart"/>
-              <q-btn flat round dense icon="fa fa-shopping-cart">
-                <q-badge v-if="cart" align="top" class="bg-store-secondary" floating>{{cart.products.length}}</q-badge>
-                <q-badge v-else align="top" class="bg-store-secondary" floating>0</q-badge>
+              <q-btn flat round dense icon="fas fa-search" color="white"/>
+              <q-btn flat round dense icon="fas fa-heart" v-if="!followedStore" @click="followStore()"  color="white" />
+              <q-btn @click="$router.push({name: 'marketplace.checkout', params:{storeId:storeData.id}})" flat icon="fa fa-shopping-cart"  color="white ">
+                <q-badge v-if="cart" align="top" class="bg-store-secondary"  floating>{{cart.products.length}}</q-badge>
+                <q-badge v-else align="top" class="bg-store-secondary"  floating>0</q-badge>
               </q-btn>
             </q-toolbar>
           </div>

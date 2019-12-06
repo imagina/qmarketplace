@@ -1,16 +1,8 @@
 <template>
   <q-page class="page">
     <header-store></header-store>
-    <div class="bg-fondo q-px-sm q-py-xl">
+    <div class="bg-fondo q-px-sm q-py-xl" style="padding-top:70px;margin-top: -123px ">
       <div class="q-container">
-        <div class="row justify-end">
-          <div class="col-auto text-center q-my-lg">
-            <q-breadcrumbs>
-              <q-breadcrumbs-el label="Inicio"  to="/" />
-              <q-breadcrumbs-el :label="$tr('qsubscription.layout.form.checkout.finalizePurchase')"/>
-            </q-breadcrumbs>
-          </div>
-        </div>
         <div class="row">
           <div class="col-12">
             <h5 class="q-ma-md text-secondary font-family-secondary"><i class="fas fa-truck text-primary"></i>
@@ -30,11 +22,14 @@
                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <div class="q-mb-md">
                       <p class="caption q-mb-sm">Dirección</p>
-                      <q-select dense
-                      class="full-width"
-                      v-model="form.addressShippingId"
-                      :options="addresses"
-                      />
+                      <div v-if="addresses.length">
+                        <q-select dense
+                                  class="full-width"
+                                  v-model="form.addressShippingId"
+                                  :options="addresses"
+                        />
+                      </div>
+
                     </div>
                   </div>
 
@@ -42,11 +37,11 @@
 
                     <div class="q-mb-xl">
                       <p class="caption q-mb-sm">{{$tr('ui.form.name')}}</p>
-                      <q-input dense v-model="form.firstName" placeholder="Emelis" />
+                      <q-input dense v-model="form.firstName" :placeholder="$tr('ui.form.name')" />
                     </div>
                     <div class="q-mb-xl">
                       <p class="caption q-mb-sm">{{$tr('ui.form.phone')}}</p>
-                      <q-input dense type="text" v-model="form.telephone" placeholder="+00 00 00" />
+                      <q-input dense type="text" v-model="form.telephone" placeholder="000 000 0000" />
                     </div>
                     <div class="q-mb-xl">
                       <p class="caption q-mb-sm">Provincia</p>
