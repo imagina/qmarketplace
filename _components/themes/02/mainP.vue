@@ -1,22 +1,16 @@
 <template>
-   <div class="bg-light q-py-lg q-px-md">
-      <h4 class="text-center text-store-secondary">
-         • PRODUCTOS •
-      </h4>
-      <div class="q-container">
-         <div class="row q-col-gutter-lg q-py-lg">
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3" v-for="product in products">
-               <product :product="product" className="cardProductOne"></product>
-            </div>
-         </div>
+   <div>
+      <div class="col-xs-12 col-sm-6 col-md-6 q-mb-xl text-center" v-for="(product, index) in products" :key="index">
+         <product :product="product"></product>
       </div>
+
    </div>
 </template>
 <script>
-   import product from '@imagina/qmarketplace/_components/themes/01/product'
+   import product from '@imagina/qmarketplace/_components/themes/02/mainProduct'
 
    export default {
-      name: 'GeneralProductsComponent',
+      name: 'MainP',
       components: {
          product
       },

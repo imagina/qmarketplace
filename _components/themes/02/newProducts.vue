@@ -17,26 +17,38 @@ export default {
   components: {
     product
   },
-  data () {
-    return {
-        products:  [
-        {
-            name: 'Mochila 1',
-            image: '/statics/img/product.jpg',
-            tienda: 'artesanias',
-            price: 10.00,
-            rating: 3
-        },
-        {
-            name: 'Mochila 2',
-            image: '/statics/img/contacto.jpg',
-            tienda: 'artesanias',
-            price: 10.00,
-            rating: 3
-        }
-        ]
-    }
-  }
+   computed:{
+      storeData(){
+         let storeSlug = this.$route.params.slug
+         return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
+      }
+   },
+   mounted(){
+      this.getProducts();
+   },
+   methods:{
+      getProducts(){
+         //
+         let params = {
+            remember: false,
+            params: {
+               include: '',
+               filter:{
+                  store: this.storeData.id,
+               },
+               take:2
+            }
+         };//params
+         this.$crud.index("apiRoutes.qcommerce.products",params).then(response => {
+            this.products=response.data;
+         });
+      }
+   },
+   data () {
+      return {
+         products:[]
+      }
+   }
 }
 </script>
 <style lang="stylus">

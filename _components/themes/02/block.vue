@@ -4,13 +4,8 @@
     <div class="q-pa-md">
       <div class="q-container">
         <div class="row q-col-gutter-lg">
-          <div class="col-xs-12 col-sm-12 col-md-4 q-mb-xl text-center">
-            <q-img :ratio="1" src="/statics/img/theme-two/banner1.jpg" />
-            <q-btn no-caps class="rounded-lg btn-banner"  color="store-secondary" label="Lorem ipsum" />
-          </div>
-          <div class="col-xs-12 col-sm-12 col-md-4 q-mb-xl text-center">
-            <q-img :ratio="1" src="/statics/img/theme-two/banner2.jpg" />
-            <q-btn no-caps class="rounded-lg btn-banner"  color="store-secondary" label="Lorem ipsum" />
+          <div class="col-xs-12 col-md-8">
+            <mainProducts></mainProducts>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-4">
             <quiz></quiz>
@@ -61,12 +56,13 @@
 <script>
 import generalProducts from '@imagina/qmarketplace/_components/themes/02/generalProducts'
 import featuredProducts from '@imagina/qmarketplace/_components/themes/02/featuredProducts'
+import mainProducts from '@imagina/qmarketplace/_components/themes/02/mainP'
 import quiz from '@imagina/qmarketplace/_components/themes/02/quiz'
 import share from '@imagina/qmarketplace/_components/themes/02/shareNetworks'
 export default {
   name: 'PageLayout2',
   components: {
-
+    mainProducts,
     featuredProducts,
     generalProducts,
     quiz,

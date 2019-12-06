@@ -1,34 +1,18 @@
 <template>
-   <q-card :class="className" class="q-pa-md">
-      <q-card-section class="q-pb-lg">
-         <div class="row">
-            <div class="col-6">
-               <q-img :ratio="1" :src="product.mainImage.path"/>
-            </div>
-            <div class="col-6">
-               <q-card-section>
-                  <p class="q-my-none text-truncate">{{product.name}}</p>
-                  <p class="q-my-none text-truncate"><small>{{storeName}}</small></p>
-                  <h5 class="q-my-sm text-store-primary">${{product.price}}</h5>
-                  <q-rating size="20px"
-                            @input="val => { rating() }"
-                            v-model="product.averageRating"
-                            :max="5"
-                  />
-               </q-card-section>
-               <q-card-actions>
-                  <q-btn flat dense icon="favorite"/>
-                  <q-btn @click="addCart" flat dense icon="shopping_cart"/>
-               </q-card-actions>
-            </div>
-         </div>
-      </q-card-section>
-   </q-card>
+   <div>
+      <router-link
+              :to="{name: 'stores.product.show',params:{slug: storeData.slug, product: product.slug}}">
+      <q-img :ratio="1" :src="product.mainImage.path" :alt="product.name" />
+      </router-link>
+      <q-btn :to="{name: 'stores.product.show',params:{slug: storeData.slug, product: product.slug}}" no-caps class="rounded-lg btn-banner"  color="store-secondary" :label="product.name" />
+   </div>
 </template>
 <script>
    export default {
-      name: 'ProductHorizontalComponent',
-      props: ['product', 'className', 'storeName', 'storeId', 'storeThemeConfig'],
+      name: 'MainProduct',
+      props: ['product'],
+      mounted() {
+      },
       computed: {
          storeData() {
             let storeSlug = this.$route.params.slug
@@ -88,7 +72,7 @@
                   }).catch(error => {
                      this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
                   });
-               }
+               }//else
             } else {
                this.createCart();
             }
@@ -98,41 +82,31 @@
    }
 </script>
 <style lang="stylus">
-   .cardProductH01
-      border-radius 0
-      background-color #ffffff
+   .cardProductTwo
+      border-radius 20px 20px 20px 0
       position relative
+      margin 8px
+      background-color var(--q-color-light)
 
-      h5
-         color $storePrimary
+      & .card-title
+         margin-right 30px
+         margin-top -30px
+         z-index 9
+         position relative
+         margin-bottom 10px
+         padding 10px
+         border-radius 0 10px 10px 0 !important
 
-      & .q-card__section
+      & .card-main
          font-size 16px
 
       & .q-card__actions
-         background-color $storeSecondary
-         position absolute
-         right 0
-         bottom 15px
-
          .q-btn
-            color #fff
+            margin-left -7px
             border-radius 0
+            margin-bottom 10px
+            box-shadow none
+            padding-right 20px
 
-         .q-btn:first-child
-            border-left 1px solid #fff
-
-         .q-btn:last-child
-            border-right 1px solid #fff
-
-      &:hover
-         background-color $storeSecondary
-         color #fff !important
-
-         h5
-            color #fff !important
-
-         & .q-card__actions
-            background-color $storePrimary
 
 </style>

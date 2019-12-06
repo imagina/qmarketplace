@@ -2,7 +2,7 @@
    <q-card :class="className">
       <router-link
               :to="{name: 'stores.product.show',params:{slug: storeData.slug, product: product.slug}}">
-      <q-img :ratio="1" :src="product.mainImage.path"/>
+         <q-img :ratio="1" :src="product.mainImage.path"/>
       </router-link>
       <q-card-actions>
          <q-btn flat dense icon="favorite"/>
@@ -14,7 +14,10 @@
                    v-model="product.averageRating"
                    :max="5"
          />
-         <h5 class="q-my-sm text-store-primary">${{product.price}}</h5>
+         <router-link
+                 :to="{name: 'stores.product.show',params:{slug: storeData.slug, product: product.slug}}">
+            <h5 class="q-my-sm text-store-primary">${{product.price}}</h5>
+         </router-link>
          <p class="q-my-none text-truncate">{{product.name}}</p>
          <p class="q-my-none text-truncate"><small>{{storeData.name}}</small></p>
       </q-card-section>
