@@ -58,7 +58,12 @@
                   {label: this.$tr('ui.label.all'), id: '0'}
                 ],
                 loadOptions: {
-                  apiRoute: 'apiRoutes.qcommerce.categories'
+                  apiRoute: 'apiRoutes.qcommerce.categories',
+                  requestParams: {
+                    filter:{
+                      store: this.$store.state.qmarketplaceStores.storeSelected
+                    }
+                  }
                 }
               },
               status: {

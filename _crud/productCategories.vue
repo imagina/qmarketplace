@@ -12,14 +12,14 @@
           read: {
             columns: [
               {name: 'id', label: this.$tr('ui.form.id'), field: 'id', style: 'width: 50px'},
-              {name: 'name', label: this.$tr('ui.form.name'), field: 'title', align: 'rigth'},
-              {name: 'slug', label: this.$tr('ui.form.slug'), field: 'slug', align: 'left'},
+              {name: 'name', label: this.$tr('ui.form.title'), field: 'title', align: 'left'},
+              {name: 'slug', label: 'url amigable', field: 'slug', align: 'left'},
               {
-                name: 'parent', label: this.$tr('ui.form.parent'), field: 'parent', align: 'left',
+                name: 'parent', label: 'Categoría padre', field: 'parent', align: 'left',
                 format: val => val ? (val.title ? val.title : '-') : '-'
               },
               {
-                name: 'created_at', label: this.$tr('ui.form.createdAt'), field: 'createdAt', align: 'left',
+                name: 'created_at', label: 'Fecha Creación', field: 'createdAt', align: 'left',
                 format: val => val ? this.$trd(val) : '-',
               },
               {name: 'actions', label: this.$tr('ui.form.actions'), align: 'left'},
@@ -49,6 +49,22 @@
               ],
               isTranslatable: true,
             },
+            mediasSingle: {
+              name: 'mediasSingle',
+              label: this.$tr('ui.form.firstImage'),
+              value: {},
+              type: 'media',
+              zone: 'mainimage',
+              entity: "Modules\\Icommerce\\Entities\\Category",
+              entityId: null
+            },
+            description: {
+              label: this.$tr('ui.form.description'),
+              value: '',
+              type: 'html',
+              isRequired: false,
+              isTranslatable: true,
+            },
             slug: {
               value: '',
               type: 'input',
@@ -59,37 +75,6 @@
                   val => !!val || this.$tr('ui.message.fieldRequired')
                 ],
               }
-            },
-            description: {
-              label: this.$tr('ui.form.description'),
-              value: '',
-              type: 'html',
-              isRequired: false,
-              isTranslatable: true,
-            },
-            metaTitle: {
-              value: '',
-              type: 'input',
-              isTranslatable: true,
-              label: this.$tr('ui.form.metaTitle'),
-            },
-            metaDescription: {
-              value: '',
-              type: 'input',
-              isTranslatable: true,
-              label: this.$tr('ui.form.metaDescription'),
-            },
-          },
-          formRight: {
-            masterRecord : {
-              value: '0',
-              isFakeField : true,
-              type: 'select',
-              label: this.$tr('ui.form.masterRecord'),
-              options: [
-                {label: this.$tr('ui.label.yes'), value: '1'},
-                {label: this.$tr('ui.label.no'), value: '0'},
-              ]
             },
             parentId: {
               value: '0',
@@ -112,20 +97,39 @@
                 ],
               }
             },
+            metaTitle: {
+              value: '',
+              type: 'input',
+              isTranslatable: true,
+              label: this.$tr('ui.form.metaTitle'),
+            },
+            metaDescription: {
+              value: '',
+              type: 'input',
+              isTranslatable: true,
+              label: this.$tr('ui.form.metaDescription'),
+            },
+
+          },
+          formRight: {
             showMenu: {
               value: false,
               type: 'checkbox',
               label: this.$tr('qcommerce.layout.form.showInMenu'),
             },
-            mediasSingle: {
-              name: 'mediasSingle',
-              label: this.$tr('ui.form.firstImage'),
-              value: {},
-              type: 'media',
-              zone: 'mainimage',
-              entity: "Modules\\Icommerce\\Entities\\Category",
-              entityId: null
-            },
+            // masterRecord : {
+            //   value: '0',
+            //   isFakeField : true,
+            //   type: 'select',
+            //   label: this.$tr('ui.form.masterRecord'),
+            //   options: [
+            //     {label: this.$tr('ui.label.yes'), value: '1'},
+            //     {label: this.$tr('ui.label.no'), value: '0'},
+            //   ]
+            // },
+
+
+
           },
         }
       },
