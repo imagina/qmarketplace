@@ -157,21 +157,17 @@
                       </q-tooltip>
                     </q-btn>
                   </p>
-                  <q-select dense
-                  v-model="company.categories"
-                  multiple
-                  :options="categoryOptions"
+                  <tree-select
+                    :clearable="false"
+                    :append-to-body="true"
+                    class="q-mb-md"
+                    filter="searchText"
+                    multiple
+                    :options="categoryOptions"
+                    value-consists-of="BRANCH_PRIORITY"
+                    v-model="company.categories"
+                    placeholder=""
                   />
-                  <!-- <tree-select
-                  :clearable="false"
-                  :append-to-body="true"
-                  class="q-mb-md"
-                  :options="categoryOptions"
-                  value-consists-of="BRANCH_PRIORITY"
-                  v-model="company.categories"
-                  placeholder=""
-                  /> -->
-                  <!-- <q-select multiple v-model="company.categories" :options="categoryOptions" /> -->
                 </div>
 
                 <div  class="q-mb-xl">
@@ -192,7 +188,6 @@
                   @input="val => { getCities() }"
                   placeholder=""
                   />
-                  <!-- <q-select @input="val => { getCities() }" v-model="company.provinceId" :options="provincesOptions" /> -->
                 </div>
 
                 <div  class="q-mb-xl" v-if="cityOptions.length>0">
@@ -213,7 +208,6 @@
                   v-model="company.cityId"
                   placeholder=""
                   />
-                  <!-- <q-select v-model="company.cityId" :options="cityOptions" /> -->
                 </div>
 
                 <div v-if="neighborhoodOptions.length>0" class="q-mb-xl">
@@ -319,11 +313,11 @@
                   </q-tooltip>
                 </q-btn>
               </p>
-              <div v-for="(item,index) in company.options.payment_methods" :key="index">
+              <div v-for="(item,index) in payment_methods" :key="index">
                 <div class="row items-center q-py-sm border-bottom-gray">
                   <div class="col">
-                    <q-checkbox v-model="item.active">
-                      <span class="q-px-sm">{{item.name}}</span>
+                    <q-checkbox v-model="company.paymentMethods" :val="item.id">
+                      <span class="q-px-sm">{{item.title}}</span>
                     </q-checkbox>
                   </div>
                   <div class="col-auto">
@@ -349,11 +343,11 @@
                 </q-btn>
               </p>
 
-              <div v-for="(item,index) in company.options.shipping_methods" :key="index">
+              <div v-for="(item,index) in shipping_methods" :key="index">
                 <div class="row items-center q-py-sm border-bottom-gray">
                   <div class="col">
-                    <q-checkbox v-model="item.active">
-                      <span class="q-px-sm">{{item.name}}</span>
+                    <q-checkbox v-model="company.shippingMethods" :val="item.id">
+                      <span class="q-px-sm">{{item.title}}</span>
                     </q-checkbox>
                   </div>
                   <div class="col-auto">
@@ -413,6 +407,8 @@ export default {
         provinceId: 0,
         neighborhoodId: 0,
         categories:[],
+        paymentMethods:[],
+        shippingMethods:[],
         logo: {
           path:'/statics/img/fondo.jpg',
           mimeType:''
@@ -466,18 +462,18 @@ export default {
             // }
           ],
           shipping_methods: [
-            {
-              name: 'Recoger en Tienda',
-              active: false
-            },
-            {
-              name: 'Servicio a Domicilio',
-              active: false
-            },
-            {
-              name: 'A convenir',
-              active: false
-            }
+            // {
+            //   name: 'Recoger en Tienda',
+            //   active: false
+            // },
+            // {
+            //   name: 'Servicio a Domicilio',
+            //   active: false
+            // },
+            // {
+            //   name: 'A convenir',
+            //   active: false
+            // }
           ]
         },
         social: [
@@ -509,14 +505,7 @@ export default {
       showingBackground: false,
       searchModel: '',
       sectorOptions: [
-        // {
-        //   label: 'Barrios',
-        //   value: '1'
-        // },
-        // {
-        //   label: 'Barrioswert',
-        //   value: '2'
-        // }
+
       ],
       neighborhoodOptions: [],
       cityOptions: [],
@@ -557,6 +546,8 @@ export default {
           }
         }
       ],
+      payment_methods:[],
+      shipping_methods:[],
       editorText: {
         toolbar: [
           ['bold', 'italic', 'strike', 'underline', 'removeFormat'],
@@ -583,18 +574,47 @@ export default {
       await this.getProvinces();//
       await this.getThemes();//
       await this.getPaymentMethods();//
+      await this.getShippingMethods();//
       this.storeId=this.$store.state.qmarketplaceStores.storeSelected;
       // console.log(this.$store.state.qmarketplaceStores.storeSelected);
       // console.log(this.$store.getters['qmarketplaceStores/userStoresSelect']);
       if (this.$route.params.id) this.storeId = this.$route.params.id
       if (this.storeId) await this.getData()//Get data if is edit
+      else await this.getSuscription();
       this.loading=false;
+    },
+    getSuscription(){
+      let params={
+        params:{
+          include:'plan.product',
+          filter:{
+            userId:this.$store.state.quserAuth.userId,
+            status:1
+          }
+        }
+      };
+      this.$crud.index("apiRoutes.qsubscription.suscriptions",params).then(response => {
+        this.company.themeId=1;
+        if(response.data.length>0){
+          if(response.data[0].plan.product.id==6){
+            this.company.themeId=3;
+          }
+        }
+      });
     },
     getPaymentMethods(){
       //Get
-      this.$crud.index("apiRoutes.qsubscription.paymentMethods").then(response => {
+      this.$crud.index("apiRoutes.qcommerce.paymentMethods").then(response => {
         for(var i=0;i<response.data.length;i++){
-          this.company.options.payment_methods.push({id:response.data[i].id,name:response.data[i].name,active:false});
+          this.payment_methods.push({id:response.data[i].id,name:response.data[i].name,title:response.data[i].title});
+        }
+      })
+    },
+    getShippingMethods(){
+      //Get
+      this.$crud.index("apiRoutes.qcommerce.shippingMethods").then(response => {
+        for(var i=0;i<response.data.length;i++){
+          this.shipping_methods.push({id:response.data[i].id,name:response.data[i].name,title:response.data[i].title});
         }
       })
     },
@@ -608,28 +628,33 @@ export default {
           let params = {
             refresh: true,
             params: {
-              include: 'categories',
+              include: 'categories,paymentMethods,shippingMethods',
               filter: {allTranslations: true}
             }
           }
           //Request
           this.$crud.show(this.configName, itemId, params).then(response => {
-            var paymentMethods=this.company.options.payment_methods;
-            for(var i=0;i<paymentMethods.length;i++){
-              for(var o=0;o<response.data.options.payment_methods.length;o++){
-                if(response.data.options.payment_methods[o].id==paymentMethods[i].id){
-                  paymentMethods[i].active=response.data.options.payment_methods[o].active;
-                  break;
-                }
-              }
+            var paymentMethods=[];
+            for(var i=0;i<response.data.paymentMethods.length;i++){
+              paymentMethods.push(response.data.paymentMethods[i].id);
+            }//for
+            var shippingMethods=[];
+            for(var i=0;i<response.data.shippingMethods.length;i++){
+              shippingMethods.push(response.data.shippingMethods[i].id);
+            }//for
+            var categories=[];
+            for(var i=0;i<response.data.categories.length;i++){
+              categories.push(response.data.categories[i].id);
             }//for
             this.company = this.$clone(response.data);
-            this.company.categories=this.$array.tree(response.data.categories);
+            // this.company.categories=this.$array.tree(response.data.categories);
             this.company.name=this.company[this.lang].name;
             this.company.slug=this.company[this.lang].slug;
             this.company.description=this.company[this.lang].description;
             this.company.slogan=this.company[this.lang].slogan;
-            this.company.options.payment_methods=paymentMethods;
+            this.company.paymentMethods=paymentMethods;
+            this.company.shippingMethods=shippingMethods;
+            this.company.categories=categories;
             this.getCities()
             this.getNeighborhoods()
             resolve(true)//Resolve
@@ -746,12 +771,12 @@ export default {
         this.company.social[i].active=false;
         this.company.social[i].url=null;
       }
-      for(var i=0;i<this.company.options.payment_methods.length;i++){
-        this.company.options.payment_methods[i].active=false;
-      }
-      for(var i=0;i<this.company.options.shipping_methods.length;i++){
-        this.company.options.shipping_methods[i].active=false;
-      }
+      // for(var i=0;i<this.company.options.payment_methods.length;i++){
+      //   this.company.options.payment_methods[i].active=false;
+      // }
+      // for(var i=0;i<this.company.options.shipping_methods.length;i++){
+      //   this.company.options.shipping_methods[i].active=false;
+      // }
     },
     createStore(){
       this.company[this.lang]={
@@ -761,15 +786,18 @@ export default {
         slug:this.slugable(this.company.name)
       };
       this.company.user_id=this.userId;
-      var categories=[];
-      for(var i=0;i<this.company.categories.length;i++){
-        categories.push(this.company.categories[i].id);
-      }
-      this.company.categories=categories;
+      // var categories=[];
+      // for(var i=0;i<this.company.categories.length;i++){
+      //   categories.push(this.company.categories[i].id);
+      // }
+      // this.company.categories=categories;
       this.$crud.create("apiRoutes.qmarketplace.store", this.company).then(response => {
         this.$alert.success({message: this.$tr('ui.message.recordCreated'), pos: 'bottom'})
         this.$router.push({
-          name: 'qmarketplace.admin.stores.index'
+          name: 'qmarketplace.admin.theme.store.index',
+          params:{
+            id:response.data.id
+          }
         })
       }).catch(error => {
         this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
@@ -782,22 +810,22 @@ export default {
         description:this.company.description,
         slug:this.slugable(this.company.name)
       };
-      if(this.theme.id!=null){
-        this.company.theme_id=this.theme.id;
-        this.company.options.theme_config.color_primary=this.theme.primary;
-        this.company.options.theme_config.color_secondary=this.theme.secondary;
-        this.company.options.theme_config.background=this.theme.background;
-      }
+      // if(this.theme.id!=null){
+      //   this.company.theme_id=this.theme.id;
+      //   this.company.options.theme_config.color_primary=this.theme.primary;
+      //   this.company.options.theme_config.color_secondary=this.theme.secondary;
+      //   this.company.options.theme_config.background=this.theme.background;
+      // }
       var data=this.company;
-      var categories=[];
-      for(var i=0;i<this.company.categories.length;i++){
-        categories.push(this.company.categories[i].id);
-      }
-      data.categories=categories;
+      // var categories=[];
+      // for(var i=0;i<this.company.categories.length;i++){
+      //   categories.push(this.company.categories[i].id);
+      // }
+      // data.categories=categories;
       this.$crud.update("apiRoutes.qmarketplace.store", this.storeId,data).then(response => {
         this.$alert.success({message: this.$tr('ui.message.recordUpdated'), pos: 'bottom'})
         this.$router.push({
-          name: 'qmarketplace.admin.stores.index'
+          name: 'qmarketplace.admin.stores.my.store'
         })
       }).catch(error => {
         this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
