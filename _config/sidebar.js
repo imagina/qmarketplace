@@ -14,14 +14,14 @@ export default [
    pages.qmarketplace.myStore, // themes
    pages.qmarketplace.myStoreTheme, // themes
    pages.qmarketplace.favoriteUsers, // Seguidores
-   pages.qmarketplace.categoriesStore, // categoriesStore
+
    pages.qmarketplace.orders, // orders
    {
       title: 'qmarketplace.sidebar.products',
       icon: 'fas fa-shopping-basket',
       children: [
          pages.qmarketplace.myStoreProducts, // themes
-         pages.qmarketplace.myStoreCategoryProducts, // Seguidores
+         pages.qmarketplace.categoriesStore, // categoriesStore
       ]
    },
 ]

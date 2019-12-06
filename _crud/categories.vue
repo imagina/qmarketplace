@@ -50,23 +50,54 @@
               ],
               isTranslatable: true,
             },
+
             description: {
               label: this.$tr('ui.form.description'),
               value: '',
               type: 'html',
               isRequired: false,
               isTranslatable: true,
-            },
-            mediasSingle: {
-              name: 'mediasSingle',
-              label: this.$tr('ui.form.firstImage'),
-              value: {},
-              type: 'media',
-              zone: 'mainimage',
-              entity: "Modules\\Marketplace\\Entities\\CategoryStore",
-              entityId: null
-            },
+            }
           },
+           formRight: {
+              parentId: {
+                 value: '0',
+                 type: 'select',
+                 loadOptions: {
+                    apiRoute: 'apiRoutes.qmarketplace.category',
+                    select: {label: 'title', id: 'id'},
+                    requestParams: {
+                       include: 'parent',
+                       filter:{
+                          store: this.$store.state.qmarketplaceStores.storeSelected
+                       }
+                    }
+                 },
+                 label: this.$tr('ui.form.parent'),
+                 props : {
+                    clearable: true,
+                    options : [
+                       {label: this.$tr('ui.label.disabled'), value: 0},
+                    ],
+                 }
+              },
+              icon: {
+                 label: 'Icon',
+                 value: '',
+                 type: 'text',
+              },
+
+
+              mediasSingle: {
+                 name: 'mediasSingle',
+                 label: this.$tr('ui.form.firstImage'),
+                 value: {},
+                 type: 'media',
+                 zone: 'mainimage',
+                 entity: "Modules\\Marketplace\\Entities\\CategoryStore",
+                 entityId: null
+              },
+           },
         }
       }
     }

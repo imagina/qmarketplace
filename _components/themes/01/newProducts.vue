@@ -35,6 +35,7 @@ export default {
           include: '',
           filter:{
             store: this.store.id,
+            news:true
           },
           take:4
         }
