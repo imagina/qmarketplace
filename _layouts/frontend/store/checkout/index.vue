@@ -86,7 +86,7 @@
 
                   </div>
 
-                  <q-radio v-model="form.shippingMethodId" v-for="(shipMethod,index) in shippingMethods" :key="'shipMethod'+shipMethod.id" :val="shipMethod.id" :label="shipMethod.title" />
+                  <q-radio v-model="form.shippingMethodId" v-for="(shipMethod,index) in storeData.shippingMethods" :key="'shipMethod'+shipMethod.id" :val="shipMethod.id" :label="shipMethod.title" />
                   <!-- <div class="col-xs-12 col-sm-6 text-center">
 
                     <q-btn outline size="lg" class="rounded-md" no-caps icon="fa fa-truck text-primary" :label="$tr('qsubscription.layout.form.checkout.homeDelivery')" />
@@ -139,7 +139,7 @@
         </span>
       </div> -->
 
-      <q-radio v-model="form.paymentMethodId" v-for="(payMethod,index) in paymentMethods" :key="'payMethod'+payMethod.id" :val="payMethod.id" :label="payMethod.title" />
+      <q-radio v-model="form.paymentMethodId" v-for="(payMethod,index) in storeData.paymentMethods" :key="'payMethod'+payMethod.id" :val="payMethod.id" :label="payMethod.title" />
       <!-- <q-radio v-model="paymentMethod" val="paypal" label="Paypal" />
       <hr class="line-grey q-my-md">
       <q-radio v-model="paymentMethod" val="payu" label="PayU" />
@@ -425,8 +425,8 @@ export default {
   mounted() {
     this.$nextTick(function () {
       this.getCart();
-      this.getPaymentMethods();
-      this.getShippingMethods();
+      // this.getPaymentMethods();
+      // this.getShippingMethods();
       this.getProvinces();
       this.getAddresses();
 

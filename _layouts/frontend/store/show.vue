@@ -24,7 +24,7 @@
                apiRoute: 'apiRoutes.qmarketplace.store',
                requestParams: {
                  refresh: true,
-                 params: {include: 'categories,user,products'}
+                 params: {include: 'categories,user,products,paymentMethods,shippingMethods'}
                }
             })
             resolve(true)
@@ -99,7 +99,7 @@
                   let params = {
                      refresh: true,
                      params: {
-                       include:'products',
+                       include:'products,paymentMethods,shippingMethods',
                         filter: {
                            allTranslations: true,
                            field: 'slug',
