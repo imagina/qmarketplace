@@ -220,9 +220,6 @@ export default {
       };
       this.$crud.update("apiRoutes.qmarketplace.store", this.storeId,data).then(response => {
         this.$alert.success({message: this.$tr('ui.message.recordUpdated'), pos: 'bottom'})
-        this.$router.push({
-          name: 'qmarketplace.admin.stores.index'
-        })
       }).catch(error => {
         this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
       })

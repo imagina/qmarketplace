@@ -583,6 +583,49 @@ export default {
       else await this.getSuscription();
       this.loading=false;
     },
+    validateRequiredData(){
+      if(this.company.name==""){
+        this.$alert.error({message: "Debe ingresar el nombre de la tienda", pos: 'bottom'});
+        return false;
+      }else if(this.company.slogan==""){
+        this.$alert.error({message: "Debe ingresar el slogan de su tienda", pos: 'bottom'});
+        return false;
+      }else if(this.company.categories.length==0){
+        this.$alert.error({message: "Debe seleccionar al menos una categoría", pos: 'bottom'});
+        return false;
+      }else if(this.company.provinceId==0){
+        this.$alert.error({message: "Debe seleccionar una provincia", pos: 'bottom'});
+        return false;
+      }else if(this.company.cityId==0){
+        this.$alert.error({message: "Debe seleccionar una ciudad", pos: 'bottom'});
+        return false;
+      }else if(this.company.neighborhoodId==0){
+        this.$alert.error({message: "Debe seleccionar un barrio", pos: 'bottom'});
+        return false;
+      }else if(this.company.description==""){
+        this.$alert.error({message: "Debe ingresar una descripción de su tienda", pos: 'bottom'});
+        return false;
+      }else if(this.company.address==""){
+        this.$alert.error({message: "Debe ingresar la dirección de su tienda", pos: 'bottom'});
+        return false;
+      }else if(this.company.schedules[0]==""){
+        this.$alert.error({message: "Debe ingresar su horario de atención", pos: 'bottom'});
+        return false;
+      }else if(this.company.mediasSingle.isEmpty()){
+        this.$alert.error({message: "Debe cargar el logo de su tienda", pos: 'bottom'});
+        return false;
+      }else if(this.company.mediasMulti.isEmpty()){
+        this.$alert.error({message: "Debe cargar al menos una imagén en su galería o slider", pos: 'bottom'});
+        return false;
+      }else if(!this.company.paymentMethods.length==0){
+        this.$alert.error({message: "Debe seleccionar al menos un método de pago", pos: 'bottom'});
+        return false;
+      }else if(!this.company.shippingMethods.length==0){
+        this.$alert.error({message: "Debe seleccionar al menos un método de envío", pos: 'bottom'});
+        return false;
+      }else
+      return true;
+    },
     getSuscription(){
       let params={
         params:{
@@ -779,57 +822,45 @@ export default {
       // }
     },
     createStore(){
-      this.company[this.lang]={
-        name:this.company.name,
-        slogan:this.company.slogan,
-        description:this.company.description,
-        slug:this.slugable(this.company.name)
-      };
-      this.company.user_id=this.userId;
-      // var categories=[];
-      // for(var i=0;i<this.company.categories.length;i++){
-      //   categories.push(this.company.categories[i].id);
-      // }
-      // this.company.categories=categories;
-      this.$crud.create("apiRoutes.qmarketplace.store", this.company).then(response => {
-        this.$alert.success({message: this.$tr('ui.message.recordCreated'), pos: 'bottom'})
-        this.$router.push({
-          name: 'qmarketplace.admin.theme.store.index',
-          params:{
-            id:response.data.id
-          }
-        })
-      }).catch(error => {
-        this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
-      })
+      if(validateRequiredData()){
+        this.company[this.lang]={
+          name:this.company.name,
+          slogan:this.company.slogan,
+          description:this.company.description,
+          slug:this.slugable(this.company.name)
+        };
+        this.company.user_id=this.userId;
+        this.$crud.create("apiRoutes.qmarketplace.store", this.company).then(response => {
+          this.$alert.success({message: this.$tr('ui.message.recordCreated'), pos: 'bottom'})
+          this.$router.push({
+            name: 'qmarketplace.admin.theme.store.index',
+            params:{
+              id:response.data.id
+            }
+          })
+        }).catch(error => {
+          this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+        });
+      }//if(validateRequiredData()){
     },
     updateStore(){
-      this.company[this.lang]={
-        name:this.company.name,
-        slogan:this.company.slogan,
-        description:this.company.description,
-        slug:this.slugable(this.company.name)
-      };
-      // if(this.theme.id!=null){
-      //   this.company.theme_id=this.theme.id;
-      //   this.company.options.theme_config.color_primary=this.theme.primary;
-      //   this.company.options.theme_config.color_secondary=this.theme.secondary;
-      //   this.company.options.theme_config.background=this.theme.background;
-      // }
-      var data=this.company;
-      // var categories=[];
-      // for(var i=0;i<this.company.categories.length;i++){
-      //   categories.push(this.company.categories[i].id);
-      // }
-      // data.categories=categories;
-      this.$crud.update("apiRoutes.qmarketplace.store", this.storeId,data).then(response => {
-        this.$alert.success({message: this.$tr('ui.message.recordUpdated'), pos: 'bottom'})
-        this.$router.push({
-          name: 'qmarketplace.admin.stores.my.store'
-        })
-      }).catch(error => {
-        this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
-      })
+      if(validateRequiredData()){
+        this.company[this.lang]={
+          name:this.company.name,
+          slogan:this.company.slogan,
+          description:this.company.description,
+          slug:this.slugable(this.company.name)
+        };
+        var data=this.company;
+        this.$crud.update("apiRoutes.qmarketplace.store", this.storeId,data).then(response => {
+          this.$alert.success({message: this.$tr('ui.message.recordUpdated'), pos: 'bottom'})
+          this.$router.push({
+            name: 'qmarketplace.admin.stores.my.store'
+          })
+        }).catch(error => {
+          this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+        });
+      }//if(validateRequiredData()){
     },
     getProvinces(){
       // cityOptions
