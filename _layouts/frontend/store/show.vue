@@ -17,7 +17,7 @@
       preFetch({store, currentRoute, previousRoute, redirect, ssrContext}) {
          return new Promise(async resolve => {
             //Get data post
-            let storeSlug = currentRoute.params.slug || false
+            let storeSlug = currentRoute.params.slug|| false
             await store.dispatch('qcrudMaster/SHOW', {
                indexName: `qmarketplace-store-${storeSlug}`,
                criteria: storeSlug,

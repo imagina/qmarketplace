@@ -1,6 +1,9 @@
 <template>
    <q-card :class="className">
+      <router-link
+              :to="{name: 'stores.product.show',params:{slug: storeData.slug, product: product.slug}}">
       <q-img :ratio="1" :src="product.mainImage.path"/>
+      </router-link>
       <q-card-actions>
          <q-btn flat dense icon="favorite"/>
          <q-btn @click="addCart" flat dense icon="shopping_cart"/>

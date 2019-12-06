@@ -1,41 +1,47 @@
 <template>
   <div>
+    <header-store></header-store>
     <div id="showProductPage" class="q-container">
       <div class="row gutter-x-sm q-mt-md">
         <!--== Content ==-->
-        <div id="showProductContent" class="col-12 col-md-9">
-          <div class="relative-position" style="min-height: 150px">
-            <!--Product-->
-            <div class="row justify-end" v-if="productData">
-
-              <!--Data product-->
-              <div class="col-12 row gutter-x-sm content q-mt-lg">
-                <!--Image-->
-                <div class="col-12 col-md-5">
-                  <img :src="productData.mainImage.path"
-                       class="responsive m-w-100 full-width">
-                </div>
-                <!--Name and description-->
-                <div class="col-12 col-md-7 q-mt-sm">
-                  <div class="q-display-2 color-baked-title">
-                    {{productData.name}}
-                  </div>
-                  <div v-html="productData.description" class="q-title">{{productData.description}}</div>
-                  <add-to-cart :product-id="productData.id" :price="productData.price" />
+        <div id="product" class="col-12">
+          <div class="row">
+            <div class="col-12 col-md-6 Image">
+              <q-img
+                      :src="productData.mainImage.path"
+                      spinner-color="white"
+                      style="width: 100%"
+              ></q-img>
+            </div>
+            <div class="col-12 col-md-6 attributes q-pl-xl">
+              <h1 class="text-h1">{{productData.name}}</h1>
+              <q-rating size="40px"
+                        v-model="productData.averageRating" color="store-secondary"
+                        :max="5" @input="val => { rating() }"
+              />
+              <div class="summary q-pt-lg">
+                {{productData.summary}}
+              </div>
+              <add-to-cart :product-id="productData.id" :price="productData.price" />
+            </div>
+          </div>
+          <div class="row description q-pt-xl">
+            <div class="col">
+              <h3 class="title-label-tertiary text-center">
+                <div>Descripción</div>
+              </h3>
+              <div class="q-container">
+                <div class="row q-pa-lg">
+                 <div class="col" v-html="productData.description">
+                 </div>
                 </div>
               </div>
             </div>
-            <!--Not found-->
-            <not-found route-name="products.index" button-label="Go to Products"
-                       v-else-if="!loading"/>
-            <!--Inner Loading-->
-            <inner-loading :visible="loading"></inner-loading>
           </div>
-          <!--Inner Loading-->
-          <inner-loading :visible="loading"/>
         </div>
       </div>
     </div>
+    <footer-store></footer-store>
   </div>
 </template>
 
@@ -43,23 +49,64 @@
   // Components
   import menuCategories from '@imagina/qcommerce/_components/frontend/categories/menu'
   import selectProducts from '@imagina/qcommerce/_components/frontend/products/widgets/selectProducts'
-  import addToCart from '@imagina/qcommerce/_components/frontend/cart/widgets/addToCartOptions'
-
+  import addToCart from '@imagina/qmarketplace/_components/cart/addToCart'
+  import headerStore from '@imagina/qmarketplace/_components/themes/header'
+  import footerStore from '@imagina/qmarketplace/_components/themes/footer'
   // Services
   import icommerceService from '@imagina/qcommerce/_services/index';
-
   import {helper} from '@imagina/qhelper/_plugins/helper'
 
+
   export default {
+    preFetch({store, currentRoute, previousRoute, redirect, ssrContext}) {
+      return new Promise(async resolve => {
+        //Get data post
+        let storeSlug = currentRoute.params.slug
+        let slugProduct = currentRoute.params.product
+        await store.dispatch('qcrudMaster/SHOW', {
+          indexName: `qmarketplace-store-${storeSlug}-product-${slugProduct}`,
+          criteria: slugProduct,
+          apiRoute: 'apiRoutes.qcommerce.products',
+          requestParams: {
+            refresh: true,
+            params: {}
+          }
+        })
+        resolve(true)
+      })
+    },
+    meta() {
+      let slugProduct = this.$route.params.product || false
+      let storeSlug= this.$route.params.slug || false
+      let routetitle = slugProduct || 'productos'
+      let siteName = this.$store.getters['qsiteSettings/getSettingValueByName']('core::site-name')
+      let siteDescription = this.$store.getters['qsiteSettings/getSettingValueByName']('core::site-description')
+      //Set category data
+      let product = this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}-product-${slugProduct}`].data
+      if (product) {
+        routetitle = product.name
+        siteDescription = product.description
+      }
+      return {
+        title: `${routetitle.charAt(0).toUpperCase() + routetitle.slice(1)} | ${siteName}`,
+        meta: {
+          description: {name: 'description', content: (siteDescription || siteName)},
+        },
+      }
+    },
+
     props: {},
     components: {
       menuCategories,
       selectProducts,
       addToCart,
+      footerStore,
+      headerStore,
     },
     mounted() {
       this.$nextTick(function () {
-        this.getData()
+        this.getData(),
+        this.getDataStore()
       })
     },
     watch: {
@@ -80,7 +127,6 @@
       getData() {
         this.loading = true
         let slugProduct = this.$route.params.product
-        let slugStore=this.$route.params.slug
         let params = {
           refresh: true,
           params: {filter: {field: 'slug'}, include: 'productOptions,optionValues'}
@@ -94,9 +140,65 @@
           this.loading = false
         })
       },
+      getDataStore() {
+        return new Promise((resolve, reject) => {
+          const itemId = this.$clone(this.storeSlug)
+          if (itemId) {
+            //Params--
+            let params = {
+              refresh: true,
+              params: {
+                include:'products,paymentMethods,shippingMethods',
+                filter: {
+                  allTranslations: true,
+                  field: 'slug',
+                },
+              }
+            }//test
+            //Request
+            this.$crud.show(this.configName, itemId, params).then(response => {
+              this.store = this.$clone(response.data);
+              colors.setBrand('storeprimary', this.store.options.theme_config.color_primary)
+              colors.setBrand('storesecondary', this.store.options.theme_config.color_secondary)
+              colors.setBrand('storebackground', this.store.options.theme_config.background)
+              resolve(true)//Resolve
+            }).catch(error => {
+              this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
+              reject(false)//Resolve
+            })
+          } else {
+            resolve(true)//Resolve
+          }
+
+        }).catch(error => {})
+      },
+      rating() {
+        this.$axios.post(config('apiRoutes.qcommerce.products') + '/rating/' + this.productData.id, {
+          attributes: {
+            rating: this.productData.averageRating
+          }
+        }).then(response => {
+          this.$alert.success({message: "Calificación registrada exitosamente", pos: 'bottom'});
+          this.getData();
+        }).catch(error => {
+          this.$alert.error({message: error.response.data.errors, pos: 'bottom'})
+        });
+      },
     }
   }
 </script>
 
 <style lang="stylus">
-  </style>
+  #showProductPage
+    #product
+      .text-h1
+        font-size 1.5rem
+        font-weight bold
+        color $storeprimary
+      .summary
+        font-size 1rem
+      .q-rating
+        color $amber-6 !important
+      .description
+        font-size 1.1rem
+</style>

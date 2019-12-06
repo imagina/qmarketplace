@@ -1,5 +1,6 @@
 <template>
   <div class="bg-grey-2">
+     <header-store></header-store>
     <div class="q-container">
       <div class="row q-col-gutter-lg q-py-lg">
           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3"  v-if="products.length" v-for="product in products" :key="product.id">
@@ -30,16 +31,59 @@
       </div>
       <!--Inner Loading-->
       <inner-loading :visible="visible"></inner-loading>
+     <footer-store></footer-store>
     </div>
-  </div>
 </template>
 
 <script>
   import icommerceService from '@imagina/qcommerce/_services/index';
   import product from '@imagina/qmarketplace/_components/themes/01/product'
+  import headerStore from '@imagina/qmarketplace/_components/themes/header'
+  import footerStore from '@imagina/qmarketplace/_components/themes/footer'
   export default {
+     preFetch({store, currentRoute, previousRoute, redirect, ssrContext}) {
+        return new Promise(async resolve => {
+           //Get data post
+           let storeSlug = currentRoute.params.slug || false
+           //let store = this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
+           let slugCategory = currentRoute.params.category
+           await store.dispatch('qcrudMaster/SHOW', {
+              indexName: `qmarketplace-store-${storeSlug}-categoryProduct-${slugCategory}`,
+              criteria: slugCategory,
+              apiRoute: 'apiRoutes.qcommerce.products',
+              requestParams: {
+                 refresh: true,
+                 params: {}
+              }
+           })
+           resolve(true)
+        })
+     },
+     meta() {
+        let slugCategory = cthis.$route.params.category || false
+        let routetitle = slugProduct || 'productos'
+        let siteName = this.$store.getters['qsiteSettings/getSettingValueByName']('core::site-name')
+        let siteDescription = this.$store.getters['qsiteSettings/getSettingValueByName']('core::site-description')
+        //Set category data
+        let category = this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}-product-${slugCategory}`].data
+        if (category) {
+           routetitle = category.name
+           siteDescription = category.description
+        }
+        return {
+           title: `${routetitle.charAt(0).toUpperCase() + routetitle.slice(1)} | ${siteName}`,
+           meta: {
+              description: {name: 'description', content: (siteDescription || siteName)},
+           },
+        }
+     },
+
+
+
     components: {
-      product
+      product,
+       footerStore,
+       headerStore,
     },
     beforeRouteLeave(to, from, next) {
       next()
