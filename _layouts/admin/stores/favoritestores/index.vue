@@ -64,7 +64,7 @@
 
                   <q-card-section>
                     <div class="link-profile text-right">
-                      + Ver Perfil
+                       <q-btn flat label="+ Ver Perfil" :to="{name:'quser.account.public.profile',params:{userId:result.user.id}}" />
                     </div>
                   </q-card-section>
 
