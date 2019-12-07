@@ -53,7 +53,7 @@
                     </q-list>
                   </q-btn-dropdown>
                   <q-btn @click="$router.push({name: 'stores.about', params : {slug:storeData.slug}})" flat icon="fas fa-map-marker-alt" no-caps label="Info Empresa" color="white"/>
-                  <q-btn flat icon="far fa-comment-dots" no-caps label="Chatea con la tienda" color="white"/>
+                  <q-btn flat icon="far fa-comment-dots" @click="openChat = !openChat" no-caps label="Chatea 1con la tienda" color="white"/>
                 </div>
 
                 <div class="col-auto">
@@ -87,7 +87,7 @@
                 </q-list>
               </q-btn-dropdown>
               <q-btn @click="$router.push({name: 'stores.about', params : {slug:storeData.slug}})" flat icon="fas fa-map-marker-alt" no-caps color="white"/>
-              <q-btn flat round dense icon="far fa-comment-dots" color="white"/>
+              <q-btn flat round dense icon="far fa-comment-dots" @click="openChat = !openChat" color="white"/>
               <q-toolbar-title>
               </q-toolbar-title>
               <q-btn flat round dense icon="fas fa-search" color="white"/>
@@ -153,16 +153,20 @@
           </q-card-actions>
         </q-card>
       </q-dialog>
+      <!-- Chat -->
+      <chat :openChat="openChat"></chat>
 
     </div>
 </template>
 <script>
 import fullWidthGallery from '@imagina/qmarketplace/_components/themes/qcarousel'
+import chat from '@imagina/qmarketplace/_components/qchat/chat'
 export default {
   name: 'TopComponent',
   props: ['cart'],
   components: {
-    fullWidthGallery
+    fullWidthGallery,
+    chat
   },
   data(){
     return {
@@ -171,7 +175,8 @@ export default {
       followedStore:false,
       slide: 1,
       categories:[],
-      loading:false
+      loading:false,
+      openChat:false
     }
   },
   mounted() {
