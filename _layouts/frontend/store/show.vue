@@ -69,28 +69,6 @@
          });
       },
       methods: {
-         async init() {
-            await this.getData().catch(error => {})
-            await this.rating().catch(error => {})
-         },
-         rating() {
-            return new Promise((resolve, reject) => {
-
-               this.$axios.post(config('apiRoutes.qmarketplace.store') + '/rating/' + this.store.id, {
-                  attributes: {
-                     rating: 2
-                  }
-               })
-                   .then(response => {
-                      resolve(true);
-                   })
-                   .catch(error => {
-                      reject(error);
-                   });
-
-
-            }).catch(error => {})
-         },
          getData() {
             return new Promise((resolve, reject) => {
                const itemId = this.$clone(this.storeSlug)
