@@ -6,7 +6,6 @@
             v-model="slide"
             infinite
             autoplay
-            height="600px"
     >
       <q-carousel-slide v-for="(slide,index) in gallery" :key="'slide'+index" :name="'slide'+index"  :img-src="slide.path">
         <div v-if="storeName" class="absolute-bottom custom-caption">

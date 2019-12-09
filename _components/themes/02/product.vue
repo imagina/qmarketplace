@@ -6,12 +6,12 @@
             <q-img :ratio="1" :src="product.mainImage.path" class="rounded-sm"/>
          </router-link>
       </q-card-section>
-      <q-card-section class="card-title bg-store-primary">
+      <q-card-section class="card-title bg-store-primary adri">
          <q-list>
             <q-item>
                <q-item-section><h5 class="q-my-none text-white">${{product.price}}</h5></q-item-section>
                <q-item-section avatar>
-                  <q-icon color="white" name="favorite"/>
+                  <q-btn color="white" flat round size="sm" icon="favorite"/>
                </q-item-section>
             </q-item>
          </q-list>
@@ -21,9 +21,8 @@
                    v-model="product.averageRating" color="store-secondary"
                    :max="5" @input="val => { rating() }"
          />
-         <router-link
-                 :to="{name: 'stores.product.show',params:{slug: storeData.slug, product: product.slug}}">
-            <p class="q-my-sm ">{{product.name}}</p>
+         <router-link :to="{name: 'stores.product.show',params:{slug: storeData.slug, product: product.slug}}">
+            <p class="q-my-sm text-dark">{{product.name}}</p>
          </router-link>
          <p class="q-my-sm "><small>{{storeData.name}}</small></p>
       </q-card-section>
@@ -112,7 +111,7 @@
       position relative
       margin 8px
       background-color var(--q-color-light)
-
+      overflow hidden
       & .card-title
          margin-right 30px
          margin-top -30px
@@ -121,7 +120,12 @@
          margin-bottom 10px
          padding 10px
          border-radius 0 10px 10px 0 !important
-
+         margin-left -10px
+         -webkit-transform skew(10deg)
+         transform skew(10deg)
+         & .q-list
+            -webkit-transform  skew(-10deg)
+            transform skew(-10deg)
       & .card-main
          font-size 16px
 

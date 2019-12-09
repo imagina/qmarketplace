@@ -4,7 +4,10 @@
     <div class="q-pa-md">
       <div class="q-container">
         <div class="row q-col-gutter-lg">
-          <div class="col-xs-12 col-md-8">
+          <div class="col-xs-12 col-sm-12 col-md-4">
+            <mainProducts></mainProducts>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-4">
             <mainProducts></mainProducts>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-4">
@@ -37,10 +40,10 @@
           <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
             <share></share>
 
-            <q-btn color="store-secondary" no-caps class="rounded-sm q-py-lg q-px-xl">
-              <div class="text-h6 q-mb-md full-width">¿Tienes alguna duda?</div>
+            <q-btn color="store-secondary"  @click="openChat = !openChat"  no-caps class="rounded-sm q-py-md q-px-xl">
+              <div class="text-subtitle1 q-mb-sm full-width">¿Tienes alguna duda?</div>
               <q-icon size="3em" color="white" name="far fa-comment-dots" />
-              <div class="text-h6 q-mt-md">CHATEA AQUI CON LA TIENDA</div>
+              <div class="text-subtitle1 q-mt-sm">CHATEA AQUI CON LA TIENDA</div>
             </q-btn>
 
           </div>
@@ -49,6 +52,8 @@
     </div>
     <!-- Productos -->
     <general-products ></general-products>
+    <!-- Chat -->
+    <chat :openChat="openChat"></chat>
 
 
   </div>
@@ -59,6 +64,7 @@ import featuredProducts from '@imagina/qmarketplace/_components/themes/02/featur
 import mainProducts from '@imagina/qmarketplace/_components/themes/02/mainP'
 import quiz from '@imagina/qmarketplace/_components/themes/02/quiz'
 import share from '@imagina/qmarketplace/_components/themes/02/shareNetworks'
+import chat from '@imagina/qmarketplace/_components/qchat/chat'
 export default {
   name: 'PageLayout2',
   components: {
@@ -66,7 +72,13 @@ export default {
     featuredProducts,
     generalProducts,
     quiz,
-    share
+    share,
+    chat
+  },
+  data(){
+    return {
+      openChat:false
+    }
   },
   mounted() {
     /*
@@ -85,6 +97,7 @@ export default {
 </script>
 <style lang="stylus">
 .theme-layout-02
+  background-color $storeBackground
   .line-store-secondary
     border 1px solid $storeSecondary
   .btn-banner

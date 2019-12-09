@@ -1,6 +1,6 @@
 <template>
   <q-dialog v-model="openChat" position="bottom" :maximized="maximizedToggle">
-    <q-card class="rounded-sm" style="min-width: 500px;">
+    <q-card class="rounded-sm" style="min-width: 300px;">
       <q-bar>
         <div class="cursor-pointer"> <q-icon name="comment" color="green" /> Paula Martinez</div>
         <q-space />
