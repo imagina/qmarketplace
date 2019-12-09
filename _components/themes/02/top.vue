@@ -99,7 +99,7 @@
                       </template>
                       </q-input>
                   </div>
-                  <q-btn flat icon="fas fa-heart" color="store-secondary"/>
+                  <q-btn v-if="!followedStore" @click="followStore()" flat icon="fas fa-heart" color="store-secondary"/>
                   <q-btn  @click="$router.push({name: 'marketplace.checkout', params:{storeId:storeData.id}})"  flat icon="fa fa-shopping-cart"  color="store-secondary">
                      <q-badge v-if="cart" align="top" color="store-primary" floating>{{cart.products.length}}</q-badge>
                      <q-badge v-else align="top" color="store-primary" floating>0</q-badge>
@@ -123,7 +123,7 @@
               <q-toolbar-title>
               </q-toolbar-title>
               <q-btn flat round dense icon="fas fa-search" color="white"/>
-              <q-btn flat round dense icon="fas fa-heart" v-if="!followedStore" @click="followStore()"color="white"/>
+              <q-btn flat round dense icon="fas fa-heart" v-if="!followedStore" @click="followStore()" color="white"/>
               <q-btn flat round dense icon="fa fa-shopping-cart" color="white">
                  <q-badge v-if="cart" align="top" color="white" floating>{{cart.products.length}}</q-badge>
                  <q-badge v-else align="top" color="store-secondary" floating>1</q-badge>

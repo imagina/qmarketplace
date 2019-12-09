@@ -53,7 +53,7 @@
                     </q-list>
                   </q-btn-dropdown>
                   <q-btn @click="$router.push({name: 'stores.about', params : {slug:storeData.slug}})" flat icon="fas fa-map-marker-alt" no-caps label="Info Empresa" color="white"/>
-                  <q-btn flat icon="far fa-comment-dots" @click="openChat = !openChat" no-caps label="Chatea 1con la tienda" color="white"/>
+                  <q-btn flat icon="far fa-comment-dots" @click="openChat = !openChat" no-caps label="Chatea con la tienda" color="white"/>
                 </div>
 
                 <div class="col-auto">
@@ -67,7 +67,7 @@
                       </template>
                       </q-input>
                   </div>
-                  <q-btn flat icon="fas fa-heart" color="white"/>
+                  <q-btn v-if="!followedStore" @click="followStore()" flat icon="fas fa-heart" color="white"/>
                   <q-btn @click="$router.push({name: 'marketplace.checkout', params:{storeId:storeData.id}})" flat icon="fa fa-shopping-cart"  color="white ">
                      <q-badge v-if="cart" align="top" class="bg-store-secondary"  floating>{{cart.products.length}}</q-badge>
                      <q-badge v-else align="top" class="bg-store-secondary"  floating>0</q-badge>
