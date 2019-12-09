@@ -21,7 +21,7 @@ export default [
       icon: 'fas fa-shopping-basket',
       children: [
          pages.qmarketplace.myStoreProducts, // themes
-         pages.qmarketplace.categoriesStore, // categoriesStore
+         pages.qmarketplace.myStoreCategoryProducts, // categoriesStore
       ]
    },
 ]

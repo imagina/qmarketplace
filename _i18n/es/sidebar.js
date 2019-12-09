@@ -1,6 +1,16 @@
 export default {
-  adminMyStore : "Mi tienda",
-  adminStores : "Mi tienda",
+  my:{
+    myStore : "Mi tienda",
+    theme:'Diseño',
+    products : 'Productos',
+    categories : 'Categorías',
+    services:'Servicios',
+    orders: 'Ordenes',
+    order: 'Orden',
+    cupons: 'Cupones de descuento',
+    quiz:'Encuestas',
+    banners:'Publicidad'
+  },
   adminMarketplace : "Tienda",
   adminTheme : 'Diseño',
   adminProducts : 'Productos',
