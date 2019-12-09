@@ -1,11 +1,17 @@
 <template></template>
 <script>
   export default {
+    data() {
+      return {
+        crudId: this.$uid()
+      }
+    },
     computed: {
       crudData() {
         return {
+           crudId: this.crudId,
           apiRoute: 'apiRoutes.qcommerce.categories',
-          permission: 'icommerce.categories',
+          permission: 'marketplace.productCategories',
           create: {
             title: this.$tr('qcommerce.layout.newCategory'),
           },
@@ -41,29 +47,15 @@
             storeId: {value: this.$store.state.qmarketplaceStores.storeSelected},
             userId: {value: this.$store.state.quserAuth.userId},
             title: {
-              label: this.$tr('ui.form.title'),
               value: '',
-              type: 'text',
-              rules: [
-                val => !!val || this.$tr('ui.message.fieldRequired')
-              ],
+              type: 'input',
               isTranslatable: true,
-            },
-            mediasSingle: {
-              name: 'mediasSingle',
-              label: this.$tr('ui.form.firstImage'),
-              value: {},
-              type: 'media',
-              zone: 'mainimage',
-              entity: "Modules\\Icommerce\\Entities\\Category",
-              entityId: null
-            },
-            description: {
-              label: this.$tr('ui.form.description'),
-              value: '',
-              type: 'html',
-              isRequired: false,
-              isTranslatable: true,
+              props : {
+                label: `${this.$tr('ui.form.title')}*`,
+                rules: [
+                  val => !!val || this.$tr('ui.message.fieldRequired')
+                ],
+              },
             },
             slug: {
               value: '',
@@ -76,64 +68,82 @@
                 ],
               }
             },
-            parentId: {
-              value: '0',
-              type: 'select',
-              loadOptions: {
-                apiRoute: 'apiRoutes.qcommerce.categories',
-                select: {label: 'title', id: 'id'},
-                requestParams: {
-                  include: 'parent',
-                  filter:{
-                    store: this.$store.state.qmarketplaceStores.storeSelected
-                  }
-                }
-              },
-              label: this.$tr('ui.form.parent'),
+            description: {
+              value: '',
+              type: 'html',
+              isTranslatable: true,
               props : {
-                clearable: true,
-                options : [
-                  {label: this.$tr('ui.label.disabled'), value: 0},
+                label: `${this.$tr('ui.form.description')}*`,
+                rules: [
+                  val => !!val || this.$tr('ui.message.fieldRequired')
                 ],
               }
             },
             metaTitle: {
               value: '',
-              type: 'input',
               isTranslatable: true,
-              label: this.$tr('ui.form.metaTitle'),
+              type: 'input',
+              props : {
+                label: this.$tr('ui.form.metaTitle'),
+              }
             },
             metaDescription: {
               value: '',
               type: 'input',
               isTranslatable: true,
-              label: this.$tr('ui.form.metaDescription'),
+              props : {
+                label: this.$tr('ui.form.metaDescription'),
+                type: 'textarea',
+                rows : 3
+              }
             },
-
           },
           formRight: {
-            showMenu: {
-              value: false,
-              type: 'checkbox',
-              label: this.$tr('qcommerce.layout.form.showInMenu'),
+            masterRecord : {
+              value: 0,
+              isFakeField : true,
+              type: 'select',
+              props : {
+                label: this.$tr('ui.form.masterRecord'),
+                options: [
+                  {label: this.$tr('ui.label.yes'), value: 1},
+                  {label: this.$tr('ui.label.no'), value: 0},
+                ]
+              }
             },
-            // masterRecord : {
-            //   value: '0',
-            //   isFakeField : true,
-            //   type: 'select',
-            //   label: this.$tr('ui.form.masterRecord'),
-            //   options: [
-            //     {label: this.$tr('ui.label.yes'), value: '1'},
-            //     {label: this.$tr('ui.label.no'), value: '0'},
-            //   ]
-            // },
-
-
-
+            parentId: {
+              value: 0,
+              type: 'select',
+              props : {
+                label: this.$tr('ui.form.parent'),
+                options : [
+                  {label: this.$tr('ui.label.disabled'), value: 0},
+                ],
+              },
+              loadOptions: {
+                apiRoute: 'apiRoutes.qblog.categories',
+                select: {label: 'title', id: 'id'},
+                requestParams: {include: 'parent'}
+              }
+            },
+            mediasSingle: {
+              name: 'mediasSingle',
+              value: {},
+              type: 'media',
+              props : {
+                label: this.$tr('ui.form.firstImage'),
+                zone: 'mainimage',
+                entity: "Modules\\Icommerce\\Entities\\Category",
+                enitityId: null
+              }
+            },
           },
         }
       },
-
-    }
+      //Crud info
+      crudInfo() {
+        return this.$store.state.qcrudComponent.component[this.crudId] || {}
+      }
+    },
   }
 </script>
