@@ -1,9 +1,9 @@
 <template>
-   <div class="general-products">
+   <div class="general-products"  v-if="products.length">
       <div class="q-container">
          <h4 class="line-text text-center q-mb-lg">
             <hr class="line-store-secondary q-my-none full-width">
-            <span class="bg-white q-px-lg">LO MÁS RECOMENDADO</span>
+            <span class="bg-store-background q-px-lg">LO MÁS RECOMENDADO</span>
          </h4>
       </div>
       <div class="bg-store-primary q-py-lg q-px-md">

@@ -1,8 +1,8 @@
 <template>
-   <div class="featured-products q-mb-xl">
-      <h4 class="line-text q-mb-lg">
+   <div class="featured-products q-mb-xl" v-if="products.length">
+      <h4 class="line-text q-mb-lg q-mt-none">
          <hr class="line-store-secondary q-my-none full-width">
-         <span class="bg-white q-pr-lg">DESTACADOS</span>
+         <span class="bg-store-background q-pr-lg">DESTACADOS</span>
       </h4>
       <div class="row q-col-gutter-lg q-py-lg">
          <div class="col-xs-12">
@@ -67,46 +67,46 @@
    }
 </script>
 <style lang="stylus">
-   .theme-layout-02
-      .featured-products
-         .line-text
-            position relative
-            color $storeSecondary
+.theme-layout-02
+   .featured-products
+      .line-text
+         position relative
+         color $storeSecondary
 
-            .line-store-secondary
-               position absolute
-               top 50%
-               z-index 0
-               @media screen and (max-width: $breakpoint-xs)
-                  display none
-
-            span
-               position relative
-               z-index 2
-
-         .VueCarousel-pagination
+         .line-store-secondary
             position absolute
-            top -117px
-            text-align right !important
-            right -2px
+            top 50%
+            z-index 0
+            @media screen and (max-width: $breakpoint-xs)
+               display none
 
-            .VueCarousel-dot-container
+         span
+            position relative
+            z-index 2
+
+      .VueCarousel-pagination
+         position absolute
+         top -117px
+         text-align right !important
+         right -2px
+
+         .VueCarousel-dot-container
+            background-color #fff !important
+            z-index 9
+            padding-left 10px
+            padding-right 10px
+
+            .VueCarousel-dot
                background-color #fff !important
-               z-index 9
-               padding-left 10px
-               padding-right 10px
+               border 1px solid $storeSecondary !important
+               padding 0 !important
+               width 15px !important
+               height 15px !important
+               margin 5px
 
-               .VueCarousel-dot
-                  background-color #fff !important
-                  border 1px solid $storeSecondary !important
-                  padding 0 !important
-                  width 15px !important
-                  height 15px !important
-                  margin 5px
+               &:focus
+                  outline 0 !important
 
-                  &:focus
-                     outline 0 !important
-
-               .VueCarousel-dot.VueCarousel-dot--active
-                  background-color $storeSecondary !important
+            .VueCarousel-dot.VueCarousel-dot--active
+               background-color $storeSecondary !important
 </style>

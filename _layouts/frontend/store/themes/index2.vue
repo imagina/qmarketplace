@@ -116,38 +116,3 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-.theme-layout-02
-  .line-store-secondary
-    border 1px solid $storeSecondary
-  .btn-banner
-    border 2px solid #fff
-    padding 5px 25px
-    font-size 22px
-    font-weight bold
-    margin-top -25px
-  .banner-two
-    background-attachment fixed
-    background-size cover
-    padding 10% 0
-    position relative
-    &:before
-      height 100%
-      width 100%
-      background-color rgba(#282d46, 0.7)
-      content ''
-      position absolute
-      top 0
-    .content
-      position relative
-      z-index 3
-      .imsocial
-        display inline-block
-        a
-        & i
-          margin 10px
-          font-size 2rem
-          color #ffffff
-          &:hover
-            color $storeSecondary
-</style>
