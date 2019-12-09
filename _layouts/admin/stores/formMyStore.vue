@@ -611,16 +611,16 @@ export default {
       }else if(this.company.schedules[0]==""){
         this.$alert.error({message: "Debe ingresar su horario de atención", pos: 'bottom'});
         return false;
-      }else if(this.company.mediasSingle.isEmpty()){
-        this.$alert.error({message: "Debe cargar el logo de su tienda", pos: 'bottom'});
-        return false;
-      }else if(this.company.mediasMulti.isEmpty()){
-        this.$alert.error({message: "Debe cargar al menos una imagén en su galería o slider", pos: 'bottom'});
-        return false;
-      }else if(!this.company.paymentMethods.length==0){
+      // }else if(this.company.mediasSingle.isEmpty()){
+      //   this.$alert.error({message: "Debe cargar el logo de su tienda", pos: 'bottom'});
+      //   return false;
+      // }else if(this.company.mediasMulti.isEmpty()){
+      //   this.$alert.error({message: "Debe cargar al menos una imagén en su galería o slider", pos: 'bottom'});
+      //   return false;
+      }else if(this.company.paymentMethods.length==0){
         this.$alert.error({message: "Debe seleccionar al menos un método de pago", pos: 'bottom'});
         return false;
-      }else if(!this.company.shippingMethods.length==0){
+      }else if(this.company.shippingMethods.length==0){
         this.$alert.error({message: "Debe seleccionar al menos un método de envío", pos: 'bottom'});
         return false;
       }else
