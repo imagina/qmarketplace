@@ -822,7 +822,7 @@ export default {
       // }
     },
     createStore(){
-      if(validateRequiredData()){
+      if(this.validateRequiredData()){
         this.company[this.lang]={
           name:this.company.name,
           slogan:this.company.slogan,
@@ -844,7 +844,7 @@ export default {
       }//if(validateRequiredData()){
     },
     updateStore(){
-      if(validateRequiredData()){
+      if(this.validateRequiredData()){
         this.company[this.lang]={
           name:this.company.name,
           slogan:this.company.slogan,
