@@ -137,7 +137,9 @@
                       </template>
                     </q-input>
                   </div>
+                  <div class="line-vertical"></div>
                   <q-btn flat icon="fas fa-heart" color="store-secondary"/>
+                  <div class="line-vertical"></div>
                   <q-btn  @click="$router.push({name: 'marketplace.checkout', params:{storeId:storeData.id}})"  flat icon="fa fa-shopping-cart"  color="store-secondary">
                      <q-badge v-if="cart" align="top" color="store-primary" floating>{{cart.products.length}}</q-badge>
                      <q-badge v-else align="top" color="store-primary" floating>0</q-badge>
