@@ -16,7 +16,7 @@
    import product from '@imagina/qmarketplace/_components/themes/01/product'
 
    export default {
-      name: 'GeneralProductsComponent',
+
       components: {
          product
       },

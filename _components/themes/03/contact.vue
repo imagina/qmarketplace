@@ -55,7 +55,6 @@
 <script>
   import share from '@imagina/qmarketplace/_components/themes/03/shareNetworks'
 export default {
-    name: 'ContactComponent',
   components: {
     share,
 

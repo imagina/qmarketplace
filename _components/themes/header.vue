@@ -1,12 +1,12 @@
 <template>
    <div>
-      <div v-if="store.themeId==1" class="theme-layout-01">
+      <div v-if="store.themeId==1" class="headerStore theme-layout-01">
          <header1 :store="store" :cart="cart"></header1>
       </div>
-      <div v-else-if="store.themeId==2" class="theme-layout-02">
+      <div v-else-if="store.themeId==2" class="headerStore theme-layout-02">
          <header2 :store="store" :cart="cart"></header2>
       </div>
-      <div v-else-if="store.themeId==3" class="theme-layout-03">
+      <div v-else-if="store.themeId==3" class="headerStore theme-layout-03">
          <header3 :store="store" :cart="cart"></header3>
       </div>
    </div>
@@ -60,4 +60,11 @@
    }
 </script>
 <style lang="stylus">
+   .headerStore
+      .menuStore
+         .q-btn-dropdown
+            .q-btn__wrapper:before
+               border: none !important
+               box-shadow: none !important
+               transition: none
 </style>

@@ -20,7 +20,7 @@
 </template>
 <script>
 export default {
-  name: 'ShareNetworksComponent',
+
   computed:{
     store(){
       let storeSlug = this.$route.params.slug

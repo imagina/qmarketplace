@@ -27,7 +27,7 @@
 </template>
 <script>
    export default {
-      name: 'ProductHorizontalComponent',
+
       props: ['product', 'className', 'storeName', 'storeId', 'storeThemeConfig'],
       computed: {
          storeData() {

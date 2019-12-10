@@ -55,7 +55,7 @@
 </template>
 <script>
 export default {
-    name: 'ContactComponent',
+
     props: {
       'address': { type:String, default: ""},
       'schedules': { type:Array, default: []},

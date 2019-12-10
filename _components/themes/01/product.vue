@@ -25,7 +25,6 @@
 </template>
 <script>
    export default {
-      name: 'ProductComponent',
       props: ['product', 'className'],
       mounted() {
       },

@@ -27,7 +27,7 @@
       <div class="q-container banner q-py-xl text-center">
          <img class="full-width" src="/statics/img/publicidad2-100.jpg" alt="banner">
       </div>
-
+      <inner-loading :visible="loading"/>
    </q-page>
 </template>
 <script>
@@ -36,7 +36,6 @@
       preFetch({store, currentRoute, previousRoute, redirect, ssrContext}) {
          return new Promise(async resolve => {
             let category = currentRoute.params.slug || false
-            console.log(currentRoute)
             await store.dispatch('qcrudMaster/SHOW', {
                indexName: `marketplace-categories-${category}`,
                criteria: category,
@@ -67,10 +66,36 @@
             },
          }
       },
+      watch: {
+         '$route.params'() {
+            this.getData()
+         },
+      },
       data() {
          return {
-            category: this.$store.state.qcrudMaster.show[`marketplace-categories-${this.$route.params.slug}`].data,
+            loading: false
          }
-      }
+      },
+      computed: {
+         category() {
+            let categorySlug = this.$route.params.slug
+            let category = this.$store.state.qcrudMaster.show[`marketplace-categories-${categorySlug}`]
+            return category.data || false
+         }
+      },
+      methods: {
+         async getData() {
+            this.loading = true
+
+            let category= this.$clone(this.$route.params.slug)
+            await this.$store.dispatch('qcrudMaster/SHOW', {
+               indexName: `marketplace-categories-${category}`,
+               criteria: category,
+               apiRoute: 'apiRoutes.qmarketplace.category',
+               requestParams: {refresh: true, params: {include: 'stores'}}
+            })
+            this.loading = false
+         },
+      },
    }
 </script>

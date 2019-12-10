@@ -121,9 +121,9 @@
                 ],
               },
               loadOptions: {
-                apiRoute: 'apiRoutes.qblog.categories',
+                apiRoute: 'apiRoutes.qcommerce.categories',
                 select: {label: 'title', id: 'id'},
-                requestParams: {include: 'parent'}
+                requestParams: {include: 'parent', filter:{store:this.$store.state.qmarketplaceStores.storeSelected}}
               }
             },
             mediasSingle: {

@@ -5,10 +5,10 @@
       crudData() {
         return {
           apiRoute: 'apiRoutes.qcommerce.products',
-          permission: 'icommerce.products',
+          permission: 'marketplace.products',
           create: {
             title: this.$tr('qcommerce.layout.newProduct'),
-            to : 'qmarketplace.admin.products.store.create',
+            to : 'qmarketplace.admin.stores.my.store.products.create',
             params:{
               storeId: this.$store.state.qmarketplaceStores.storeSelected
             }

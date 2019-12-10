@@ -39,7 +39,7 @@ import newProducts from '@imagina/qmarketplace/_components/themes/01/newProducts
 import quiz from '@imagina/qmarketplace/_components/themes/01/quiz'
 import share from '@imagina/qmarketplace/_components/themes/01/shareNetworks'
 export default {
-  name: 'blockLayout1',
+
   components: {
     imSocial,
     featuredProducts,

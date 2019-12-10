@@ -90,7 +90,7 @@
   import {required} from 'vuelidate/lib/validators'
 
     export default {
-        name: 'QuizComponent',
+
         validations() {
           return {
             selectedOptions: {required}

@@ -48,7 +48,6 @@
 <script>
 import fullWidthGallery from 'src/components/themes/qcarousel'
 export default {
-  name: 'TopComponent',
   components: {
     fullWidthGallery
   },

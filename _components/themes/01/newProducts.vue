@@ -14,7 +14,7 @@
    import product from '@imagina/qmarketplace/_components/themes/01/productHorizontal'
 
    export default {
-      name: 'NewProductsComponent',
+
       components: {
          product
       },

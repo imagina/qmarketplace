@@ -101,9 +101,9 @@ export default {
   //end Super admin Sores
 
   myStore:{
-    permission: 'qmarketplace.store.mystore',
+    //permission: 'qmarketplace.store.mystore',
     activated: true,
-    path: '/admin/stores/myStore',
+    path: '/admin/stores/my-store',
     name: 'qmarketplace.admin.stores.my.store',
     page: () => import('@imagina/qmarketplace/_layouts/admin/stores/formMyStore'),
     layout: () => import('src/layouts/master'),
@@ -115,7 +115,7 @@ export default {
   myStoreTheme: {
     permission: 'marketplace.stores.mystore',
     activated: true,
-    path: '/admin/stores/myStore/theme',
+    path: '/admin/stores/my-store/theme',
     name: 'qmarketplace.admin.stores.my.store.theme',
     page: () => import('@imagina/qmarketplace/_layouts/admin/stores/theme/formStoreTheme'),
     layout: () => import('src/layouts/master'),
