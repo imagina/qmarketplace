@@ -1,22 +1,22 @@
 export default {
-  my:{
-    myStore : "Mi tienda",
-    theme:'Diseño',
-    products : 'Productos',
-    categories : 'Categorías',
-    services:'Servicios',
-    orders: 'Ordenes',
-    order: 'Orden',
-    cupons: 'Cupones de descuento',
-    quiz:'Encuestas',
-    banners:'Publicidad'
-  },
-  adminMarketplace : "Tienda",
-  adminTheme : 'Diseño',
-  adminProducts : 'Productos',
-  adminCategories : 'Categorías',
-  adminThemes : 'Temas',
-  adminFavoritestores : 'Seguidores',
-  products:'Productos'
+  business : {
+      myStore: "Mi tienda",
+      theme: 'Diseño',
+      products: 'Productos',
+      categories: 'Categorías',
+      services: 'Servicios',
+      orders: 'Ordenes',
+      order: 'Orden',
+      cupons: 'Cupones de descuento',
+      quiz: 'Encuestas',
+      banners: 'Publicidad'
+   },
+   adminMarketplace: "Tienda",
+   adminTheme: 'Diseño',
+   adminProducts: 'Productos',
+   adminCategories: 'Categorías',
+   adminThemes: 'Temas',
+   adminFavoritestores: 'Seguidores',
+   products: 'Productos'
 
 }

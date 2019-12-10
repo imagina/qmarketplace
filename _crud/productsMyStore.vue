@@ -6,16 +6,25 @@
         return {
           apiRoute: 'apiRoutes.qcommerce.products',
           permission: 'marketplace.products',
-          create: {
-            title: this.$tr('qcommerce.layout.newProduct'),
-            to : {
-              name : 'qmarketplace.admin.stores.my.store.products.create',
-              params : {
-                store: this.$store.state.qmarketplaceStores.storeSelected
-              },
-              query : {}
-            }
-          },
+          // create: {
+          //   title: this.$tr('qcommerce.layout.newProduct'),
+          //   to : {
+          //     name : 'qmarketplace.admin.stores.my.store.products.create',
+          //     params : {
+          //       store: this.$store.state.qmarketplaceStores.storeSelected
+          //     },
+          //     query : {}
+          //   }
+          // },
+           create: {
+              icon : 'icon-name',
+              title: this.$tr('qcommerce.layout.newProduct'),
+              to : {
+                 name : 'qmarketplace.admin.stores.business.products.create',
+                 params : {storeId: this.$store.state.qmarketplaceStores.storeSelected},
+                 query : {}
+              } // optional, if you wan create custom form in other page
+           },
           read: {
             columns: [
               {name: 'id', label: this.$tr('ui.form.id'), field: 'id', style: 'width: 50px'},
@@ -106,7 +115,12 @@
             },
           },
           update: {
-            to : 'qcommerce.admin.products.edit'
+             title: this.$tr('qcommerce.layout.newProduct'),
+             to : {
+                name : 'qmarketplace.admin.stores.business.products.create',
+                params : {storeId: this.$store.state.qmarketplaceStores.storeSelected},
+                query : {}
+             }
           },
           delete: true,
           formLeft: {
