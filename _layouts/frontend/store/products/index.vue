@@ -56,6 +56,15 @@
                  params: {}
               }
            })
+           await store.dispatch('qcrudMaster/SHOW', {
+              indexName: `qmarketplace-store-${storeSlug}`,
+              criteria: storeSlug,
+              apiRoute: 'apiRoutes.qmarketplace.store',
+              requestParams: {
+                 refresh: true,
+                 params: {include: 'categories,user,products,paymentMethods,shippingMethods'}
+              }
+           })
            resolve(true)
         })
      },

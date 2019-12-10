@@ -156,7 +156,7 @@ export default {
   myStoreCategoryProducts: {
     permission: 'marketplace.stores.mystore',
     activated: true,
-    path: '/admin/stores/myStore/product/category',
+    path: '/admin/stores/my-store/product/category',
     name: 'qmarketplace.admin.stores.myStore.productsCategory',
     page: () => import('@imagina/qmarketplace/_layouts/admin/productCategories/index'),
     layout: () => import('src/layouts/admin'),
@@ -167,11 +167,9 @@ export default {
   orders: {
     permission: 'marketplace.stores.mystore',
     activated: true,
-    path: '/admin/stores/myStore/orders',
+    path: '/admin/stores/my-store/orders',
     name: 'qmarketplace.admin.shipping.orders.index',
     page: () => import('@imagina/qmarketplace/_layouts/admin/order/index'),
-    // layout: () => import('src/layouts/master'),
-    // title: 'qmarketplace.sidebar.my.orders',
     layout: () => import('src/layouts/admin'),
     title: 'qmarketplace.sidebar.business.orders',
     icon: 'fas fa-box-open',
@@ -180,17 +178,47 @@ export default {
   order: {
     permission: 'marketplace.stores.mystore',
     activated: true,
-    path: '/admin/stores/myStore/order/:id',
+    path: '/admin/stores/my-store/order/:id',
     name: 'qmarketplace.admin.shipping.orders.show',
     page: () => import('@imagina/qmarketplace/_layouts/admin/order/show'),
-    // layout: () => import('src/layouts/master'),
-    // title: 'qmarketplace.sidebar.my.order',
     layout: () => import('src/layouts/admin'),
     title: 'qmarketplace.sidebar.business.order',
     icon: 'fas fa-box-open',
     authenticated: true,
   },
-
+  myStorePolls: {
+    permission: 'iquiz.polls.manage',
+    activated: true,
+    path: '/admin/stores/my-store/polls/index',
+    name: 'qmarketplace.admin.polls.index',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/quiz/polls/index'),
+    layout: () => import('src/layouts/admin'),
+    title: 'qquiz.sidebar.adminPolls',
+    icon: 'fas fa-poll',
+    authenticated: true
+  },
+  myStoreQuestions: {
+    permission: 'iquiz.questions.manage',
+    activated: true,
+    path: '/admin/stores/my-store/poll/:id/questions/index',
+    name: 'qmarketplace.admin.questions.index',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/quiz/questions/index'),
+    layout: () => import('src/layouts/admin'),
+    title: 'qquiz.sidebar.adminQuestions',
+    icon: 'fas fa-question-circle',
+    authenticated: true
+  },
+  myStoreAnswers: {
+    permission: 'iquiz.answers.manage',
+    activated: true,
+    path: '/admin/stores/my-store/poll/:poll_id/question/:id/answers/index',
+    name: 'qmarketplace.admin.answers.index',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/quiz/answers/index'),
+    layout: () => import('src/layouts/admin'),
+    title: 'qquiz.sidebar.adminAnswers',
+    icon: 'fas fa-question-circle',
+    authenticated: true
+  },
   favoriteUsers: {
     permission: 'marketplace.stores.mystore',
     activated: true,

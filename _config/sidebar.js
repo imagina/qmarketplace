@@ -13,9 +13,6 @@ export default [
    },
    pages.qmarketplace.myStore, // themes
    pages.qmarketplace.myStoreTheme, // themes
-   pages.qmarketplace.favoriteUsers, // Seguidores
-
-   pages.qmarketplace.orders, // orders
    {
       title: 'qmarketplace.sidebar.products',
       icon: 'fas fa-shopping-basket',
@@ -24,4 +21,10 @@ export default [
          pages.qmarketplace.myStoreCategoryProducts, // categoriesStore
       ]
    },
+   pages.qmarketplace.orders, // orders
+   pages.qmarketplace.myStorePolls, // orders
+   pages.qmarketplace.favoriteUsers, // Seguidores
+
+
+
 ]
