@@ -115,12 +115,8 @@
             },
           },
           update: {
-             title: this.$tr('qcommerce.layout.newProduct'),
-             to : {
-                name : 'qmarketplace.admin.stores.business.products.create',
-                params : {storeId: this.$store.state.qmarketplaceStores.storeSelected},
-                query : {}
-             }
+             title: this.$tr('qcommerce.layout.updateProduct'),
+             to : 'qmarketplace.admin.stores.business.products.edit'
           },
           delete: true,
           formLeft: {
