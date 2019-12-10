@@ -119,12 +119,12 @@
                 options : [
                   {label: this.$tr('ui.label.disabled'), value: 0},
                 ],
+                loadOptions: {
+                  apiRoute: 'apiRoutes.qcommerce.categories',
+                  select: {label: 'title', id: 'id'},
+                  requestParams: {include: 'parent', filter:{store:this.$store.state.qmarketplaceStores.storeSelected}}
+                }
               },
-              loadOptions: {
-                apiRoute: 'apiRoutes.qcommerce.categories',
-                select: {label: 'title', id: 'id'},
-                requestParams: {include: 'parent', filter:{store:this.$store.state.qmarketplaceStores.storeSelected}}
-              }
             },
             mediasSingle: {
               name: 'mediasSingle',

@@ -84,12 +84,12 @@
                         options : [
                            {label: this.$tr('ui.label.disabled'), value: 0},
                         ],
+                        loadOptions: {
+                          apiRoute: 'apiRoutes.qmarketplace.category',
+                          select: {label: 'title', id: 'id'},
+                          requestParams: {include: 'parent'}
+                        }
                      },
-                     loadOptions: {
-                        apiRoute: 'apiRoutes.qmarketplace.category',
-                        select: {label: 'title', id: 'id'},
-                        requestParams: {include: 'parent'}
-                     }
                   },
                   icon: {
                      value: '',

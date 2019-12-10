@@ -13,7 +13,7 @@ export default {
   },
   // Super admin Stores
   themes: {
-    permission: 'qmarketplace.stores.manage',
+    // permission: 'qmarketplace.stores.manage',
     activated: true,//
     path: '/qmarketplace/themes/index',
     name: 'qmarketplace.admin.themes.index',//
@@ -107,7 +107,7 @@ export default {
     name: 'qmarketplace.admin.stores.my.store',
     page: () => import('@imagina/qmarketplace/_layouts/admin/stores/formMyStore'),
     layout: () => import('src/layouts/master'),
-    title: 'qmarketplace.sidebar.adminMyStore',
+    title: 'qmarketplace.sidebar.my.myStore',
     icon: 'fas fa-store',
     authenticated: true,
   },
@@ -165,7 +165,7 @@ export default {
     name: 'qmarketplace.admin.shipping.orders.index',
     page: () => import('@imagina/qmarketplace/_layouts/admin/order/index'),
     layout: () => import('src/layouts/master'),
-    title: 'qcommerce.sidebar.my.orders',
+    title: 'qmarketplace.sidebar.my.orders',
     icon: 'fas fa-box-open',
     authenticated: true,
   },
@@ -176,7 +176,7 @@ export default {
     name: 'qmarketplace.admin.shipping.orders.show',
     page: () => import('@imagina/qmarketplace/_layouts/admin/order/show'),
     layout: () => import('src/layouts/master'),
-    title: 'qcommerce.sidebar.adminOrders',
+    title: 'qmarketplace.sidebar.my.order',
     icon: 'fas fa-box-open',
     authenticated: true,
   },

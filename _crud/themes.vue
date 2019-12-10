@@ -33,29 +33,35 @@
           delete: true,
           formLeft: {
             name: {
-              label: this.$tr('ui.form.name'),
+              props:{
+                label: this.$tr('ui.form.name'),
+                rules: [
+                  val => !!val || this.$tr('ui.message.fieldRequired')
+                ],
+
+              },
               value: '',
-              type: 'text',
-              rules: [
-                val => !!val || this.$tr('ui.message.fieldRequired')
-              ],
+              type: 'input',
               isTranslatable: true,
             },
             description: {
-              label: this.$tr('ui.form.description'),
+              props:{
+                label: this.$tr('ui.form.description'),
+              },
               value: '',
               type: 'html',
-              isRequired: false,
               isTranslatable: true,
             },
             mediasSingle: {
-              name: 'mediasSingle',
-              label: this.$tr('ui.form.firstImage'),
-              value: {},
-              type: 'media',
-              zone: 'mainimage',
-              entity: "Modules\\Marketplace\\Entities\\Themes",
-              entityId: null
+               name: 'mediasSingle',
+               value: {},
+               type: 'media',
+               props : {
+                  label: this.$tr('ui.form.firstImage'),
+                  zone: 'mainimage',
+                  entity: "Modules\\Marketplace\\Entities\\CategoryStore",
+                  enitityId: null
+               }
             },
           },
         }

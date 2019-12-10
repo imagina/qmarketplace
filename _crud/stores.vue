@@ -8,7 +8,11 @@
           // permission: 'icommerce.products',
           create: {
             title: this.$tr('qmarketplace.layout.newStore'),
-            to : 'qmarketplace.admin.stores.create'
+            to : {
+              name : 'qmarketplace.admin.stores.create',
+              params : {},
+              query : {}
+            }
           },
           read: {
             columns: [

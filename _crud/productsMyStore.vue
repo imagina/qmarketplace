@@ -8,9 +8,12 @@
           permission: 'marketplace.products',
           create: {
             title: this.$tr('qcommerce.layout.newProduct'),
-            to : 'qmarketplace.admin.stores.my.store.products.create',
-            params:{
-              storeId: this.$store.state.qmarketplaceStores.storeSelected
+            to : {
+              name : 'qmarketplace.admin.stores.my.store.products.create',
+              params : {
+                store: this.$store.state.qmarketplaceStores.storeSelected
+              },
+              query : {}
             }
           },
           read: {
@@ -49,44 +52,56 @@
             },
             filters: {
               categoryId: {
-                label: `${this.$tr('ui.form.category')}:`,
-                value: '0',
-                type: 'select',
-                isRequired: true,
-                isTranslatable: false,
-                options: [
-                  {label: this.$tr('ui.label.all'), id: '0'}
-                ],
-                loadOptions: {
-                  apiRoute: 'apiRoutes.qcommerce.categories',
-                  requestParams: {
-                    filter:{
-                      store: this.$store.state.qmarketplaceStores.storeSelected
+                props:{
+                  rules: [
+                    val => !!val || this.$tr('ui.message.fieldRequired')
+                  ],
+                  label: `${this.$tr('ui.form.category')}:`,
+                  options: [
+                    {label: this.$tr('ui.label.all'), id: '0'}
+                  ],
+                  loadOptions: {
+                    apiRoute: 'apiRoutes.qcommerce.categories',
+                    requestParams: {
+                      filter:{
+                        store: this.$store.state.qmarketplaceStores.storeSelected
+                      }
                     }
                   }
-                }
+                },
+                value: '0',
+                type: 'select',
+                isTranslatable: false,
               },
               status: {
-                label: `${this.$tr('ui.form.status')}:`,
+                props:{
+                  rules: [
+                    val => !!val || this.$tr('ui.message.fieldRequired')
+                  ],
+                  label: `${this.$tr('ui.form.status')}:`,
+                  options: [
+                    {label: this.$tr('ui.label.enabled'), id: 1},
+                    {label: this.$tr('ui.label.disabled'), id: 0}
+                  ],
+                },
                 value: 1,
                 type: 'select',
-                isRequired: true,
                 isTranslatable: false,
-                options: [
-                  {label: this.$tr('ui.label.enabled'), id: 1},
-                  {label: this.$tr('ui.label.disabled'), id: 0}
-                ],
               },
               stockStatus: {
-                label: `${this.$tr('ui.form.stock')}:`,
+                props:{
+                  label: `${this.$tr('ui.form.stock')}:`,
+                  options: [
+                    {label: this.$tr('ui.label.available'), id: 1},
+                    {label: this.$tr('ui.label.soldOut'), id: 0}
+                  ],
+                  rules: [
+                    val => !!val || this.$tr('ui.message.fieldRequired')
+                  ],
+                },
                 value: 1,
                 type: 'select',
-                isRequired: true,
                 isTranslatable: false,
-                options: [
-                  {label: this.$tr('ui.label.available'), id: 1},
-                  {label: this.$tr('ui.label.soldOut'), id: 0}
-                ],
               },
             },
           },
@@ -98,38 +113,52 @@
             id: {value: ''},
             userId: {value: this.$store.state.quserAuth.userId},
             description: {
-              label: this.$tr('ui.form.description'),
+              props:{
+                label: this.$tr('ui.form.description'),
+                rules: [
+                  val => !!val || this.$tr('ui.message.fieldRequired')
+                ],
+              },
               value: '',
-              type: 'text',
-              isRequired: true,
+              type: 'input',
               isTranslatable: true,
             },
             optionId: {
-              label: this.$tr('ui.form.option'),
+              props:{
+                rules: [
+                  val => !!val || this.$tr('ui.message.fieldRequired')
+                ],
+                label: this.$tr('ui.form.option'),
+                loadOptions: {
+                  apiRoute: 'apiRoutes.qcommerce.options',
+                  select: {label: 'description', id: 'id'}
+                }
+              },
               value: null,
               type: 'select',
-              isRequired: true,
               isTranslatable: false,
-              loadOptions: {
-                apiRoute: 'apiRoutes.qcommerce.options',
-                select: {label: 'description', id: 'id'}
-              }
             },
             sortOrder: {
-              label: this.$tr('ui.form.sort'),
+              props:{
+                rules: [
+                  val => !!val || this.$tr('ui.message.fieldRequired')
+                ],
+                label: this.$tr('ui.form.sort'),
+              },
               value: 0,
               type: 'number',
-              isRequired: true,
               isTranslatable: false,
             },
             mediasSingle: {
-              name: 'mediasSingle',
-              label: this.$tr('ui.form.firstImage'),
-              value: {},
-              type: 'media',
-              zone: 'mainimage',
-              entity: "Modules\\Icommerce\\Entities\\OptionValue",
-              enitityId: null
+               name: 'mediasSingle',
+               value: {},
+               type: 'media',
+               props : {
+                  label: this.$tr('ui.form.firstImage'),
+                  zone: 'mainimage',
+                  entity: "Modules\\Marketplace\\Entities\\CategoryStore",
+                  enitityId: null
+               }
             },
           },
         }
