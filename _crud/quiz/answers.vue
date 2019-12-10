@@ -6,7 +6,7 @@
             return {
                crudId: this.crudId,
                apiRoute: 'apiRoutes.qquiz.answers',
-               permission: 'marketplace.products',
+               permission: 'marketplace.answers',
                create: {
                   title: this.$tr('qquiz.layout.newAnswer'),
                },
@@ -55,6 +55,23 @@
                            val => !!val || this.$tr('ui.message.fieldRequired')
                         ]
                      }
+                  },
+               },
+               formRight: {
+                  status: {
+                     value: 0,
+                     type: 'select',
+                     props: {
+                        label: `${this.$tr('ui.form.status')}:`,
+                        rules: [
+                           val => !!val || this.$tr('ui.message.fieldRequired')
+                        ],
+                        options: [
+                           {label: this.$tr('ui.label.enabled'), value: '1'},
+                           {label: this.$tr('ui.label.disabled'), value: '0'},
+                        ],
+                     },
+
                   },
                },
             }

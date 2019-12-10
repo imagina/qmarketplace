@@ -6,7 +6,7 @@
             return {
                crudId: this.crudId,
                apiRoute: 'apiRoutes.qquiz.polls',
-               permission: 'marketplace.products',
+               permission: 'marketplace.polls',
                create: {
                   title: this.$tr('qquiz.layout.newPoll'),
                },
@@ -22,6 +22,12 @@
                         name: 'title',
                         label: this.$tr('ui.form.title'),
                         field: 'title',
+                        align: 'left'
+                     },
+                     {
+                        name: 'systemName',
+                        label: this.$tr('ui.form.name'),
+                        field: 'systemName',
                         align: 'left'
                      },
                      {
@@ -60,6 +66,16 @@
                      isTranslatable: true,
                      props: {
                         label: `${this.$tr('ui.form.title')} *`,
+                        rules: [
+                           val => !!val || this.$tr('ui.message.fieldRequired')
+                        ]
+                     }
+                  },
+                  systemName: {
+                     value: null,
+                     type: 'input',
+                     props: {
+                        label: `${this.$tr('ui.form.systemName')} *`,
                         rules: [
                            val => !!val || this.$tr('ui.message.fieldRequired')
                         ]

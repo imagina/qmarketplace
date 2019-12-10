@@ -11,7 +11,7 @@
             <mainProducts></mainProducts>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-4">
-            <quiz></quiz>
+            <quiz system-name="home"></quiz>
           </div>
         </div>
       </div>
@@ -62,7 +62,7 @@
 import generalProducts from '@imagina/qmarketplace/_components/themes/02/generalProducts'
 import featuredProducts from '@imagina/qmarketplace/_components/themes/02/featuredProducts'
 import mainProducts from '@imagina/qmarketplace/_components/themes/02/mainP'
-import quiz from '@imagina/qmarketplace/_components/themes/02/quiz'
+import quiz from '@imagina/qmarketplace/_components/themes/quiz'
 import share from '@imagina/qmarketplace/_components/themes/02/shareNetworks'
 import chat from '@imagina/qmarketplace/_components/qchat/chat'
 export default {

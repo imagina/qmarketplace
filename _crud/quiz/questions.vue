@@ -6,7 +6,7 @@
             return {
                crudId: this.crudId,
                apiRoute: 'apiRoutes.qquiz.questions',
-               permission: 'marketplace.products',
+               permission: 'marketplace.questions',
                create: {
                   title: this.$tr('qquiz.layout.newQuestion'),
                },
@@ -62,6 +62,38 @@
                         rules: [
                            val => !!val || this.$tr('ui.message.fieldRequired')
                         ]
+                     }
+                  },
+               },
+               formRight: {
+                  status: {
+                     value: 0,
+                     type: 'select',
+                     props: {
+                        label: `${this.$tr('ui.form.status')}:`,
+                        rules: [
+                           val => !!val || this.$tr('ui.message.fieldRequired')
+                        ],
+                        options: [
+                           {label: this.$tr('ui.label.enabled'), value: '1'},
+                           {label: this.$tr('ui.label.disabled'), value: '0'},
+                        ],
+                     },
+
+                  },
+                  startDate: {
+                     value: '',
+                     type: 'date',
+                     props: {
+                        label: this.$tr('qquiz.layout.form.startDate'),
+                     }
+                  },
+                  endDate: {
+                     label: this.$tr('qquiz.layout.form.endDate'),
+                     value: '',
+                     type: 'date',
+                     props: {
+                        label: this.$tr('qquiz.layout.form.endDate'),
                      }
                   },
                },

@@ -8,7 +8,7 @@
             <new-products :store="store"></new-products>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
-            <quiz></quiz>
+            <quiz system-name="home"></quiz>
             <div class="banner-bottom q-mb-xl" style="background-image: url('/statics/img/theme-one/banner-bottom.jpg')">
               <div class="row">
                 <div class="col-12 content">
@@ -36,7 +36,7 @@ import imSocial from 'src/components/master/imSocial';
 import generalProducts from '@imagina/qmarketplace/_components/themes/01/generalProducts'
 import featuredProducts from '@imagina/qmarketplace/_components/themes/01/featuredProducts'
 import newProducts from '@imagina/qmarketplace/_components/themes/01/newProducts'
-import quiz from '@imagina/qmarketplace/_components/themes/01/quiz'
+import quiz from '@imagina/qmarketplace/_components/themes/quiz'
 import share from '@imagina/qmarketplace/_components/themes/01/shareNetworks'
 export default {
 
