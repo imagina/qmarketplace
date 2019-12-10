@@ -99,24 +99,22 @@ export default {
     authenticated: true
   },
   //end Super admin Sores
-
+  //Edit data of selected store
   myStore:{
     //permission: 'qmarketplace.store.mystore',
     activated: true,
     path: '/admin/stores/my-store',
     name: 'qmarketplace.admin.stores.my.store',
     page: () => import('@imagina/qmarketplace/_layouts/admin/stores/formMyStore'),
-<<<<<<< HEAD
-    layout: () => import('src/layouts/master'),
-    title: 'qmarketplace.sidebar.my.myStore',
-=======
+    // layout: () => import('src/layouts/master'),
+    // title: 'qmarketplace.sidebar.my.myStore',
     layout: () => import('src/layouts/admin'),
     title: 'qmarketplace.sidebar.business.myStore',
->>>>>>> 2a4e9fdef3f694c26594f24f3add0d3a6b1ad95c
     icon: 'fas fa-store',
     authenticated: true,
 },
 
+//Edit theme and colors of selected store
   myStoreTheme: {
     permission: 'marketplace.stores.mystore',
     activated: true,
@@ -129,6 +127,7 @@ export default {
     authenticated: true
   },
 
+  //Products of selected store
   myStoreProducts: {
     permission: 'marketplace.stores.mystore',
     activated: true,
@@ -140,6 +139,7 @@ export default {
     icon: 'fas fa-store',
     authenticated: true
   },
+  //Create products of selected store
   myStoreProductCreate: {
     permission: 'marketplace.stores.mystore',
     activated: true,
@@ -152,6 +152,7 @@ export default {
     authenticated: true
   },
 
+  //Product categories of selected store
   myStoreCategoryProducts: {
     permission: 'marketplace.stores.mystore',
     activated: true,
