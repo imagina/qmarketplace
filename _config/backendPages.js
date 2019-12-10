@@ -151,6 +151,18 @@ export default {
     icon: 'fas fa-store',
     authenticated: true
   },
+  //Edit product of selected store
+  myStoreProductEdit: {
+    permission: 'marketplace.stores.mystore',
+    activated: true,
+    path: '/admin/products/edit/:id',
+    name: 'qmarketplace.admin.stores.business.products.edit',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/stores/products/formMyStore'),
+    layout: () => import('src/layouts/admin'),
+    title: 'qmarketplace.sidebar.business.products',
+    icon: 'fas fa-store',
+    authenticated: true
+  },
 
   //Product categories of selected store
   myStoreCategoryProducts: {
