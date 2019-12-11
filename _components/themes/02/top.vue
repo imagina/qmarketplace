@@ -131,6 +131,8 @@
                   <div class="q-inline-block q-px-sm border-x">
                     <q-input dense
                       placeholder="¿Qué buscas?"
+                      v-model="searchText"
+                      :keyup="search()"
                       color="white" outlined  >
                       <template v-slot:append>
                         <q-icon name="search" class="text-bold" color="store-secondary" />
@@ -217,7 +219,8 @@ export default {
       slide: 1,
       categories:[],
       loading:false,
-      openChat:false
+      openChat:false,
+      searchText:''
     }
   },
   mounted() {
@@ -231,6 +234,22 @@ export default {
     }
   },
   methods:{
+    search(){
+      console.log(this.searchText);
+      if(this.searchText!=""){
+        this.$crud.index("apiRoutes.qcommerce.products",{
+          params:{
+            filter:{
+              store: this.storeData.id,
+              search:this.searchText
+            }
+          }
+        }).then(response => {
+          console.log('products');
+          console.log(response.data);
+        });
+      }
+    },
     getFollowedStore(){
       this.$crud.index("apiRoutes.qmarketplace.favoriteStore", {
         params:{
