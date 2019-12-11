@@ -131,7 +131,7 @@ export default {
   myStoreProducts: {
     permission: 'marketplace.stores.mystore',
     activated: true,
-    path: '/admin/stores/myStore/products',
+    path: '/admin/stores/my-store/products',
     name: 'qmarketplace.admin.stores.my.store.products',
     page: () => import('@imagina/qmarketplace/_layouts/admin/stores/products/indexStoreProducts'),
     layout: () => import('src/layouts/admin'),
@@ -143,7 +143,7 @@ export default {
   myStoreProductCreate: {
     permission: 'marketplace.stores.mystore',
     activated: true,
-    path: '/admin/products/create',
+    path: '/admin/stores/my-store/products/create',
     name: 'qmarketplace.admin.stores.business.products.create',
     page: () => import('@imagina/qmarketplace/_layouts/admin/stores/products/formMyStore'),
     layout: () => import('src/layouts/admin'),
@@ -155,7 +155,7 @@ export default {
   myStoreProductEdit: {
     permission: 'marketplace.stores.mystore',
     activated: true,
-    path: '/admin/products/edit/:id',
+    path: '/admin/stores/my-store/products/edit/:id',
     name: 'qmarketplace.admin.stores.business.products.edit',
     page: () => import('@imagina/qmarketplace/_layouts/admin/stores/products/formMyStore'),
     layout: () => import('src/layouts/admin'),

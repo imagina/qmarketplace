@@ -11,7 +11,7 @@
         return {
            crudId: this.crudId,
           apiRoute: 'apiRoutes.qcommerce.categories',
-          permission: 'marketplace.productCategories',
+          permission: 'marketplace.productcategories',
           create: {
             title: this.$tr('qcommerce.layout.newCategory'),
           },
