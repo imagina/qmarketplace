@@ -26,7 +26,7 @@
                      },
                      {
                         name: 'systemName',
-                        label: this.$tr('ui.form.name'),
+                        label: this.$tr('qquiz.layout.form.systemName'),
                         field: 'systemName',
                         align: 'left'
                      },
@@ -43,6 +43,7 @@
                      {
                         icon: 'fas fa-question-circle',
                         color: 'warning',
+                        tooltip : 'Preguntas',
                         route: 'qmarketplace.admin.questions.index', //redirect to route, and set all data row as route params
                         action: (rowData) => {
                         } //Get row data as param
