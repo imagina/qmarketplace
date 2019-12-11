@@ -76,7 +76,7 @@
                      value: null,
                      type: 'input',
                      props: {
-                        label: `${this.$tr('ui.form.systemName')} *`,
+                        label: `${this.$tr('qquiz.layout.form.systemName')} *`,
                         rules: [
                            val => !!val || this.$tr('ui.message.fieldRequired')
                         ]
