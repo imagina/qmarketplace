@@ -5,23 +5,54 @@
          ENCUESTA
       </div>
 
-      <q-stepper v-if="success && answers.length>0 && !alertContent.active && !showVotes" ref="stepper"
+      <q-stepper ref="stepper"
                  v-model="currentStep" class="no-shadow">
-
-
          <q-step :name="question.id" :order="index" :title="question.title" v-for="(question, index) in poll.questions"
                  :key="index">
-
             <q-card-section>
 
                <div class="text-subtitle1 text-bold text-center q-mb-sm">{{question.title}}</div>
+               <div v-if="!question.users.find(function(element) {return element = userId;})">
+                  <q-option-group keep-color
+                                  v-model="selectedOption"
+                                  :options="getAnswers(question.answers)"
+                                  color="store-primary"
 
-               <q-option-group keep-color
-                               v-model="selectedOptions"
-                               :options="answers[index]"
-                               color="store-primary"
-                               type="checkbox"
-               />
+                  />
+                  <q-stepper-navigation align="center" class="q-pa-md">
+                     <q-btn class="bg-store-primary text-light font-family-secondary" @click="saveData(question)">Enviar
+                     </q-btn>
+                  </q-stepper-navigation>
+
+               </div>
+               <div v-else>
+                     <div class="question q-mb-md">
+                        <table class="q-mx-auto">
+                           <thead>
+                           <tr>
+                              <th style="width:50%;"></th>
+                              <th class="text-center" style="width:20%;">Votos</th>
+                           </tr>
+                           </thead>
+                           <tbody>
+                           <tr class="answers" v-for="(answer) in question.answers" :key="answer.id">
+                              <td>{{answer.title}}</td>
+                              <td class="text-center"> {{answer.votes}}</td>
+                           </tr>
+                           <tr>
+                              <td>
+                                 TOTAL
+                              </td>
+                              <td class="text-center">
+                                 {{question.totalVotes}}
+                              </td>
+                           </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+
 
             </q-card-section>
 
@@ -30,9 +61,7 @@
                   <div class="font-family-secondary">Siguiente</div>
                </div>
             </q-stepper-navigation>
-            <q-stepper-navigation align="center" v-else class="q-pa-md">
-               <q-btn class="bg-store-primary text-light font-family-secondary" @click="saveData">Enviar</q-btn>
-            </q-stepper-navigation>
+
 
          </q-step>
 
@@ -47,42 +76,6 @@
          </div>
       </q-card-section>
 
-
-      <!-- Votes Poll -->
-      <div v-if="showVotes" class="votesPoll text-store-primary q-px-md q-py-md">
-
-         <div class="text-h6 font-family-secondary q-my-sm">Resultados</div>
-         <div class="contentPoll" v-for="(question, index) in votesPoll" :key="index">
-
-            <div class="question q-mb-md">
-               <div class="text-center text-subtitle1">{{question.title}}</div>
-               <table class="q-mx-auto">
-                  <thead>
-                  <tr>
-                     <th style="width:50%;"></th>
-                     <th class="text-center" style="width:20%;">Votos</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr class="answers" v-for="(answer, index2) in question.answers" :key="index2">
-                     <td>{{answer.title}}</td>
-                     <td class="text-center"> {{answer.votes}}</td>
-                  </tr>
-                  <tr>
-                     <td>
-                        TOTAL
-                     </td>
-                     <td class="text-center">
-                        {{question.totalVotes}}
-                     </td>
-                  </tr>
-                  </tbody>
-               </table>
-            </div>
-         </div>
-
-      </div>
-
    </q-card>
 
 
@@ -95,7 +88,7 @@
       props: ['systemName'],
       validations() {
          return {
-            selectedOptions: {required}
+            selectedOption: {required}
          }
       },
       beforeMount() {
@@ -110,9 +103,7 @@
             pollUserIds: [],
             polls: [],
             poll: null,
-            answers: [],
-            answersOptions: [],
-            selectedOptions: [],
+            selectedOption: null,
             finalDataSave: [],
             userId: this.$store.state.quserAuth.userId ? this.$store.state.quserAuth.userId : null,
             alertContent: {
@@ -121,7 +112,7 @@
                icon: 'check',
                msj: 'Gracias por participar!!'
             },
-            currentStep: null,
+            currentStep: 1,
             votesPoll: null,
             showVotes: false
          }
@@ -138,13 +129,9 @@
             this.loading = true
             this.success = true
             this.loading = false
-            this.getPolls()
+            this.getPoll()
          },
-
-         // Get Polls with all questions
-         // Not Loggin - Limit 1 Poll - random
-         // Loggin - Limit 1 Poll - Exclude Polls
-         getPolls() {
+         getPoll() {
             return new Promise((resolve, reject) => {
                //Params
                let params = {
@@ -153,13 +140,13 @@
                      filter: {
                         storeId: this.storeData.id,
                         status: 1,
-                        field:'system_name'
+                        field: 'system_name'
                      },
                   }
                }
-               this.$crud.show("apiRoutes.qquiz.polls",this.systemName, params)
+               this.$crud.show("apiRoutes.qquiz.polls", this.systemName, params)
                    .then(response => {
-                      this.polls = response.data
+                      this.poll = response.data
                       resolve(true)//Resolve
                    }).catch(error => {
                   this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
@@ -169,173 +156,47 @@
 
             })
          },
-         // Get Answers for question
-         getAnswers(questionId, pos) {
-            return new Promise((resolve, reject) => {
-               //Params
-               let params = {
-                  refresh: true,
-                  params: {
-                     include: 'answers',
-                     filter: {allTranslations: true},
-                  }
-               }
-
-               this.$crud.show("apiRoutes.qquiz.questions", questionId, params).then(response => {
-
-                  response.data.answers.forEach((answer, index) => {
-                     this.answersOptions.push({
-                        label: answer.title,
-                        value: answer.id
-                     })
-                  });
-                  resolve(true)//Resolve
-
-               }).catch(error => {
-                  this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
-
-                  reject(false)//Resolve
-               })
-
-
-            })
-         },
-         // Save Data Answers
-         saveData() {
+         saveData(question) {
             this.$v.$touch()
             if (!this.$v.$error) {
 
                this.loading = true;
-               this.setDataFinal()
+               let data={
+                  'user_id':this.userId,
+                  'question_id':question.id,
+                  'answer_id':this.selectedOption
+               }
 
+               this.$crud.create('apiRoutes.qquiz.userQuestionAnswers', data).then(response => {
+                  this.$alert.info({message: 'Encuesta enviada'})
+                  this.getPoll()
+                  this.$v.$reset()
+                  this.showVotes = true
+                  this.loading = false;
 
-               this.finalDataSave.forEach((data, index) => {
-
-                  this.$crud.create('apiRoutes.qquiz.userQuestionAnswers', data).then(response => {
-                     //console.warn("SAVE USER QUESTION ANSWER")
-                  }).catch(error => {
-                     console.error('[CREATE USER QUESTION ANSWERS] ', error)
-                     this.$alert.error({message: this.$tr('ui.message.recordNoUpdated')})
-                     this.loading = false
-                  })
-
-               })// End Save Answers
-
-               // Finished Poll
-               if (this.userId != null)
-                  this.saveUserPoll()
-
-
-               //console.warn("Termino Encuesta")
-               //console.warn("Poll ID "+this.poll.id)
-
-               this.getResultsPoll()
-
-               this.$v.$reset()//Reset validations
-               //this.alertContent.active = true // OJOOOOOOO
-
-               this.showVotes = true
-
-               this.loading = false;
+               }).catch(error => {
+                  console.error('[CREATE USER QUESTION ANSWERS] ', error)
+                  this.$alert.error({message: this.$tr('ui.message.recordNoUpdated')})
+                  this.loading = false
+               })
 
             } else {
                this.$alert.error({message: 'Encuesta: Debe seleccionar una respuesta', pos: 'bottom'})
             }
 
          },
-         //Save Data User Poll Finished
-         saveUserPoll() {
-
-            let data = {
-               'poll_id': this.poll.id,
-               'user_id': this.userId
-            }
-            this.$crud.create('apiRoutes.qquiz.userPolls', data).then(response => {
-               this.loading = false
-            }).catch(error => {
-               console.error('[CREATE USER POLLS] ', error)
-               this.$alert.error({message: this.$tr('ui.message.recordNoUpdated')})
-            })
-
-         },
-         //Get polls Ids from User
-         getUserPolls() {
-            return new Promise((resolve, reject) => {
-
-               //Params
-               let params = {
-                  refresh: true,
-                  params: {
-                     filter: {userId: this.userId},
-                     fields: 'poll_id'
-                  }
-               }
-
-               this.$crud.index("apiRoutes.qquiz.userPolls", params).then(response => {
-                  response.data.forEach((userPolls, index) => {
-                     this.pollUserIds.push(userPolls.poll_id)
-                  });
-                  resolve(true)//Resolve
-               }).catch(error => {
-                  this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
-
-                  reject(false)//Resolve
+         getAnswers(arrary) {
+            let options = [];
+            arrary.forEach((answer, index) => {
+               options.push({
+                  label: answer.title,
+                  value: answer.id
                })
-
-            })
-         },
-         // Next question
-         next() {
-            this.$v.$touch()
-            if (!this.$v.$error) {
-
-               this.setDataFinal()
-               this.$refs.stepper.next()
-
-            } else {
-               this.$alert.error({message: 'Encuesta: Debe seleccionar una respuesta', pos: 'bottom'})
-            }
-         },
-         // set data to Save
-         setDataFinal() {
-
-            this.selectedOptions.forEach((answerId, index) => {
-               this.finalDataSave.push({
-                  question_id: this.currentStep,
-                  answer_id: answerId,
-                  user_id: this.userId
-               })
-            })
-            this.selectedOptions = []
+            });
+            return options;
 
          },
-         // get Results Poll
-         getResultsPoll() {
-            return new Promise((resolve, reject) => {
 
-               //Params
-               let params = {
-                  refresh: true,
-                  params: {
-                     filter: {votes: true, pollId: this.poll.id},
-                     include: 'answers'
-                  }
-               }
-
-               this.$crud.index("apiRoutes.qquiz.questions", params).then(response => {
-
-                  this.votesPoll = response.data
-                  console.warn(this.votesPoll)
-
-                  resolve(true)//Resolve
-
-               }).catch(error => {
-                  this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
-                  reject(false)//Resolve
-               })
-
-            })
-         }
 
       }
 
