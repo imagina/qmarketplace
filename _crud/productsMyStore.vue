@@ -87,13 +87,14 @@
                   rules: [
                     val => !!val || this.$tr('ui.message.fieldRequired')
                   ],
-                  label: `${this.$tr('ui.form.status')}:`,
+                  label: `Visible:`,
                   options: [
-                    {label: this.$tr('ui.label.enabled'), id: 1},
-                    {label: this.$tr('ui.label.disabled'), id: 0}
+                    {label: "Ambos", id: null},
+                    {label: "Sí", id: 1},
+                    {label: "No", id: 0}
                   ],
                 },
-                value: 1,
+                value: null,
                 type: 'select',
                 isTranslatable: false,
               },
