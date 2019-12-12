@@ -22,6 +22,7 @@
               <div class="col-xs-12 col-sm-6">
                 <q-input 
                   rounded 
+                  dense
                   outlined 
                   placeholder="busqueda" 
                   v-model="searchText"
@@ -36,7 +37,7 @@
 
             <!-- Users -->
             <div class="row q-col-gutter-lg q-my-md">
-              
+
               <!-- results -->
               <div class="col-xs-12 col-sm-6" v-if="favoriteUsers.length>0" v-for="(result, index) in favoriteUsers" :key="index">
                 
@@ -53,22 +54,28 @@
                       </div>
                       <div class="col-8">
                         <div class="text-h6">{{result.user.fullName}}</div>
-                        <div class="text-subtitle2">Nivel: Club de Conocidos</div>
-                        <div class="text-subtitle2">{{result.user.email}}</div>
+                        <div class="text-subtitle2 text-tertiary">Nivel: Club de Conocidos</div>
+                        <div class="text-subtitle2"><q-icon name="fas fa-envelope" color="primary" /> {{result.user.email}}</div>
                       </div>
                     </div>
                     
                   </q-card-section>
 
-                  <q-separator inset />
+                  <q-separator />
 
-                  <q-card-section>
+                  <q-card-section class="q-pa-none">
                     <div class="link-profile text-right">
-                       <q-btn flat label="+ Ver Perfil" :to="{name:'quser.account.public.profile',params:{userId:result.user.id}}" />
+                       <!-- <q-btn flat label="+ Ver Perfil" :to="{name:'quser.account.public.profile',params:{userId:result.user.id}}" /> -->
+
+                       <q-btn flat color="primary" class="text-bold" label="+ Ver Perfil" @click="openProfile(result.user)" />
                     </div>
                   </q-card-section>
 
                 </q-card>
+
+                <q-dialog v-model="card.open">
+                    <card-user :card="card"></card-user>
+                </q-dialog>
 
               </div>
 
@@ -118,114 +125,128 @@
 
 </template>
 <script>
-  export default {
-    props: {},
-    components: {},
-    watch: {},
-    validations() {
-      return {}
-    },
-    mounted() {
-      this.$nextTick(function () {
-        this.init();
-      })
-    },
-    data() {
-      return {
-        loading: false,
-        success: false,
-        storeId : this.$store.state.qmarketplaceStores.storeSelected ? this.$store.state.qmarketplaceStores.storeSelected : null,
-        favoriteUsers: [],
-        alertContent:{
-          active: false,
-          color:'bg-red',
-          icon:'error',
-          msj:'DEBE TENER UNA TIENDA SELECCIONADA'
-        },
-        searchText: ''
-      }
-    },
-    methods: {
-      // init Method
-      async init(){
-
-        this.loading = true
-
-        if(this.storeId!=null){
-          this.getUsersByStore()
-        }
-        else{
-          this.alertContent.active = true
-        }
-
-        this.success = true
-        this.loading = false
-        
+import cardUser from 'src/components/quser/cardUser'
+export default {
+  props: {},
+  components: {
+    cardUser
+  },
+  watch: {},
+  validations() {
+    return {}
+  },
+  mounted() {
+    this.$nextTick(function () {
+      this.init();
+    })
+  },
+  data() {
+    return {
+      loading: false,
+      success: false,
+      card: {
+        open: false,
+        info: [],
+        stars: 2,
       },
-      // Get User By store ID
-      getUsersByStore(){
-        //Params
-        let params = {
-          refresh: true,
-          params: {
-              include: 'user',
-              filter: {storeId:this.storeId},
-              take: 10
-          }
-        }
-
-        this.$crud.index("apiRoutes.qmarketplace.favoriteStore",params).then(response => {
-          this.favoriteUsers = response.data
-
-        }).catch(error => {
-          console.error("ERROR - GET USERS FROM FAVORITE STORES")
-          this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
-            
-        })
-
+      storeId : this.$store.state.qmarketplaceStores.storeSelected ? this.$store.state.qmarketplaceStores.storeSelected : null,
+      favoriteUsers: [],
+      alertContent:{
+        active: false,
+        color:'bg-red',
+        icon:'error',
+        msj:'DEBE TENER UNA TIENDA SELECCIONADA'
       },
-      // search text
-      searchInfor(){
-
-        this.loading = true
-
-        this.favoriteUsers = []
-
-        //Params
-        let params = {
-          refresh: true,
-          params: {
-              include: 'user',
-              filter: {
-                search: this.searchText,
-                storeId:this.storeId
-              },
-              take: 10
-          }
-        }
-
-        this.$crud.index("apiRoutes.qmarketplace.favoriteStore",params).then(response => {
-          this.favoriteUsers = response.data
-
-          if(this.favoriteUsers.length==0)
-            this.$alert.error({message: 'No existen resultados disponbles', pos: 'bottom'})
-        
-          this.loading = false
-
-        }).catch(error => {
-
-          this.loading = false
-
-          console.error("ERROR - SEARCH USERS FROM FAVORITE STORES")
-          this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
-            
-        })
-
-
-      }
-
+      searchText: ''
     }
+  },
+  methods: {
+    // init Method
+    async init(){
+
+      this.loading = true
+
+      if(this.storeId!=null){
+        this.getUsersByStore()
+      }
+      else{
+        this.alertContent.active = true
+      }
+
+      this.success = true
+      this.loading = false
+      
+    },
+    // Get User By store ID
+    getUsersByStore(){
+      //Params
+      let params = {
+        refresh: true,
+        params: {
+            include: 'user',
+            filter: {storeId:this.storeId},
+            take: 10
+        }
+      }
+
+      this.$crud.index("apiRoutes.qmarketplace.favoriteStore",params).then(response => {
+        this.favoriteUsers = response.data
+
+      }).catch(error => {
+        console.error("ERROR - GET USERS FROM FAVORITE STORES")
+        this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
+          
+      })
+
+    },
+    // search text
+    searchInfor(){
+
+      this.loading = true
+
+      this.favoriteUsers = []
+
+      //Params
+      let params = {
+        refresh: true,
+        params: {
+            include: 'user',
+            filter: {
+              search: this.searchText,
+              storeId:this.storeId
+            },
+            take: 10
+        }
+      }
+
+      this.$crud.index("apiRoutes.qmarketplace.favoriteStore",params).then(response => {
+        this.favoriteUsers = response.data
+
+        if(this.favoriteUsers.length==0)
+          this.$alert.error({message: 'No existen resultados disponbles', pos: 'bottom'})
+      
+        this.loading = false
+
+      }).catch(error => {
+
+        this.loading = false
+
+        console.error("ERROR - SEARCH USERS FROM FAVORITE STORES")
+        this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
+          
+      })
+
+
+    },
+    openProfile(result) {
+      this.card.open = true;
+      console.log(result)
+      this.card.info = result;
+      console.log(this.card)
+    }
+
   }
+}
 </script>
 <style lang="stylus">
   
