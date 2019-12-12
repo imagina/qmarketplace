@@ -1,11 +1,21 @@
 <template>
   <div class="theme-layout-01">
+    <div class="q-container">
+      <div class="row q-col-gutter-lg justify-end">
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 q-mb-lg">
+          <div class="bg-store-secondary  text-white text-center q-pa-md">
+            <div class="text-h4">{{storeData.usersFollowing}}</div>
+            <div class="text-subtitle1">usuario (s) siguen esta tienda</div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="q-pa-md">
       <div class="q-container">
         <div class="row q-col-gutter-lg">
           <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
             <featured-products ></featured-products>
-            <new-products :store="store"></new-products>
+            <new-products :store="storeDara"></new-products>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
             <quiz system-name="home"></quiz>
@@ -54,7 +64,7 @@ export default {
     */
   },
   computed:{
-    store(){
+    storeData(){
       let storeSlug = this.$route.params.slug
       return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
     }
@@ -80,4 +90,12 @@ export default {
       content ''
       position absolute
       top 0
+  .block-title
+    width 100%
+    max-width 320px
+    max-height 54px
+    text-align center
+    font-size 24px
+    padding: 9px;
+
 </style>

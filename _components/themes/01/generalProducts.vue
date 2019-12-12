@@ -1,7 +1,7 @@
 <template>
    <div class="bg-light q-py-lg q-px-md">
-      <h4 class="text-center text-store-secondary">
-         • PRODUCTOS •
+      <h4 class="text-center block-title-2 text-store-secondary">
+          PRODUCTOS
       </h4>
       <div class="q-container">
          <div class="row q-col-gutter-lg q-py-lg">
@@ -39,7 +39,7 @@
                   filter: {
                      store: this.storeData.id,
                   },
-                  take: 87
+                  take: 8
                }
             };//params
             this.$crud.index("apiRoutes.qcommerce.products", params).then(response => {
@@ -55,4 +55,21 @@
    }
 </script>
 <style lang="stylus">
+   .block-title-2
+      font-size 24px
+      font-weight: bold
+      &:after
+         content: "•";
+         display: inline-block;
+         padding-left: 36px;
+         vertical-align: initial;
+
+
+      &:before
+         content: "•";
+         display: inline-block;
+         padding-right: 36px;
+         vertical-align: initial;
+
+
 </style>

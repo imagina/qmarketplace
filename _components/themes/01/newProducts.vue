@@ -1,6 +1,6 @@
 <template>
    <div class="q-mb-xl">
-      <div class="bg-store-primary rounded-sm text-weight-bold q-inline-block text-white q-px-lg q-py-md">
+      <div class="bg-store-primary block-title rounded-sm text-weight-bold q-inline-block text-white q-px-lg q-py-md">
          NUEVO
       </div>
       <div class="row q-col-gutter-lg q-pt-lg">

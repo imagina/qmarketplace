@@ -1,10 +1,11 @@
 <template>
-  <div class="share-networks" style="background-image: url('/statics/img/theme-one/share-network.jpg');">
+  <div class="share-networks" :style="`background-image: url('${storeData.mainImage.path}');`">
     <div class="row items-center">
       <div class="col-12">
-        <div class="networks text-center">
 
-          <i :class="soc.icon" v-for="soc in store.social" v-if="soc.active">
+        <div class="networks text-center">
+          <div class="text-h3  text-center title-networks">Compartir</div>
+          <i :class="soc.icon" v-for="soc in storeData.social" v-if="soc.active">
             <q-tooltip>
               {{soc.url}}
             </q-tooltip>
@@ -22,7 +23,7 @@
 export default {
 
   computed:{
-    store(){
+    storeData(){
       let storeSlug = this.$route.params.slug
       return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
     }
@@ -36,6 +37,7 @@ export default {
     background-size cover
     padding 10% 0
     position relative
+    width 100%
     &:before
       height 100%
       width 100%
@@ -53,4 +55,8 @@ export default {
         color #ffffff
         &:hover
           color $storeSecondary
+      .title-networks
+        color #ffffff
+        z-index 1000
+        margin-bottom 32px
 </style>

@@ -1,10 +1,10 @@
 <template>
    <div class="q-mb-xl">
-      <div class="bg-store-primary rounded-sm text-weight-bold q-inline-block text-white q-px-lg q-py-md">
+      <div class="bg-store-primary block-title rounded-sm text-weight-bold q-inline-block text-white q-px-lg q-py-md">
          DESTACADOS
       </div>
       <div class="row q-col-gutter-lg q-py-lg">
-         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4" v-for="(product, index) in products" :key="index">
+         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4" v-for="(product, index) in products" :key="index">
             <product :product="product" className="cardProductOne"></product>
          </div>
       </div>
@@ -37,7 +37,7 @@
                      store: this.storeData.id,
                      categories: [2]
                   },
-                  take:2
+                  take:3
                }
             };//params
             this.$crud.index("apiRoutes.qcommerce.products", params).then(response => {

@@ -55,7 +55,6 @@
                   <q-btn @click="$router.push({name: 'stores.about', params : {slug:storeData.slug}})" flat icon="fas fa-map-marker-alt" no-caps label="Info Empresa" color="white"/>
                   <q-btn flat icon="far fa-comment-dots" @click="openChat = !openChat" no-caps label="Chatea con la tienda" color="white"/>
                 </div>
-
                 <div class="col-auto">
                   <div class="q-inline-block q-px-sm border-x">
                     <q-input dense
@@ -99,16 +98,6 @@
                 <q-badge v-else align="top" class="bg-store-secondary"  floating>0</q-badge>
               </q-btn>
             </q-toolbar>
-          </div>
-        </div>
-        <div class="q-container">
-          <div class="row q-col-gutter-lg justify-end">
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 q-mb-lg">
-              <div class="bg-store-secondary  text-white text-center q-pa-md">
-                <div class="text-h4">{{storeData.usersFollowing}}</div>
-                <div class="text-subtitle1">usuario (s) siguen esta tienda</div>
-              </div>
-            </div>
           </div>
         </div>
         <!-- INFO ADDRESS STORE -->
