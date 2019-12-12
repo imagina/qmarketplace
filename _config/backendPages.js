@@ -243,4 +243,38 @@ export default {
     authenticated: true
   },
 
+  coupons: {
+    permission: 'icommerce.coupons.index',
+    activated: true,
+    path: '/admin/stores/my-store/coupons',
+    name: 'qmarketplace.admin.coupons.index',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/coupons/index'),
+    layout: () => import('src/layouts/admin'),
+    title: 'qcommerce.sidebar.adminCoupons',
+    icon: 'fas fa-ticket-alt',
+    authenticated: true,
+  },
+  couponsCreate: {
+    permission: 'icommerce.coupons.create',
+    activated: true,
+    path: '/admin/stores/my-store/coupons/create',
+    name: 'qmarketplace.admin.coupons.create',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/coupons/form'),
+    layout: () => import('src/layouts/admin'),
+    title: 'qcommerce.sidebar.createCoupons',
+    icon: 'fas fa-ticket-alt',
+    authenticated: true,
+  },
+  couponsEdit: {
+    permission: 'icommerce.coupons.edit',
+    activated: true,
+    path: '/admin/stores/my-store/coupons/:id',
+    name: 'qmarketplace.admin.coupons.edit',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/coupons/form'),
+    layout: () => import('src/layouts/admin'),
+    title: 'qcommerce.sidebar.editCoupons',
+    icon: 'fas fa-ticket-alt',
+    authenticated: true,
+  },
+
 }
