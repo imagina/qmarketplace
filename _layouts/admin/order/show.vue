@@ -1,232 +1,201 @@
 <template>
   <div id="pageId" class="q-layout-page layout-padding">
     <!--TITLE-->
-    <h1 class="q-headline text-primary">
+    <h1 class="text-h5 text-primary q-mb-md font-family-secondary">
       <q-icon v-if="$route.meta.icon" :name="$route.meta.icon"/>
       {{$tr($route.meta.title)}} {{this.$route.params.id}}
     </h1>
 
-    <div class="row">
-      <div class="col-md-12 backend-page">
-        <div class="row gutter-x-sm">
-          <div class="col-md-6">
 
-            <q-card class="rounded-md bg-white q-mb-xl box-table">
+    <div class="row q-col-gutter-lg">
+      <div class="col-md-6">
 
-              <q-card-section class="q-pa-lg">
-                {{$tr('qcommerce.layout.orderAccountInformation')}}
+        <q-card class="rounded-sm">
 
-                <div class="row">
-                  <div class="col-md-3">
-                    {{$tr('qcommerce.layout.orderStatus')}}
-                  </div>
-                  <div class="col-md-6">
-                    {{order.statusName}}
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-3">
-                    {{$tr('qcommerce.layout.orderDate')}}
-                  </div>
-                  <div class="col-md-9">{{(order.createdAt)}}</div>
-                </div>
-                <div class="row">
-                  <div class="col-md-3">
-                    {{$tr('qcommerce.layout.placedFromIP')}}
-                  </div>
-                  <div class="col-md-9">{{order.ip}}</div>
-                </div>
+          <q-card-section class="q-pa-lg">
+            <div class="text-h6 text-bold q-mb-md">{{$tr('qcommerce.layout.orderAccountInformation')}}</div>
 
-              </q-card-section>
-            </q-card>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="text-bold">{{$tr('qcommerce.layout.orderStatus')}}</div>
+              </div>
+              <div class="col-md-8">
+                {{order.statusName}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="text-bold">{{$tr('qcommerce.layout.orderDate')}}</div>
+              </div>
+              <div class="col-md-8">{{(order.createdAt)}}</div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="text-bold">{{$tr('qcommerce.layout.placedFromIP')}}</div>
+              </div>
+              <div class="col-md-8">{{order.ip}}</div>
+            </div>
+
+          </q-card-section>
+        </q-card>
 
 
-          </div>
-
-          <div class="col-md-6">
-
-            <q-card class="rounded-md bg-white q-mb-xl box-table">
-
-              <q-card-section class="q-pa-lg">
-                {{$tr('qcommerce.layout.accountInformation')}}
-
-                <div class="row">
-                  <div class="col-md-3">
-                    {{$tr('ui.form.name')}}
-                  </div>
-                  <div class="col-md-6">
-                    {{order.customer.fullName}}
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-3">
-                    {{$tr('ui.form.email')}}
-                  </div>
-                  <div class="col-md-6">
-                    {{order.customer.email}}
-                  </div>
-                </div>
-
-              </q-card-section>
-            </q-card>
-
-          </div>
-        </div>
       </div>
-    </div>
 
-    <div class="row q-mt-md">
-      <div class="col-md-12 backend-page">
-        <div class="row gutter-x-sm">
-          <div class="col-md-12">
+      <div class="col-md-6">
 
-            <q-card class="box-table">
-              <q-card-section>
-                {{$tr('qcommerce.layout.addressInformation')}}
-              </q-card-section>
+        <q-card class="rounded-sm" style="min-height: 179px;">
 
-              <q-card-section>
+          <q-card-section class="q-pa-lg">
+            <div class="text-h6 text-bold q-mb-md">{{$tr('qcommerce.layout.accountInformation')}}</div>
+
+            <div class="row">
+              <div class="col-md-3">
+                <div class="text-bold">{{$tr('ui.form.name')}}</div>
+              </div>
+              <div class="col-md-6">
+                {{order.customer.fullName}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <div class="text-bold">{{$tr('ui.form.email')}}</div>
+              </div>
+              <div class="col-md-6">
+                {{order.customer.email}}
+              </div>
+            </div>
+
+          </q-card-section>
+        </q-card>
+
+      </div>
+
+      <div class="col-md-12">
+
+        <q-card class="rounded-sm">
+          <q-card-section>
+            <div class="text-h6 text-bold q-mb-md">{{$tr('qcommerce.layout.addressInformation')}}</div>
+          </q-card-section>
+
+          <q-card-section>
+
+            <div class="row">
+              <div class="col-md-12">
+                <b>{{$tr('qcommerce.layout.billingAddress')}}</b>
+              </div>
+              <div class="col-md-12 q-mt-sm">
+                {{order.shippingFirstName}},
+                {{order.shippingLastName}},
+                {{order.shippingAddress1}},
+                {{order.shippingCity}},
+                {{order.shippingZipCode}},
+                {{order.shippingCountry}}
+              </div>
+            </div>
+          </q-card-section>
+        </q-card>
+      </div>
+
+      <div class="col-md-12">
+
+        <q-card class="rounded-sm">
+          <q-card-section>
+            <div class="text-h6 text-bold q-mb-md">{{$tr('qcommerce.layout.paymentShippingMethod')}}</div>
+          </q-card-section>
+
+          <q-card-section>
+
+            <div class="row">
+              <div class="col-md-12">
+                <b>{{$tr('qcommerce.layout.paymentInformation')}}</b>
+              </div>
+              <div class="col-md-12 q-mt-sm">
+                {{order.paymentMethod}}
+              </div>
+            </div>
+          </q-card-section>
+        </q-card>
+      </div>
+      <div class="col-md-12">
+
+        <q-card class="rounded-sm">
+          <q-card-section>
+            <div class="text-h6 text-bold q-mb-md">{{$tr('qcommerce.layout.itemsOrdered')}}</div>
+          </q-card-section>
+
+          <q-card-section>
+
+            <div class="row">
+              <div class="col-md-12">
+                <orderItems :items="order.items"/>
+              </div>
+            </div>
+          </q-card-section>
+        </q-card>
+      </div>
+      <div class="col-md-6 ">
+        <q-card class="rounded-sm">
+          <q-card-section>
+            <div class="text-h6 text-bold q-mb-md">{{$tr('qcommerce.layout.orderHistory')}}</div>
+          </q-card-section>
+
+          <q-card-section>
+            <order-status-history :items="order.histories" />
+            <addStatusOrder @orderHistoryCreated="getOrder()"/>
+          </q-card-section>
+        </q-card>
+      </div>
+      <div class="col-md-6 ">
+        <q-card class="rounded-sm">
+          <q-card-section>
+            <div class="text-h6 text-bold q-mb-md">{{$tr('qcommerce.layout.orderTotal')}}</div>
+          </q-card-section>
+
+          <q-card-section>
+
+            <div class="row">
+              <div class="col-md-12">
 
                 <div class="row">
-                  <div class="col-md-12">
-                    <b>{{$tr('qcommerce.layout.billingAddress')}}</b>
+                  <div class="row q-mb-sm full-width">
+                    <div class="col-6 secondary-font">
+                      {{$tr('qcommerce.layout.subtotal')}}
+                    </div>
+                    <div class="col-6 text-right secondary-font">
+
+                      $ {{$n(order.total - order.shippingAmount)}}
+                    </div>
                   </div>
-                  <div class="col-md-12 q-mt-sm">
-                    {{order.shippingFirstName}},
-                    {{order.shippingLastName}},
-                    {{order.shippingAddress1}},
-                    {{order.shippingCity}},
-                    {{order.shippingZipCode}},
-                    {{order.shippingCountry}}
+                  <div class="row q-mb-sm full-width">
+                    <div class="col-6 secondary-font">
+                      {{$tr('qcommerce.layout.shipping')}}
+                    </div>
+                    <div class="col-6 text-right secondary-font">
+                      $ {{$n(order.shippingAmount)}}
+                    </div>
                   </div>
-                </div>
-              </q-card-section>
-            </q-card>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row q-mt-md">
-      <div class="col-md-12 backend-page">
-        <div class="row gutter-x-sm">
-          <div class="col-md-12">
-
-            <q-card class="box-table">
-              <q-card-section>
-                {{$tr('qcommerce.layout.paymentShippingMethod')}}
-              </q-card-section>
-
-              <q-card-section>
-
-                <div class="row">
-                  <div class="col-md-12">
-                    <b>{{$tr('qcommerce.layout.paymentInformation')}}</b>
-                  </div>
-                  <div class="col-md-12 q-mt-sm">
-                    {{order.paymentMethod}}
-                  </div>
-                </div>
-              </q-card-section>
-            </q-card>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row q-mt-md">
-      <div class="col-md-12 backend-page">
-        <div class="row gutter-x-sm">
-          <div class="col-md-12">
-
-            <q-card class="box-table">
-              <q-card-section>
-                {{$tr('qcommerce.layout.itemsOrdered')}}
-              </q-card-section>
-
-              <q-card-section>
-
-                <div class="row">
-                  <div class="col-md-12">
-                    <orderItems :items="order.items"/>
-                  </div>
-                </div>
-              </q-card-section>
-            </q-card>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row q-mt-md gutter-x-sm">
-      <div class="col-md-6 backend-page">
-        <div class="row gutter-x-sm">
-          <div class="col-md-12">
-
-            <q-card class="box-table">
-              <q-card-section>
-                {{$tr('qcommerce.layout.orderHistory')}}
-              </q-card-section>
-
-              <q-card-section>
-                <order-status-history :items="order.histories" />
-                <addStatusOrder @orderHistoryCreated="getOrder()"/>
-              </q-card-section>
-            </q-card>
-
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 backend-page">
-        <div class="row gutter-x-sm">
-          <div class="col-md-12">
-
-            <q-card class="box-table">
-              <q-card-section>
-                {{$tr('qcommerce.layout.orderTotal')}}
-              </q-card-section>
-
-              <q-card-section>
-
-                <div class="row">
-                  <div class="col-md-12">
-
-                    <div class="row">
-                      <div class="row q-mb-sm full-width">
-                        <div class="col-6 secondary-font">
-                          {{$tr('qcommerce.layout.subtotal')}}
-                        </div>
-                        <div class="col-6 text-right secondary-font">
-
-                          $ {{$n(order.total - order.shippingAmount)}}
-                        </div>
-                      </div>
-                      <div class="row q-mb-sm full-width">
-                        <div class="col-6 secondary-font">
-                          {{$tr('qcommerce.layout.shipping')}}
-                        </div>
-                        <div class="col-6 text-right secondary-font">
-                          $ {{$n(order.shippingAmount)}}
-                        </div>
-                      </div>
-                      <div class="row q-mb-sm q-title text-weight-bold full-width">
-                        <div class="col-6  secondary-font">
-                          {{$tr('qcommerce.layout.form.total')}}
-                        </div>
-                        <div class="col-6 text-right secondary-font">
-                          $ {{$n(order.total)}}
-                        </div>
-                      </div>
+                  <div class="row q-mb-sm q-title text-weight-bold full-width">
+                    <div class="col-6  secondary-font">
+                      {{$tr('qcommerce.layout.form.total')}}
+                    </div>
+                    <div class="col-6 text-right secondary-font">
+                      $ {{$n(order.total)}}
                     </div>
                   </div>
                 </div>
-              </q-card-section>
-            </q-card>
-
-          </div>
-        </div>
+              </div>
+            </div>
+          </q-card-section>
+        </q-card>
       </div>
     </div>
+
+
+
+
+
+
 
     <inner-loading :visible="loading"/>
   </div>
