@@ -30,7 +30,7 @@
               {
                 icon : 'fas fa-info-circle',
                 color : 'info',
-                route : 'qcommerce.admin.shipping.orders.show',
+                route : 'qmarketplace.admin.shipping.orders.show',
                 action : () => {
 
                 }
