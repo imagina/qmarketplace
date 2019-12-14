@@ -1,6 +1,6 @@
 <template>
     <div class="q-pb-lg">
-      <q-dialog v-model="infoStore" @hide="infoStore=false;">
+      <q-dialog v-model="infoStore" @hide="infoStore=false">
         <q-carousel
         transition-prev="slide-right"
         transition-next="slide-left"
@@ -17,7 +17,7 @@
         <q-carousel-slide :name="1" class="column no-wrap flex-center">
           <i style="font-size:56px;" class="fas fa-map-marked-alt text-primary"></i>
           <!-- <q-icon name="style" color="primary" size="56px" /> -->
-          <div class="q-mt-md text-center" v-html="store.description">
+          <div class="q-mt-md text-center" v-html="storeData.description">
           </div>
         </q-carousel-slide>
 
@@ -27,19 +27,25 @@
         <div class="col-12">
           <div class="" style="margin: 0 5%;">
             <div class="q-mb-md border-slider" >
-              <full-width-gallery :storeName="store.name" :gallery="store.gallery" system-name="principal"></full-width-gallery>
-
+              <full-width-gallery :storeName="storeData.name" :gallery="storeData.gallery" system-name="principal"></full-width-gallery>
+              <div class="absolute-bottom-left text-center q-ma-sm">
+                <q-avatar id="store-logo" round class="bg-white">
+                  <img :src="storeData.logo.path">
+                </q-avatar>
+                <h1 class="store-title">{{storeData.name}}</h1>
+              </div>
               <div class="q-container info-tienda"  v-if="$q.platform.is.desktop">
                 <div class="row q-col-gutter-md justify-end q-mx-sm">
                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 q-mb-lg text-center">
                     <div class="row q-col-gutter-xs items-center justify-end">
                         <div class="col-xs-auto col-sm-auto col-md-auto col-lg-12">
-                          <q-card @click="ratingStore=true;" class="card-circle text-center q-mb-sm">
+                          <q-card @click="ratingStore=true" class="card-circle text-center q-mb-sm">
                             <q-card-section class="q-pa-sm">
                               <div class="text-h6">
                                 <q-icon color="white" size="30px" round name="grade" />
                               </div>
-                              <div class="text-body2">{{storeData.countRatings}} han calificado</div>
+                              <div class="text-body2">{{storeData.averageRating}} de {{storeData.countRatings}}
+                                usuarios</div>
                             </q-card-section>
                           </q-card>
                         </div>
@@ -48,7 +54,7 @@
                             <q-card-section class="q-pa-sm " >
                               <div class="text-h5">
                                 <q-icon v-if="!followedStore" @click="followStore()" color="white" size="30px" round name="far fa-thumbs-up" />
-                                <q-icon v-else color="white" size="30px" round name="far fa-thumbs-up" />
+                                <q-icon v-else color="white" size="30px" round name="far fa-handshake" />
                               </div>
                               <div v-if="!followedStore" class="text-body2"> Seguir Tienda</div>
                               <div v-else class="text-body2"> Ya sigues esta tienda</div>
@@ -70,7 +76,7 @@
               <div v-else>
                 <div class="row bg-store-secondary full-height">
                   <div class="col border-movil">
-                    <q-card @click="ratingStore=true;" class="cursor-pointer full-height text-center bg-store-secondary no-shadow no-border-radius ">
+                    <q-card @click="ratingStore=true" class="cursor-pointer full-height text-center bg-store-secondary no-shadow no-border-radius ">
                       <q-card-section class="q-pa-sm text-white">
                         <div class="text-h6">
                           <q-icon color="white" size="30px" round name="grade" />
@@ -124,7 +130,7 @@
                   <div class="line-vertical"></div>
                   <q-btn @click="$router.push({name: 'stores.about', params : {slug:storeData.slug}})" flat icon="fas fa-map-marker-alt" class="text-bold" label="Info Empresa" color="store-primary"/>
                   <div class="line-vertical"></div>
-                  <q-btn flat icon="far fa-comment-dots" class="text-bold" @click="openChat = !openChat" label="Chatea con la tienda" color="store-primary"/>
+                  <chat color="store-primary"></chat>
                 </div>
                 <div class="col-auto q-pr-md">
                   <div class="line-vertical"></div>
@@ -161,7 +167,7 @@
                 </q-list>
               </q-btn-dropdown>
               <q-btn @click="$router.push({name: 'stores.about', params : {slug:storeData.slug}})" flat icon="fas fa-map-marker-alt" no-caps color="store-primary"/>
-              <q-btn flat round dense icon="far fa-comment-dots" @click="openChat = !openChat" color="white"/>
+              <chat></chat>
               <q-toolbar-title>
               </q-toolbar-title>
               <q-btn flat round dense icon="fas fa-search" color="store-primary"/>
@@ -172,7 +178,7 @@
               </q-btn>
             </q-toolbar>
 
-            <p class="text-h6 text-center text-italic text-white q-my-xl">{{store.slogan}} </p>
+            <p class="text-h6 text-center text-italic text-white q-my-xl">{{storeData.slogan}} </p>
 
           </div>
         </div>
@@ -186,7 +192,7 @@
             <q-card-section>
               <q-rating size="20px"
                 @input="val => { rating() }"
-                v-model="store.averageRating"
+                v-model="storeData.averageRating"
                 :max="5"
               />
             </q-card-section>
@@ -198,7 +204,7 @@
         </q-dialog>
       </div>
       <!-- Chat -->
-      <chat :openChat="openChat"></chat>
+
     </div>
 </template>
 <script>
@@ -312,6 +318,18 @@ export default {
 </script>
 <style lang="stylus">
 .theme-layout-02
+  #store-logo
+    font-size 304px
+    margin  0 100px 47px 100px
+  .store-title
+    display inline-block
+    color $storePrimary
+    background #ffffff
+    max-width 250px
+    font-size 40px
+    padding 0 30px
+    border-radius 10%
+    line-height: normal !important
   .border-movil
     border 3px solid #fff
   .border-slider
@@ -367,4 +385,24 @@ export default {
       border 0
     .q-placeholder
       color $storeSecondary
+  @media screen and (max-width: $breakpoint-md)
+    #store-logo
+      font-size 250px
+      margin  0 11px 70px 50px
+  @media screen and (max-width: $breakpoint-sm)
+    #store-logo
+      font-size 150px
+      margin  0 11px 80px 50px
+  @media screen and (max-width: $breakpoint-sm)
+    #store-logor
+      font-size 100px
+      margin  0 11px 90px 20px
+    .store-title
+      max-width 100%
+      font-size 25px
+      line-height: normal !important
+      padding 0 30px
+      border-radius 10%
+      margin-bottom 50px
+      position absolute
 </style>

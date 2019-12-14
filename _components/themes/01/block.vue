@@ -15,7 +15,7 @@
         <div class="row q-col-gutter-lg">
           <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
             <featured-products ></featured-products>
-            <new-products :store="storeDara"></new-products>
+            <new-products :store="storeData"></new-products>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
             <quiz system-name="home"></quiz>

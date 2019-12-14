@@ -69,8 +69,8 @@
         })
      },
      meta() {
-        let slugCategory = cthis.$route.params.category || false
-        let routetitle = slugProduct || 'productos'
+        let slugCategory = this.$route.params.category || false
+        let routetitle = slugCategory || 'Categoria de productos'
         let siteName = this.$store.getters['qsiteSettings/getSettingValueByName']('core::site-name')
         let siteDescription = this.$store.getters['qsiteSettings/getSettingValueByName']('core::site-description')
         //Set category data

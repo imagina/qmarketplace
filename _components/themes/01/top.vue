@@ -2,38 +2,101 @@
     <div>
         <div class="row">
           <div class="col-12 relative-position">
-            <full-width-gallery :storeName="storeData.name" :gallery="storeData.gallery" system-name="principal"></full-width-gallery>
+            <div class="row">
+              <div class="col-xs-12 col-sm-6 info-store">
+                <div class="column justify-center items-end" style="height: 100%">
+                <div class="col-auto self-end">
+                <div class="row text-center">
+                  <div class="col-xs-12">
+                    <div class="logo ">
+                      <img :src="storeData.logo.path"/>
+                    </div>
+                  </div>
+                  <div class="col-xs-12">
+                    <div class="slogan q-pa-lg">
+                      <i>{{storeData.slogan}}</i>
+                    </div>
+                  </div>
+                </div>
+                </div>
+
+
+              </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 slider-store">
+                <full-width-gallery :storeName="storeData.name" :gallery="storeData.gallery" system-name="principal"></full-width-gallery>
+              </div>
+            </div>
+
 
             <div class="q-container info-tienda">
               <div class="row q-col-gutter-lg justify-end q-mx-sm">
-                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 q-mb-lg">
-
-                  <q-card class="card-rounded text-center q-mb-sm">
-                    <q-card-section class="full-height text-center" v-if="!followedStore">
-                      Seguir Tienda
-                    </q-card-section>
-                    <q-card-section class="full-height text-center" v-else>
-                      Ya sigues esa tienda
-                    </q-card-section>
-                    <div class="absolute-bottom text-right">
-                      <q-card-actions align="right">
-                        <q-btn v-if="!followedStore" @click="followStore()" unelevated size="13px" round  color="store-secondary" icon="far fa-thumbs-up" />
-                        <q-btn v-else="followedStore" unelevated size="13px" round  color="store-secondary" icon="far fa-thumbs-up" />
-                      </q-card-actions>
-                    </div>
-                  </q-card>
-
-                  <q-card class="card-rounded text-center">
-                    <q-card-section class="full-height text-center">
-                      {{storeData.countRatings}} usuario(s) han calificado
-                    </q-card-section>
-                    <div class="absolute-bottom text-right">
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 q-mb-lg rating">
+                  <div v-if="$q.platform.is.desktop">
+                    <q-card class="card-rounded text-center q-mb-sm">
+                      <q-card-section class="full-height text-center" v-if="!followedStore">
+                        Seguir Tienda
+                      </q-card-section>
+                      <q-card-section class="full-height text-center" v-else>
+                        Ya sigues esa tienda
+                      </q-card-section>
+                      <div class="absolute-bottom text-right">
                         <q-card-actions align="right">
-                          <q-btn unelevated size="13px" @click="ratingStore=true;" round  color="store-secondary" icon="grade" />
+                          <q-btn v-if="!followedStore" @click="followStore()" unelevated size="13px" round  color="store-secondary" icon="far fa-thumbs-up" />
+                          <q-btn v-else unelevated size="13px" round  color="store-secondary" icon="far fa-handshake" />
                         </q-card-actions>
                       </div>
-                  </q-card>
+                    </q-card>
+                    <q-card class="card-rounded text-center">
+                      <q-card-section class="full-height text-center">
+                        {{storeData.averageRating}} de {{storeData.countRatings}} usuario(s)
+                      </q-card-section>
+                      <div class="absolute-bottom text-right">
+                        <q-card-actions align="right">
+                          <q-btn unelevated size="13px" @click="ratingStore=true" round  color="store-secondary" icon="grade" />
+                        </q-card-actions>
+                      </div>
+                    </q-card>
+                  </div>
+                  <div v-else>
+                    <q-card class="card-rounded text-center q-mb-sm">
+                      <q-card-section class="full-height text-center" v-if="!followedStore">
+                        Seguir Tienda
+                      </q-card-section>
+                      <q-card-section class="full-height text-center" v-else>
+                        Ya sigues esa tienda
+                      </q-card-section>
+                      <div class="absolute-bottom text-right">
+                        <q-card-actions align="right">
+                          <q-btn v-if="!followedStore" @click="followStore()" unelevated size="13px" round  color="store-secondary" icon="far fa-thumbs-up" />
+                          <q-btn v-else unelevated size="13px" round  color="store-secondary" icon="far fa-thumbs-up" />
+                          <q-tooltip content-class="store-secondary" :offset="[10, 10]">
+                            <span v-if="!followedStore">Seguir Tienda</span>
+                            <span v-else>
+                              Ya sigues esa tienda
+                            </span>
+                          </q-tooltip>
+                        </q-card-actions>
+                      </div>
+                    </q-card>
 
+                    <q-card class="card-rounded text-center">
+                      <q-card-section class="full-height text-center">
+                        {{storeData.averageRating}} de {{storeData.countRatings}} usuario(s)
+                      </q-card-section>
+                      <div class="absolute-bottom text-right">
+                        <q-card-actions align="right">
+                          <q-btn unelevated size="13px" @click="ratingStore=true" round  color="store-secondary" icon="grade" />
+                          <q-tooltip content-class="store-secondary"  :offset="[10, 10]">
+                            {{storeData.averageRating}} de {{storeData.countRatings}} usuario(s)
+                          </q-tooltip>
+                        </q-card-actions>
+
+                      </div>
+
+                    </q-card>
+
+                  </div>
                 </div>
               </div>
             </div>
@@ -53,7 +116,7 @@
                     </q-list>
                   </q-btn-dropdown>
                   <q-btn @click="$router.push({name: 'stores.about', params : {slug:storeData.slug}})" flat icon="fas fa-map-marker-alt" no-caps label="Info Empresa" color="white"/>
-                  <q-btn flat icon="far fa-comment-dots" @click="openChat = !openChat" no-caps label="Chatea con la tienda" color="white"/>
+                  <chat color="white"></chat>
                 </div>
                 <div class="col-auto">
                   <div class="q-inline-block q-px-sm border-x">
@@ -88,7 +151,7 @@
                 </q-list>
               </q-btn-dropdown>
               <q-btn @click="$router.push({name: 'stores.about', params : {slug:storeData.slug}})" flat icon="fas fa-map-marker-alt" no-caps color="white"/>
-              <q-btn flat round dense icon="far fa-comment-dots" @click="openChat = !openChat" color="white"/>
+              <chat color="white"></chat>
               <q-toolbar-title>
               </q-toolbar-title>
               <q-btn flat round dense icon="fas fa-search" color="white"/>
@@ -101,7 +164,7 @@
           </div>
         </div>
         <!-- INFO ADDRESS STORE -->
-        <q-dialog v-model="infoStore" @hide="infoStore=false;">
+        <q-dialog v-model="infoStore" @hide="infoStore=false">
           <q-carousel
           transition-prev="slide-right"
           transition-next="slide-left"
@@ -125,7 +188,7 @@
         </q-carousel>
       </q-dialog>
       <!-- RATING STORE QDIALOG -->
-      <q-dialog v-model="ratingStore" @hide="ratingStore=false;">
+      <q-dialog v-model="ratingStore" @hide="ratingStore=false">
         <q-card>
           <q-card-section>
             <div class="text-h6">Calificar tienda</div>
@@ -145,7 +208,7 @@
         </q-card>
       </q-dialog>
       <!-- Chat -->
-      <chat :openChat="openChat"></chat>
+
 
     </div>
 </template>
@@ -168,7 +231,8 @@ export default {
       categories:[],
       loading:false,
       openChat:false,
-      searchText:''
+      searchText:'',
+      conversationId:null,
     }
   },
   mounted() {
@@ -255,6 +319,7 @@ export default {
         this.$alert.error({message: error.response.data.errors, pos: 'bottom'})
       });
     },//ratingStore
+
   }
 }
 </script>
@@ -270,6 +335,11 @@ export default {
       background-color #ffffff
       border-radius 20px 0 20px 0
       color $storePrimary
+      height: 68px
+      width: 262px
+      .q-card__section
+        padding-top 25px
+        font-weight bold
   .border-x
     .q-field__control
       border-left 1px solid #fff
@@ -280,4 +350,34 @@ export default {
       border 0
     .q-placeholder
       color #ffffff
+  .info-store
+    .logo
+      img
+        max-width 340px
+    .slogan
+      padding 30px
+      color $storeSecondary
+      font-size 22px
+      max-width 340px
+      margin auto
+  @media screen and (max-width: $breakpoint-xs)
+    .rating
+      text-align right
+      .card-rounded
+        width: 70px !important
+        display inline-block
+        margin-right 15px
+      .q-card__section
+        display none
+      .q-card__actions
+        padding 15px
+        .q-btn
+          font-size 12px
+    .info-store
+    .logo
+      img
+        max-width 340px
+    .slogan
+      font-size 15px !important
+
 </style>

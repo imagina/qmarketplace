@@ -8,9 +8,6 @@
             autoplay
     >
       <q-carousel-slide v-for="(slide,index) in gallery" :key="'slide'+index" :name="'slide'+index"  :img-src="slide.path">
-        <div v-if="storeName" class="absolute-bottom custom-caption">
-          <div v-if="storeName" class="text-h2">{{storeName}}</div>
-        </div>
       </q-carousel-slide>
     </q-carousel>
   </div>
