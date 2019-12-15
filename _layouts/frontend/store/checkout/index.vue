@@ -540,6 +540,24 @@
                // console.log(data);
                this.$crud.create("apiRoutes.qcommerce.orders", data).then(response => {
                   this.$alert.success({message: this.$tr('ui.message.recordCreated'), pos: 'bottom'})
+                  var carts = this.$q.localStorage.getItem("carts");
+                  if (carts) {
+                    var pos=null;
+                     for (var i = 0; carts.length; i++) {
+                        if (carts[i].storeId == this.storeData.id) {
+                           pos=i;
+                           break;
+                        }//if
+                     }//for
+                     if(pos!=null){
+                       carts.splice(pos,1);
+                       this.$q.localStorage.set("carts", carts)
+                     }
+                   }
+                  this.$router.push({
+                    name: 'app.home',
+                    params:{}
+                  })
                }).catch(error => {
                   this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
                })
@@ -629,7 +647,7 @@
                   message: "Se ha producido un error al intentar ingresar a esta ventana",
                   pos: 'bottom'
                })
-               this.$router.push({name: 'home'});
+               this.$router.push({name: 'app.home'});
             }
             var carts = this.$q.localStorage.getItem("carts");
             if (carts) {
@@ -644,7 +662,7 @@
                      message: "Se ha producido un error al intentar obtener el carro de compras",
                      pos: 'bottom'
                   })
-                  this.$router.push({name: 'home'});
+                  this.$router.push({name: 'app.home'});
                } else {
                   this.$crud.show("apiRoutes.qcommerce.cart", this.cartId, {}).then(response => {
                      this.cart = response.data;
