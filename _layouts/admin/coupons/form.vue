@@ -50,11 +50,11 @@
               <q-card class="rounded-md bg-white q-my-lg">
                 <q-card-section class="q-pa-lg">
                   <p class="caption q-mb-md">Valor</p>
-                  <p class="text-subtitle1">valor de descuento</p>
+                  <p class="text-subtitle1">Valor de descuento</p>
 
                   <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-4">
-                      <q-input v-model="form.discount" outlined color="tertiary" class="valor" suffix="%">
+                      <q-input v-model="form.discount" outlined color="tertiary" class="valor" :suffix="form.typeDiscount=='1' ? '%' : '$' ">
                       </q-input>
                     </div>
                   </div>
@@ -147,6 +147,16 @@
                     type="checkbox"
                     v-model="limite"
                   />
+
+                  <p v-if="limite.includes('1')" class="caption q-mb-md">{{$tr('qcommerce.layout.form.quantityTotal')}}</p>
+                  <q-input v-if="limite.includes('1')" type="number" v-model="form.quantityTotal"
+                  color="primary" outlined />
+
+                  <p v-if="limite.includes('2')" class="caption q-mb-md">{{$tr('qcommerce.layout.form.quantityTotalCustomer')}}</p>
+                  <q-input v-if="limite.includes('2')" type="number" v-model="form.quantityTotalCustomer"
+                  color="primary" outlined />
+
+
                 </q-card-section>
               </q-card>
 
@@ -229,19 +239,19 @@
       data () {
         return {
           checkDateEnd: false,
-          requerimientos: null,
+          requerimientos: '1',
           optionsRequerimiento: [
             { label: 'Ninguno', value: '1' },
             { label: 'Monto mínimo de compra',  value: '2'},
             { label: 'Cantidad mínima de artículos',  value: '3'}
           ],
-          elegibilidad: null,
+          elegibilidad: '1',
           optionsElegibilidad: [
             { label: 'Todos', value: '1' },
             { label: 'Grupos especificos de clientes',  value: '2'},
             { label: 'Clientes especificos',  value: '3'}
           ],
-          limite: [''],
+          limite: [],
           optionsLimite: [
             { label: 'Limitar el número de veces que se puede usar este descuento en total', value: '1' },
             { label: 'Limitar a un uso por cliente',  value: '2'}
@@ -259,19 +269,19 @@
           form: {
             id: '',
             code: '',
-            type: null,
+            type: 1,
             storeId: this.$store.state.qmarketplaceStores.storeSelected,
             categoryId: null,
             productId: null,
             customerId: null,
             discount: '',
-            typeDiscount: null,
+            typeDiscount: '0',
             logged: 1,
             shipping: 1,
             dateStart: '',
             dateEnd: '2024-01-01 00:00:00',
-            quantityTotal: 100,
-            quantityTotalCustomer: 1,
+            quantityTotal: 0,
+            quantityTotalCustomer: 0,
             status: 1,
           },
 
@@ -318,7 +328,10 @@
           let params = {
             refresh: true,
             params: {
-              include: 'parent'
+              include: 'parent',
+              filter:{
+                store:this.$store.state.qmarketplaceStores.storeSelected
+              }
             },
           }
           this.$crud.index('apiRoutes.qcommerce.categories', params)
@@ -335,7 +348,11 @@
           this.products.loading = true
           let params = {
             refresh: true,
-            params: {},
+            params: {
+              filter:{
+                store:this.$store.state.qmarketplaceStores.storeSelected
+              }
+            },
           }
           this.$crud.index('apiRoutes.qcommerce.products', params)
             .then(response => {
