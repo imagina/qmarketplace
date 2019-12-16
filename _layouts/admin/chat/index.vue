@@ -13,41 +13,6 @@
                   <div class="row gutter-md justify-center">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7 col-xl-8 card-border-right">
                       <chat></chat>
-                      <q-toolbar class="bg-blue-grey-2 q-pr-none" style="border-top-left-radius: 20px;">
-                        <q-toolbar-title>
-                          <q-icon name="chat_bubble" color="green" /> Paula Martinez
-                        </q-toolbar-title>
-                      </q-toolbar>
-
-                      <q-card-section class="q-pa-xl">
-                        <q-chat-message
-                          name="me"
-                          avatar="https://cdn.quasar.dev/img/avatar1.jpg"
-                          :text="['hey, how are you?']"
-                          stamp="7 minutes ago"
-                          sent
-                          text-color="white"
-                          bg-color="blue-10"
-                        />
-                        <q-chat-message
-                          name="Jane"
-                          avatar="https://cdn.quasar.dev/img/avatar5.jpg"
-                          :text="['doing fine, how r you?']"
-                          stamp="4 minutes ago"
-                          text-color="white"
-                          bg-color="blue"
-                        />
-
-                        <q-chat-message
-                          name="Jane"
-                          avatar="https://cdn.quasar.dev/img/avatar5.jpg"
-                          text-color="white"
-                          bg-color="blue"
-                        >
-                          <q-spinner-dots size="2rem" />
-                        </q-chat-message>
-                      </q-card-section>
-
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5 col-xl-4 bg-light" style="border-bottom-right-radius: 20px;">
                       <q-toolbar class="bg-grey-9 text-white q-pr-none" style="border-top-right-radius: 20px;">
@@ -58,7 +23,7 @@
                       </q-toolbar>
 
                       <q-card-section>
-                        
+
                         <q-input outlined placeholder="Busqueda" bg-color="white" class="full-width q-mb-lg" v-model="text"  dense>
                           <q-btn round color="primary" flat icon="search" />
                         </q-input>
@@ -107,7 +72,7 @@
 
                     </div>
                   </div>
-      
+
               </q-card>
 
 

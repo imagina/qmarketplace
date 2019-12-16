@@ -1,7 +1,10 @@
 <template>
    <div style="display: inline-block">
-     <pre>{{storeData}}</pre>
-      <q-card id="qchat"
+      <q-btn flat icon="far fa-comment-dots" @click="openChat = !openChat" no-caps label="Chatea con la tienda"
+             :color="color" v-if="$q.platform.is.desktop"/>
+      <q-btn flat round dense icon="far fa-comment-dots" @click="openChat = !openChat" color="white" v-else/>
+
+      <q-card id="qchat" v-bind:class="[!openChat ? 'closeChat':'', minimize?'minimizeChat':'']"
               style="min-width: 300px;">
          <q-bar>
             <div class="cursor-pointer">
@@ -9,6 +12,9 @@
                {{storeData.name}}
             </div>
             <q-space/>
+            <q-btn dense flat icon="minimize" @click="minimize = !minimize"/>
+            <q-btn dense flat icon="crop_square" @click="maximizedToggle = !maximizedToggle"/>
+            <q-btn dense flat icon="close" v-close-popup @click="closeChat()"/>
          </q-bar>
          <q-card-section>
             <div style="width: 100%; max-width: 340px; height: 250px; position: absolute; z-index: 10" class="bg-grey-2"
@@ -87,6 +93,10 @@
          return {
             echo: null,
             loading: false,
+            close: !this.openChat,
+            openChat: false,
+            minimize: false,
+            maximize: false,
             paginate: {
                page: 1,
                take: 20,
@@ -121,15 +131,8 @@
       },
       computed: {
          storeData() {
-            let params = {
-               params: {
-                  filter: {}
-               }
-            }
-            let criteria = this.$store.state.qmarketplaceStores.storeSelected;
-            this.$crud.show("apiRoutes.qmarketplace.store", criteria, params).then(response => {
-               return response.data
-            })
+            let storeSlug = this.$route.params.slug
+            return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
          },
          lastMessage() {
             let lastIndex = this.conversation.messages.length - 1
