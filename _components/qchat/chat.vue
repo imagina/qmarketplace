@@ -288,8 +288,6 @@
             return res
          },
          initPusher() {
-
-
             this.echo = new Echo({
                broadcaster: env('BROADCAST_DRIVER', 'pusher'),
                key: env('PUSHER_APP_KEY'),
