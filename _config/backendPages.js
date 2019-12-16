@@ -1,4 +1,3 @@
-
 export default {
   categoriesStore: {
     permission: 'qmarketplace.categories.manage',
@@ -242,9 +241,8 @@ export default {
     icon: 'fas fa-users',
     authenticated: true
   },
-
   coupons: {
-    permission: 'icommerce.coupons.index',
+    permission: 'marketplace.stores.mystore',
     activated: true,
     path: '/admin/stores/my-store/coupons',
     name: 'qmarketplace.admin.coupons.index',
@@ -255,7 +253,7 @@ export default {
     authenticated: true,
   },
   couponsCreate: {
-    permission: 'icommerce.coupons.create',
+    permission: 'marketplace.stores.mystore',
     activated: true,
     path: '/admin/stores/my-store/coupons/create',
     name: 'qmarketplace.admin.coupons.create',
@@ -266,7 +264,7 @@ export default {
     authenticated: true,
   },
   couponsEdit: {
-    permission: 'icommerce.coupons.edit',
+    permission: 'marketplace.stores.mystore',
     activated: true,
     path: '/admin/stores/my-store/coupons/:id',
     name: 'qmarketplace.admin.coupons.edit',
@@ -275,6 +273,26 @@ export default {
     title: 'qcommerce.sidebar.editCoupons',
     icon: 'fas fa-ticket-alt',
     authenticated: true,
+  },
+  myChatMessages: {
+    permission: 'marketplace.stores.mystore',
+    activated: true,
+    path: '/admin/stores/my-store/chat/messages',
+    name: 'qchat.admin.messages.index',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/chat/index'),
+    layout: () => import('src/layouts/admin'),
+    title: 'qchat.sidebar.adminMessages',
+    icon: 'far fa-comments',
+  },
+  myChatConversation:{
+    permission: 'marketplace.stores.mystore',
+    activated: true,
+    path: '/admin/stores/my-store/chat/conversation/:id',
+    name: 'qchat.admin.conversation.show',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/chat/index'),
+    layout: () => import('src/layouts/admin'),
+    title: 'sdaasd',
+    icon: 'far fa-comments',
   },
 
 }

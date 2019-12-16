@@ -25,7 +25,8 @@ export default [
    pages.qmarketplace.myStorePolls, // orders
    pages.qmarketplace.favoriteUsers, // Seguidores
    pages.qmarketplace.coupons, // Coupons
-
+   pages.qmarketplace.myChatConversation,
+   pages.qmarketplace.myChatMessages,
 
 
 ]
