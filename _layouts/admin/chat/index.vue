@@ -7,7 +7,6 @@
                   <div class="text-h5 text-primary q-mb-xs font-family-secondary">Chat</div>
                </div>
                <div class="col-12">
-
                   <q-card class="rounded-md bg-white full-width q-my-xl">
 
                      <div class="row gutter-md justify-center">
@@ -17,12 +16,15 @@
                               <q-bar>
                                  <div class="cursor-pointer">
                                     <q-avatar>
+                                       <img :src="$store.getters['qsiteSettings/getSettingMediaByName']('isite::favicon').path"
+                                            alt="">
                                     </q-avatar>
 
                                  </div>
                               </q-bar>
-                              <q-card-section style=" height: 450px;">
-
+                              <q-card-section class="q-gutter-md row items-center" style="height: 550px">
+                                 <img :src="$store.getters['qsiteSettings/getSettingMediaByName']('isite::logo1').path"
+                                      style="max-width: 150px; margin: auto"/>
                               </q-card-section>
                            </q-card>
                         </div>
@@ -79,9 +81,6 @@
             </div>
          </div>
       </div>
-      <pre>
-         {{tableOld}}
-      </pre>
    </q-page>
 </template>
 
@@ -110,13 +109,12 @@
             conversationId: null,
             messages: [],
             newMessage: 'green',
-            tableOld: [],
             table: {
                data: [],
                pagination: {
                   page: 1,
                   rowsNumber: '',
-                  rowsPerPage: 10
+                  rowsPerPage: 50
                },
                filter: {
                   search: null
@@ -154,7 +152,6 @@
                       }
 
                    })
-                   this.tableOld = this.table
                    this.loading = false
                 })
                 .catch(error => {
@@ -174,23 +171,7 @@
                    console.warn(response.message.conversationId)
                 })
          },
-         search() {
-            let converssationold = this.$clone(this.tableOld.data)
-            let items = this.$clone(converssationold)
-            let sh = items.filter(conversation => {
-               console.log(conversation.user.fullName.indexOf(this.text))
-               if (conversation.user.fullName.toLowerCase().indexOf(this.text.toLowerCase()) > -1) {
-                  return conversation
-               }
-            })
-            if (this.text === "") {
-               this.table.data = this.tableOld.data
-            } else {
-               this.table.data = sh
-            }
 
-
-         }
       }
    }
 </script>

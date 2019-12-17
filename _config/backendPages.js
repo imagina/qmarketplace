@@ -284,15 +284,5 @@ export default {
     title: 'qchat.sidebar.adminMessages',
     icon: 'far fa-comments',
   },
-  myChatConversation:{
-    permission: 'marketplace.stores.mystore',
-    activated: true,
-    path: '/admin/stores/my-store/chat/conversation/:id',
-    name: 'qchat.admin.conversation.show',
-    page: () => import('@imagina/qmarketplace/_layouts/admin/chat/index'),
-    layout: () => import('src/layouts/admin'),
-    title: 'sdaasd',
-    icon: 'far fa-comments',
-  },
 
 }
