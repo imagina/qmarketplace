@@ -144,6 +144,14 @@
                         <q-icon name="search" class="text-bold" color="store-secondary" />
                       </template>
                     </q-input>
+
+                    <div class="dropdown-content" :style="productsStore.length>0 ? 'display: block;' : ''">
+                      <router-link v-for="(product,index) in productsStore" v-if="index<=4"
+                              :to="{name: 'stores.product.show',params:{slug: product.slug, product: product.slug}}">
+                              <p class="q-my-sm text-store-primary">{{product.name}}</p>
+                      </router-link>
+                    </div>
+
                   </div>
                   <div class="line-vertical"></div>
                   <q-btn flat icon="fas fa-heart" color="store-secondary"/>
@@ -226,6 +234,7 @@ export default {
       categories:[],
       loading:false,
       openChat:false,
+      productsStore:[],
       searchText:''
     }
   },
@@ -241,7 +250,6 @@ export default {
   },
   methods:{
     search(){
-      console.log(this.searchText);
       if(this.searchText!=""){
         this.$crud.index("apiRoutes.qcommerce.products",{
           params:{
@@ -251,8 +259,7 @@ export default {
             }
           }
         }).then(response => {
-          console.log('products');
-          console.log(response.data);
+          this.productsStore=response.data;
         });
       }
     },
@@ -318,6 +325,14 @@ export default {
 </script>
 <style lang="stylus">
 .theme-layout-02
+  .dropdown-content
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
   #store-logo
     font-size 304px
     margin  0 100px 47px 100px

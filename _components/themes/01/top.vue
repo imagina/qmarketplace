@@ -130,6 +130,15 @@
                         <q-icon name="search" color="white" />
                       </template>
                       </q-input>
+
+                      <div class="dropdown-content" :style="productsStore.length>0 ? 'display: block;' : ''">
+                        <router-link v-for="(product,index) in productsStore" v-if="index<=4"
+                                :to="{name: 'stores.product.show',params:{slug: product.slug, product: product.slug}}">
+                                <p class="q-my-sm text-store-primary">{{product.name}}</p>
+                        </router-link>
+                      </div>
+
+
                   </div>
                   <q-btn v-if="!followedStore" @click="followStore()" flat icon="fas fa-heart" color="white"/>
                   <q-btn @click="$router.push({name: 'marketplace.checkout', params:{storeId:storeData.id}})" flat icon="fa fa-shopping-cart"  color="white ">
@@ -233,6 +242,7 @@ export default {
       openChat:false,
       searchText:'',
       conversationId:null,
+      productsStore:[]
     }
   },
   mounted() {
@@ -247,7 +257,6 @@ export default {
   },
   methods:{
     search(){
-      console.log(this.searchText);
       if(this.searchText!=""){
         this.$crud.index("apiRoutes.qcommerce.products",{
           params:{
@@ -257,8 +266,7 @@ export default {
             }
           }
         }).then(response => {
-          console.log('products');
-          console.log(response.data);
+          this.productsStore=response.data;
         });
       }
     },
@@ -350,6 +358,14 @@ export default {
       border 0
     .q-placeholder
       color #ffffff
+  .dropdown-content
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
   .info-store
     .logo
       img
@@ -379,5 +395,6 @@ export default {
         max-width 340px
     .slogan
       font-size 15px !important
+
 
 </style>
