@@ -128,13 +128,32 @@
                 <q-card-section class="q-pa-lg">
                   <p class="caption q-mb-md">Elegibilidad del cliente</p>
                   <q-option-group
+                  @input="val => { elegibilidad=='1' ? form.selectedUsers=[] : null }"
                     keep-color
                     color="primary"
                     :options="optionsElegibilidad"
                     type="radio"
                     v-model="elegibilidad"
                   />
+
+                  <p v-if="elegibilidad=='3'" class="caption q-mb-md">Usuarios</p>
+
+                  <tree-select
+                  v-if="elegibilidad=='3'"
+                  :clearable="false"
+                  :append-to-body="true"
+                  class="q-mb-md"
+                  filter="searchText"
+                  multiple
+                  :options="followerUsers"
+                  value-consists-of="BRANCH_PRIORITY"
+                  v-model="form.selectedUsers"
+                  placeholder=""
+                  />
+
                 </q-card-section>
+
+
               </q-card>
 
               <q-card class="rounded-md bg-white q-my-lg">
@@ -248,7 +267,7 @@
           elegibilidad: '1',
           optionsElegibilidad: [
             { label: 'Todos', value: '1' },
-            { label: 'Grupos especificos de clientes',  value: '2'},
+            // { label: 'Grupos especificos de clientes',  value: '2'},
             { label: 'Clientes especificos',  value: '3'}
           ],
           limite: [],
@@ -266,6 +285,7 @@
             data: [],
             loading: false
           },
+          followerUsers:[],
           form: {
             id: '',
             code: '',
@@ -283,6 +303,7 @@
             quantityTotal: 0,
             quantityTotalCustomer: 0,
             status: 1,
+            selectedUsers:[]
           },
 
         }
@@ -300,8 +321,9 @@
       },
       methods: {
         initForm () {
-          this.getCategories()
-          this.getProducts()
+          this.getFollowedUsers();
+          this.getCategories();
+          this.getProducts();
           if (this.$route.params.id) this.getData()
         },
         getData () {
@@ -322,6 +344,24 @@
             this.$alert.error({ message: this.$tr('ui.message.errorRequest'), pos: 'bottom' })
             this.loading = false
           })
+        },
+        getFollowedUsers(){
+          this.$crud.index("apiRoutes.qmarketplace.favoriteStore", {
+            params:{
+              include:'user',
+              filter:{
+                storeId:this.$store.state.qmarketplaceStores.storeSelected
+              }
+            }
+          }).then(response => {
+            let users = [];
+            response.data.forEach(item => {//Order options to tree select
+              users.push({label: item.user.firstName+" "+item.user.lastName, id: item.userId})
+            });
+            this.followerUsers = this.$clone(users);
+          }).catch(error => {
+            this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+          });
         },
         getCategories () {
           this.categories.loading = true
