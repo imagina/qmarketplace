@@ -4,13 +4,13 @@
              class="q-mx-sm">enviar mensage
       </q-btn>
       <q-dialog v-model="openChat" >
-         <q-card class="topWidgetHomeMobile q-pa-lg" style="height:500px;">
+         <q-card class="q-pa-lg bg-fondo" style="height: 70vh; max-width: 450px; width: 100% ">
             <q-toolbar>
                <q-btn flat v-close-popup color="primary" round dense icon="fas fa-arrow-left"/>
                <q-toolbar-title class="text-primary font-family-secondary">Enviar Mensajes</q-toolbar-title>
             </q-toolbar>
             <q-card id="qchat"
-                    style="min-width: 300px;">
+                    style="width: 100%;  margin: auto">
                <q-bar class="bg-primary text-white">
                   <div class="cursor-pointer">
                      <q-icon name="comment"/>

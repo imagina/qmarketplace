@@ -132,7 +132,7 @@
                       </q-input>
 
                       <div class="dropdown-content" :style="productsStore.length>0 ? 'display: block;' : ''">
-                        <router-link v-for="(product,index) in productsStore" v-if="index<=4"
+                        <router-link v-for="(product,index) in productsStore"  :key="product.id" v-if="index<=4"
                                 :to="{name: 'stores.product.show',params:{slug: product.slug, product: product.slug}}">
                                 <p class="q-my-sm text-store-primary">{{product.name}}</p>
                         </router-link>

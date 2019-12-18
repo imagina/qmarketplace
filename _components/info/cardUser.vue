@@ -39,7 +39,7 @@
 </template>
 <script>
    import chat from '@imagina/qmarketplace/_components/info/chat'
-   import notification from '@imagina/qmarketplace/_components/info/chat'
+   import notification from '@imagina/qmarketplace/_components/info/notification'
    export default {
       name: 'CardUserComponent',
       props: ['card'],
