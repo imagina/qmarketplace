@@ -46,13 +46,13 @@
 
                   <q-card-section>
 
-                    <div class="row">
-                      <div class="col-4">
+                    <div class="row card-seguidor">
+                      <div class="col-xs-12 col-sm-4">
                         <q-avatar size="100px">
                           <img :src="result.user.mediumImage">
                         </q-avatar>
                       </div>
-                      <div class="col-8">
+                      <div class="col-xs-12 col-sm-8">
                         <div class="text-h6">{{result.user.fullName}}</div>
                         <div class="text-subtitle2 text-tertiary">Nivel: Club de Conocidos</div>
                         <div class="text-subtitle2"><q-icon name="fas fa-envelope" color="primary" /> {{result.user.email}}</div>
@@ -249,5 +249,7 @@ export default {
 }
 </script>
 <style lang="stylus">
-  
+.card-seguidor
+  @media screen and (max-width: $breakpoint-sm)
+    text-align center  
 </style>
