@@ -125,7 +125,7 @@
 
 </template>
 <script>
-import cardUser from 'src/components/quser/cardUser'
+import cardUser from '@imagina/qmarketplace/_components/info/cardUser'
 export default {
   props: {},
   components: {
@@ -240,9 +240,7 @@ export default {
     },
     openProfile(result) {
       this.card.open = true;
-      console.log(result)
       this.card.info = result;
-      console.log(this.card)
     }
 
   }

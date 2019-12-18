@@ -38,15 +38,7 @@
       <div class="col-md-4 q-pb-xl">
 
         <q-list  class="q-mr-md">
-          <q-item>
-            <q-item-section avatar class="q-mr-md">
-              <q-icon color="store-primary" size="lg" name="far fa-comment-dots" />
-            </q-item-section>
-            <q-item-section>
-              <div class="text-subtitle1 text-bold">¿Tienes alguna duda?</div>
-              <div class="text-subtitle1">Chatea aquí con la Tienda</div>
-            </q-item-section>
-          </q-item>
+          <chat color="store-primary" type="2"></chat>
         </q-list>
 
       </div>
@@ -54,12 +46,16 @@
   </div>
 </template>
 <script>
+  import chat from '@imagina/qmarketplace/_components/qchat/chat'
 export default {
 
     props: {
       'address': { type:String, default: ""},
       'schedules': { type:Array, default: []},
     },
+  components: {
+    chat
+  },
   mounted() {
     console.warn('contact', this.storeData)
   },

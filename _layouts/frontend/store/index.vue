@@ -1,12 +1,12 @@
 <template>
-   <q-page class="bg-fondo">
+   <q-page class="bg-fondo categoyStore">
        <q-card class="shadow-no banner-category" style="max-height: 250px; overflow: hidden">
          <q-img
                  :src="category.mainImage.path"
                  :ratio="21/9"
          />
          <div class="absolute-center q-mt-xl">
-            <h1 class="title-label q-my-none bg-secondary text-white text-center text-uppercase">
+            <h1 class="title-label q-my-none bg-secondary text-white text-center text-uppercase titleCategory">
                <div>{{category.title}}</div>
             </h1>
          </div>
@@ -18,7 +18,7 @@
             </div>
          </div>
          <div class="row q-pa-lg">
-            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" v-for="store in category.stores" :key="store.id">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-3 text-cent" v-for="store in category.stores" :key="store.id">
                <store :store="store"></store>
             </div>
          </div>
@@ -99,3 +99,9 @@
       },
    }
 </script>
+
+<style lang="stylus">
+   .categoyStore
+      .titleCategory
+         line-height 2rem
+</style>

@@ -1,90 +1,86 @@
 <template>
-   <div>
-      <q-card id="qchat" class="qchat"  v-if="conversationId>0">
-         <q-bar>
-            <div class="cursor-pointer">
-               <q-avatar>
-                  <img :src="userReceive.smallImage">
-               </q-avatar>
-               {{userReceive.fullName}}
-            </div>
-            <inner-loading :visible="loading"/>
-         </q-bar>
-         <q-card-section>
-            <div style="width: 100%; max-width:720px;  height: 450px;  position: absolute; z-index: 10" class="bg-grey-2"
-                        v-if="loading">
-           <inner-loading :visible="loading"/>
-         </div>
-            <q-scroll-area ref="scrollArea" style="height: 450px;">
+   <div style="display: inline-block">
+      <q-btn @click="openChat = !openChat" color="primary"
+             class="q-mx-sm">enviar mensage
+      </q-btn>
+      <q-dialog v-model="openChat" >
+         <q-card class="topWidgetHomeMobile q-pa-lg" style="height:500px;">
+            <q-toolbar>
+               <q-btn flat v-close-popup color="primary" round dense icon="fas fa-arrow-left"/>
+               <q-toolbar-title class="text-primary font-family-secondary">Enviar Mensajes</q-toolbar-title>
+            </q-toolbar>
+            <q-card id="qchat"
+                    style="min-width: 300px;">
+               <q-bar class="bg-primary text-white">
+                  <div class="cursor-pointer">
+                     <q-icon name="comment"/>
+                     {{userSelect.fullName}}
+                  </div>
+                  <q-space/>
+               </q-bar>
+               <q-card-section>
+                  <div style="width: 100%; max-width: 340px; height: 250px; position: absolute; z-index: 10" class="bg-grey-2"
+                       v-if="loading">
+                     <inner-loading :visible="loading"/>
+                  </div>
+                  <q-scroll-area ref="scrollArea" style="height: 250px; max-width: 340px;">
 
-               <q-btn label="Load More" @click="loadMoreMessage()"/>
-               <div
-                       v-for="(message, index) in messages"
-                       :key="index">
-                  <q-chat-message
-                          bg-color="primary"
-                          text-color="white"
-                          :name="isSendMessage(message) ? 'me' : message.user.fullName"
-                          :avatar="message.user.mainImage"
-                          :text="[message.body]"
-                          :stamp="message.createdAt"
-                          :sent="isSendMessage(message)"
-                  />
-               </div>
-            </q-scroll-area>
-         </q-card-section>
-         <q-separator/>
-         <q-card-actions class="messageSend">
-            <div class="relative-position q-pt-lg">
-               <picker
-                       native
-                       v-if="showEmoji"
-                       set="emojione"
-                       @select="onInput"
-                       title="Pick your emoji…"
-                       class="absolute-bottom-left"/>
-            </div>
-            <q-input outlined class="full-width" bottom-slots :readonly="loading"
-                     @keyup.enter="sendMessage()"
-                     placeholder="Type Message ... "
-                     v-model="form.body" counter maxlength="140" dense>
-               <template v-slot:before>
-                  <q-avatar>
-                     <img :src="user.smallImage">
-                  </q-avatar>
-                  <q-btn @click="showEmoji=!showEmoji" icon="fas fa-smile" flat color="yellow-8"></q-btn>
-               </template>
+                     <q-btn label="Load More" @click="loadMoreMessage()"/>
+                     <div
+                             v-for="(message, index) in messages"
+                             :key="index">
+                        <q-chat-message
+                                bg-color="primary"
+                                text-color="white"
+                                :name="isSendMessage(message) ? 'me' : message.user.fullName"
+                                :avatar="message.user.mainImage"
+                                :text="[message.body]"
+                                :stamp="message.createdAt"
+                                :sent="isSendMessage(message)"
+                        />
+                     </div>
+                  </q-scroll-area>
+               </q-card-section>
+               <q-separator/>
+               <q-card-actions class="messageSend">
+                  <div class="relative-position q-pt-lg">
+                     <picker
+                             native
+                             v-if="showEmoji"
+                             set="emojione"
+                             @select="onInput"
+                             title="Pick your emoji…"
+                             class="absolute-bottom-left"/>
+                  </div>
+                  <q-input outlined class="full-width" bottom-slots :readonly="loading"
+                           @keyup.enter="sendMessage()"
+                           placeholder="Type Message ... "
+                           v-model="form.body" counter maxlength="140" dense>
+                     <template v-slot:before>
+                        <q-avatar>
+                           <img :src="user.smallImage">
+                        </q-avatar>
+                        <q-btn @click="showEmoji=!showEmoji" icon="fas fa-smile" flat color="yellow-8"></q-btn>
+                     </template>
 
-               <template v-slot:append>
-                  <q-icon v-if="text !== ''" name="close" @click="text = ''" class="cursor-pointer"/>
-               </template>
+                     <template v-slot:append>
+                        <q-icon v-if="text !== ''" name="close" @click="text = ''" class="cursor-pointer"/>
+                     </template>
 
-               <template v-slot:hint>
-                  Field hint
-               </template>
+                     <template v-slot:hint>
+                        Field hint
+                     </template>
 
-               <template v-slot:after>
-                  <q-btn round dense flat icon="send" @click="sendMessage()"/>
-               </template>
-            </q-input>
+                     <template v-slot:after>
+                        <q-btn round dense flat icon="send" @click="sendMessage()"/>
+                     </template>
+                  </q-input>
 
-         </q-card-actions>
-      </q-card>
-      <q-card class="qchat" v-else style="box-shadow: none;">
-         <q-bar>
-            <div class="cursor-pointer">
-               <q-avatar>
-                  <img :src="$store.getters['qsiteSettings/getSettingMediaByName']('isite::favicon').path"
-                       alt="">
-               </q-avatar>
-            </div>
-            <inner-loading :visible="loading"/>
-         </q-bar>
-         <q-card-section class="q-gutter-md row items-center" style="height: 550px">
-            <img :src="$store.getters['qsiteSettings/getSettingMediaByName']('isite::logo1').path"
-                 style="max-width: 150px; margin: auto"/>
-         </q-card-section>
-      </q-card>
+               </q-card-actions>
+            </q-card>
+         </q-card>
+      </q-dialog>
+      
    </div>
 </template>
 <script>
@@ -97,14 +93,13 @@
       components: {
          Picker,
       },
-      props: {conversationId:{default:0}},
+      props: ['userSelect'],
       data() {
          return {
             echo: null,
             loading: false,
             close: !this.openChat,
-            store: null,
-            openChat: true,
+            openChat: false,
             minimize: false,
             maximize: false,
             paginate: {
@@ -117,9 +112,7 @@
                users: [],
                messages: []
             },
-            userReceive: {
-               smallImage: this.$store.getters['qsiteSettings/getSettingMediaByName']('isite::favicon').path
-            },
+            conversationId: null,
             messages: [],
             showEmoji: false,
             maximizedToggle: false,
@@ -131,14 +124,14 @@
             }
          }
       },
-      mounted() {
-         this.storeData();
-      },
       watch: {
-        conversationId: async function (n) {
-            await this.getConversation(true)
-            await this.getMessagesPaginatedInit(true)
-           await this.initPusher()
+         openChat: async function (n) {
+            if (this.openChat) {
+               await this.initconversation()
+               await this.getConversation(true)
+               await this.getMessagesPaginated(true)
+               this.initPusher()
+            }
          }
       },
       computed: {
@@ -161,17 +154,6 @@
          }
       },
       methods: {
-         async storeData() {
-            let params = {
-               params: {
-                  filter: {}
-               }
-            }
-            let criteria = this.$store.state.qmarketplaceStores.storeSelected;
-            this.$crud.show("apiRoutes.qmarketplace.store", criteria, params).then(response => {
-               this.store = response.data
-            })
-         },
          async createMessage(data) {
             this.$crud.create('apiRoutes.qchat.messages', data)
                 .then(response => {
@@ -180,9 +162,8 @@
                 .catch(error => {
                 })
          },
-         async getConversation(refresh = false) {
+         getConversation(refresh = false) {
             this.loading = true
-           if(!this.conversationId) this.initconversation();
             let params = {
                refresh: refresh,
                params: {
@@ -193,43 +174,12 @@
             this.$crud.show('apiRoutes.qchat.conversations', criteria, params)
                 .then(response => {
                    this.conversation = response.data
-                   let users = response.data.users
-                   let user = users.find(user => user.id !== this.$store.state.quserAuth.userId);
-                   this.userReceive = user
                    this.loading = false
                 })
                 .catch(error => {
                    this.loading = false
                 })
          },
-        getMessagesPaginatedInit(refresh = false) {
-          this.loading = true
-          this.messages=[]
-          let params = {
-            refresh: refresh,
-            params: {
-              filter: {
-                conversation: this.conversationId,
-                order: {
-                  field: 'created_at',
-                  way: 'desc'
-                }
-              },
-              page: this.paginate.page,
-              take: this.paginate.take,
-            }
-          }
-          this.$crud.index('apiRoutes.qchat.messages', params)
-                  .then(response => {
-                    this.paginate.lastPage = response.meta.page.lastPage
-                    this.messages = response.data
-                    this.animateScroll()
-                    this.loading = false
-                  })
-                  .catch(error => {
-                    this.loading = false
-                  })
-        },
          getMessagesPaginated(refresh = false) {
             this.loading = true
             let params = {
@@ -254,6 +204,7 @@
                       this.messages.unshift(item)
                    })
                    this.loading = false
+                   this.animateScroll()
                 })
                 .catch(error => {
                    this.loading = false
@@ -318,13 +269,14 @@
          },
          async initconversation() {
             let conversation = await this.createConversation()
+            this.conversationId = conversation.id
          },
          async createConversation() {
             let res
             let form = {
                users: [
                   this.$store.state.quserAuth.userId,
-                  this.userReceive.id,
+                  this.userSelect.id,
                ]
             }
             await this.$crud.create('apiRoutes.qchat.conversations', form)
@@ -336,9 +288,7 @@
                 })
             return res
          },
-
-
-        async initPusher() {
+         initPusher() {
             this.echo = new Echo({
                broadcaster: env('BROADCAST_DRIVER', 'pusher'),
                key: env('PUSHER_APP_KEY'),
@@ -346,32 +296,35 @@
                encrypted: env('PUSHER_APP_ENCRYPTED'),
             })
             this.echo.channel('global')
-                .listen(`.notification_${this.$store.state.quserAuth.userData.id}_1`, message => {
+                .listen(`.notification_${this.$store.state.quserAuth.userData.id}_${this.userSelect.id}`, message => {
                    console.log(message);
                    this.messages.push(message.data)
                    this.animateScroll()
                 })
          },
+         closeChat() {
+            this.close = !this.close
+            this.openChat = !this.openChat
+         },
          animateScroll() {
+            console.warn('sdafadsadsasddsafsa')
             this.$refs.scrollArea.setScrollPosition(10000000, 300)
          }
       }
    }
 </script>
 <style lang="stylus">
-   .qchat
+   #qchat
+
       display block
-      border-radius: 20px 0 0 20px;
+      width: 350px
+      z-index: 999999 !important;
+      height: 413px
+      border-radius: 10px 10px 0 0 !important;
 
       .q-bar
-         background $grey-5
-         height 50px
-
-         .q-avatar
-            margin 10px
-            font-size 30px
-            height: 35px;
-            width: 35px;
+         background $storePrimary
+         height 60px
 
          .cursor-pointer
             .q-icon
@@ -388,10 +341,7 @@
 
       .messageSend
          border-radius inherit
-      .q-scrollarea
-          .scroll
-            .full-width
-                padding-right 15px !important
+
    .minimizeChat
       height 60px !important
 

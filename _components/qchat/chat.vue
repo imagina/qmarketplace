@@ -1,7 +1,31 @@
 <template>
    <div style="display: inline-block">
+      <q-item @click="openChat = !openChat" v-if="type==='1'" clickable>
+         <q-item-section avatar class="q-mr-md">
+            <q-icon color="white" size="lg" name="far fa-comment-dots" />
+         </q-item-section>
+         <q-item-section class="q-pb-lg">
+            <div class="text-subtitle1 text-bold">
+               ¡Chatea con nosotros ahora!
+            </div>
+         </q-item-section>
+      </q-item>
+      <q-item @click="openChat = !openChat" v-else-if="type==='2'" clickable>
+         <q-item-section avatar class="q-mr-md">
+            <q-icon :color="color" size="lg" name="far fa-comment-dots" />
+         </q-item-section>
+         <q-item-section>
+            <div class="text-subtitle1 text-bold">¿Tienes alguna duda?</div>
+            <div class="text-subtitle1">Chatea aquí con la Tienda</div>
+         </q-item-section>
+      </q-item>
+      <q-btn :color="color"  @click="openChat = !openChat" v-else-if="type==='3'" clickable no-caps class="rounded-sm q-py-md q-px-xl">
+         <div class="text-subtitle1 q-mb-sm full-width">¿Tienes alguna duda?</div>
+         <q-icon size="3em" color="white" name="far fa-comment-dots" />
+         <div class="text-subtitle1 q-mt-sm">CHATEA AQUI CON LA TIENDA</div>
+      </q-btn>
       <q-btn flat icon="far fa-comment-dots" @click="openChat = !openChat" no-caps label="Chatea con la tienda"
-             :color="color" v-if="$q.platform.is.desktop"/>
+             :color="color" v-else-if="$q.platform.is.desktop"/>
       <q-btn flat round dense icon="far fa-comment-dots" @click="openChat = !openChat" color="white" v-else/>
 
       <q-card id="qchat" v-bind:class="[!openChat ? 'closeChat':'', minimize?'minimizeChat':'']"
@@ -88,7 +112,7 @@
       components: {
          Picker,
       },
-      props: ['color'],
+      props: ['color','type'],
       data() {
          return {
             echo: null,

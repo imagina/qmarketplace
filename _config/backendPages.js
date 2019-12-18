@@ -233,7 +233,7 @@ export default {
   favoriteUsers: {
     permission: 'marketplace.stores.mystore',
     activated: true,
-    path: '/admin/favoriteStore/index',
+    path: '/admin/followers/index',
     name: 'qmarketplace.admin.favoritestores.index',
     page: () => import('@imagina/qmarketplace/_layouts/admin/stores/favoritestores/index'),
     layout: () => import('src/layouts/admin'),

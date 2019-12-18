@@ -1,32 +1,16 @@
 <template>
    <q-page class="bg-fondo page-chat">
-      <div class="q-py-xl">
+      <div class="q-py-xs">
          <div class="q-container">
             <div class="row">
                <div class="col-12">
                   <div class="text-h5 text-primary q-mb-xs font-family-secondary">Chat</div>
                </div>
                <div class="col-12">
-                  <q-card class="rounded-md bg-white full-width q-my-xl">
-
+                  <q-card class="rounded-md bg-white full-width q-my-sm">
                      <div class="row gutter-md justify-center">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7 col-xl-8 card-border-right">
-                           <chat :conversation-id="conversationId" v-if="conversationId!=null"></chat>
-                           <q-card id="qchat" v-else>
-                              <q-bar>
-                                 <div class="cursor-pointer">
-                                    <q-avatar>
-                                       <img :src="$store.getters['qsiteSettings/getSettingMediaByName']('isite::favicon').path"
-                                            alt="">
-                                    </q-avatar>
-
-                                 </div>
-                              </q-bar>
-                              <q-card-section class="q-gutter-md row items-center" style="height: 550px">
-                                 <img :src="$store.getters['qsiteSettings/getSettingMediaByName']('isite::logo1').path"
-                                      style="max-width: 150px; margin: auto"/>
-                              </q-card-section>
-                           </q-card>
+                           <chat :conversation-id="conversationId"></chat>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5 col-xl-4 bg-light"
                              style="border-bottom-right-radius: 20px;">
@@ -37,14 +21,13 @@
                               </q-toolbar-title>
                            </q-toolbar>
                            <q-card-section class="userMessages">
-                              <q-input @input="search" outlined placeholder="Busqueda" bg-color="white"
-                                       class="full-width q-mb-lg"
-                                       v-model="text" dense>
+                              <q-input outlined placeholder="Busqueda" bg-color="white"
+                                       class="full-width q-mb-lg" v-model="text" dense>
                                  <q-btn round color="primary" flat icon="search"/>
                               </q-input>
-
+                              <q-scroll-area ref="scrollArea" style="height: 450px;">
                               <q-list>
-                                 <q-item @click="conversationId=conversation.id" v-for="conversation in table.data"
+                                 <q-item @click="conversationId=conversation.id" v-for="conversation in listUsers"
                                          :key="conversation.id" class="q-my-sm"
                                          clickable v-ripple>
 
@@ -66,7 +49,7 @@
                                  </q-item>
 
                               </q-list>
-
+                              </q-scroll-area>
 
                            </q-card-section>
 
@@ -96,6 +79,14 @@
          chat,
          Picker,
       },
+      computed: {
+         listUsers() {
+            let data = this.$clone(this.table.data)
+            return data.filter(item => {
+               return item.user.fullName.toLowerCase().includes(this.text.toLowerCase())
+            })
+         }
+      },
       data() {
          return {
             tab: 'chats',
@@ -106,7 +97,7 @@
             echo: null,
             loading: false,
             user: this.$store.state.quserAuth.userData,
-            conversationId: null,
+            conversationId: 0,
             messages: [],
             newMessage: 'green',
             table: {
@@ -143,17 +134,17 @@
                }
             }
             //Request
-            this.$crud.index('apiRoutes.qchat.conversations', params)
-                .then(response => {
-                   this.table.data = response.data.map(item => {
-                      return {
-                         id: item.id,
-                         user: item.users.find(user => user.id !== this.$store.state.quserAuth.userId)
-                      }
+            this.$crud.index('apiRoutes.qchat.conversations', params).then(response => {
+               let data = []
 
-                   })
-                   this.loading = false
-                })
+               response.data.map(item => {
+                  let user = item.users.find(user => parseInt(user.id) !== parseInt(this.$store.state.quserAuth.userId))
+                  if (user) data.push({id: item.id, user: user})
+               })
+
+               this.table.data = data
+               this.loading = false
+            })
                 .catch(error => {
                    this.loading = false
                 })

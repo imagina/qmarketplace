@@ -16,48 +16,42 @@
                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-5 q-py-xl">
 
                   <q-card class="bg-store-secondary text-white rounded-md">
-                     <q-card-section >
+                     <q-card-section>
                         <div class="text-h5 text-center q-my-lg">Contactanos</div>
                         <q-list>
+                           <chat color="white" type="1"></chat>
                            <q-item>
                               <q-item-section avatar class="q-mr-md">
-                                 <q-icon color="white" size="lg" name="far fa-comment-dots" />
+                                 <q-icon size="lg" name="fas fa-map-marker-alt"/>
                               </q-item-section>
                               <q-item-section class="q-pb-lg">
-                                 <div class="text-subtitle1 text-bold">
-                                    ¡Chatea con nosotros ahora!
-                                 </div>
-                              </q-item-section>
-                           </q-item>
-                           <q-item>
-                              <q-item-section avatar class="q-mr-md">
-                                 <q-icon size="lg" name="fas fa-map-marker-alt" />
-                              </q-item-section>
-                              <q-item-section  class="q-pb-lg">
                                  <div class="text-subtitle1 text-bold">Email</div>
                                  <div class="text-subtitle1">
-                                    <a :href="'mailto:'+store.options.email" class="text-white">{{store.options.email}}</a>
+                                    <a :href="'mailto:'+store.options.email"
+                                       class="text-white">{{store.options.email}}</a>
                                  </div>
                               </q-item-section>
                            </q-item>
                            <q-item>
                               <q-item-section avatar class="q-mr-md">
-                                 <q-icon size="lg" name="fas fa-map-marker-alt" />
+                                 <q-icon size="lg" name="fas fa-map-marker-alt"/>
                               </q-item-section>
-                              <q-item-section  class="q-pb-lg">
+                              <q-item-section class="q-pb-lg">
                                  <div class="text-subtitle1 text-bold">Dirección</div>
                                  <div class="text-subtitle1">
-                                   {{store.address}}
+                                    {{store.address}}
                                  </div>
                               </q-item-section>
                            </q-item>
                            <q-item>
                               <q-item-section avatar class="q-mr-md">
-                                 <q-icon  size="lg" name="far fa-clock" />
+                                 <q-icon size="lg" name="far fa-clock"/>
                               </q-item-section>
-                              <q-item-section  class="q-pb-lg">
+                              <q-item-section class="q-pb-lg">
                                  <div class="text-subtitle1 text-bold">Horario de atención</div>
-                                 <div class="text-subtitle1" v-for="(item, i) in store.schedules" :key="'schedule'+i" >{{item}}</div>
+                                 <div class="text-subtitle1" v-for="(item, i) in store.schedules" :key="'schedule'+i">
+                                    {{item}}
+                                 </div>
                               </q-item-section>
                            </q-item>
                         </q-list>
@@ -75,7 +69,7 @@
                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-7 q-pb-lg" v-if="store.options.youtube">
 
                   <div class="embed-responsive">
-                     <iframe  class="embed-responsive-item" :src="store.options.youtube"></iframe>
+                     <iframe class="embed-responsive-item" :src="store.options.youtube"></iframe>
                   </div>
 
 
@@ -91,11 +85,11 @@
                            <div v-for="(item,i) in store.social" :key="'social'+i">
                               <q-item clickable :to="item.url">
                                  <q-item-section avatar>
-                                    <q-icon color="white" :name="item.icon" />
+                                    <q-icon color="white" :name="item.icon"/>
                                  </q-item-section>
                                  <q-item-section class="q-py-md text-white">{{item.name}}</q-item-section>
                               </q-item>
-                              <q-separator class="bg-white" />
+                              <q-separator class="bg-white"/>
                            </div>
                         </q-list>
                      </div>
@@ -114,7 +108,7 @@
                   <q-list padding class="q-mb-md">
                      <q-item>
                         <q-item-section top avatar class="q-mr-md">
-                           <q-icon size="xl" color="store-secondary" name="far fa-images" />
+                           <q-icon size="xl" color="store-secondary" name="far fa-images"/>
                         </q-item-section>
                         <q-item-section>
                            <q-item-label class="text-h5 text-store-secondary text-bold q-mb-sm">Galeria</q-item-label>
@@ -129,7 +123,8 @@
                           thumbnails
                           infinite
                   >
-                     <q-carousel-slide v-for="(slide,i) in store.gallery" :key="'gallery'+i" :name="i" :img-src="slide.path" />
+                     <q-carousel-slide v-for="(slide,i) in store.gallery" :key="'gallery'+i" :name="i"
+                                       :img-src="slide.path"/>
                   </q-carousel>
 
                </div>
@@ -143,7 +138,10 @@
                <div class="col-12">
 
                   <h3 class="title-label bg-store-secondary text-white">
-                     <div><q-icon color="white" name="fas fa-map-marker-alt" /> ¿Dónde encontrarnos?</div>
+                     <div>
+                        <q-icon color="white" name="fas fa-map-marker-alt"/>
+                        ¿Dónde encontrarnos?
+                     </div>
                   </h3>
 
                </div>
@@ -169,6 +167,7 @@
    import footerStore from '@imagina/qmarketplace/_components/themes/footer'
    import mainStore from '@imagina/qmarketplace/_components/themes/main'
    import {colors, AddressbarColor} from 'quasar'
+   import chat from '@imagina/qmarketplace/_components/qchat/chat'
 
    export default {
       name: "about",
@@ -211,6 +210,7 @@
          footerStore,
          mainStore,
          headerStore,
+         chat
       },
       data() {
          return {
@@ -218,19 +218,22 @@
             configName: 'apiRoutes.qmarketplace.store',
             storeSlug: this.$route.params.slug,
             store: null,
-            cart:null,
+            cart: null,
             slide: 1
          }
       },
       mounted() {
          this.$nextTick(async function () {
-            await this.getData().catch(error=>{})
+            await this.getData().catch(error => {
+            })
          });
       },
       methods: {
          async init() {
-            await this.getData().catch(error => {})
-            await this.rating().catch(error => {})
+            await this.getData().catch(error => {
+            })
+            await this.rating().catch(error => {
+            })
          },
          rating() {
             return new Promise((resolve, reject) => {
@@ -288,16 +291,20 @@
 <style lang="stylus">
    .theme-layout-about
       background-color $storeBackground
+
       .q-container
          padding-left 15px
          padding-right 15px
+
       .title-label
          padding 10px 30px
          width auto
          font-family $font-primary
+
       .map-google
          border-bottom 5px solid $storeSecondary
          position relative
+
          .title-label
             position absolute
             margin 0
@@ -307,10 +314,12 @@
                padding 5px 20px
                left 20px
                right 20px
+
          .line
             width 100%
             height 5px
             background-color $storeSecondary
+
       .embed-responsive
          position relative
          display block
@@ -318,6 +327,7 @@
          padding 0
          overflow hidden
          border 10px solid #ffffff
+
          .embed-responsive-item
             position absolute
             top 0
@@ -326,6 +336,7 @@
             width 100%
             height 100%
             border 0
+
          &:before
             display block
             content ""

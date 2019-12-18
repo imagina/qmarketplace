@@ -40,11 +40,7 @@
           <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
             <share></share>
 
-            <q-btn color="store-secondary"  @click="openChat = !openChat"  no-caps class="rounded-sm q-py-md q-px-xl">
-              <div class="text-subtitle1 q-mb-sm full-width">¿Tienes alguna duda?</div>
-              <q-icon size="3em" color="white" name="far fa-comment-dots" />
-              <div class="text-subtitle1 q-mt-sm">CHATEA AQUI CON LA TIENDA</div>
-            </q-btn>
+           <chat color="store-secondary" type="3"/>
 
           </div>
         </div>
@@ -53,7 +49,7 @@
     <!-- Productos -->
     <general-products ></general-products>
     <!-- Chat -->
-    <chat :openChat="openChat"></chat>
+
 
 
   </div>

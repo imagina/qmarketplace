@@ -130,7 +130,7 @@
                   <div class="line-vertical"></div>
                   <q-btn @click="$router.push({name: 'stores.about', params : {slug:storeData.slug}})" flat icon="fas fa-map-marker-alt" class="text-bold" label="Info Empresa" color="store-primary"/>
                   <div class="line-vertical"></div>
-                  <chat color="store-primary"></chat>
+                  <chat color="store-primary" type="0"></chat>
                 </div>
                 <div class="col-auto q-pr-md">
                   <div class="line-vertical"></div>
@@ -175,7 +175,7 @@
                 </q-list>
               </q-btn-dropdown>
               <q-btn @click="$router.push({name: 'stores.about', params : {slug:storeData.slug}})" flat icon="fas fa-map-marker-alt" no-caps color="store-primary"/>
-              <chat></chat>
+              <chat color="store-primary" type="0"></chat>
               <q-toolbar-title>
               </q-toolbar-title>
               <q-btn flat round dense icon="fas fa-search" color="store-primary"/>
