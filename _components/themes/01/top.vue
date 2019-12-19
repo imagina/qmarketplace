@@ -219,7 +219,6 @@ import chat from '@imagina/qmarketplace/_components/qchat/chat'
 import cartHeader from '@imagina/qmarketplace/_components/themes/cartHeader'
 export default {
   name: 'TopComponent',
-  props: ['cart'],
   components: {
     fullWidthGallery,
     chat,

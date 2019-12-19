@@ -7,31 +7,32 @@
          <template v-slot:label>
             <div class="row items-center no-wrap">
                <q-icon left name="fa fa-shopping-cart" color="white "></q-icon>
-               <q-badge align="top" class="bg-store-secondary" floating>{{cart.products.length}}</q-badge>
+               <q-badge align="top" class="bg-store-secondary" floating>{{countProduct}}</q-badge>
+
             </div>
          </template>
          <div class="row no-wrap q-pa-md">
             <div class="column">
                <q-list>
                   <q-item class="q-my-sm" v-close-popup v-for="product in cart.products" :key="product.id">
-                     <q-item-section avatar>
-                        <q-avatar text-color="white">
+                     <q-item-section avatar top>
+                        <q-avatar  rounded default text-color="white">
                            <img :src="product.mainImage.path" alt="">
                         </q-avatar>
                      </q-item-section>
-                     <q-item-section>
-                        <q-item-label>{{product.name}}</q-item-label>
-                        <q-item-label>cant. {{product.quantity}}</q-item-label>
-                        <q-item-label class="text-right" color="primary">$ {{$n(product.total)}}</q-item-label>
+                     <q-item-section top>
+                        <q-item-label  lines="1">
+                           <span class="text-weight-medium">{{product.name}}</span></q-item-label>
+                        <q-item-label class="text-right"><spam class="text-weight-medium">Cant.</spam>{{product.quantity}}</q-item-label>
+                        <q-item-label class="text-right text-weight-bold" color="primary">$ {{$n(product.total)}}</q-item-label>
                      </q-item-section>
-                     <q-item-section side>
-                        <q-btn>
-                           <q-icon name="delete" color="red"></q-icon>
-                        </q-btn>
-
+                     <q-item-section top side>
+                        <div class="text-grey-8 q-gutter-xs">
+                           <q-btn @click="deleteProduct(product.id)" class="gt-xs" size="12px" flat dense round icon="delete" ></q-btn>
+                        </div>
                      </q-item-section>
                   </q-item>
-                  <q-separator inset class="q-mx-lg "></q-separator>
+                  <q-separator spaced></q-separator>
                   <q-item class="q-my-sm">
                      <q-btn
                              @click="$router.push({name: 'marketplace.checkout', params:{storeId:storeData.id}})"
@@ -40,7 +41,7 @@
                              push
                              size="md"
                              v-close-popup
-
+                             style="margin: auto"
                      ></q-btn>
                   </q-item>
                </q-list>
@@ -59,12 +60,12 @@
       name: 'CardUserComponent',
       data() {
          return {
+            countProduct:0
          }
       },
 
       mounted() {
          this.$nextTick(function () {
-            this.getCart()
          })
       },
 
@@ -75,12 +76,31 @@
          },
          cart() {
             this.$store.dispatch('qmarketplaceCart/GET_CART', this.storeData.id);
-            return this.$store.state.qmarketplaceCart.cart
+            let cart=this.$store.state.qmarketplaceCart.cart
+            if(cart.products) this.countProduct=cart.products.length;
+            return cart
          },
       },
       methods: {
-
-
+         async  deleteProduct(id) {
+               this.loading = true
+               this.$store.dispatch('qmarketplaceCart/DEL_PRODUCT_FROM_CART',id).then(response => {
+                  this.$q.dialog({
+                     title: 'Producto eliminado del carrito!',
+                     color: 'negative',
+                     ok: 'Ir al carrito',
+                     cancel: 'Seguir comprando'
+                  }).then(async data => {
+                     this.$router.push({name: 'shopping.cart.index'})
+                  }).catch(() => {
+                     this.init()
+                     this.loading = false
+                  })
+               }).catch(error => {
+                  this.$alert.error(error)
+                  this.loading = false
+               })
+         },
       }
    }
 </script>

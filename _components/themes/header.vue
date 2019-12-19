@@ -1,13 +1,13 @@
 <template>
    <div>
       <div v-if="storeData.themeId==1" class="headerStore theme-layout-01">
-         <header1 :store="storeData" :cart="cart"></header1>
+         <header1 :store="storeData" ></header1>
       </div>
       <div v-else-if="storeData.themeId==2" class="headerStore theme-layout-02">
-         <header2 :store="storeData" :cart="cart"></header2>
+         <header2 :store="storeData" ></header2>
       </div>
       <div v-else-if="storeData.themeId==3" class="headerStore theme-layout-03">
-         <header3 :store="storeData" :cart="cart"></header3>
+         <header3 :store="storeData"></header3>
       </div>
    </div>
 </template>
@@ -32,7 +32,6 @@
       },
       mounted() {
          this.$nextTick(function () {
-            this.getCart();
          })
       },
       computed:{

@@ -174,7 +174,6 @@
   #addCartOptions
     .q-list
       padding 0
-
       .q-item
         padding 4px 0
         max-height max-content
@@ -185,8 +184,8 @@
         color $primary
     #selectQuantityComponent
       .q-btn-item
-        font-size 1.3rem
-        padding 0 18px
+        font-size 15px
+        padding 0
         border-radius 20% !important
       .remove
         background $red !important

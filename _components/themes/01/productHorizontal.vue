@@ -2,23 +2,28 @@
    <q-card :class="className" class="q-pa-md">
       <q-card-section class="q-pb-lg">
          <div class="row">
+               <div class="col-6">
+                  <router-link
+                          :to="{name: 'stores.product.show',params:{slug: storeData.slug, product: product.slug}}">
+                  <q-img :ratio="1" :src="product.mainImage.path"/>
+                  </router-link>
+               </div>
             <div class="col-6">
-               <q-img :ratio="1" :src="product.mainImage.path"/>
-            </div>
-            <div class="col-6">
-               <q-card-section>
-                  <p class="q-my-none text-truncate">{{product.name}}</p>
-                  <p class="q-my-none text-truncate"><small>{{storeName}}</small></p>
-                  <h5 class="q-my-sm text-store-primary">${{product.price}}</h5>
-                  <q-rating size="20px"
-                            @input="val => { rating() }"
-                            v-model="product.averageRating"
-                            :max="5"
-                  />
-               </q-card-section>
+               <router-link
+                       :to="{name: 'stores.product.show',params:{slug: storeData.slug, product: product.slug}}">
+                  <q-card-section>
+                     <p class="q-my-none text-truncate text-dark text-weight-bold">{{product.name}}</p>
+                     <p class="q-my-none text-truncate"><small>{{storeName}}</small></p>
+                     <h5 class="q-my-sm text-store-primary">${{product.price}}</h5>
+                     <q-rating size="20px"
+                               @input="val => { rating() }"
+                               v-model="product.averageRating"
+                               :max="5"
+                     />
+                  </q-card-section>
+               </router-link>
                <q-card-actions>
-                  <q-btn flat dense icon="favorite"/>
-                  <q-btn @click="addCart" flat dense icon="shopping_cart"/>
+                  <add-cart-favorite :productId="product.id"  :price="product.price"></add-cart-favorite>
                </q-card-actions>
             </div>
          </div>
@@ -26,9 +31,12 @@
    </q-card>
 </template>
 <script>
+   import addCartFavorite from '@imagina/qmarketplace/_components/cart/addCartFavorite';
    export default {
-
       props: ['product', 'className', 'storeName', 'storeId', 'storeThemeConfig'],
+      components: {
+         addCartFavorite
+      },
       computed: {
          storeData() {
             let storeSlug = this.$route.params.slug

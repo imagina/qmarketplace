@@ -220,7 +220,6 @@ import fullWidthGallery from '@imagina/qmarketplace/_components/themes/qcarousel
 import chat from '@imagina/qmarketplace/_components/qchat/chat'
 export default {
   name: 'TopComponent',
-  props: ['cart','store'],
   components: {
     fullWidthGallery,
     chat

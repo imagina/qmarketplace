@@ -11,7 +11,7 @@
             <q-item>
                <q-item-section><h5 class="q-my-none text-white">${{product.price}}</h5></q-item-section>
                <q-item-section avatar>
-                  <q-btn color="white" flat round size="sm" icon="favorite"/>
+                  <add-cart-favorite :favorite="true" :addCartDisable="false" color="white"></add-cart-favorite>
                </q-item-section>
             </q-item>
          </q-list>
@@ -27,14 +27,18 @@
          <p class="q-my-sm "><small>{{storeData.name}}</small></p>
       </q-card-section>
       <q-card-actions>
-         <q-btn @click="addCart" color="store-secondary" label="COMPRAR" icon="shopping_cart"/>
+         <add-cart-favorite :productId="product.id"  :price="product.price" :favorite="false" color="storePrimary"></add-cart-favorite>
       </q-card-actions>
    </q-card>
 </template>
 <script>
+   import addCartFavorite from '@imagina/qmarketplace/_components/cart/addCartFavorite';
    export default {
       name: 'ProductComponent',
       props: ['product', 'className'],
+      components: {
+         addCartFavorite
+      },
       mounted() {
       },
       computed: {
