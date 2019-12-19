@@ -1,13 +1,13 @@
 <template>
    <div>
-      <div v-if="store.themeId==1" class="headerStore theme-layout-01">
-         <header1 :store="store" :cart="cart"></header1>
+      <div v-if="storeData.themeId==1" class="headerStore theme-layout-01">
+         <header1 :store="storeData" :cart="cart"></header1>
       </div>
-      <div v-else-if="store.themeId==2" class="headerStore theme-layout-02">
-         <header2 :store="store" :cart="cart"></header2>
+      <div v-else-if="storeData.themeId==2" class="headerStore theme-layout-02">
+         <header2 :store="storeData" :cart="cart"></header2>
       </div>
-      <div v-else-if="store.themeId==3" class="headerStore theme-layout-03">
-         <header3 :store="store" :cart="cart"></header3>
+      <div v-else-if="storeData.themeId==3" class="headerStore theme-layout-03">
+         <header3 :store="storeData" :cart="cart"></header3>
       </div>
    </div>
 </template>
@@ -30,32 +30,19 @@
             cart: null
          }
       },
-      created() {
-         this.getTheme();
-         this.getCart();
+      mounted() {
+         this.$nextTick(function () {
+            this.getCart();
+         })
+      },
+      computed:{
+         storeData(){
+            let storeSlug = this.$route.params.slug
+            return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
+         }
       },
       methods: {
-         getCart() {
-            var carts = this.$q.localStorage.getItem("carts");
-            if (carts) {
-               var cartId = 0;
-               for (var i = 0; i < carts.length; i++) {
-                  if (carts[i].storeId == this.store.id) {
-                     this.$crud.show("apiRoutes.qcommerce.cart", carts[i].id, {}).then(response => {
-                        this.cart = response.data;
-                     });
-                     break;
-                  }//if
-               }//for
-            }
-         },
-         getTheme() {
-            let storeSlug = this.$route.params.slug
-            let store = this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
-            if (store) {
-               this.store = store
-            }
-         },
+
       }
    }
 </script>

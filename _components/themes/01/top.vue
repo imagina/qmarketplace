@@ -130,21 +130,15 @@
                         <q-icon name="search" color="white" />
                       </template>
                       </q-input>
-
                       <div class="dropdown-content" :style="productsStore.length>0 ? 'display: block;' : ''">
                         <router-link v-for="(product,index) in productsStore"  :key="product.id" v-if="index<=4"
                                 :to="{name: 'stores.product.show',params:{slug: product.slug, product: product.slug}}">
                                 <p class="q-my-sm text-store-primary">{{product.name}}</p>
                         </router-link>
                       </div>
-
-
                   </div>
                   <q-btn v-if="!followedStore" @click="followStore()" flat icon="fas fa-heart" color="white"/>
-                  <q-btn @click="$router.push({name: 'marketplace.checkout', params:{storeId:storeData.id}})" flat icon="fa fa-shopping-cart"  color="white ">
-                     <q-badge v-if="cart" align="top" class="bg-store-secondary"  floating>{{cart.products.length}}</q-badge>
-                     <q-badge v-else align="top" class="bg-store-secondary"  floating>0</q-badge>
-                  </q-btn>
+                  <cartHeader style="display: inline-block;"/>
                 </div>
               </div>
             </div>
@@ -163,12 +157,10 @@
               <chat color="white" type="0"></chat>
               <q-toolbar-title>
               </q-toolbar-title>
+
               <q-btn flat round dense icon="fas fa-search" color="white"/>
               <q-btn flat round dense icon="fas fa-heart" v-if="!followedStore" @click="followStore()"  color="white" />
-              <q-btn @click="$router.push({name: 'marketplace.checkout', params:{storeId:storeData.id}})" flat icon="fa fa-shopping-cart"  color="white ">
-                <q-badge v-if="cart" align="top" class="bg-store-secondary"  floating>{{cart.products.length}}</q-badge>
-                <q-badge v-else align="top" class="bg-store-secondary"  floating>0</q-badge>
-              </q-btn>
+             <cartHeader/>
             </q-toolbar>
           </div>
         </div>
@@ -224,12 +216,14 @@
 <script>
 import fullWidthGallery from '@imagina/qmarketplace/_components/themes/qcarousel'
 import chat from '@imagina/qmarketplace/_components/qchat/chat'
+import cartHeader from '@imagina/qmarketplace/_components/themes/cartHeader'
 export default {
   name: 'TopComponent',
   props: ['cart'],
   components: {
     fullWidthGallery,
-    chat
+    chat,
+    cartHeader
   },
   data(){
     return {

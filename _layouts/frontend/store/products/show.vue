@@ -11,6 +11,7 @@
                              :src="productData.mainImage.path"
                              spinner-color="white"
                              style="width: 100%"
+                             :alt="productData.name"
                      ></q-img>
                   </div>
                   <div class="col-12 col-md-6 attributes q-pl-xl">
@@ -47,7 +48,6 @@
 
 <script>
    // Components
-   import menuCategories from '@imagina/qcommerce/_components/frontend/categories/menu'
    import selectProducts from '@imagina/qcommerce/_components/frontend/products/widgets/selectProducts'
    import addToCart from '@imagina/qmarketplace/_components/cart/addToCart'
    import headerStore from '@imagina/qmarketplace/_components/themes/header'
@@ -107,7 +107,6 @@
 
       props: {},
       components: {
-         menuCategories,
          selectProducts,
          addToCart,
          footerStore,

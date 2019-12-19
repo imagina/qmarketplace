@@ -7,45 +7,33 @@
     <q-list no-border class="backend-page">
       <!--Quantity-->
       <q-item class="q-pa-none input-quantity">
-        <q-item-section>
-          <q-item-label>
-            <p class="q-title">CANTIDAD</p>
-          </q-item-label>
-        </q-item-section>
-        <q-item-section side>
+        <q-item-main label="CANTIDAD" class="q-title"/>
+        <q-item-side right>
           <div class="q-my-sm">
             <select-quantity v-model="template.quantity"/>
           </div>
-        </q-item-section>
+        </q-item-side>
       </q-item>
       <!--Price-->
       <q-item class="q-pa-none" v-if="additionalPrice">
-        <q-item-section>
-          <q-item-label>
-            <p class="q-subheading">PRECIO</p>
-          </q-item-label>
-        </q-item-section>
-        <q-item-section side>
+        <q-item-main label="PRECIO" class="q-subheading"/>
+        <q-item-side right>
           <p class="q-ma-none text-primary q-subheading price">
             $ {{$n(price) }}
           </p>
-        </q-item-section>
+        </q-item-side>
       </q-item>
       <!--Price Additional-->
       <q-item class="q-pa-none" v-if="additionalPrice">
-        <q-item-section>
-          <q-item-label>
-            <p class="q-subheading">ADICIONAL</p>
-          </q-item-label>
-        </q-item-section>
+        <q-item-main label="ADICIONAL" class="q-subheading"/>
       </q-item>
       <!--Add to cart-->
       <q-item class="text-center q-pb-none">
-        <q-item-section>
+        <q-item-main>
           <q-btn @click="addCart()" icon="shopping_cart"
-          label="AÑADIR" color="positive"
-          :disable="addCartDisable"/>
-        </q-item-section>
+                 label="AÑADIR" color="positive"
+                 :disable="addCartDisable"/>
+        </q-item-main>
       </q-item>
     </q-list>
 
@@ -70,7 +58,6 @@
     props: {
       price: {default: 0},
       productId: {default: false},
-      productName: {default: ''},
       addCartDisable: {type: Boolean, default: false},
       additionalPrice: {default: true}
     },
@@ -96,16 +83,10 @@
     },
     mounted() {
       this.$nextTick(() => {
-        this.init();
-        console.log('store');
-        console.log(this.storeData);
+        this.init()
       })
     },
     computed: {
-      storeData() {
-         let storeSlug = this.$route.params.slug
-         return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
-      },
       initData() {
         return {
           loading: false,
@@ -120,6 +101,10 @@
           let optionsTotal = _cloneDeep(this.template.productOptions.total)
           this.template.total = parseInt(this.price) + parseInt(optionsTotal)
         }
+      },
+      storeData(){
+        let storeSlug = this.$route.params.slug
+        return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
       }
     },
     methods: {
@@ -144,90 +129,43 @@
         }
         //Request
         commerceServices.crud.index('apiRoutes.qcommerce.productOptions', params).then(response => {
-          this.template.options = this.$helper.array.builTree(response.data)
+          this.template.options = this.$array.tree(response.data)
           this.loading = false
         }).catch(error => {
           console.error(error)
           this.loading = false
         })
       },
-
-      createCart() {
-         this.$crud.create("apiRoutes.qcommerce.cart", {
-            total: 0
-         }).then(response => {
-            var id = response.data.id;
-            var carts = this.$q.localStorage.getItem("carts");
-            if (carts) {
-               carts.push({id: id, storeId: this.storeData.id});
-            } else {
-               var carts = [];
-               carts.push({id: id, storeId: this.storeData.id});
-            }
-            this.$q.localStorage.set("carts", carts)
-            this.addCart();
-         })
-      },
-      addCart() {
-         var carts = this.$q.localStorage.getItem("carts");
-         if (carts) {
-            var cartId = 0;
-            for (var i = 0; i < carts.length; i++) {
-               if (carts[i].storeId == this.storeData.id) {
-                  cartId = carts[i].id;
-                  break;
-               }//if
-            }//for
-            if (cartId == 0) {
-               this.createCart();
-            } else {
-               this.$crud.create("apiRoutes.qcommerce.cartProducts", {
-                  cart_id: cartId,
-                  product_id: this.productId,
-                  product_name: this.productName,
-                  price: this.template.total,
-                  quantity: this.template.quantity
-               }).then(response => {
-                  this.$alert.success({message: "Producto agregado al carrito exitosamente.", pos: 'bottom'})
-               }).catch(error => {
-                  this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
-               });
-            }//else
-         } else {
-            this.createCart();
-         }
-      }//addCart
-
       //Add product to cart
-      // async addCart() {
-      //   if (!this.template.productOptions.required) {
-      //     this.loading = true
-      //     let formData = {
-      //       productId: this.productId,
-      //       quantity: this.template.quantity,
-      //       productOptionValues: this.template.productOptions.options,
-      //       price: this.template.total,
-      //     }
-      //
-      //     this.$store.dispatch('qcommerceCart/SET_PRODUCT_INTO_CART', formData).then(response => {
-      //       this.$q.dialog({
-      //         title: 'Producto agregado al carrito!',
-      //         color: 'positive',
-      //         ok: 'Ir al carrito',
-      //         cancel: 'Seguir comprando'
-      //       }).then(async data => {
-      //         this.$router.push({name: 'shopping.cart.index'})
-      //       }).catch(() => {
-      //         this.init()
-      //         this.loading = false
-      //       })
-      //     }).catch(error => {
-      //       this.$helper.alert.error(error)
-      //       console.error('[add to cart option]', error)
-      //       this.loading = false
-      //     })
-      //   }else this.$helper.alert.error('Faltan opciones requeridas por definir','bottom')
-      // },
+      async addCart() {
+        if (!this.template.productOptions.required) {
+          this.loading = true
+          let formData = {
+            storeId:this.storeData.id,
+            productId: this.productId,
+            quantity: this.template.quantity,
+            productOptionValues: this.template.productOptions.options,
+            price: this.template.total,
+          }
+
+          this.$store.dispatch('qmarketplaceCart/SET_PRODUCT_INTO_CART',formData).then(response => {
+            this.$q.dialog({
+              title: 'Producto agregado al carrito!',
+              color: 'positive',
+              ok: 'Ir al carrito',
+              cancel: 'Seguir comprando'
+            }).then(async data => {
+              this.$router.push({name: 'shopping.cart.index'})
+            }).catch(() => {
+              this.init()
+              this.loading = false
+            })
+          }).catch(error => {
+             this.$alert.error(error)
+            this.loading = false
+          })
+        }else  this.$alert.error('Faltan opciones requeridas por definir','bottom')
+      },
     }
   }
 </script>

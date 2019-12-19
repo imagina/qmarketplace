@@ -284,5 +284,26 @@ export default {
     title: 'qchat.sidebar.adminMessages',
     icon: 'far fa-comments',
   },
+  nyNotifications: {
+    permission: 'marketplace.stores.mystore',
+    activated: true,
+    path: '/admin/notifications',
+    name: 'notifications.index',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/notification/notifications'),
+    layout: () => import('src/layouts/admin'),
+    title: 'qnotification.sidebar.notification',
+    icon: 'fas fa-bell'
+  },
+  //create
+  myNotificationCreate: {
+    permission: 'marketplace.stores.mystore',
+    activated: true,
+    path: '/admin/notifications/create',
+    name: 'notifications.create',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/notification/create'),
+    layout: () => import('src/layouts/admin'),
+    title: 'qnotification.sidebar.Create',
+    icon: 'fas fa-chart-bar'
+  },
 
 }

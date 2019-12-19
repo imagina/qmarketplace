@@ -95,14 +95,13 @@
     .q-btn
       border-radius 0px !important
       color $grey-8 !important
-      min-height 27px !important
-      width 27px !important
-      padding 0px
+      padding 0
+      margin 0 10px
+      font-size 12px
     .q-input
       display inline-flex
       padding 0px
       input
-        width 45px
-        height 15px
+        max-width 60px
         text-align center
 </style>
