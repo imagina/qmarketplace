@@ -22,7 +22,7 @@
                      <div class="summary q-pt-lg">
                         {{productData.summary}}
                      </div>
-                     <add-to-cart :product-id="productData.id" :price="productData.price"/>
+                     <add-to-cart :product-id="productData.id" :product-name="productData.name" :price="productData.price"/>
                   </div>
                </div>
                <div class="row description q-pt-xl">
@@ -116,7 +116,8 @@
       mounted() {
          this.$nextTick(function () {
             this.getData(),
-                this.getDataStore()
+            this.getDataStore();
+
          })
       },
       watch: {
@@ -131,7 +132,6 @@
             productSelectd: false,
          }
       },
-      computed: {},
       methods: {
          //Get data
          getData() {

@@ -8,19 +8,24 @@
    <div v-else-if="storeData.themeId==3">
       <main3/>
    </div>
+   <div v-else>
+     <default/>
+   </div>
 </template>
 
 <script>
    import main1 from '@imagina/qmarketplace/_components/themes/01/block'
    import main2 from '@imagina/qmarketplace/_components/themes/02/block'
    import main3 from '@imagina/qmarketplace/_components/themes/03/block'
+   import defaultTheme from '@imagina/qmarketplace/_components/themes/default/block'
 
    export default {
       name: 'mainStore',
       components: {
          main1,
          main2,
-         main3
+         main3,
+         defaultTheme
       },
       mounted() {
         /*

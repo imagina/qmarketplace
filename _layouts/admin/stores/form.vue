@@ -424,7 +424,7 @@ export default {
           ""
         ],
         city: '',
-        themeId: 1,
+        themeId: null,
         cityId: 0,
         provinceId: 0,
         neighborhoodId: 0,
@@ -622,11 +622,16 @@ export default {
         }
       };
       this.$crud.index("apiRoutes.qsubscription.suscriptions",params).then(response => {
-        this.company.themeId=1;
         if(response.data.length>0){
-          if(response.data[0].plan.product.id==6){
+          if(response.data[0].plan.id==6){
+            //Null theme to get default about theme in front.
+          }else if(response.data[0].plan.product.id==6){
             this.company.themeId=3;
+          }else{
+            this.company.themeId=1;
           }
+        }else{
+          this.company.themeId=1;
         }
       });
     },

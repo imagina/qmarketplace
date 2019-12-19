@@ -1,6 +1,5 @@
 <template>
-   <q-page class="theme-layout-about">
-      <header-store></header-store>
+   <div class="theme-layout-about">
       <div class="q-py-xl">
          <div class="q-container">
             <div class="row q-col-gutter-xl">
@@ -157,14 +156,11 @@
          </iframe>
       </div>
 
-      <footer-store></footer-store>
 
-   </q-page>
+   </div>
 </template>
 
 <script>
-   import headerStore from '@imagina/qmarketplace/_components/themes/header'
-   import footerStore from '@imagina/qmarketplace/_components/themes/footer'
    import mainStore from '@imagina/qmarketplace/_components/themes/main'
    import {colors, AddressbarColor} from 'quasar'
    import chat from '@imagina/qmarketplace/_components/qchat/chat'
@@ -207,9 +203,7 @@
       },
 
       components: {
-         footerStore,
          mainStore,
-         headerStore,
          chat
       },
       data() {
