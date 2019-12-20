@@ -152,7 +152,7 @@
                                     :keyup="search()"
                                     color="white" outlined>
                               <template v-slot:append>
-                                 <q-icon name="search" class="text-bold" color="store-secondary"/>
+                                 <q-icon @click="searchProduct()" name="search" class="text-bold" color="store-secondary"/>
                               </template>
                            </q-input>
 
@@ -274,7 +274,17 @@
                   this.productsStore = response.data;
                });
             }
-         },
+         },    searchProduct(){
+               if(this.searchText!=""){
+                 this.$router.push({
+                   name: 'stores.products.all',
+                   params:{
+                     slug:this.storeData.slug,
+                     search:this.searchText
+                   }
+                 })
+               }
+             },
          getFollowedStore() {
             this.$crud.index("apiRoutes.qmarketplace.favoriteStore", {
                params: {

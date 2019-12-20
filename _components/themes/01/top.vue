@@ -275,7 +275,6 @@ export default {
     },
     searchProduct(){
       if(this.searchText!=""){
-        console.log('here asdad');
         this.$router.push({
           name: 'stores.products.all',
           params:{
