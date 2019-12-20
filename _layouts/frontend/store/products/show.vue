@@ -7,9 +7,8 @@
             <div id="product" class="col-12">
                <div class="row">
                   <div class="col-12 col-md-6 Image">
-                     <product-zoomer
-                             :base-images="images"
-                             :base-zoomer-options="zoomerOptions"
+                     <lingallery
+                             :items="images"
                      />
                   </div>
                   <div class="col-12 col-md-6 attributes q-pl-xl">
@@ -54,6 +53,7 @@
    // Services
    import icommerceService from '@imagina/qcommerce/_services/index';
    import {helper} from '@imagina/qhelper/_plugins/helper'
+
    export default {
       preFetch({store, currentRoute, previousRoute, redirect, ssrContext}) {
          return new Promise(async resolve => {
@@ -106,6 +106,7 @@
          addToCart,
          footerStore,
          headerStore,
+         ProductZoomer
       },
       mounted() {
          this.$nextTick(function () {
@@ -124,17 +125,17 @@
             loading: false,
             productData: false,
             productSelectd: false,
-            images: [],
-            zoomerOptions: {
-               zoomFactor: 3,
-               pane: "pane",
-               hoverDelay: 300,
-               namespace: "zoomer",
-               move_by_click: false,
-               scroll_items: 7,
-               choosed_thumb_border_color: "#dd2c00",
-               zoomer_pane_position: "left"
-            }
+            images:[],
+            items: [
+               {
+                  src: 'https://picsum.photos/600/400/?image=0',
+                  thumbnail: 'https://picsum.photos/64/64/?image=0',
+               },
+               {
+                  src: 'https://picsum.photos/600/400/?image=10',
+                  thumbnail: 'https://picsum.photos/64/64/?image=10'
+               },
+            ]
          }
       },
       methods: {
@@ -149,26 +150,20 @@
             icommerceService.crud.show('apiRoutes.qcommerce.products', slugProduct, params).then(response => {
                this.productData = response.data//Add data
                this.productSelectd = response.data.slug//Set product selected
-               let images = {
-                  thumbs: [
-                     {id: 0, url: this.productData.mainImage.path}
-                  ],
-                  normal_size: [
-                     {id: 0, url: this.productData.mainImage.path}
-                  ],
-                  large_size: [
-                     {id: 0, url: this.productData.mainImage.path}
-                  ]
-               }
-               this.productData.gallery.map(function(item,i) {
-                  images['thumbs'].push({id:i+1,url:item.path})
-                  images['normal_size'].push({id:i+1,url:item.path})
-                  images['large_size'].push({id:i+1,url:item.path})
+               let images = [
+                      {
+                         id: 0,
+                         src: this.productData.mainImage.path,
+                         thumbnail:this.productData.mainImage.path.replace('.jpg','_mediumThumb.jpg'),
+                      },
+               ]
+               this.productData.gallery.map(function (item, i) {
+                  images.push({id: i + 1, src: item.path,thumbnail:item.path})
                })
 
                this.images = images
 
-               console.warn(this.images,images)
+               console.warn(this.productData)
                this.loading = false
             }).catch(error => {
                this.$alert.error({message: 'Failed: ' + error, pos: 'bottom'})
@@ -240,4 +235,14 @@
 
          .description
             font-size 1.1rem
+      .Image
+         figure
+            height 400px !important
+            .lingallery_spinner
+               display: inline-block;
+               height 100%
+               vertical-align: middle;
+            img
+               vertical-align: middle;
+
 </style>

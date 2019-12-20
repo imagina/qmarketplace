@@ -5,7 +5,7 @@
          <q-img :ratio="1" :src="product.mainImage.path"/>
       </router-link>
       <q-card-actions>
-         <add-cart-favorite :productId="product.id"  :price="product.price" color="store-primary"></add-cart-favorite>
+         <add-cart-favorite :productId="product.id"  :price="product.price" :color="colorBtn"></add-cart-favorite>
       </q-card-actions>
       <q-card-section class="text-left q-pa-sm">
          <q-rating size="20px"
@@ -25,7 +25,7 @@
 <script>
    import addCartFavorite from '@imagina/qmarketplace/_components/cart/addCartFavorite';
    export default {
-      props: ['product', 'className'],
+      props: ['product', 'className', 'colorBtn'],
       components: {
          addCartFavorite
       },

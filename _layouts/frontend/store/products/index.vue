@@ -4,7 +4,7 @@
     <div class="q-container">
       <div class="row q-col-gutter-lg q-py-lg">
           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3"  v-if="products.length" v-for="product in products" :key="product.id">
-            <product :product="product" className="cardProductH"></product>
+            <product :product="product" className="cardProductH" color-btn="store-primary"></product>
           </div>
           <div
             class="row"

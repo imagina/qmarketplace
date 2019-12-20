@@ -5,7 +5,7 @@
       </div>
       <div class="row q-col-gutter-lg q-py-lg">
          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4" v-for="(product, index) in products" :key="index">
-            <product :product="product" className="cardProductOne"></product>
+            <product :product="product" className="cardProductOne" colorBtn="white"></product>
          </div>
       </div>
    </div>
