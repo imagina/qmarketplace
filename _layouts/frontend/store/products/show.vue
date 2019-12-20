@@ -49,7 +49,6 @@
    import addToCart from '@imagina/qmarketplace/_components/cart/addToCart'
    import headerStore from '@imagina/qmarketplace/_components/themes/header'
    import footerStore from '@imagina/qmarketplace/_components/themes/footer'
-   import ProductZoomer from 'vue-product-zoomer'
    // Services
    import icommerceService from '@imagina/qcommerce/_services/index';
    import {helper} from '@imagina/qhelper/_plugins/helper'
@@ -106,7 +105,6 @@
          addToCart,
          footerStore,
          headerStore,
-         ProductZoomer
       },
       mounted() {
          this.$nextTick(function () {
