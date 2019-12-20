@@ -7,12 +7,10 @@
             <div id="product" class="col-12">
                <div class="row">
                   <div class="col-12 col-md-6 Image">
-                     <q-img
-                             :src="productData.mainImage.path"
-                             spinner-color="white"
-                             style="width: 100%"
-                             :alt="productData.name"
-                     ></q-img>
+                     <product-zoomer
+                             :base-images="images"
+                             :base-zoomer-options="zoomerOptions"
+                     />
                   </div>
                   <div class="col-12 col-md-6 attributes q-pl-xl">
                      <h1 class="text-h1">{{productData.name}}</h1>
@@ -23,7 +21,8 @@
                      <div class="summary q-pt-lg">
                         {{productData.summary}}
                      </div>
-                     <add-to-cart :product-id="productData.id" :product-name="productData.name" :price="productData.price"/>
+                     <add-to-cart :product-id="productData.id" :product-name="productData.name"
+                                  :price="productData.price"/>
                   </div>
                </div>
                <div class="row description q-pt-xl">
@@ -48,15 +47,13 @@
 
 <script>
    // Components
-   import selectProducts from '@imagina/qcommerce/_components/frontend/products/widgets/selectProducts'
    import addToCart from '@imagina/qmarketplace/_components/cart/addToCart'
    import headerStore from '@imagina/qmarketplace/_components/themes/header'
    import footerStore from '@imagina/qmarketplace/_components/themes/footer'
+   import ProductZoomer from 'vue-product-zoomer'
    // Services
    import icommerceService from '@imagina/qcommerce/_services/index';
    import {helper} from '@imagina/qhelper/_plugins/helper'
-
-
    export default {
       preFetch({store, currentRoute, previousRoute, redirect, ssrContext}) {
          return new Promise(async resolve => {
@@ -78,8 +75,8 @@
                criteria: storeSlug,
                apiRoute: 'apiRoutes.qmarketplace.store',
                requestParams: {
-                 refresh: true,
-                 params: {include: 'categories,user,products,paymentMethods,shippingMethods'}
+                  refresh: true,
+                  params: {include: 'categories,user,products,paymentMethods,shippingMethods'}
                }
             })
             resolve(true)
@@ -104,10 +101,8 @@
             },
          }
       },
-
       props: {},
       components: {
-         selectProducts,
          addToCart,
          footerStore,
          headerStore,
@@ -115,7 +110,7 @@
       mounted() {
          this.$nextTick(function () {
             this.getData(),
-            this.getDataStore();
+                this.getDataStore();
 
          })
       },
@@ -129,6 +124,17 @@
             loading: false,
             productData: false,
             productSelectd: false,
+            images: [],
+            zoomerOptions: {
+               zoomFactor: 3,
+               pane: "pane",
+               hoverDelay: 300,
+               namespace: "zoomer",
+               move_by_click: false,
+               scroll_items: 7,
+               choosed_thumb_border_color: "#dd2c00",
+               zoomer_pane_position: "left"
+            }
          }
       },
       methods: {
@@ -143,6 +149,26 @@
             icommerceService.crud.show('apiRoutes.qcommerce.products', slugProduct, params).then(response => {
                this.productData = response.data//Add data
                this.productSelectd = response.data.slug//Set product selected
+               let images = {
+                  thumbs: [
+                     {id: 0, url: this.productData.mainImage.path}
+                  ],
+                  normal_size: [
+                     {id: 0, url: this.productData.mainImage.path}
+                  ],
+                  large_size: [
+                     {id: 0, url: this.productData.mainImage.path}
+                  ]
+               }
+               this.productData.gallery.map(function(item,i) {
+                  images['thumbs'].push({id:i+1,url:item.path})
+                  images['normal_size'].push({id:i+1,url:item.path})
+                  images['large_size'].push({id:i+1,url:item.path})
+               })
+
+               this.images = images
+
+               console.warn(this.images,images)
                this.loading = false
             }).catch(error => {
                this.$alert.error({message: 'Failed: ' + error, pos: 'bottom'})

@@ -69,12 +69,13 @@
         })
      },
      meta() {
+        let storeSlug= this.$route.params.slug || false
         let slugCategory = this.$route.params.category || false
         let routetitle = slugCategory || 'Categoria de productos'
         let siteName = this.$store.getters['qsiteSettings/getSettingValueByName']('core::site-name')
         let siteDescription = this.$store.getters['qsiteSettings/getSettingValueByName']('core::site-description')
         //Set category data
-        let category = this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}-product-${slugCategory}`].data
+        let category = this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}-categoryProduct-${slugCategory}`].data
         if (category) {
            routetitle = category.name
            siteDescription = category.description

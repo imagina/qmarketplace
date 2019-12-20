@@ -3,15 +3,15 @@
       <q-btn-dropdown
               split
               push
+              :text-color="color"
       >
          <template v-slot:label>
             <div class="row items-center no-wrap">
-               <q-icon left name="fa fa-shopping-cart" color="white "></q-icon>
+               <q-icon left name="fa fa-shopping-cart" :color="color"></q-icon>
                <q-badge align="top" class="bg-store-secondary" floating>{{countProduct}}</q-badge>
-
             </div>
          </template>
-         <div class="row no-wrap q-pa-md">
+         <div v-if="countProduct" class="row no-wrap q-pa-md">
             <div class="column">
                <q-list>
                   <q-item class="q-my-sm" v-close-popup v-for="product in cart.products" :key="product.id">
@@ -58,6 +58,9 @@
 
    export default {
       name: 'CardUserComponent',
+      props: {
+         color:{default:"white"}
+      },
       data() {
          return {
             countProduct:0

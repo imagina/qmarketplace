@@ -1,393 +1,421 @@
 <template>
-    <div>
-        <div class="row">
-          <div class="col-12 relative-position">
+   <div>
+      <div class="row">
+         <div class="col-12 relative-position">
             <div class="row">
-              <div class="col-xs-12 col-sm-6 info-store">
-                <div class="column justify-center items-end" style="height: 100%">
-                <div class="col-auto self-end">
-                <div class="row text-center">
-                  <div class="col-xs-12">
-                    <div class="logo ">
-                      <img :src="storeData.logo.path"/>
-                    </div>
-                  </div>
-                  <div class="col-xs-12">
-                    <div class="slogan q-pa-lg">
-                      <i>{{storeData.slogan}}</i>
-                    </div>
-                  </div>
-                </div>
-                </div>
+               <div class="col-xs-12 col-sm-6 info-store">
+                  <div class="column justify-center items-end" style="height: 100%">
+                     <div class="col-auto self-end">
+                        <div class="row text-center">
+                           <div class="col-xs-12">
+                              <div class="logo ">
+                                 <img :src="storeData.logo.path"/>
+                              </div>
+                           </div>
+                           <div class="col-xs-12">
+                              <div class="slogan q-pa-lg">
+                                 <i>{{storeData.slogan}}</i>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
 
 
-              </div>
-              </div>
-              <div class="col-xs-12 col-sm-6 slider-store">
-                <full-width-gallery :storeName="storeData.name" :gallery="storeData.gallery" system-name="principal"></full-width-gallery>
-              </div>
+                  </div>
+               </div>
+               <div class="col-xs-12 col-sm-6 slider-store">
+                  <full-width-gallery :storeName="storeData.name" :gallery="storeData.gallery"
+                                      system-name="principal"></full-width-gallery>
+               </div>
             </div>
 
 
             <div class="q-container info-tienda">
-              <div class="row q-col-gutter-lg justify-end q-mx-sm">
-                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 q-mb-lg rating">
-                  <div v-if="$q.platform.is.desktop">
-                    <q-card class="card-rounded text-center q-mb-sm">
-                      <q-card-section class="full-height text-center" v-if="!followedStore">
-                        Seguir Tienda
-                      </q-card-section>
-                      <q-card-section class="full-height text-center" v-else>
-                        Ya sigues esa tienda
-                      </q-card-section>
-                      <div class="absolute-bottom text-right">
-                        <q-card-actions align="right">
-                          <q-btn v-if="!followedStore" @click="followStore()" unelevated size="13px" round  color="store-secondary" icon="far fa-thumbs-up" />
-                          <q-btn v-else unelevated size="13px" round  color="store-secondary" icon="far fa-handshake" />
-                        </q-card-actions>
-                      </div>
-                    </q-card>
-                    <q-card class="card-rounded text-center">
-                      <q-card-section class="full-height text-center">
-                        {{storeData.averageRating}} de {{storeData.countRatings}} usuario(s)
-                      </q-card-section>
-                      <div class="absolute-bottom text-right">
-                        <q-card-actions align="right">
-                          <q-btn unelevated size="13px" @click="ratingStore=true" round  color="store-secondary" icon="grade" />
-                        </q-card-actions>
-                      </div>
-                    </q-card>
-                  </div>
-                  <div v-else>
-                    <q-card class="card-rounded text-center q-mb-sm">
-                      <q-card-section class="full-height text-center" v-if="!followedStore">
-                        Seguir Tienda
-                      </q-card-section>
-                      <q-card-section class="full-height text-center" v-else>
-                        Ya sigues esa tienda
-                      </q-card-section>
-                      <div class="absolute-bottom text-right">
-                        <q-card-actions align="right">
-                          <q-btn v-if="!followedStore" @click="followStore()" unelevated size="13px" round  color="store-secondary" icon="far fa-thumbs-up" />
-                          <q-btn v-else unelevated size="13px" round  color="store-secondary" icon="far fa-thumbs-up" />
-                          <q-tooltip content-class="store-secondary" :offset="[10, 10]">
-                            <span v-if="!followedStore">Seguir Tienda</span>
-                            <span v-else>
+               <div class="row q-col-gutter-lg justify-end q-mx-sm">
+                  <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 q-mb-lg rating">
+                     <div v-if="$q.platform.is.desktop">
+                        <q-card class="card-rounded text-center q-mb-sm">
+                           <q-card-section class="full-height text-center" v-if="!followedStore">
+                              Seguir Tienda
+                           </q-card-section>
+                           <q-card-section class="full-height text-center" v-else>
+                              Ya sigues esa tienda
+                           </q-card-section>
+                           <div class="absolute-bottom text-right">
+                              <q-card-actions align="right">
+                                 <q-btn v-if="!followedStore" @click="followStore()" unelevated size="13px" round
+                                        color="store-secondary" icon="far fa-thumbs-up"/>
+                                 <q-btn v-else unelevated size="13px" round color="store-secondary"
+                                        icon="far fa-handshake"/>
+                              </q-card-actions>
+                           </div>
+                        </q-card>
+                        <q-card class="card-rounded text-center">
+                           <q-card-section class="full-height text-center">
+                              {{storeData.averageRating}} de {{storeData.countRatings}} usuario(s)
+                           </q-card-section>
+                           <div class="absolute-bottom text-right">
+                              <q-card-actions align="right">
+                                 <q-btn unelevated size="13px" @click="ratingStore=true" round color="store-secondary"
+                                        icon="grade"/>
+                              </q-card-actions>
+                           </div>
+                        </q-card>
+                     </div>
+                     <div v-else>
+                        <q-card class="card-rounded text-center q-mb-sm">
+                           <q-card-section class="full-height text-center" v-if="!followedStore">
+                              Seguir Tienda
+                           </q-card-section>
+                           <q-card-section class="full-height text-center" v-else>
+                              Ya sigues esa tienda
+                           </q-card-section>
+                           <div class="absolute-bottom text-right">
+                              <q-card-actions align="right">
+                                 <q-btn v-if="!followedStore" @click="followStore()" unelevated size="13px" round
+                                        color="store-secondary" icon="far fa-thumbs-up"/>
+                                 <q-btn v-else unelevated size="13px" round color="store-secondary"
+                                        icon="far fa-thumbs-up"/>
+                                 <q-tooltip content-class="store-secondary" :offset="[10, 10]">
+                                    <span v-if="!followedStore">Seguir Tienda</span>
+                                    <span v-else>
                               Ya sigues esa tienda
                             </span>
-                          </q-tooltip>
-                        </q-card-actions>
-                      </div>
-                    </q-card>
+                                 </q-tooltip>
+                              </q-card-actions>
+                           </div>
+                        </q-card>
 
-                    <q-card class="card-rounded text-center">
-                      <q-card-section class="full-height text-center">
-                        {{storeData.averageRating}} de {{storeData.countRatings}} usuario(s)
-                      </q-card-section>
-                      <div class="absolute-bottom text-right">
-                        <q-card-actions align="right">
-                          <q-btn unelevated size="13px" @click="ratingStore=true" round  color="store-secondary" icon="grade" />
-                          <q-tooltip content-class="store-secondary"  :offset="[10, 10]">
-                            {{storeData.averageRating}} de {{storeData.countRatings}} usuario(s)
-                          </q-tooltip>
-                        </q-card-actions>
+                        <q-card class="card-rounded text-center">
+                           <q-card-section class="full-height text-center">
+                              {{storeData.averageRating}} de {{storeData.countRatings}} usuario(s)
+                           </q-card-section>
+                           <div class="absolute-bottom text-right">
+                              <q-card-actions align="right">
+                                 <q-btn unelevated size="13px" @click="ratingStore=true" round color="store-secondary"
+                                        icon="grade"/>
+                                 <q-tooltip content-class="store-secondary" :offset="[10, 10]">
+                                    {{storeData.averageRating}} de {{storeData.countRatings}} usuario(s)
+                                 </q-tooltip>
+                              </q-card-actions>
 
-                      </div>
+                           </div>
 
-                    </q-card>
+                        </q-card>
 
+                     </div>
                   </div>
-                </div>
-              </div>
+               </div>
             </div>
-          </div>
-          <div class="col-12 bg-store-primary menuStore">
+         </div>
+         <div class="col-12 bg-store-primary menuStore">
             <div class="q-container q-py-sm" v-if="$q.platform.is.desktop">
-              <div class="row items-center justify-center">
-                <div class="col">
-                  <q-btn flat icon="fas fa-home" no-caps label="Inicio" color="white" @click="$router.push({name: 'stores.show', params : {slug:storeData.slug}})" />
-                  <q-btn-dropdown lat icon="fas fa-bars" no-caps label="Categorias" color="store-primary">
-                    <q-list>
-                      <q-item v-for="item in categories" :key="'category'+item.title" clickable v-close-popup @click="$router.push({name: 'stores.product.index', params : {slug:storeData.slug,category:item.slug}})">
-                        <q-item-section>
-                          <q-item-label>{{item.title}}</q-item-label>
-                        </q-item-section>
-                      </q-item>
-                    </q-list>
-                  </q-btn-dropdown>
-                  <q-btn @click="$router.push({name: 'stores.about', params : {slug:storeData.slug}})" flat icon="fas fa-map-marker-alt" no-caps label="Info Empresa" color="white"/>
-                  <chat color="white" type="0"></chat>
-                </div>
-                <div class="col-auto">
-                  <div class="q-inline-block q-px-sm border-x">
-                    <q-input dense
-                      placeholder="¿Qué buscas?"
-                      v-model="searchText"
-                      :keyup="search()"
-                      class="bg-store-primary"
-                      outlined  >
-                      <template v-slot:append>
-                        <q-icon name="search" color="white" />
-                      </template>
-                      </q-input>
-                      <div class="dropdown-content" :style="productsStore.length>0 ? 'display: block;' : ''">
-                        <router-link v-for="(product,index) in productsStore"  :key="product.id" v-if="index<=4"
-                                :to="{name: 'stores.product.show',params:{slug: product.slug, product: product.slug}}">
-                                <p class="q-my-sm text-store-primary">{{product.name}}</p>
-                        </router-link>
-                      </div>
+               <div class="row items-center justify-center">
+                  <div class="col">
+                     <q-btn flat icon="fas fa-home" no-caps label="Inicio" color="white"
+                            @click="$router.push({name: 'stores.show', params : {slug:storeData.slug}})"/>
+                     <q-btn-dropdown lat icon="fas fa-bars" no-caps label="Categorias" color="store-primary">
+                        <q-list>
+                           <q-item v-for="item in categories" :key="'category'+item.title" clickable v-close-popup
+                                   @click="$router.push({name: 'stores.product.index', params : {slug:storeData.slug,category:item.slug}})">
+                              <q-item-section>
+                                 <q-item-label>{{item.title}}</q-item-label>
+                              </q-item-section>
+                           </q-item>
+                        </q-list>
+                     </q-btn-dropdown>
+                     <q-btn @click="$router.push({name: 'stores.about', params : {slug:storeData.slug}})" flat
+                            icon="fas fa-map-marker-alt" no-caps label="Info Empresa" color="white"/>
+                     <chat color="white" type="0"></chat>
                   </div>
-                  <q-btn v-if="!followedStore" @click="followStore()" flat icon="fas fa-heart" color="white"/>
-                  <cartHeader style="display: inline-block;"/>
-                </div>
-              </div>
+                  <div class="col-auto">
+                     <div class="q-inline-block q-px-sm border-x">
+                        <q-input dense
+                                 placeholder="¿Qué buscas?"
+                                 v-model="searchText"
+                                 :keyup="search()"
+                                 class="bg-store-primary"
+                                 outlined>
+                           <template v-slot:append>
+                              <q-icon name="search" color="white"/>
+                           </template>
+                        </q-input>
+                        <div class="dropdown-content" :style="productsStore.length>0 ? 'display: block;' : ''">
+                           <router-link v-for="(product,index) in productsStore" :key="product.id" v-if="index<=4"
+                                        :to="{name: 'stores.product.show',params:{slug: product.slug, product: product.slug}}">
+                              <p class="q-my-sm text-store-primary">{{product.name}}</p>
+                           </router-link>
+                        </div>
+                     </div>
+                     <q-btn v-if="!followedStore" @click="followStore()" flat icon="fas fa-heart" color="white"/>
+                     <cartHeader style="display: inline-block;"/>
+                  </div>
+               </div>
             </div>
             <q-toolbar class="bg-store-primary" v-else>
-              <q-btn flat round dense icon="fas fa-home" @click="$router.push({name: 'stores.show', params : {slug:storeData.slug}})" color="white" />
-              <q-btn-dropdown lat icon="fas fa-bars" no-caps color="store-primary">
-                <q-list>
-                  <q-item v-for="item in categories" :key="'category'+item.title" clickable v-close-popup @click="$router.push({name: 'stores.product.index', params : {slug:storeData.slug,category:item.slug}})">
-                    <q-item-section>
-                      <q-item-label>{{item.title}}</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                </q-list>
-              </q-btn-dropdown>
-              <q-btn @click="$router.push({name: 'stores.about', params : {slug:storeData.slug}})" flat icon="fas fa-map-marker-alt" no-caps color="white"/>
-              <chat color="white" type="0"></chat>
-              <q-toolbar-title>
-              </q-toolbar-title>
+               <q-btn flat round dense icon="fas fa-home"
+                      @click="$router.push({name: 'stores.show', params : {slug:storeData.slug}})" color="white"/>
+               <q-btn-dropdown lat icon="fas fa-bars" no-caps color="store-primary">
+                  <q-list>
+                     <q-item v-for="item in categories" :key="'category'+item.title" clickable v-close-popup
+                             @click="$router.push({name: 'stores.product.index', params : {slug:storeData.slug,category:item.slug}})">
+                        <q-item-section>
+                           <q-item-label>{{item.title}}</q-item-label>
+                        </q-item-section>
+                     </q-item>
+                  </q-list>
+               </q-btn-dropdown>
+               <q-btn @click="$router.push({name: 'stores.about', params : {slug:storeData.slug}})" flat
+                      icon="fas fa-map-marker-alt" no-caps color="white"/>
+               <chat color="white" type="0"></chat>
+               <q-toolbar-title>
+               </q-toolbar-title>
 
-              <q-btn flat round dense icon="fas fa-search" color="white"/>
-              <q-btn flat round dense icon="fas fa-heart" v-if="!followedStore" @click="followStore()"  color="white" />
-             <cartHeader/>
+               <q-btn flat round dense icon="fas fa-search" color="white"/>
+               <q-btn flat round dense icon="fas fa-heart" v-if="!followedStore" @click="followStore()" color="white"/>
+               <cartHeader/>
             </q-toolbar>
-          </div>
-        </div>
-        <!-- INFO ADDRESS STORE -->
-        <q-dialog v-model="infoStore" @hide="infoStore=false">
-          <q-carousel
-          transition-prev="slide-right"
-          transition-next="slide-left"
-          swipeable
-          animated
-          v-model="slide"
-          control-color="primary"
-          navigation-icon="radio_button_unchecked"
-          navigation
-          padding
-          height="300px"
-          class="bg-white shadow-1 rounded-borders"
-          >
-          <q-carousel-slide :name="1" class="column no-wrap flex-center">
-            <i style="font-size:56px;" class="fas fa-map-marked-alt text-primary"></i>
-            <!-- <q-icon name="style" color="primary" size="56px" /> -->
-            <div class="q-mt-md text-center" v-html="storeData.description">
-            </div>
-          </q-carousel-slide>
+         </div>
+      </div>
+      <!-- INFO ADDRESS STORE -->
+      <q-dialog v-model="infoStore" @hide="infoStore=false">
+         <q-carousel
+                 transition-prev="slide-right"
+                 transition-next="slide-left"
+                 swipeable
+                 animated
+                 v-model="slide"
+                 control-color="primary"
+                 navigation-icon="radio_button_unchecked"
+                 navigation
+                 padding
+                 height="300px"
+                 class="bg-white shadow-1 rounded-borders"
+         >
+            <q-carousel-slide :name="1" class="column no-wrap flex-center">
+               <i style="font-size:56px;" class="fas fa-map-marked-alt text-primary"></i>
+               <!-- <q-icon name="style" color="primary" size="56px" /> -->
+               <div class="q-mt-md text-center" v-html="storeData.description">
+               </div>
+            </q-carousel-slide>
 
-        </q-carousel>
+         </q-carousel>
       </q-dialog>
       <!-- RATING STORE QDIALOG -->
       <q-dialog v-model="ratingStore" @hide="ratingStore=false">
-        <q-card>
-          <q-card-section>
-            <div class="text-h6">Calificar tienda</div>
-          </q-card-section>
+         <q-card>
+            <q-card-section>
+               <div class="text-h6">Calificar tienda</div>
+            </q-card-section>
 
-          <q-card-section>
-            <q-rating size="20px"
-              @input="val => { rating() }"
-              v-model="storeData.averageRating"
-              :max="5"
-            />
-          </q-card-section>
+            <q-card-section>
+               <q-rating size="20px"
+                         @input="val => { rating() }"
+                         v-model="storeData.averageRating"
+                         :max="5"
+               />
+            </q-card-section>
 
-          <q-card-actions align="right">
-            <q-btn flat label="OK" color="primary" v-close-popup />
-          </q-card-actions>
-        </q-card>
+            <q-card-actions align="right">
+               <q-btn flat label="OK" color="primary" v-close-popup/>
+            </q-card-actions>
+         </q-card>
       </q-dialog>
       <!-- Chat -->
 
 
-    </div>
+   </div>
 </template>
 <script>
-import fullWidthGallery from '@imagina/qmarketplace/_components/themes/qcarousel'
-import chat from '@imagina/qmarketplace/_components/qchat/chat'
-import cartHeader from '@imagina/qmarketplace/_components/themes/cartHeader'
-export default {
-  name: 'TopComponent',
-  components: {
-    fullWidthGallery,
-    chat,
-    cartHeader
-  },
-  data(){
-    return {
-      infoStore:false,
-      ratingStore:false,
-      followedStore:false,
-      slide: 1,
-      categories:[],
-      loading:false,
-      openChat:false,
-      searchText:'',
-      conversationId:null,
-      productsStore:[]
-    }
-  },
-  mounted() {
-   this.getProductCategories();
-   this.getFollowedStore();
-  },
-  computed:{
-    storeData(){
-      let storeSlug = this.$route.params.slug
-      return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
-    }
-  },
-  methods:{
-    search(){
-      if(this.searchText!=""){
-        this.$crud.index("apiRoutes.qcommerce.products",{
-          params:{
-            filter:{
-              store: this.storeData.id,
-              search:this.searchText
-            }
-          }
-        }).then(response => {
-          this.productsStore=response.data;
-        });
-      }
-    },
-    getFollowedStore(){
-      this.$crud.index("apiRoutes.qmarketplace.favoriteStore", {
-        params:{
-          filter:{
-            userId:this.$store.state.quserAuth.userId,
-            storeId:this.storeData.id
-          }
-        }
-      }).then(response => {
-        if(response.data.length>0){
-          this.followedStore=true;
-        }
-      }).catch(error => {
-        this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
-      });
-    },
-    followStore(){
-      this.$crud.create("apiRoutes.qmarketplace.favoriteStore", {
-        userId:this.$store.state.quserAuth.userId,
-        storeId:this.storeData.id
-      }).then(response => {
-        this.followedStore=true;
-        this.$alert.success({message: "Ahora sigues esta tienda", pos: 'bottom'})
-      }).catch(error => {
-        this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
-      });
-    },
-    getProductCategories(){
-      let params = {
-        params: {
-          filter:{
-            'store': this.storeData.id
-          }
-        }
-      }
-      this.loading = true
-      this.$crud.index('apiRoutes.qcommerce.categories', params).then( response => {
-        this.categories = response.data
-        this.loading = false
-      }).catch( error => {
-        this.$alert.error({ message: this.$tr('ui.message.errorRequest'), pos: 'bottom' })
-        this.loading = false
-      })
-    },
-    rating(){
-      this.$axios.post(config('apiRoutes.qmarketplace.store')+'/rating/'+this.storeData.id,{
-        attributes:{
-          rating:this.storeData.averageRating
-        }
-      }).then(response => {
-        this.$alert.success({message: "Calificación registrada exitosamente", pos: 'bottom'});
-        this.getData();
-        this.ratingStore=false;
-      }).catch(error => {
-        this.$alert.error({message: error.response.data.errors, pos: 'bottom'})
-      });
-    },//ratingStore
+   import fullWidthGallery from '@imagina/qmarketplace/_components/themes/qcarousel'
+   import chat from '@imagina/qmarketplace/_components/qchat/chat'
+   import cartHeader from '@imagina/qmarketplace/_components/themes/cartHeader'
 
-  }
-}
+   export default {
+      name: 'TopComponent',
+      components: {
+         fullWidthGallery,
+         chat,
+         cartHeader
+      },
+      data() {
+         return {
+            infoStore: false,
+            ratingStore: false,
+            followedStore: false,
+            slide: 1,
+            categories: [],
+            loading: false,
+            openChat: false,
+            searchText: '',
+            conversationId: null,
+            productsStore: []
+         }
+      },
+      mounted() {
+         this.getProductCategories();
+         this.getFollowedStore();
+      },
+      computed: {
+         storeData() {
+            let storeSlug = this.$route.params.slug
+            return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
+         }
+      },
+      methods: {
+         search() {
+            if (this.searchText != "") {
+               this.$crud.index("apiRoutes.qcommerce.products", {
+                  params: {
+                     filter: {
+                        store: this.storeData.id,
+                        search: this.searchText
+                     }
+                  }
+               }).then(response => {
+                  this.productsStore = response.data;
+               });
+            }
+         },
+         getFollowedStore() {
+            this.$crud.index("apiRoutes.qmarketplace.favoriteStore", {
+               params: {
+                  filter: {
+                     userId: this.$store.state.quserAuth.userId,
+                     storeId: this.storeData.id
+                  }
+               }
+            }).then(response => {
+               if (response.data.length > 0) {
+                  this.followedStore = true;
+               }
+            }).catch(error => {
+               this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+            });
+         },
+         followStore() {
+            this.$crud.create("apiRoutes.qmarketplace.favoriteStore", {
+               userId: this.$store.state.quserAuth.userId,
+               storeId: this.storeData.id
+            }).then(response => {
+               this.followedStore = true;
+               this.$alert.success({message: "Ahora sigues esta tienda", pos: 'bottom'})
+            }).catch(error => {
+               this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+            });
+         },
+         getProductCategories() {
+            let params = {
+               params: {
+                  filter: {
+                     'store': this.storeData.id
+                  }
+               }
+            }
+            this.loading = true
+            this.$crud.index('apiRoutes.qcommerce.categories', params).then(response => {
+               this.categories = response.data
+               this.loading = false
+            }).catch(error => {
+               this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
+               this.loading = false
+            })
+         },
+         rating() {
+            this.$axios.post(config('apiRoutes.qmarketplace.store') + '/rating/' + this.storeData.id, {
+               attributes: {
+                  rating: this.storeData.averageRating
+               }
+            }).then(response => {
+               this.$alert.success({message: "Calificación registrada exitosamente", pos: 'bottom'});
+               this.getData();
+               this.ratingStore = false;
+            }).catch(error => {
+               this.$alert.error({message: error.response.data.errors, pos: 'bottom'})
+            });
+         },//ratingStore
+
+      }
+   }
 </script>
 <style lang="stylus">
-.theme-layout-01
-  .info-tienda
-    position absolute
-    margin 0 auto
-    left 0
-    bottom 0
-    right 0
-    .card-rounded
-      background-color #ffffff
-      border-radius 20px 0 20px 0
-      color $storePrimary
-      height: 68px
-      width: 262px
-      .q-card__section
-        padding-top 25px
-        font-weight bold
-  .border-x
-    .q-field__control
-      border-left 1px solid #fff
-      border-bottom 0
-      border-right 1px solid #fff
-      border-radius 0
-    .q-field--outlined .q-field__control:before
-      border 0
-    .q-placeholder
-      color #ffffff
-  .dropdown-content
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    padding: 12px 16px;
-    z-index: 1;
-  .info-store
-    .logo
-      img
-        max-width 340px
-    .slogan
-      padding 30px
-      color $storeSecondary
-      font-size 22px
-      max-width 340px
-      margin auto
-  @media screen and (max-width: $breakpoint-xs)
-    .rating
-      text-align right
-      .card-rounded
-        width: 70px !important
-        display inline-block
-        margin-right 15px
-      .q-card__section
-        display none
-      .q-card__actions
-        padding 15px
-        .q-btn
-          font-size 12px
-    .info-store
-    .logo
-      img
-        max-width 340px
-    .slogan
-      font-size 15px !important
+   .theme-layout-01
+      .info-tienda
+         position absolute
+         margin 0 auto
+         left 0
+         bottom 0
+         right 0
+
+         .card-rounded
+            background-color #ffffff
+            border-radius 20px 0 20px 0
+            color $storePrimary
+            height: 68px
+            width: 262px
+
+            .q-card__section
+               padding-top 25px
+               font-weight bold
+
+      .border-x
+         .q-field__control
+            border-left 1px solid #fff
+            border-bottom 0
+            border-right 1px solid #fff
+            border-radius 0
+
+         .q-field--outlined .q-field__control:before
+            border 0
+
+         .q-placeholder
+            color #ffffff
+
+      .dropdown-content
+         display: none;
+         position: absolute;
+         background-color: #f9f9f9;
+         min-width: 160px;
+         box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+         padding: 12px 16px;
+         z-index: 1;
+
+      .info-store
+         .logo
+            img
+               max-width 340px
+
+         .slogan
+            padding 30px
+            color $storeSecondary
+            font-size 22px
+            max-width 340px
+            margin auto
+      @media screen and (max-width: $breakpoint-xs)
+         .rating
+            text-align right
+
+            .card-rounded
+               width: 70px !important
+               display inline-block
+               margin-right 15px
+
+            .q-card__section
+               display none
+
+            .q-card__actions
+               padding 15px
+
+               .q-btn
+                  font-size 12px
+
+         .info-store
+         .logo
+            img
+               max-width 340px
+
+         .slogan
+            font-size 15px !important
 
 
 </style>
