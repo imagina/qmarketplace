@@ -110,47 +110,44 @@
          </div>
          <div class="col-12 bg-store-primary menuStore">
             <div class="q-container q-py-sm" v-if="$q.platform.is.desktop">
-               <div class="row items-center justify-center">
-                  <div class="col">
-                     <q-btn flat icon="fas fa-home" no-caps label="Inicio" color="white"
-                            @click="$router.push({name: 'stores.show', params : {slug:storeData.slug}})"/>
-                     <q-btn-dropdown lat icon="fas fa-bars" no-caps label="Categorias" color="store-primary">
-                        <q-list>
-                           <q-item v-for="item in categories" :key="'category'+item.title" clickable v-close-popup
-                                   @click="$router.push({name: 'stores.product.index', params : {slug:storeData.slug,category:item.slug}})">
-                              <q-item-section>
-                                 <q-item-label>{{item.title}}</q-item-label>
-                              </q-item-section>
-                           </q-item>
-                        </q-list>
-                     </q-btn-dropdown>
-                     <q-btn @click="$router.push({name: 'stores.about', params : {slug:storeData.slug}})" flat
-                            icon="fas fa-map-marker-alt" no-caps label="Info Empresa" color="white"/>
-                     <chat color="white" type="0"></chat>
+              <div class="row items-center justify-center">
+                <div class="col">
+                  <q-btn flat icon="fas fa-home" no-caps label="Inicio" color="white" @click="$router.push({name: 'stores.show', params : {slug:storeData.slug}})" />
+                  <q-btn-dropdown lat icon="fas fa-bars" no-caps label="Categorias" color="store-primary">
+                    <q-list>
+                      <q-item v-for="item in categories" :key="'category'+item.title" clickable v-close-popup @click="$router.push({name: 'stores.product.index', params : {slug:storeData.slug,category:item.slug}})">
+                        <q-item-section>
+                          <q-item-label>{{item.title}}</q-item-label>
+                        </q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-btn-dropdown>
+                  <q-btn @click="$router.push({name: 'stores.about', params : {slug:storeData.slug}})" flat icon="fas fa-map-marker-alt" no-caps label="Info Empresa" color="white"/>
+                  <chat color="white" type="0"></chat>
+                </div>
+                <div class="col-auto">
+                  <div class="q-inline-block q-px-sm border-x">
+                    <q-input dense
+                      placeholder="¿Qué buscas?"
+                      v-model="searchText"
+                      :keyup="search()"
+                      class="bg-store-primary"
+                      outlined  >
+                      <template v-slot:append >
+                        <q-icon @click="searchProduct()" name="search" color="white" />
+                      </template>
+                      </q-input>
+                      <div class="dropdown-content" :style="productsStore.length>0 ? 'display: block;' : ''">
+                        <router-link v-for="(product,index) in productsStore"  :key="product.id" v-if="index<=4"
+                                :to="{name: 'stores.product.show',params:{slug: product.slug, product: product.slug}}">
+                                <p class="q-my-sm text-store-primary">{{product.name}}</p>
+                        </router-link>
+                      </div>
                   </div>
-                  <div class="col-auto">
-                     <div class="q-inline-block q-px-sm border-x">
-                        <q-input dense
-                                 placeholder="¿Qué buscas?"
-                                 v-model="searchText"
-                                 :keyup="search()"
-                                 class="bg-store-primary"
-                                 outlined>
-                           <template v-slot:append>
-                              <q-icon name="search" color="white"/>
-                           </template>
-                        </q-input>
-                        <div class="dropdown-content" :style="productsStore.length>0 ? 'display: block;' : ''">
-                           <router-link v-for="(product,index) in productsStore" :key="product.id" v-if="index<=4"
-                                        :to="{name: 'stores.product.show',params:{slug: product.slug, product: product.slug}}">
-                              <p class="q-my-sm text-store-primary">{{product.name}}</p>
-                           </router-link>
-                        </div>
-                     </div>
-                     <q-btn v-if="!followedStore" @click="followStore()" flat icon="fas fa-heart" color="white"/>
-                     <cartHeader style="display: inline-block;"/>
-                  </div>
-               </div>
+                  <q-btn v-if="!followedStore" @click="followStore()" flat icon="fas fa-heart" color="white"/>
+                  <cartHeader style="display: inline-block;"/>
+                </div>
+              </div>
             </div>
             <q-toolbar class="bg-store-primary" v-else>
                <q-btn flat round dense icon="fas fa-home"
@@ -227,113 +224,124 @@
    </div>
 </template>
 <script>
-   import fullWidthGallery from '@imagina/qmarketplace/_components/themes/qcarousel'
-   import chat from '@imagina/qmarketplace/_components/qchat/chat'
-   import cartHeader from '@imagina/qmarketplace/_components/themes/cartHeader'
-
-   export default {
-      name: 'TopComponent',
-      components: {
-         fullWidthGallery,
-         chat,
-         cartHeader
-      },
-      data() {
-         return {
-            infoStore: false,
-            ratingStore: false,
-            followedStore: false,
-            slide: 1,
-            categories: [],
-            loading: false,
-            openChat: false,
-            searchText: '',
-            conversationId: null,
-            productsStore: []
-         }
-      },
-      mounted() {
-         this.getProductCategories();
-         this.getFollowedStore();
-      },
-      computed: {
-         storeData() {
-            let storeSlug = this.$route.params.slug
-            return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
-         }
-      },
-      methods: {
-         search() {
-            if (this.searchText != "") {
-               this.$crud.index("apiRoutes.qcommerce.products", {
-                  params: {
-                     filter: {
-                        store: this.storeData.id,
-                        search: this.searchText
-                     }
-                  }
-               }).then(response => {
-                  this.productsStore = response.data;
-               });
+import fullWidthGallery from '@imagina/qmarketplace/_components/themes/qcarousel'
+import chat from '@imagina/qmarketplace/_components/qchat/chat'
+import cartHeader from '@imagina/qmarketplace/_components/themes/cartHeader'
+export default {
+  name: 'TopComponent',
+  components: {
+    fullWidthGallery,
+    chat,
+    cartHeader
+  },
+  data(){
+    return {
+      infoStore:false,
+      ratingStore:false,
+      followedStore:false,
+      slide: 1,
+      categories:[],
+      loading:false,
+      openChat:false,
+      searchText:'',
+      conversationId:null,
+      productsStore:[]
+    }
+  },
+  mounted() {
+   this.getProductCategories();
+   this.getFollowedStore();
+  },
+  computed:{
+    storeData(){
+      let storeSlug = this.$route.params.slug
+      return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
+    }
+  },
+  methods:{
+    search(){
+      if(this.searchText!=""){
+        this.$crud.index("apiRoutes.qcommerce.products",{
+          params:{
+            filter:{
+              store: this.storeData.id,
+              search:this.searchText
             }
-         },
-         getFollowedStore() {
-            this.$crud.index("apiRoutes.qmarketplace.favoriteStore", {
-               params: {
-                  filter: {
-                     userId: this.$store.state.quserAuth.userId,
-                     storeId: this.storeData.id
-                  }
-               }
-            }).then(response => {
-               if (response.data.length > 0) {
-                  this.followedStore = true;
-               }
-            }).catch(error => {
-               this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
-            });
-         },
-         followStore() {
-            this.$crud.create("apiRoutes.qmarketplace.favoriteStore", {
-               userId: this.$store.state.quserAuth.userId,
-               storeId: this.storeData.id
-            }).then(response => {
-               this.followedStore = true;
-               this.$alert.success({message: "Ahora sigues esta tienda", pos: 'bottom'})
-            }).catch(error => {
-               this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
-            });
-         },
-         getProductCategories() {
-            let params = {
-               params: {
-                  filter: {
-                     'store': this.storeData.id
-                  }
-               }
-            }
-            this.loading = true
-            this.$crud.index('apiRoutes.qcommerce.categories', params).then(response => {
-               this.categories = response.data
-               this.loading = false
-            }).catch(error => {
-               this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
-               this.loading = false
-            })
-         },
-         rating() {
-            this.$axios.post(config('apiRoutes.qmarketplace.store') + '/rating/' + this.storeData.id, {
-               attributes: {
-                  rating: this.storeData.averageRating
-               }
-            }).then(response => {
-               this.$alert.success({message: "Calificación registrada exitosamente", pos: 'bottom'});
-               this.getData();
-               this.ratingStore = false;
-            }).catch(error => {
-               this.$alert.error({message: error.response.data.errors, pos: 'bottom'})
-            });
-         },//ratingStore
+          }
+        }).then(response => {
+          this.productsStore=response.data;
+        });
+      }
+    },
+    searchProduct(){
+      if(this.searchText!=""){
+        console.log('here asdad');
+        this.$router.push({
+          name: 'stores.products.all',
+          params:{
+            slug:this.storeData.slug,
+            search:this.searchText
+          }
+        })
+      }
+    },
+    getFollowedStore(){
+      this.$crud.index("apiRoutes.qmarketplace.favoriteStore", {
+        params:{
+          filter:{
+            userId:this.$store.state.quserAuth.userId,
+            storeId:this.storeData.id
+          }
+        }
+      }).then(response => {
+        if(response.data.length>0){
+          this.followedStore=true;
+        }
+      }).catch(error => {
+        this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+      });
+    },
+    followStore(){
+      this.$crud.create("apiRoutes.qmarketplace.favoriteStore", {
+        userId:this.$store.state.quserAuth.userId,
+        storeId:this.storeData.id
+      }).then(response => {
+        this.followedStore=true;
+        this.$alert.success({message: "Ahora sigues esta tienda", pos: 'bottom'})
+      }).catch(error => {
+        this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+      });
+    },
+    getProductCategories(){
+      let params = {
+        params: {
+          filter:{
+            'store': this.storeData.id
+          }
+        }
+      }
+      this.loading = true
+      this.$crud.index('apiRoutes.qcommerce.categories', params).then( response => {
+        this.categories = response.data
+        this.loading = false
+      }).catch( error => {
+        this.$alert.error({ message: this.$tr('ui.message.errorRequest'), pos: 'bottom' })
+        this.loading = false
+      })
+    },
+    rating(){
+      this.$axios.post(config('apiRoutes.qmarketplace.store')+'/rating/'+this.storeData.id,{
+        attributes:{
+          rating:this.storeData.averageRating
+        }
+      }).then(response => {
+        this.$alert.success({message: "Calificación registrada exitosamente", pos: 'bottom'});
+        this.getData();
+        this.ratingStore=false;
+      }).catch(error => {
+        this.$alert.error({message: error.response.data.errors, pos: 'bottom'})
+      });
+    },//ratingStore
 
       }
    }
