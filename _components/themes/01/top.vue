@@ -126,8 +126,8 @@
                       :keyup="search()"
                       class="bg-store-primary"
                       outlined  >
-                      <template v-slot:append>
-                        <q-icon name="search" color="white" />
+                      <template v-slot:append >
+                        <q-icon @click="searchProduct()" name="search" color="white" />
                       </template>
                       </q-input>
                       <div class="dropdown-content" :style="productsStore.length>0 ? 'display: block;' : ''">
@@ -261,6 +261,18 @@ export default {
         }).then(response => {
           this.productsStore=response.data;
         });
+      }
+    },
+    searchProduct(){
+      if(this.searchText!=""){
+        console.log('here asdad');
+        this.$router.push({
+          name: 'stores.products.all',
+          params:{
+            slug:this.storeData.slug,
+            search:this.searchText
+          }
+        })
       }
     },
     getFollowedStore(){

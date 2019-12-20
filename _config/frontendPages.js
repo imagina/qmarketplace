@@ -66,5 +66,16 @@ export default {
     icon: 'fas fa-layer-group',
     //authenticated: true
   },
+  products: {
+    permission: null,
+    activated: true,
+    path: 'tienda/:slug/products/:search',
+    name: 'stores.products.all',
+    page: () => import('@imagina/qmarketplace/_layouts/frontend/store/products/all'),
+    layout: () => import('src/layouts/master'),
+    title: 'qmarketplace.layout.store',
+    icon: 'fas fa-layer-group',
+    //authenticated: true
+  },
 
 }
