@@ -1,6 +1,50 @@
 <template>
   <div class="bg-grey-2">
      <header-store></header-store>
+
+     <div class="q-container">
+       <div class="row q-col-gutter-lg q-py-lg">
+         <div class="col-md-12">
+           <span class="q-display-1">Filtros de búsqueda</span>
+           <br>
+         </div>
+         <div class="col-md-4">
+           <p class="caption q-mb-xs">Categoría
+             <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+               <q-tooltip>
+                 Selecciona una categoría para obtener sus productos
+               </q-tooltip>
+             </q-btn>
+           </p>
+           <tree-select
+             :clearable="false"
+             :append-to-body="true"
+             class="q-mb-md"
+             filter="searchText"
+             :options="categories"
+             value-consists-of="BRANCH_PRIORITY"
+             v-model="categoryId"
+             placeholder=""
+           />
+         </div>
+         <div class="col-md-4">
+           <p class="caption q-mb-xs">Nombre
+             <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+               <q-tooltip>
+                 Puedes buscar por las iniciales de un producto
+               </q-tooltip>
+             </q-btn>
+           </p>
+           <q-input dense v-model="search" placeholder=""></q-input>
+         </div>
+         <div class="col-md-4 text-center">
+           <q-btn @click="getProducts()" color="primary" icon="fas fa-search">
+             Buscar
+           </q-btn>
+         </div>
+       </div>
+     </div>
+
     <div class="q-container">
       <div class="row q-col-gutter-lg q-py-lg">
           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3"  v-if="products.length" v-for="product in products" :key="product.id">
@@ -81,7 +125,9 @@
       return {
         showProduct: false,
         visible: false,
+        categoryId:null,
         products: [],
+        categories: [],
         paginate: {
           page: 1,
           take: 10,
@@ -102,6 +148,7 @@
       init() {
         this.search=this.$route.params.search;
         this.getProducts()//Get products
+        this.getProductCategories()//Get products
       },
       // Get all products by category :slug
       getProducts() {
@@ -118,8 +165,9 @@
             page: this.paginate.page,
           }
         }
-        console.log('params');
-        console.log(params);
+        if(this.categoryId){
+          params.params.filter.categories=[this.categoryId]
+        }
 
         icommerceService.crud
           .index('apiRoutes.qcommerce.products', params)
@@ -131,8 +179,24 @@
           .catch(error => {
             this.$alert.error({message: 'Failed: ' + error, pos: 'bottom'})
             this.visible = false
-          })
-      }
+          })//
+      },getProductCategories(){
+        let params = {
+          params: {
+            filter:{
+              'store': this.storeData.id
+            }
+          }
+        }
+        this.visible = true
+        this.$crud.index('apiRoutes.qcommerce.categories', params).then( response => {
+          this.categories=this.$array.tree(response.data);//
+          this.visible = false
+        }).catch( error => {
+          this.$alert.error({ message: this.$tr('ui.message.errorRequest'), pos: 'bottom' })
+          this.visible = false
+        })
+      },
     }
   }
 
