@@ -361,8 +361,6 @@
               this.$crud.index("apiRoutes.qquiz.questions",params).then(response => {
 
                 this.votesPoll = response.data
-                console.warn(this.votesPoll)
-
                 resolve(true)//Resolve
 
               }).catch(error => {

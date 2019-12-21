@@ -40,7 +40,6 @@
          //Init
          init() {
             //Search id in params URL
-            console.log('questionId:' + this.$route.params.poll_id)
             //if (this.$route.params.id) this.itemId = this.$route.params.id
 
          },

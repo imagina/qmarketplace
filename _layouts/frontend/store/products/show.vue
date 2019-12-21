@@ -39,6 +39,8 @@
                </div>
             </div>
          </div>
+         <!--Inner Loading-->
+         <inner-loading :loading="loading"></inner-loading>
       </div>
       <footer-store></footer-store>
    </div>
@@ -160,8 +162,6 @@
                })
 
                this.images = images
-
-               console.warn(this.productData)
                this.loading = false
             }).catch(error => {
                this.$alert.error({message: 'Failed: ' + error, pos: 'bottom'})

@@ -132,9 +132,11 @@
                       v-model="searchText"
                       :keyup="search()"
                       class="bg-store-primary"
-                      outlined  >
+                      outlined
+                             @keydown.enter=searchProduct()
+                    >
                       <template v-slot:append >
-                        <q-icon @click="searchProduct()" name="search" color="white" />
+                        <q-icon @click="searchProduct()" name="search" color="white"  pinter />
                       </template>
                       </q-input>
                       <div class="dropdown-content" :style="productsStore.length>0 ? 'display: block;' : ''">
@@ -282,6 +284,7 @@ export default {
             search:this.searchText
           }
         })
+         this.$store.dispatch('app/REFRESH_PAGE')
       }
     },
     getFollowedStore(){

@@ -1,190 +1,250 @@
 <template>
    <q-page class="page">
       <header-store></header-store>
-      <div class="bg-fondo q-px-sm q-py-xl" style="padding-top:70px;margin-top: -123px ">
+      <div class="bg-fondo q-px-sm q-py-xl" v-if="!products.length">
+         <div class="q-container">
+            <div class="q-inline-block q-mb-lg">
+               <h4 class="title text-secondary font-family-secondary q-mt-none">
+                  <div class="line-secondary q-mb-sm"></div>
+                  Carro de Compras
+                  <div class="line-secondary q-mt-sm"></div>
+               </h4>
+            </div>
+            <q-banner inline-actions rounded class="bg-orange text-white">
+               No hay productos en el carro
+               <template v-slot:action>
+                  <q-btn @click="$router.push({name: 'stores.show', params : {slug:storeData.slug}})" flat
+                         label="Seguir Comprando"/>
+               </template>
+            </q-banner>
+         </div>
+
+      </div>
+      <div v-else class="bg-fondo q-px-sm q-py-xl">
          <div class="q-container">
             <div class="row q-col-gutter-lg">
                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
-                  <h5 class="q-ma-md text-secondary font-family-secondary">
-                     <i class="fas fa-shopping-basket text-primary"></i>
-                     {{$tr('qsubscription.layout.form.checkout.products')}}
-                  </h5>
-                  <q-card class="rounded-sm bg-white q-pa-md" v-if="cart">
+                  <div class="row">
+                     <div class="col">
+                        <h5 class="q-ma-md text-secondary font-family-secondary">
+                           <i class="fas fa-shopping-basket text-primary"></i>
+                           {{$tr('qsubscription.layout.form.checkout.products')}}
+                        </h5>
+                        <q-card class="rounded-sm bg-white q-pa-md" v-if="products.length">
 
-                     <q-card-section>
-                        <!-- PRODUCT ROW -->
-                        <div class="row q-col-gutter-sm" v-for="product in cart.products">
-                           <div class="col-xs-5 col-sm-2 col-md-2">
-                              <div style="border: 2px solid #ccc;">
-                                 <q-img :ratio="1" contain :src="product.mainImage.path"/>
-                              </div>
-                           </div>
-                           <div class="col-xs-7 col-sm-6 col-md-6">
-                              <h6 class="text-primary font-family-secondary q-mt-sm q-mb-none">{{product.name}}</h6>
-                              <div class="q-body-1 text-secondary q-mb-lg">{{product.product.summary}}</div>
-                              <div class="q-subheading text-primary text-weight-bold q-mb-lg">$ {{product.priceUnit}}
-                              </div>
-                           </div>
-                           <div class="col-xs-11 col-sm-3 col-lg-3 self-center">
-                              <div class="row items-center">
-                                 <div class="col-6 text-right q-pr-sm">
-                                    <div class="q-body-1 text-secondary">
-                                       {{$tr('qsubscription.layout.form.types.quantity')}}
+                           <q-card-section>
+                              <!-- PRODUCT ROW -->
+                              <div class="row q-col-gutter-sm" v-for="product in products">
+                                 <div class="col-xs-5 col-sm-2 col-md-2">
+                                    <div style="border: 2px solid #ccc;">
+                                       <q-img :ratio="1" contain :src="product.mainImage.path"/>
                                     </div>
                                  </div>
-                                 <div class="col-6">
-                                    <q-select outlined dense
-                                              @input="val => { updateCart(product) }"
-                                              v-model="product.quantity"
-                                              align="right"
-                                              :options="selectOptions"
-                                    />
+                                 <div class="col-xs-7 col-sm-6 col-md-6">
+                                    <h6 class="text-primary font-family-secondary q-mt-sm q-mb-none">
+                                       {{product.name}}</h6>
+                                    <div class="q-body-1 text-secondary q-mb-lg">{{product.product.summary}}</div>
+                                    <div class="q-subheading text-primary text-weight-bold q-mb-lg">$
+                                       {{product.priceUnit}}
+                                    </div>
                                  </div>
+                                 <div class="col-xs-11 col-sm-3 col-lg-3 self-center">
+                                    <div class="row items-center">
+                                       <div class="col-6 text-right q-pr-sm">
+                                          <div class="q-body-1 text-secondary">
+                                             {{$tr('qsubscription.layout.form.types.quantity')}}
+                                          </div>
+                                       </div>
+                                       <div class="col-6">
+                                          <q-select outlined dense emit-value
+                                                    @input="val => { updateCart(product) }"
+                                                    v-model="product.quantity"
+                                                    align="right"
+                                                    :options="selectOptions"
+                                          />
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="col-xs-1 col-sm-1 col-md-1 self-center">
+                                    <q-btn @click="deleteProductCart(product)" round color="primary"
+                                           icon="fas fa-times"/>
+                                 </div>
+
                               </div>
-                           </div>
-                           <div class="col-xs-1 col-sm-1 col-md-1 self-center">
-                              <q-btn @click="deleteProductCart(product)" round color="primary" icon="fas fa-times"/>
-                           </div>
 
-                        </div>
+                           </q-card-section>
+                           <!--Loading-->
+                        </q-card>
+                     </div>
 
-                        <!-- SHIPPING OPTIONS -->
-                        <!-- <div class="row">
-                        <div class="col-12">
-                        <hr class="line-grey q-my-md">
-                        <h6 class="text-primary font-family-secondary q-mt-sm q-mb-none">
-                        <i class="fas fa-shopping-basket"></i>
-                        {{$tr('qsubscription.layout.form.checkout.shippingOptions')}}
-                      </h6>
-                      <q-field class="q-mt-md">
-                      <q-radio class="q-ml-xl" v-model="shippingOptions" val="lorem"  label="Lorem ipsum dolor sit amet, co" />
-                      </q-field>
-                      <hr class="line-grey q-mt-md">
-                      </div>
-                      </div> -->
-
-                     </q-card-section>
-
-                  </q-card>
+                  </div>
+                  <!--metodos de envio-->
                   <div class="row">
                      <div class="col-12">
-                        <h5 class="q-ma-md text-secondary font-family-secondary"><i class="fas fa-truck text-primary"></i>
+                        <h5 class="q-ma-md text-secondary font-family-secondary"><i
+                                class="fas fa-truck text-primary"></i>
                            {{$tr('qsubscription.layout.form.checkout.shippingInformation')}}
                         </h5>
-                     </div>
-                  </div>
-                  <q-card class="rounded-sm bg-white q-mb-xl">
+                        <q-card class="rounded-sm bg-white q-mb-xl">
 
-                     <q-card-section class="q-pa-xl form-general">
+                           <q-card-section class="q-pa-xl form-general">
 
-                        <div class="row q-col-gutter-lg justify-center">
+                              <div class="row q-col-gutter-lg justify-center">
 
-                           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                              <div class="q-mb-md">
-                                 <p class="caption q-mb-sm">Dirección</p>
-                                 <div v-if="addresses.length">
-                                    <q-select dense
-                                              class="full-width"
-                                              v-model="form.addressShippingId"
-                                              :options="addresses"
-                                    />
+                                 <div class="col-xs-12">
+                                    <div class="q-mb-md">
+                                       <p class="caption q-mb-sm">Dirección</p>
+                                       <div class="row" v-if="addresses.length">
+                                          <div class="col-xs-6 col-sm-9 q-pa-md">
+                                             <q-select dense
+                                                       class="full-width"
+                                                       v-model="form.addressShippingId"
+                                                       :options="addresses"
+                                             />
+                                          </div>
+                                          <div class="col-xs-6 col-sm-3 q-pa-md">
+                                             <q-btn
+                                                     @click="modalAddress= !modalAddress"
+                                                     size="md"
+                                                     class=" text-weight-bold rounded-sm q-mb-md" color="primary"
+                                                     label="Nueva Direccion"/>
+                                          </div>
+
+                                       </div>
+
+                                       <div class="row" v-else>
+                                          <q-btn
+                                                  @click="modalAddress= !modalAddress"
+                                                  size="md"
+                                                  class=" text-weight-bold rounded-sm q-mb-md" color="primary"
+                                                  label="Nueva Direccion"/>
+                                       </div>
+                                       <q-dialog v-model="modalAddress" persistent>
+                                          <q-card style="min-width: 350px">
+                                             <q-card-section>
+                                                <div class="text-h6 text-primary text-weight-bold">Nueva Direccion</div>
+                                             </q-card-section>
+                                             <q-form autocorrect="off" autocomplete="off" ref="formContent" class="box"
+                                                     @submit="addAddress()"
+                                                     @validation-error="$alert.error($tr('ui.message.formInvalid'))">
+                                             <q-card-section class="row">
+
+                                                <div class="col-xs-12 col-sm-6 q-px-sm">
+
+                                                   <div class="q-mb-sm">
+                                                      <p class="caption q-mb-sm">{{$tr('ui.form.name')}}</p>
+                                                      <q-input dense v-model="form.firstName" :placeholder="$tr('ui.form.name')"
+                                                               :rules="[val => !!val || $tr('ui.message.fieldRequired')]"
+                                                      />
+                                                   </div>
+                                                   <div class="q-mb-sm">
+                                                      <p class="caption q-mb-sm">{{$tr('ui.form.phone')}}</p>
+                                                      <q-input dense type="text" v-model="form.telephone"
+                                                               mask="(###) ### - ####"
+                                                               placeholder="000 000 0000"
+                                                               :rules="[val => !!val || $tr('ui.message.fieldRequired')]"
+                                                      />
+                                                   </div>
+                                                   <div class="q-mb-sm">
+                                                      <p class="caption q-mb-sm">Provincia</p>
+                                                      <q-select dense
+                                                                @input="val => { getCities() }"
+                                                                v-model="province_id"
+                                                                :options="optionsProvinces"
+                                                                :rules="[val => !!val || $tr('ui.message.fieldRequired')]"
+                                                      />
+                                                   </div>
+
+                                                   <div class="q-mb-sm">
+                                                      <p class="caption q-mb-none">{{$tr('ui.form.address')}}</p>
+                                                      <q-input dense type="text" v-model="form.paymentAddress1"
+                                                               placeholder="(Para la entrega de productos adquiridos)"
+                                                               :rules="[val => !!val || $tr('ui.message.fieldRequired')]"
+                                                      />
+                                                   </div>
+
+                                                </div>
+                                                <div class="col-xs-12 col-sm-6 q-px-sm">
+                                                   <div class="q-mb-sm">
+                                                      <p class="caption q-mb-sm">{{$tr('ui.form.lastName')}}</p>
+                                                      <q-input dense type="text" v-model="form.lastName" placeholder="Gonzalez"
+                                                               :rules="[val => !!val || $tr('ui.message.fieldRequired')]"
+                                                      />
+                                                   </div>
+
+                                                   <div class="q-mb-sm">
+                                                      <p class="caption q-mb-sm">{{$tr('ui.form.email')}}</p>
+                                                      <q-input dense type="email" v-model="form.email"
+                                                               placeholder="info@lorem.com"
+                                                               :rules="[val => !!val || $tr('ui.message.fieldRequired')]"
+                                                      />
+                                                   </div>
+
+                                                   <div class="q-mb-sm">
+                                                      <p class="caption q-mb-sm">
+                                                         {{$tr('qsubscription.layout.form.checkout.cityResidence')}}</p>
+                                                      <q-select dense
+                                                                v-model="city_id"
+                                                                :options="optionsCities"
+                                                                :rules="[val => !!val || $tr('ui.message.fieldRequired')]"
+                                                      />
+                                                   </div>
+
+                                                </div>
+
+
+                                             </q-card-section>
+
+                                             <q-card-actions align="right" class="text-primary">
+                                                <q-btn flat type="reset" label="Cancel" v-close-popup ></q-btn>
+                                                <q-btn flat type="submit" label="Agregar Direccion" :loading="loading"></q-btn>
+                                             </q-card-actions>
+                                             </q-form>
+                                          </q-card>
+                                       </q-dialog>
+
+                                    </div>
                                  </div>
 
-                              </div>
-                           </div>
+                                 <q-radio v-model="form.shippingMethodId"
+                                          v-for="(shipMethod,index) in storeData.shippingMethods"
+                                          :key="'shipMethod'+shipMethod.id" :val="shipMethod.id"
+                                          :label="shipMethod.title"/>
 
-                           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                              </div>
+                           </q-card-section>
 
-                              <div class="q-mb-xl">
-                                 <p class="caption q-mb-sm">{{$tr('ui.form.name')}}</p>
-                                 <q-input dense v-model="form.firstName" :placeholder="$tr('ui.form.name')"/>
-                              </div>
-                              <div class="q-mb-xl">
-                                 <p class="caption q-mb-sm">{{$tr('ui.form.phone')}}</p>
-                                 <q-input dense type="text" v-model="form.telephone" placeholder="000 000 0000"/>
-                              </div>
-                              <div class="q-mb-xl">
-                                 <p class="caption q-mb-sm">Provincia</p>
-                                 <q-select dense
-                                           @input="val => { getCities() }"
-                                           v-model="province_id"
-                                           :options="optionsProvinces"
-                                 />
-                              </div>
+                        </q-card>
+                     </div>
+                  </div>
+                  <!--metodos de pago-->
+                  <div class="row">
+                     <div class="col">
+                        <h5 class="q-ma-md text-secondary font-family-secondary">
+                           <i class="fas fa-credit-card text-primary"></i>
+                           {{$tr('qsubscription.layout.form.checkout.paymentMethods')}}
+                        </h5>
+                        <q-card class="rounded-sm bg-white q-mb-xl">
 
-                              <div class="q-mb-xl">
-                                 <p class="caption q-mb-none">{{$tr('ui.form.address')}}</p>
-                                 <q-input dense type="text" v-model="form.paymentAddress1"
-                                          placeholder="(Para la entrega de productos adquiridos)"/>
-                              </div>
+                           <q-card-section class="q-pa-xl form-general">
 
-                           </div>
-                           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
-                              <div class="q-mb-xl">
-                                 <p class="caption q-mb-sm">{{$tr('ui.form.lastName')}}</p>
-                                 <q-input dense type="text" v-model="form.lastName" placeholder="Gonzalez"/>
+                              <div class="row gutter-md justify-center">
+                                 <div class="col-12">
+
+                                    <q-radio v-model="form.paymentMethodId"
+                                             v-for="(payMethod,index) in storeData.paymentMethods"
+                                             :key="'payMethod'+payMethod.id" :val="payMethod.id"
+                                             :label="payMethod.title"/>
+
+                                 </div>
                               </div>
 
-                              <div class="q-mb-xl">
-                                 <p class="caption q-mb-sm">{{$tr('ui.form.email')}}</p>
-                                 <q-input dense type="email" v-model="form.email" placeholder="info@lorem.com"/>
-                              </div>
+                           </q-card-section>
 
-                              <div class="q-mb-xl">
-                                 <p class="caption q-mb-sm">
-                                    {{$tr('qsubscription.layout.form.checkout.cityResidence')}}</p>
-                                 <q-select dense
-                                           v-model="city_id"
-                                           :options="optionsCities"
-                                 />
-                              </div>
-                              <div class="text-center">
-                                 <q-btn
-                                         @click="addAddress()"
-                                         size="lg"
-                                         class="capitalize text-weight-bold rounded-sm q-mb-md" color="primary"
-                                         label="Agregar dirección"/>
-                              </div>
+                        </q-card>
+                     </div>
+                  </div>
 
-                           </div>
-
-                           <q-radio v-model="form.shippingMethodId"
-                                    v-for="(shipMethod,index) in storeData.shippingMethods"
-                                    :key="'shipMethod'+shipMethod.id" :val="shipMethod.id" :label="shipMethod.title"/>
-                           <!-- <div class="col-xs-12 col-sm-6 text-center">
-
-                             <q-btn outline size="lg" class="rounded-md" no-caps icon="fa fa-truck text-primary" :label="$tr('qsubscription.layout.form.checkout.homeDelivery')" />
-                           </div> -->
-                           <!-- <div class="col-xs-12 col-sm-6 text-center">
-                             <q-btn outline size="lg" class="rounded-md" no-caps icon="fa fa-shopping-basket text-primary" :label="$tr('qsubscription.layout.form.checkout.storePickup')" />
-                           </div> -->
-
-
-                        </div>
-                     </q-card-section>
-
-                  </q-card>
-                  <h5 class="q-ma-md text-secondary font-family-secondary">
-                     <i class="fas fa-credit-card text-primary"></i>
-                     {{$tr('qsubscription.layout.form.checkout.paymentMethods')}}
-                  </h5>
-                  <q-card class="rounded-sm bg-white q-mb-xl">
-
-                     <q-card-section class="q-pa-xl form-general">
-
-                        <div class="row gutter-md justify-center">
-                           <div class="col-12">
-
-                              <q-radio v-model="form.paymentMethodId"
-                                       v-for="(payMethod,index) in storeData.paymentMethods"
-                                       :key="'payMethod'+payMethod.id" :val="payMethod.id" :label="payMethod.title"/>
-
-                           </div>
-                        </div>
-
-                     </q-card-section>
-
-                  </q-card>
 
                   <div class="row">
                      <div class="col-12 text-right">
@@ -256,14 +316,15 @@
                            </div>
                         </div>
                      </q-card-section>
+
                   </q-card>
 
                </div>
             </div>
          </div>
       </div>
-
       <footer-store></footer-store>
+      <inner-loading :visible="loading"/>
    </q-page>
 </template>
 <script>
@@ -277,18 +338,17 @@
    import {colors, AddressbarColor} from 'quasar'
 
    export default {
-      props: {},
       preFetch({store, currentRoute, previousRoute, redirect, ssrContext}) {
          return new Promise(async resolve => {
             //Get data post
-            let storeSlug = currentRoute.params.slug|| false
+            let storeSlug = currentRoute.params.slug || false
             await store.dispatch('qcrudMaster/SHOW', {
                indexName: `qmarketplace-store-${storeSlug}`,
                criteria: storeSlug,
                apiRoute: 'apiRoutes.qmarketplace.store',
                requestParams: {
-                 refresh: true,
-                 params: {include: 'categories,user,products,paymentMethods,shippingMethods'}
+                  refresh: true,
+                  params: {include: 'categories,user,products,paymentMethods,shippingMethods'}
                }
             })
             resolve(true)
@@ -312,7 +372,7 @@
             },
          }
       },
-
+      props: {},
       components: {
          mediaForm,
          footerStore,
@@ -320,28 +380,26 @@
          headerStore,
       },
       watch: {},
-      validations() {
-         return {}
-      },
       computed: {
          storeData() {
             let storeSlug = this.$route.params.slug
             return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
-         }
+         },
+         products() {
+            return this.cart && this.cart.products ? this.cart.products : []
+         },
+         cart() {
+            return this.$store.state.qmarketplaceCart.cart
+         },
       },
       data() {
          return {
-            loading: {
-               page: false
-            },
-            cart: null,
+            modalAddress: false,
+            loading: false,
             configName: 'apiRoutes.qmarketplace.checkout',
-            // product:[],
             paymentMethods: [],
             shippingMethods: [],
-
             cartId: null,
-            //Quantity of product select options
             selectOptions: [
                {label: "1", value: 1},
                {label: "2", value: 2},
@@ -371,16 +429,12 @@
                paymentCity: {label: "Selecciona una ciudad", value: 0, id: 0},
                paymentCountry: {label: "Selecciona una provincia", value: 0, id: 0},
                paymentMethodId: 0,
-               // paymentMethod:'',
-               // paymentCode:'',
                shippingAddress1: '',
                shippingZipCode: '1234',
                shippingCity: {label: "Selecciona una ciudad", value: 0, id: 0},
                shippingCountry: {label: "Selecciona una provincia", value: 0, id: 0},
                shippingMethodId: 0,
-               // shippingMethod:'',
-               // shippingCode:'',
-               storeId: 0,
+               storeId: null,
                customerId: this.$store.state.quserAuth.userId,
                coupon_code: ''
             },
@@ -428,15 +482,18 @@
       },
       mounted() {
          this.$nextTick(function () {
-            this.getCart();
-            // this.getPaymentMethods();
-            // this.getShippingMethods();
-            this.getProvinces();
-            this.getAddresses();
-
+            this.init()
          })
       },
       methods: {
+         async init() {
+            this.loading=true
+            await this.$store.dispatch('qmarketplaceCart/GET_CART', this.storeData.id);
+            this.getProvinces();
+            this.getAddresses();
+            this.loading=false
+         },
+
          getAddresses() {
             let params = {
                remember: false,
@@ -463,21 +520,6 @@
             });
          },
          addAddress() {
-            if (this.form.firstName == "") {
-               this.$alert.error({message: "Debes ingresar un nombre", pos: 'bottom'})
-            } else if (this.form.lastName == "") {
-               this.$alert.error({message: "Debes ingresar un apellido", pos: 'bottom'})
-            } else if (this.form.telephone == "") {
-               this.$alert.error({message: "Debes ingresar un número de teléfono", pos: 'bottom'})
-            } else if (this.form.email == "") {
-               this.$alert.error({message: "Debes ingresar un correo electrónico", pos: 'bottom'})
-            } else if (this.province_id.value == 0) {
-               this.$alert.error({message: "Debes seleccionar una provincia", pos: 'bottom'})
-            } else if (this.city_id.value == 0) {
-               this.$alert.error({message: "Debes seleccionar una ciudad", pos: 'bottom'})
-            } else if (this.form.paymentAddress1 == "") {
-               this.$alert.error({message: "Debes ingresar una dirección", pos: 'bottom'})
-            } else {
                var data = {
                   userId: this.$store.state.quserAuth.userId,
                   firstName: this.form.firstName,
@@ -497,13 +539,15 @@
                   this.form.telephone = "";
                   this.form.email = "";
                   this.form.paymentAddress1 = "";
+                  this.modalAddress=!this.modalAddress;
                   this.getAddresses();
                }).catch(error => {
                   this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
                });
-            }//else
+
          },
          submitOrder() {
+            this.loading=true
             if (this.form.addressShippingId.value == 0) {
                this.$alert.error({message: "Debes seleccionar una dirección", pos: 'bottom'})
             } else if (this.form.shippingMethodId == 0) {
@@ -540,24 +584,7 @@
                // console.log(data);
                this.$crud.create("apiRoutes.qcommerce.orders", data).then(response => {
                   this.$alert.success({message: this.$tr('ui.message.recordCreated'), pos: 'bottom'})
-                  var carts = this.$q.localStorage.getItem("carts");
-                  if (carts) {
-                    var pos=null;
-                     for (var i = 0; carts.length; i++) {
-                        if (carts[i].storeId == this.storeData.id) {
-                           pos=i;
-                           break;
-                        }//if
-                     }//for
-                     if(pos!=null){
-                       carts.splice(pos,1);
-                       this.$q.localStorage.set("carts", carts)
-                     }
-                   }
-                  this.$router.push({
-                    name: 'app.home',
-                    params:{}
-                  })
+                  this.$router.push({name: 'app.home', params: {}})
                }).catch(error => {
                   this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
                })
@@ -624,60 +651,44 @@
             })
          },
          updateCart(product) {
-            var params = {
-               cart_id: this.cart.id,
-               product_id: product.productId,
-               quantity: product.quantity.value
-            };
-            this.$crud.update("apiRoutes.qcommerce.cartProducts", product.id, params).then(response => {
-               this.$alert.success({message: "Producto actualizado correctamente.", pos: 'bottom'})
-               this.getCart();
-
-            });
+            this.loading = true
+            this.$store.dispatch('qmarketplaceCart/UPDATE_PRODUCT_INTO_CART', product).then(response => {
+               this.$q.dialog({
+                  title: 'Producto Actualizado  en el carrito!',
+                  color: 'positive',
+               }).onOk(() => {
+                  this.loading = false
+               })
+            }).catch(error => {
+               this.$alert.error(error)
+               this.loading = false
+            })
          },
          deleteProductCart(product) {
-            this.$crud.delete("apiRoutes.qcommerce.cartProducts", product.id, {}).then(response => {
-               this.$alert.success({message: "Producto eliminado correctamente.", pos: 'bottom'})
-            });
-            this.getCart();
-         },
-         getCart() {
-            if (!this.storeData.id) {
-               this.$alert.error({
-                  message: "Se ha producido un error al intentar ingresar a esta ventana",
-                  pos: 'bottom'
+            this.loading = true
+            this.$q.dialog({
+               title: `Esta seguro de eliminar  ${product.name} del carrito!`,
+               color: 'negative',
+               ok: 'Eliminar',
+               cancel: 'Cancelar'
+            }).onOk(() => {
+               this.loading = true
+               this.$store.dispatch('qmarketplaceCart/DEL_PRODUCT_FROM_CART', product).then(response => {
+                  this.$q.dialog({
+                     title: 'Producto eliminado del carrito!',
+                     color: 'negative',
+                  }).onOk(() => {
+                     this.loading = false
+                  })
+               }).catch(error => {
+                  this.$alert.error(error)
+                  this.loading = false
                })
-               this.$router.push({name: 'app.home'});
-            }
-            var carts = this.$q.localStorage.getItem("carts");
-            if (carts) {
-               for (var i = 0; carts.length; i++) {
-                  if (carts[i].storeId == this.storeData.id) {
-                     this.cartId = carts[i].id;
-                     break;
-                  }//if
-               }//for
-               if (!this.cartId) {
-                  this.$alert.error({
-                     message: "Se ha producido un error al intentar obtener el carro de compras",
-                     pos: 'bottom'
-                  })
-                  this.$router.push({name: 'app.home'});
-               } else {
-                  this.$crud.show("apiRoutes.qcommerce.cart", this.cartId, {}).then(response => {
-                     this.cart = response.data;
-                     if (this.cart.products.length == 0) {
-                        //Redirect back
-                        this.$router.go(-1);
-                        this.$alert.error({
-                           message: "Debes agregar al menos un producto al carrito de compras",
-                           pos: 'bottom'
-                        })
-                     }
-                  })
-               }//else
-            }
-         }
+            }).onCancel(() => {
+               this.init()
+               this.loading = false
+            })
+         },
       }
    }
 </script>

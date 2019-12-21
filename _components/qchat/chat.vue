@@ -320,7 +320,6 @@
             })
             this.echo.channel('global')
                 .listen(`.notification_${this.$store.state.quserAuth.userData.id}_${this.storeData.userId}`, message => {
-                   console.log(message);
                    this.messages.push(message.data)
                    this.animateScroll()
                 })
@@ -330,7 +329,6 @@
             this.openChat = !this.openChat
          },
          animateScroll() {
-            console.warn('sdafadsadsasddsafsa')
             this.$refs.scrollArea.setScrollPosition(10000000, 300)
          }
       }

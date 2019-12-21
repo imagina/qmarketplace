@@ -30,47 +30,20 @@
       },
       mounted() {
          this.$nextTick(async function () {
-            await this.getData().catch(error=>{})
+            await this.getData()
          });
       },
-      computed:{
-         storeData(){
+      computed: {
+         storeData() {
             let storeSlug = this.$route.params.slug
             return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
          }
       },
       methods: {
          getData() {
-            return new Promise((resolve, reject) => {
-               const itemId = this.$clone(this.storeSlug)
-               if (itemId) {
-                  //Params--
-                  let params = {
-                     refresh: true,
-                     params: {
-                        filter: {
-                           allTranslations: true,
-                           field: 'slug',
-                        },
-                     }
-                  }//test
-                  //Request
-                  this.$crud.show(this.configName, itemId, params).then(response => {
-                     this.store = this.$clone(response.data);
-                     colors.setBrand('storeprimary', this.store.options.theme_config.color_primary)
-                     colors.setBrand('storesecondary', this.store.options.theme_config.color_secondary)
-                     colors.setBrand('storebackground', this.store.options.theme_config.background)
-console.log(colors)
-                     resolve(true)//Resolve
-                  }).catch(error => {
-                     this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
-                     reject(false)//Resolve
-                  })
-               } else {
-                  resolve(true)//Resolve
-               }
-
-            }).catch(error => {})
+            colors.setBrand('storeprimary', this.storeData.options.theme_config.color_primary)
+            colors.setBrand('storesecondary', this.storeData.options.theme_config.color_secondary)
+            colors.setBrand('storebackground', this.storeData.options.theme_config.background)
          },
       }
    }
@@ -78,6 +51,7 @@ console.log(colors)
 <style lang="stylus">
    .headerStore
       background $primaryStore
+
       .menuStore
          .q-btn-dropdown
             .q-btn__wrapper:before

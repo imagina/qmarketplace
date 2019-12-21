@@ -159,7 +159,6 @@
             this.echo.channel('global')
                 .listen(`.conversationsUserUpdated${this.$store.state.quserAuth.userData.id}`, response => {
                    this.getDataTable(true)
-                   console.warn(response.message.conversationId)
                 })
          },
 

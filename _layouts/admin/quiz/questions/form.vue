@@ -153,8 +153,6 @@
           this.loading.page = true
           const itemId = this.$clone(this.itemId)
 
-          console.log(pollIDP);
-          
           if (itemId) {
             //Params
             let params = {

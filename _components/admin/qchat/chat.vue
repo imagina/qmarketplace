@@ -347,7 +347,6 @@
             })
             this.echo.channel('global')
                 .listen(`.notification_${this.$store.state.quserAuth.userData.id}_1`, message => {
-                   console.log(message);
                    this.messages.push(message.data)
                    this.animateScroll()
                 })

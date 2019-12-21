@@ -304,9 +304,7 @@
     },
     mounted () {
       this.$nextTick(function () {
-        this.initForm(),
-        console.log(this.$route.params.storeId);
-        console.log(this.$route.params);
+        this.initForm()
       })
     },
     data () {

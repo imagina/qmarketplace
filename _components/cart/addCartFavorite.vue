@@ -8,7 +8,7 @@
              :text-color="color"
       >
          <template v-slot:loading>
-            <q-spinner-facebook ></q-spinner-facebook>
+            <q-spinner-facebook></q-spinner-facebook>
          </template>
       </q-btn>
    </div>
@@ -22,8 +22,8 @@
          price: {default: 0},
          productId: {default: false},
          addCartDisable: {type: Boolean, default: true},
-         favorite:{type: Boolean, default: true},
-         color:{default:"white"}
+         favorite: {type: Boolean, default: true},
+         color: {default: "white"}
       },
       components: {},
       watch: {
@@ -82,18 +82,20 @@
                   color: 'positive',
                   ok: 'Ir al carrito',
                   cancel: 'Seguir comprando'
-               }).then(async data => {
-                  this.$router.push({name: 'shopping.cart.index'})
-               }).catch(() => {
+               }).onOk(() => {
+                  this.$router.push({name: 'marketplace.checkout', params:{storeId:this.storeData.id}})
+               }).onCancel(() => {
                   this.init()
                   this.loading = false
                })
+
             }).catch(error => {
                this.$alert.error(error)
                this.loading = false
             })
          },
          addFavorite() {
+
          }
       }
    }

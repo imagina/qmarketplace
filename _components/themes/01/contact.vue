@@ -57,7 +57,7 @@ export default {
     chat
   },
   mounted() {
-    console.warn('contact', this.storeData)
+
   },
   computed:{
     storeData(){

@@ -125,7 +125,6 @@
                this.template.options = this.$array.tree(response.data)
                this.loading = false
             }).catch(error => {
-               console.error(error)
                this.loading = false
             })
          },
@@ -147,9 +146,9 @@
                      color: 'positive',
                      ok: 'Ir al carrito',
                      cancel: 'Seguir comprando'
-                  }).then(async data => {
-                     this.$router.push({name: 'shopping.cart.index'})
-                  }).catch(() => {
+                  }).onOk(() => {
+                     this.$router.push({name: 'marketplace.checkout', params:{storeId:this.storeData.id}})
+                  }).onCancel(() => {
                      this.init()
                      this.loading = false
                   })

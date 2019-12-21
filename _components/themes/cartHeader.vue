@@ -1,34 +1,39 @@
 <template>
    <div id="cartHeader">
-      <q-btn-dropdown
-              split
-              push
-              :text-color="color"
+      <q-btn-dropdown :loading="loading"
+                      split
+                      push
+                      :text-color="color"
       >
          <template v-slot:label>
             <div class="row items-center no-wrap">
                <q-icon left name="fa fa-shopping-cart" :color="color"></q-icon>
-               <q-badge align="top" class="bg-store-secondary" floating>{{countProduct}}</q-badge>
+               <q-badge align="top" class="bg-store-secondary" floating>{{products.length}}</q-badge>
             </div>
          </template>
-         <div v-if="countProduct" class="row no-wrap q-pa-md">
+         <div class="row no-wrap q-pa-md" v-if="products.length">
             <div class="column">
                <q-list>
-                  <q-item class="q-my-sm" v-close-popup v-for="product in cart.products" :key="product.id">
+                  <q-item class="q-my-sm" v-close-popup v-for="product in products" :key="product.id">
                      <q-item-section avatar top>
-                        <q-avatar  rounded default text-color="white">
+                        <q-avatar rounded default text-color="white">
                            <img :src="product.mainImage.path" alt="">
                         </q-avatar>
                      </q-item-section>
                      <q-item-section top>
-                        <q-item-label  lines="1">
+                        <q-item-label lines="1">
                            <span class="text-weight-medium">{{product.name}}</span></q-item-label>
-                        <q-item-label class="text-right"><spam class="text-weight-medium">Cant.</spam>{{product.quantity}}</q-item-label>
-                        <q-item-label class="text-right text-weight-bold" color="primary">$ {{$n(product.total)}}</q-item-label>
+                        <q-item-label class="text-right">
+                           <spam class="text-weight-medium">Cant.</spam>
+                           {{product.quantity}}
+                        </q-item-label>
+                        <q-item-label class="text-right text-weight-bold" color="primary">$ {{$n(product.total)}}
+                        </q-item-label>
                      </q-item-section>
                      <q-item-section top side>
                         <div class="text-grey-8 q-gutter-xs">
-                           <q-btn @click="deleteProduct(product.id)" class="gt-xs" size="12px" flat dense round icon="delete" ></q-btn>
+                           <q-btn @click="deleteProduct(product)" class="gt-xs" size="12px" flat dense round
+                                  icon="delete"></q-btn>
                         </div>
                      </q-item-section>
                   </q-item>
@@ -59,16 +64,18 @@
    export default {
       name: 'CardUserComponent',
       props: {
-         color:{default:"white"}
+         color: {default: "white"}
       },
       data() {
          return {
-            countProduct:0
+            loading: false,
+            countProduct: 0
          }
       },
 
       mounted() {
          this.$nextTick(function () {
+            this.init()
          })
       },
 
@@ -78,24 +85,36 @@
             return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
          },
          cart() {
-            this.$store.dispatch('qmarketplaceCart/GET_CART', this.storeData.id);
-            let cart=this.$store.state.qmarketplaceCart.cart
-            if(cart.products) this.countProduct=cart.products.length;
-            return cart
+            return this.$store.state.qmarketplaceCart.cart
+         },
+         products() {
+            return this.cart && this.cart.products ? this.cart.products : []
          },
       },
       methods: {
-         async  deleteProduct(id) {
-               this.loading = true
-               this.$store.dispatch('qmarketplaceCart/DEL_PRODUCT_FROM_CART',id).then(response => {
+         async init() {
+            this.loading = true
+            await this.$store.dispatch('qmarketplaceCart/GET_CART', this.storeData.id);
+            this.loading = false
+         },
+         async deleteProduct(product) {
+            this.loading = true
+
+            this.$q.dialog({
+               title: `Esta seguro de eliminar  ${product.name} del carrito!`,
+               color: 'negative',
+               ok: 'Eliminar',
+               cancel: 'Cancelar'
+            }).onOk(() => {
+               this.$store.dispatch('qmarketplaceCart/DEL_PRODUCT_FROM_CART', product).then(response => {
                   this.$q.dialog({
                      title: 'Producto eliminado del carrito!',
                      color: 'negative',
                      ok: 'Ir al carrito',
                      cancel: 'Seguir comprando'
-                  }).then(async data => {
-                     this.$router.push({name: 'shopping.cart.index'})
-                  }).catch(() => {
+                  }).onOk(() => {
+                     this.$router.push({name: 'marketplace.checkout', params:{storeId:this.storeData.id}})
+                  }).onCancel(() => {
                      this.init()
                      this.loading = false
                   })
@@ -103,6 +122,11 @@
                   this.$alert.error(error)
                   this.loading = false
                })
+            }).onCancel(() => {
+               this.init()
+               this.loading = false
+            })
+
          },
       }
    }

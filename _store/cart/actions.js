@@ -65,7 +65,7 @@ export const UPDATE_PRODUCT_INTO_CART = ({commit, dispatch, state, rootState}, i
       if (cartId) {
          item.cartId = cartId
          crud.update('apiRoutes.qcommerce.cartProducts', item.id, item).then(response => {
-            dispatch('GET_CART', true)
+            dispatch('GET_CART', item.storeId)
             alert.success({message: "Producto Actualizado Exitosamente"})
             resolve(true)
          }).catch(error => {
@@ -76,12 +76,12 @@ export const UPDATE_PRODUCT_INTO_CART = ({commit, dispatch, state, rootState}, i
    })
 }
 
-export const DEL_PRODUCT_FROM_CART = ({commit, dispatch, state, rootState}, itemId) => {
+export const DEL_PRODUCT_FROM_CART = ({commit, dispatch, state, rootState}, item) => {
    return new Promise(async (resolve, reject) => {
       let cartId = state.cartId
       if (cartId) {
-         crud.delete('apiRoutes.qcommerce.cartProducts', itemId).then(response => {
-            dispatch('GET_CART', true)
+         crud.delete('apiRoutes.qcommerce.cartProducts', item.id).then(response => {
+            dispatch('GET_CART', item.storeId)
             alert.success({message: "Producto Borrado Exitosamente"})
             resolve(true)
          }).catch(error => {

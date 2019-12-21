@@ -210,9 +210,6 @@
             }
             //Request
             this.$crud.show(this.configName, itemId, params).then(response => {
-              
-              console.log(response.data)
-
               //Set response to form
               this.locale.form = this.$clone(response.data)
               this.loading.page = false

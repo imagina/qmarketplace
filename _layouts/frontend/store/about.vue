@@ -83,7 +83,7 @@
                               <q-item-section class="q-py-sm q-px-md text-h6">Síguenos en:</q-item-section>
                            </q-item>
                            <div v-for="(item,i) in store.social" :key="'social'+i">
-                              <q-item clickable :to="item.url">
+                              <q-item clickable @click.native="openUrl(item.url, '_blank')">
                                  <q-item-section avatar>
                                     <q-icon color="white" :name="item.icon"/>
                                  </q-item-section>
@@ -264,6 +264,9 @@
 
             })
          },
+         openUrl(url,target){
+            return window.open(url,target)
+         }
       }
 
    }
