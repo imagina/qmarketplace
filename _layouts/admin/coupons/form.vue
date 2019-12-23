@@ -1,8 +1,7 @@
 <template>
    <q-page class="bg-fondo store-page cupones">
      <q-form @submit="$route.params.id ? updateItem() : createItem()" ref="formContent"
-     @validation-error="$alert.error($tr('ui.message.formInvalid'))"
-     class="row q-col-gutter-x-md" autocomplete="off">
+     @validation-error="$alert.error($tr('ui.message.formInvalid'))" autocomplete="off">
       <div class="q-py-xl">
         <div class="q-container">
           <div class="row">
