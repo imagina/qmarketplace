@@ -1,7 +1,10 @@
 <template>
   <div id="pageId">
+    <div class="content-box">
+      <div class="text-h5 text-primary q-pb-md q-pl-lg font-family-secondary">Themas</div>
     <!---Component CRUD-->
     <crud :crud-data="import('@imagina/qmarketplace/_crud/themes')" />
+    </div>
   </div>
 </template>
 <script>

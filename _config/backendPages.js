@@ -12,7 +12,7 @@ export default {
   },
   // Super admin Stores
   themes: {
-    // permission: 'qmarketplace.stores.manage',
+    permission: 'marketplace.themes.manage',
     activated: true,//
     path: '/qmarketplace/themes/index',
     name: 'qmarketplace.admin.themes.index',//
@@ -23,7 +23,7 @@ export default {
     authenticated: true
   },
   categories: {
-     permission: 'marketplace.stores.manage',
+    permission: 'marketplace.stores.manage',
     activated: true,//
     path: '/qmarketplace/categories/index',
     name: 'qmarketplace.admin.categories.index',
@@ -50,7 +50,7 @@ export default {
     name: 'qmarketplace.admin.stores.create',
     page: () => import('@imagina/qmarketplace/_layouts/admin/stores/form'),
     layout: () => import('src/layouts/admin'),
-    title: 'qmarketplace.sidebar.adminStores',
+    title: 'qmarketplace.sidebar.adminMarketplace',
     icon: 'fas fa-store',
     authenticated: true,
   },
@@ -60,7 +60,7 @@ export default {
     name: 'qmarketplace.admin.stores.edit',
     page: () => import('@imagina/qmarketplace/_layouts/admin/stores/form'),
     layout: () => import('src/layouts/admin'),
-    title: 'qmarketplace.sidebar.adminStores',
+    title: 'qmarketplace.sidebar.adminMarketplace',
     icon: 'fas fa-store',
     authenticated: true,
   },
@@ -100,13 +100,11 @@ export default {
   //end Super admin Sores
   //Edit data of selected store
   myStore:{
-    //permission: 'qmarketplace.store.mystore',
+    permission: 'marketplace.stores.mystore',
     activated: true,
     path: '/admin/stores/my-store',
     name: 'qmarketplace.admin.stores.my.store',
     page: () => import('@imagina/qmarketplace/_layouts/admin/stores/formMyStore'),
-    // layout: () => import('src/layouts/master'),
-    // title: 'qmarketplace.sidebar.my.myStore',
     layout: () => import('src/layouts/admin'),
     title: 'qmarketplace.sidebar.business.myStore',
     icon: 'fas fa-store',
@@ -128,7 +126,7 @@ export default {
 
   //Products of selected store
   myStoreProducts: {
-    permission: 'marketplace.stores.mystore',
+    permission: 'marketplace.products.index',
     activated: true,
     path: '/admin/stores/my-store/products',
     name: 'qmarketplace.admin.stores.my.store.products',
@@ -140,7 +138,7 @@ export default {
   },
   //Create products of selected store
   myStoreProductCreate: {
-    permission: 'marketplace.stores.mystore',
+    permission: 'marketplace.products.create',
     activated: true,
     path: '/admin/stores/my-store/products/create',
     name: 'qmarketplace.admin.stores.business.products.create',
@@ -152,7 +150,7 @@ export default {
   },
   //Edit product of selected store
   myStoreProductEdit: {
-    permission: 'marketplace.stores.mystore',
+    permission: 'marketplace.products.edit',
     activated: true,
     path: '/admin/stores/my-store/products/edit/:id',
     name: 'qmarketplace.admin.stores.business.products.edit',
@@ -165,7 +163,7 @@ export default {
 
   //Product categories of selected store
   myStoreCategoryProducts: {
-    permission: 'marketplace.stores.mystore',
+    permission: 'marketplace.productcategories.index',
     activated: true,
     path: '/admin/stores/my-store/product/category',
     name: 'qmarketplace.admin.stores.myStore.productsCategory',
@@ -176,7 +174,7 @@ export default {
     authenticated: true
   },
   orders: {
-    permission: 'marketplace.stores.mystore',
+    permission: 'marketplace.orders.index',
     activated: true,
     path: '/admin/stores/my-store/orders',
     name: 'qmarketplace.admin.shipping.orders.index',
@@ -187,7 +185,7 @@ export default {
     authenticated: true,
   },
   order: {
-    permission: 'marketplace.stores.mystore',
+    permission: 'marketplace.orders.index.edit',
     activated: true,
     path: '/admin/stores/my-store/order/:id',
     name: 'qmarketplace.admin.shipping.orders.show',
@@ -198,7 +196,7 @@ export default {
     authenticated: true,
   },
   myStorePolls: {
-    permission: 'iquiz.polls.manage',
+    permission: 'marketplace.polls.index',
     activated: true,
     path: '/admin/stores/my-store/polls/index',
     name: 'qmarketplace.admin.polls.index',
@@ -209,7 +207,7 @@ export default {
     authenticated: true
   },
   myStoreQuestions: {
-    permission: 'iquiz.questions.manage',
+    permission: 'marketplace.questions.index',
     activated: true,
     path: '/admin/stores/my-store/poll/:id/questions/index',
     name: 'qmarketplace.admin.questions.index',
@@ -220,7 +218,7 @@ export default {
     authenticated: true
   },
   myStoreAnswers: {
-    permission: 'iquiz.answers.manage',
+    permission: 'marketplace.answers.index',
     activated: true,
     path: '/admin/stores/my-store/poll/:poll_id/question/:id/answers/index',
     name: 'qmarketplace.admin.answers.index',
@@ -242,7 +240,7 @@ export default {
     authenticated: true
   },
   coupons: {
-    permission: 'marketplace.stores.mystore',
+    permission: 'marketplace.coupons.index',
     activated: true,
     path: '/admin/stores/my-store/coupons',
     name: 'qmarketplace.admin.coupons.index',
@@ -253,7 +251,7 @@ export default {
     authenticated: true,
   },
   couponsCreate: {
-    permission: 'marketplace.stores.mystore',
+    permission: 'marketplace.coupons.create',
     activated: true,
     path: '/admin/stores/my-store/coupons/create',
     name: 'qmarketplace.admin.coupons.create',
@@ -264,7 +262,7 @@ export default {
     authenticated: true,
   },
   couponsEdit: {
-    permission: 'marketplace.stores.mystore',
+    permission: 'marketplace.coupons.edit',
     activated: true,
     path: '/admin/stores/my-store/coupons/:id',
     name: 'qmarketplace.admin.coupons.edit',
@@ -275,7 +273,7 @@ export default {
     authenticated: true,
   },
   myChatMessages: {
-    permission: 'marketplace.stores.mystore',
+    permission: 'marketplace.chat.index',
     activated: true,
     path: '/admin/stores/my-store/chat/messages',
     name: 'qchat.admin.messages.index',
@@ -287,7 +285,7 @@ export default {
   nyNotifications: {
     permission: 'marketplace.stores.mystore',
     activated: true,
-    path: '/admin/notifications',
+    path: '/admin/stores/my-store/notifications',
     name: 'notifications.index',
     page: () => import('@imagina/qmarketplace/_layouts/admin/notification/notifications'),
     layout: () => import('src/layouts/admin'),
@@ -296,9 +294,9 @@ export default {
   },
   //create
   myNotificationCreate: {
-    permission: 'marketplace.stores.mystore',
+    permission: 'marketplace.notification.index',
     activated: true,
-    path: '/admin/notifications/create',
+    path: '/admin/stores/my-store/notifications/create',
     name: 'notifications.create',
     page: () => import('@imagina/qmarketplace/_layouts/admin/notification/create'),
     layout: () => import('src/layouts/admin'),

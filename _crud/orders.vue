@@ -5,7 +5,7 @@
       crudData() {
         return {
           apiRoute: 'apiRoutes.qcommerce.orders',
-          permission: 'icommerce.orders',
+          permission: 'marketplace.orders',
           create: false,
           read: {
             columns: [

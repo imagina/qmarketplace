@@ -5,7 +5,7 @@
       crudData() {
         return {
           apiRoute: 'apiRoutes.qcommerce.coupons',
-          permission: 'icommerce.coupons',
+          permission: 'marketplace.coupons',
           create: {
             title: this.$tr('qcommerce.layout.newCoupon'),
             to : {
