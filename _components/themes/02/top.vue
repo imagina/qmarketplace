@@ -190,7 +190,7 @@
                   <chat color="store-primary" type="0"></chat>
                   <q-toolbar-title>
                   </q-toolbar-title>
-                  <q-btn flat round dense icon="fas fa-search" color="store-primary"/>
+                  <q-btn flat round dense @click="modal = !modal" icon="fas fa-search" color="store-primary"/>
                   <q-btn flat round dense icon="fas fa-heart" v-if="!followedStore" @click="followStore()"
                          color="white"/>
                  <cartHeader color="store-secondary" style="display: inline-block;"/>
@@ -223,6 +223,28 @@
       </div>
       <!-- Chat -->
 
+      <q-dialog v-model="modal">
+        <q-card class="bg-store-primary">
+          <q-card-section>
+            <div class="text-h6 text-white font-family-secondary">Buscador de Productos</div>
+          </q-card-section>
+
+          <q-card-section>
+            <q-input bg-color="white" filled
+                    placeholder="¿Qué buscas?"
+                    v-model="searchText"
+                    :keyup="search()"
+                    color="white">
+           </q-input>
+           <q-btn @click="searchProduct()" label="Buscar" no-caps class="text-bold full-width q-mt-sm" color="store-secondary"/>
+          </q-card-section>
+
+          <q-card-actions align="right">
+            <q-btn flat color="white" label="CERRAR" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+
    </div>
 </template>
 <script>
@@ -247,7 +269,8 @@
             loading: false,
             openChat: false,
             productsStore: [],
-            searchText: ''
+            searchText: '',
+            modal: false,
          }
       },
       mounted() {
@@ -437,6 +460,7 @@
 
          .q-placeholder
             color $storeSecondary
+            padding-left 2px
       @media screen and (max-width: $breakpoint-md)
          #store-logo
             font-size 250px
