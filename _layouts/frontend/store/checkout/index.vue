@@ -43,7 +43,7 @@
                                  <div class="col-xs-7 col-sm-6 col-md-6">
                                     <h6 class="text-primary font-family-secondary q-mt-sm q-mb-none">
                                        {{product.name}}</h6>
-                                    <div class="q-body-1 text-secondary q-mb-lg">{{product.product.summary}}</div>
+                                    <div class="q-body-1 text-secondary q-mb-lg">{{product.summary}}</div>
                                     <div class="q-subheading text-primary text-weight-bold q-mb-lg">$
                                        {{product.priceUnit}}
                                     </div>
@@ -338,6 +338,7 @@
    import {colors, AddressbarColor} from 'quasar'
 
    export default {
+      name: 'checkout-store',
       preFetch({store, currentRoute, previousRoute, redirect, ssrContext}) {
          return new Promise(async resolve => {
             //Get data post
@@ -383,14 +384,16 @@
       computed: {
          storeData() {
             let storeSlug = this.$route.params.slug
-            return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
-         },
-         products() {
-            return this.cart && this.cart.products ? this.cart.products : []
+            return this.$clone(this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data)
          },
          cart() {
-            return this.$store.state.qmarketplaceCart.cart
+            console.warn(this.$store.state.qmarketplaceCart.cart)
+            return this.$clone(this.$store.state.qmarketplaceCart.cart)
          },
+         products() {
+            return this.$clone(this.cart && this.cart.products ? this.cart.products : [])
+         },
+
       },
       data() {
          return {
@@ -488,12 +491,15 @@
       methods: {
          async init() {
             this.loading=true
-            await this.$store.dispatch('qmarketplaceCart/GET_CART', this.storeData.id);
             this.getProvinces();
             this.getAddresses();
             this.loading=false
          },
-
+         async initCart(){
+            this.loading = true
+            await this.$store.dispatch('qmarketplaceCart/GET_CART', this.storeData.id);
+            this.loading = false
+         },
          getAddresses() {
             let params = {
                remember: false,
@@ -652,6 +658,7 @@
          },
          updateCart(product) {
             this.loading = true
+            product.storeId=this.storeData.id
             this.$store.dispatch('qmarketplaceCart/UPDATE_PRODUCT_INTO_CART', product).then(response => {
                this.$q.dialog({
                   title: 'Producto Actualizado  en el carrito!',
@@ -673,6 +680,7 @@
                cancel: 'Cancelar'
             }).onOk(() => {
                this.loading = true
+               product.storeId=this.storeData.id
                this.$store.dispatch('qmarketplaceCart/DEL_PRODUCT_FROM_CART', product).then(response => {
                   this.$q.dialog({
                      title: 'Producto eliminado del carrito!',
@@ -685,7 +693,6 @@
                   this.loading = false
                })
             }).onCancel(() => {
-               this.init()
                this.loading = false
             })
          },

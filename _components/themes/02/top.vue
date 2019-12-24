@@ -306,6 +306,7 @@
                      search:this.searchText
                    }
                  })
+                  this.$store.dispatch('app/REFRESH_PAGE')
                }
              },
          getFollowedStore() {

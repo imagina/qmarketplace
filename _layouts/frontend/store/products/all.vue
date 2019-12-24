@@ -1,10 +1,10 @@
 <template>
-   <div class="">
+   <div class="searchProduct">
       <header-store></header-store>
       <div class="bg-fondo">
          <div class="q-container ">
             <div class="row q-col-gutter-lg q-py-lg">
-               <div class="col-md-12">
+               <div class="col-md-12 title">
                   <h2 class="text-primary text-center font-family-secondary q-mb-sm q-mx-lg">
                      Búsqueda de productos
                   </h2>
@@ -244,5 +244,12 @@
 
    .color-primary
       color: $secondary
-
+   @media screen and (max-width: $breakpoint-xs)
+      .searchProduct
+         .title
+            padding-top 0
+            h2
+               font-size 20px
+               margin-top 0
+               margin-bottom 0
 </style>

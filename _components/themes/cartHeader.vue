@@ -11,7 +11,7 @@
                <q-badge align="top" class="bg-store-secondary" floating>{{products.length}}</q-badge>
             </div>
          </template>
-         <div class="row no-wrap q-pa-md" v-if="products.length">
+         <div class="row no-wrap q-pa-md" id="productCartHeader" v-if="products.length">
             <div class="column">
                <q-list>
                   <q-item class="q-my-sm" v-close-popup v-for="product in products" :key="product.id">
@@ -24,7 +24,7 @@
                         <q-item-label lines="1">
                            <span class="text-weight-medium">{{product.name}}</span></q-item-label>
                         <q-item-label class="text-right">
-                           <spam class="text-weight-medium">Cant.</spam>
+                           <span class="text-weight-bold">Cant.</span>
                            {{product.quantity}}
                         </q-item-label>
                         <q-item-label class="text-right text-weight-bold" color="primary">$ {{$n(product.total)}}
@@ -38,6 +38,11 @@
                      </q-item-section>
                   </q-item>
                   <q-separator spaced></q-separator>
+                  <q-item class="q-my-md text-right">
+                        <div class="text-grey-8 q-gutter-xs">
+                           <q-item-label class="text-weight-bold total" color="primary"><span class="text-primary">Total a Pagar: </span>$ {{$n(cart.total)}}</q-item-label>
+                        </div>
+                  </q-item>
                   <q-item class="q-my-sm">
                      <q-btn
                              @click="$router.push({name: 'marketplace.checkout', params:{storeId:storeData.id}})"
@@ -69,7 +74,6 @@
       data() {
          return {
             loading: false,
-            countProduct: 0
          }
       },
 
@@ -82,13 +86,13 @@
       computed: {
          storeData() {
             let storeSlug = this.$route.params.slug
-            return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
+            return this.$clone(this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data)
          },
          cart() {
-            return this.$store.state.qmarketplaceCart.cart
+            return this.$clone(this.$store.state.qmarketplaceCart.cart)
          },
          products() {
-            return this.cart && this.cart.products ? this.cart.products : []
+            return this.$clone(this.cart && this.cart.products ? this.cart.products : [])
          },
       },
       methods: {
@@ -106,18 +110,10 @@
                ok: 'Eliminar',
                cancel: 'Cancelar'
             }).onOk(() => {
+               this.loading = true
+               product.storeId=this.storeData.id
                this.$store.dispatch('qmarketplaceCart/DEL_PRODUCT_FROM_CART', product).then(response => {
-                  this.$q.dialog({
-                     title: 'Producto eliminado del carrito!',
-                     color: 'negative',
-                     ok: 'Ir al carrito',
-                     cancel: 'Seguir comprando'
-                  }).onOk(() => {
-                     this.$router.push({name: 'marketplace.checkout', params:{storeId:this.storeData.id}})
-                  }).onCancel(() => {
-                     this.init()
-                     this.loading = false
-                  })
+                 this.loading = false
                }).catch(error => {
                   this.$alert.error(error)
                   this.loading = false
@@ -135,8 +131,12 @@
 <style lang="stylus">
    #cartHeader
       .q-btn-group
-         box-shadow: none;
+         box-shadow: none
 
       .q-btn-dropdown__arrow
          display block !important
+
+   #productCartHeader
+      .total
+         font-size 15px !important
 </style>

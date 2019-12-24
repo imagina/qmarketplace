@@ -170,7 +170,7 @@
                <q-toolbar-title>
                </q-toolbar-title>
 
-               <q-btn flat round dense icon="fas fa-search" color="white"/>
+               <q-btn flat round dense @click="modal = !modal" icon="fas fa-search" color="white"/>
                <q-btn flat round dense icon="fas fa-heart" v-if="!followedStore" @click="followStore()" color="white"/>
                <cartHeader/>
             </q-toolbar>
@@ -222,6 +222,27 @@
       </q-dialog>
       <!-- Chat -->
 
+      <q-dialog v-model="modal">
+        <q-card class="bg-store-primary">
+          <q-card-section>
+            <div class="text-h6 text-white font-family-secondary">Buscador de Productos</div>
+          </q-card-section>
+
+          <q-card-section>
+            <q-input bg-color="white" filled
+                    placeholder="¿Qué buscas?"
+                    v-model="searchText"
+                    :keyup="search()"
+                    color="white">
+           </q-input>
+           <q-btn @click="searchProduct()" label="Buscar" no-caps class="text-bold full-width q-mt-sm" color="store-secondary"/>
+          </q-card-section>
+
+          <q-card-actions align="right">
+            <q-btn flat color="white" label="CERRAR" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
 
    </div>
 </template>
@@ -247,7 +268,8 @@ export default {
       openChat:false,
       searchText:'',
       conversationId:null,
-      productsStore:[]
+      productsStore:[],
+       modal: false,
     }
   },
   mounted() {
@@ -344,7 +366,6 @@ export default {
         this.$alert.error({message: error.response.data.errors, pos: 'bottom'})
       });
     },//ratingStore
-
       }
    }
 </script>

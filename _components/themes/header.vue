@@ -19,7 +19,7 @@
    import {colors, AddressbarColor} from 'quasar'
 
    export default {
-      name: 'headerStore',
+      name: 'header-store',
       components: {
          header1,
          header2,
@@ -51,7 +51,6 @@
 <style lang="stylus">
    .headerStore
       background $primaryStore
-
       .menuStore
          .q-btn-dropdown
             .q-btn__wrapper:before
