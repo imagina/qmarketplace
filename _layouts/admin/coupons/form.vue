@@ -120,6 +120,16 @@
                     type="radio"
                     v-model="requerimientos"
                   />
+
+                  <p v-if="requerimientos=='2'" class="caption q-mb-md">Ingrese el monto mínimo:</p>
+
+                  <q-input v-if="requerimientos=='2'" v-model="form.minimumAmount" color="primary" class="codigo" outlined placeholder="lorem ipsum" />
+
+                  <p v-if="requerimientos=='3'" class="caption q-mb-md">Ingrese la cantidad mínima de productos:</p>
+
+                  <q-input v-if="requerimientos=='3'" v-model="form.minimumQuantityProducts" color="primary" class="codigo" outlined placeholder="lorem ipsum" />
+
+
                 </q-card-section>
               </q-card>
 
@@ -302,7 +312,9 @@
             quantityTotal: 0,
             quantityTotalCustomer: 0,
             status: 1,
-            selectedUsers:[]
+            selectedUsers:[],
+            minimumQuantityProducts:0,
+            minimumAmount:0
           },
 
         }
@@ -335,10 +347,15 @@
             .then(response => {
               Object.assign(this.form, { ...response.data })
               setTimeout(() => {
-                this.form.productId = response.data.productId
-                this.form.categoryId = response.data.categoryId
+                this.form.productId = response.data.productId;
+                this.form.categoryId = response.data.categoryId;
                 this.loading = false
-              }, 1000)
+              }, 1000);
+              if(response.data.minimumAmount>0)
+              this.requerimientos='2';
+              if(response.data.minimumQuantityProducts!=0)
+              this.requerimientos='3';
+
             }).catch(error => {
             this.$alert.error({ message: this.$tr('ui.message.errorRequest'), pos: 'bottom' })
             this.loading = false
