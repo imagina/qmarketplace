@@ -26,7 +26,7 @@ export default [
    pages.qmarketplace.favoriteUsers, // Seguidores
    pages.qmarketplace.coupons, // Coupons
    pages.qmarketplace.myChatMessages,
-   pages.qmarketplace.nyNotifications
+   pages.qmarketplace.myNotifications
 
 
 ]

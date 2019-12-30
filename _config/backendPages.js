@@ -282,8 +282,8 @@ export default {
     title: 'qchat.sidebar.adminMessages',
     icon: 'far fa-comments',
   },
-  nyNotifications: {
-    permission: 'marketplace.stores.mystore',
+  myNotifications: {
+    permission: 'marketplace.notification.index',
     activated: true,
     path: '/admin/stores/my-store/notifications',
     name: 'notifications.index',
@@ -293,15 +293,4 @@ export default {
     icon: 'fas fa-bell'
   },
   //create
-  myNotificationCreate: {
-    permission: 'marketplace.notification.index',
-    activated: true,
-    path: '/admin/stores/my-store/notifications/create',
-    name: 'notifications.create',
-    page: () => import('@imagina/qmarketplace/_layouts/admin/notification/create'),
-    layout: () => import('src/layouts/admin'),
-    title: 'qnotification.sidebar.Create',
-    icon: 'fas fa-chart-bar'
-  },
-
 }

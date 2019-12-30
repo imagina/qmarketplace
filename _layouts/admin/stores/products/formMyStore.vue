@@ -455,7 +455,7 @@
         await this.getData().catch(error => {})//Get Data Item
         await this.getCategories().catch(error => {})//Get categories
         this.success = true//Activate status of page
-        this.updateOptions
+        this.updateOptions()
         this.loading = false
       },
       //Get product categories
