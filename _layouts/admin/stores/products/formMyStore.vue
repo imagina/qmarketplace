@@ -444,6 +444,7 @@
     methods: {
       //Init Form
       async initForm () {
+        console.log('asdada');
         this.loading = true
         this.success = false//Disable status of page
         this.vTab = 'tab-data'
