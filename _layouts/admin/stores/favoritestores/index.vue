@@ -70,9 +70,7 @@
                        <q-btn flat color="primary" class="text-bold" label="+ Ver Perfil" @click="openProfile(result.user)" />
                     </div>
                   </q-card-section>
-
                 </q-card>
-
                 <q-dialog v-model="card.open">
                     <card-user :card="card"></card-user>
                 </q-dialog>
@@ -191,7 +189,6 @@ export default {
 
       this.$crud.index("apiRoutes.qmarketplace.favoriteStore",params).then(response => {
         this.favoriteUsers = response.data
-
       }).catch(error => {
         console.error("ERROR - GET USERS FROM FAVORITE STORES")
         this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
@@ -239,8 +236,10 @@ export default {
 
     },
     openProfile(result) {
+      console.warn(result)
       this.card.open = true;
       this.card.info = result;
+      this.card.info.fields=this.$helper.convertToFrontField(this.card.info.fields);
     }
 
   }

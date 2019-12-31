@@ -52,7 +52,7 @@
                            </template>
                         </q-select>
                      </div>
-                     <div class="col-xs-12 col-sm-4 q-px-sm filters">
+                     <div class="col-xs-12 col-sm-4 q-px-sm filters" v-if="$auth.hasAccess('marketplace.notification.create')">
                        <create-notification/>
                      </div>
                      <div class="col-sm-4 text-right q-pt-md q-px-sm" v-if="false">
@@ -113,6 +113,7 @@
 <script>
    import http from "axios"
    import createNotification from "@imagina/qmarketplace/_components/admin/notifications/create"
+   import Echo from "laravel-echo";
 
    export default {
       props: {},
@@ -153,6 +154,7 @@
       methods: {
          async init() {
             await this.getNotifications()
+            await this.initPusher()
          },
          //Get users with infinite scroll
          getNotifications() {
@@ -245,7 +247,6 @@
                },
             }
 
-
             this.$q.dialog({
                title: 'Esta  seguro de Marcar todas las Notificaciones como Leidas!',
                color: 'negative',
@@ -293,7 +294,20 @@
             }).onCancel(() => {
                this.loading = false
             })
-         }
+         },
+
+         initPusher() {
+            this.echo = new Echo({
+               broadcaster: env('BROADCAST_DRIVER', 'pusher'),
+               key: env('PUSHER_APP_KEY'),
+               cluster: env('PUSHER_APP_CLUSTER'),
+               encrypted: env('PUSHER_APP_ENCRYPTED'),
+            })
+            this.echo.channel('imagina.notifications')
+                .listen(`.notification.new.${this.$store.state.quserAuth.userData.id}`, response => {
+                   this.getNotifications()
+                })
+         },
       }
    }
 </script>
