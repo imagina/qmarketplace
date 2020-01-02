@@ -50,7 +50,7 @@
                <span class="text-primary text-weight-bold q-px-xs">Equipo favorito:</span>
                {{card.info.fields.favoriteTeam.value}}
             </div>
-            <div class="q-mt-md" v-if="card.info.fields.leisures.value.length">
+            <div class="q-mt-md" v-if="card.info.fields.leisures">
                <div class="text-subtitle2 text-grey ellipsis">
                   <span class="text-primary text-weight-bold q-px-xs">Pasatiempos</span>
                </div>
@@ -59,7 +59,7 @@
                </q-chip>
 
             </div>
-            <div class="q-mt-md" v-if="card.info.fields.promotions.length">
+            <div class="q-mt-md" v-if="card.info.fields.promotions">
                <div class="text-subtitle2 text-grey ellipsis">
                   <span class="text-primary text-weight-bold q-px-xs">De qué te gustaría recibir promoción</span>
                </div>
@@ -129,6 +129,8 @@
                   <q-btn icon="phone" label="Stacked" stack flat />
                   <q-btn icon="phone" label="Stacked" stack flat />
                 </q-card-actions-->
+          <!--Inner loading-->
+          <inner-loading :visible="loading"/>
       </q-card>
 
 
@@ -137,6 +139,7 @@
 <script>
    import chat from '@imagina/qmarketplace/_components/info/chat'
    import notification from '@imagina/qmarketplace/_components/info/notification'
+   import http from "axios"
 
    export default {
       name: 'CardUserComponent',
@@ -150,19 +153,31 @@
          chat,
          notification
       },
+      mounted() {
+        this.$nextTick(function () {
+            this.init()
+        })
+      },
       data() {
          return {
             pointsAvailables: 0,
             userSelect: [],
             openModalChat: false,
             openModalNotific: false,
+            loading: false,
          }
       },
       methods: {
+        async init() {
+
+          await this.getPointsUser()
+
+        },
          getPointsUser() {
             return new Promise((resolve, reject) => {
-
+               
                this.pointsAvailables = 0
+               this.loading = true
 
                //Params
                let params = {
@@ -180,10 +195,13 @@
                       if (response.data.data.points > 0)
                          this.pointsAvailables = response.data.data.points
 
+                      this.loading = false
                       resolve(true);
 
                    })
                    .catch(error => {
+
+                      this.loading = false
                       reject(error);
                    });
             })
