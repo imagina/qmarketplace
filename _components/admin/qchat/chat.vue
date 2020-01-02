@@ -1,6 +1,6 @@
 <template>
    <div>
-      <q-card id="qchat" class="qchat"  v-if="conversationId>0">
+      <q-card id="qchat-admin" class="qchat"  v-if="conversationId>0">
          <q-bar>
             <div class="cursor-pointer">
                <q-avatar>
@@ -358,7 +358,7 @@
    }
 </script>
 <style lang="stylus">
-   .qchat
+   #qchat-admin
       display block
       border-radius: 20px 0 0 20px;
 
