@@ -12,7 +12,7 @@
 </template>
 <script>
   export default {
-    props: { items: { default: [] } },
+    props: ['items'],
     components: {},
     watch: {},
     mounted () {
@@ -28,7 +28,7 @@
             name: 'created_at',
             label: 'Date',
             field: 'created_at',
-            format: val => val ? this.$d(this.$moment(val,"YYYY-MM-DD HH:mm").toDate(),'long',this.$locale.language) : "-",
+            format: val => val ? this.$d(this.$moment(val,"YYYY-MM-DD HH:mm").toDate(),'long',this.$i18n.locale) : "-",
             align: 'left'
           },
         ]
