@@ -39,6 +39,10 @@
                 format: val => val ? this.$tr('ui.label.enabled') : this.$tr('ui.label.disabled')
               },
               {
+                name: 'visible', label: "Visible", field: 'visible', align: 'left',
+                format: val => val==="1" ? "Visible" : "No visible"
+              },
+              {
                 name: 'Stock', label: this.$tr('ui.form.stock'), field: 'stockStatus', align: 'left',
                 format: val => val ? this.$tr('ui.label.available') : this.$tr('ui.label.soldOut')
               },
@@ -56,7 +60,8 @@
             requestParams: {
               include: 'category',
               filter:{
-                store: this.$store.state.qmarketplaceStores.storeSelected
+                store: this.$store.state.qmarketplaceStores.storeSelected,
+                visible:null
               }
             },
             filters: {
@@ -82,7 +87,7 @@
                 type: 'select',
                 isTranslatable: false,
               },
-              status: {
+              visible: {
                 props:{
                   rules: [
                     val => !!val || this.$tr('ui.message.fieldRequired')
