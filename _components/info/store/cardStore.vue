@@ -11,7 +11,7 @@
                <q-icon name="place" color="primary"/>
                {{card.info.address}}
             </div>
-            <q-rating v-model="card.info.averageRating"  readonly size="30px" color="amber-6"/>
+            <q-rating :v-model="card.info.averageRating"  readonly size="30px" color="amber-6"/>
             <div class="q-mt-md" v-if="card.info.categories.length">
                <q-chip color="tertiary" text-color="white" v-for="item in card.info.categories" :key="item.id">{{item.title}}</q-chip>
             </div>
@@ -59,16 +59,14 @@
 
    export default {
       name: 'card-store',
-      props: ['card'],
-
-      watch: {
-         card: async function (n) {
-            await this.getFollowedStore().catch(error=>{})
-         }
-      },
+      props: {card:{default:()=>{return {}}}},
+      watch: {},
       components: {
          chat,
          notification
+      },
+      mounted(){
+         this.getFollowedStore()
       },
       data() {
          return {
@@ -81,7 +79,6 @@
       },
       methods: {
         async getFollowedStore() {
-           console.warn('sdfdsfdsfsdf')
            this.loading = true
             this.$crud.index("apiRoutes.qmarketplace.favoriteStore", {
                params: {
@@ -91,6 +88,7 @@
                   }
                }
             }).then(response => {
+               console.warn(response)
                if (response.data.length > 0) {
                   this.followedStore = true;
                   this.loading = false
