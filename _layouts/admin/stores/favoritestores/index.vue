@@ -236,7 +236,6 @@ export default {
 
     },
     openProfile(result) {
-      console.warn(result)
       this.card.open = true;
       this.card.info = result;
       this.card.info.fields=this.$helper.convertToFrontField(this.card.info.fields);

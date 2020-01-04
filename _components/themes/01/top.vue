@@ -75,7 +75,7 @@
                                  <q-btn v-if="!followedStore" @click="followStore()" unelevated size="13px" round
                                         color="store-secondary" icon="far fa-thumbs-up"/>
                                  <q-btn v-else unelevated size="13px" round color="store-secondary"
-                                        icon="far fa-thumbs-up"/>
+                                        icon="far fa-handshake"/>
                                  <q-tooltip content-class="store-secondary" :offset="[10, 10]">
                                     <span v-if="!followedStore">Seguir Tienda</span>
                                     <span v-else>

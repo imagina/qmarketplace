@@ -14,7 +14,7 @@
                         <q-select
                                 outlined
                                 v-model="filter.entity"
-                                :options="optionsEntity"
+                                :options="$auth.hasAccess('marketplace.stores.mystore')?optionsEntity:optionsEntityUser"
                                 stack-label
                                 clearable
                                 @input="getNotifications()"
@@ -135,15 +135,23 @@
             notificationsRead: [],
             filter: {
                entity: null,
-               read: {label: 'No Leidas', value: false}
+               read: {label: 'No Leídas', value: false}
             },
             optionsEntity: [
-               {label: 'Notification', value: 'far fa-bell'},
+               {label: 'Notificación', value: 'far fa-bell'},
                {label: 'Chat', value: 'far fa-comments'},
                {label: 'Tienda', value: 'fas fa-store'},
-               {label: 'Noticia', value: 'far fa-newspaper'},
-               {label: 'Promociòn', value: 'fas fa-percent'},
-               {label: 'Cupon de descuento', value: 'fas fa-tag'}
+               {label: 'Noticias', value: 'far fa-newspaper'},
+               {label: 'Promoción', value: 'fas fa-percent'},
+               {label: 'Cupón de descuento', value: 'fas fa-tag'},
+               {label: 'Suscriptores', value: 'fas fa-users'}
+            ],
+            optionsEntityUser:[
+               {label: 'Notificación', value: 'far fa-bell'},
+               {label: 'Chat', value: 'far fa-comments'},
+               {label: 'Noticias', value: 'far fa-newspaper'},
+               {label: 'Promoción', value: 'fas fa-percent'},
+               {label: 'Cupón de descuento', value: 'fas fa-tag'},
             ],
             optionsRead: [
                {label: 'Leidas', value: true},

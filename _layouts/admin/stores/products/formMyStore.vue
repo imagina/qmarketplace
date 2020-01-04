@@ -82,12 +82,7 @@
                 v-model="locale.formTemplate.status"
                 placeholder=""
               />
-              <!--Category-->
-              <!-- <div class="input-title">
-                {{`${$tr('ui.form.category')}*`}}
-                <crud :crud-data="import('@imagina/qcommerce/_crud/productCategories')"
-                      just-create @created="getCategories"/>
-              </div> -->
+
               <tree-select
                 :clearable="false"
                 :append-to-body="true"
@@ -97,12 +92,6 @@
                 v-model="locale.formTemplate.categoryId"
                 placeholder=""
               />
-              <!--Categories-->
-              <!-- <div class="input-title">
-                {{`${$trp('ui.form.category')}`}}
-                <crud :crud-data="import('@imagina/qcommerce/_crud/productCategories')"
-                      just-create @created="getCategories"/>
-              </div> -->
               <recursive-list v-model="locale.formTemplate.categories"
                               :items="optionsTemplate.categories"/>
             </div>
