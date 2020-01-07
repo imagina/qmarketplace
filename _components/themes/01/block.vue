@@ -18,17 +18,8 @@
             <new-products :store="storeData"></new-products>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
-            <quiz system-name="home"></quiz>
-            <div class="banner-bottom q-mb-xl" style="background-image: url('/statics/img/theme-one/banner-bottom.jpg')">
-              <div class="row">
-                <div class="col-12 content">
-                  <div class="content text-center">
-                    <h4 class="q-my-md text-white">NUEVA <br> COLECCIÓN</h4>
-                    <q-btn  label="Comprar ahora" color="store-primary"/>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <quiz :system-name="`home-${storeData.id}`"/>
+            <qbanner :systemName="`home-${storeData.id}`" height="auto"/>
           </div>
         </div>
       </div>
@@ -48,6 +39,7 @@ import featuredProducts from '@imagina/qmarketplace/_components/themes/01/featur
 import newProducts from '@imagina/qmarketplace/_components/themes/01/newProducts'
 import quiz from '@imagina/qmarketplace/_components/themes/quiz'
 import share from '@imagina/qmarketplace/_components/themes/01/shareNetworks'
+import qbanner from '@imagina/qbanner/_components/frontend/qbanner'
 export default {
 
   components: {
@@ -56,7 +48,8 @@ export default {
     generalProducts,
     newProducts,
     quiz,
-    share
+    share,
+    qbanner
   },
   mounted() {
     /*

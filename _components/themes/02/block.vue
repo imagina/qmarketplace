@@ -11,25 +11,12 @@
             <mainProducts></mainProducts>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-4">
-            <quiz system-name="home"></quiz>
+            <quiz :system-name="`home-${storeData.id}`"/>
           </div>
         </div>
       </div>
     </div>
-
-    <div class="banner-two q-mb-xl" style="background-image: url('/statics/img/theme-two/conocenos.jpg');">
-      <div class="q-container">
-        <div class="row justify-center">
-          <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
-            <div class="content text-center">
-              <h4 class="q-my-md text-white">CONÓCENOS</h4>
-              <div class="text-white text-h6" v-html="store.description"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
+    <qbanner :systemName="`home-${storeData.id}`" height="auto"/>
     <!-- destacado  y compartir -->
     <div class="q-pa-md">
       <div class="q-container">
@@ -61,6 +48,7 @@ import mainProducts from '@imagina/qmarketplace/_components/themes/02/mainP'
 import quiz from '@imagina/qmarketplace/_components/themes/quiz'
 import share from '@imagina/qmarketplace/_components/themes/02/shareNetworks'
 import chat from '@imagina/qmarketplace/_components/qchat/chat'
+import qbanner from '@imagina/qbanner/_components/frontend/qbanner'
 export default {
   name: 'PageLayout2',
   components: {
@@ -69,7 +57,8 @@ export default {
     generalProducts,
     quiz,
     share,
-    chat
+    chat,
+    qbanner
   },
   data(){
     return {
@@ -82,7 +71,7 @@ export default {
     */
   },
   computed:{
-    store(){
+    storeData(){
       let storeSlug = this.$route.params.slug
       return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
     }

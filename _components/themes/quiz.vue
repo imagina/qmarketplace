@@ -4,10 +4,9 @@
       <div class="q-card-title bg-store-primary rounded-sm text-center text-white q-py-sm">
          ENCUESTA
       </div>
-
       <q-stepper ref="stepper"
-                 v-model="currentStep" class="no-shadow">
-         <q-step :name="question.id" :order="index" :title="question.title" v-for="(question, index) in poll.questions"
+                 v-model="currentStep" class="no-shadow" v-if="poll">
+         <q-step :name="question.id" :order="index" :title="question.title" v-for="(question, index) in poll.questions" v-if="poll.questions.length"
                  :key="index">
             <q-card-section>
 
@@ -62,11 +61,18 @@
 
 
          </q-step>
-
+         <q-card-section v-else class="q-py-xl">
+            <div class="font-family-secondary text-center">
+               No hay encuestas activas
+            </div>
+         </q-card-section>
          <q-inner-loading :visible="loading"/>
       </q-stepper>
-
-
+      <q-card-section v-else-if="!alertContent.active" class="q-py-xl">
+         <div class="font-family-secondary text-center">
+            No hay encuestas activas
+         </div>
+      </q-card-section>
       <!-- msj final -->
       <q-card-section v-if="alertContent.active && !showVotes" class="q-py-xl">
          <div class="font-family-secondary text-center">
