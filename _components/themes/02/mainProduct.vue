@@ -1,5 +1,5 @@
 <template>
-   <div>
+   <div class="q-mt-lg">
       <router-link
               :to="{name: 'stores.product.show',params:{slug: storeData.slug, product: product.slug}}">
       <q-img :ratio="1" :src="product.mainImage.path" :alt="product.name" />

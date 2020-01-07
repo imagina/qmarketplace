@@ -1,6 +1,6 @@
 <template>
    <div>
-      <div class="row">
+      <div class="row" v-if="$q.platform.is.desktop">
          <div class="col-12 relative-position">
             <div class="row">
                <div class="col-xs-12 col-sm-6 info-store">
@@ -33,7 +33,7 @@
             <div class="q-container info-tienda">
                <div class="row q-col-gutter-lg justify-end q-mx-sm">
                   <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 q-mb-lg rating">
-                     <div v-if="$q.platform.is.desktop">
+                     <div>
                         <q-card class="card-rounded text-center q-mb-sm">
                            <q-card-section class="full-height text-center" v-if="!followedStore">
                               Seguir Tienda
@@ -61,55 +61,13 @@
                               </q-card-actions>
                            </div>
                         </q-card>
-                     </div>
-                     <div v-else>
-                        <q-card class="card-rounded text-center q-mb-sm">
-                           <q-card-section class="full-height text-center" v-if="!followedStore">
-                              Seguir Tienda
-                           </q-card-section>
-                           <q-card-section class="full-height text-center" v-else>
-                              Ya sigues esa tienda
-                           </q-card-section>
-                           <div class="absolute-bottom text-right">
-                              <q-card-actions align="right">
-                                 <q-btn v-if="!followedStore" @click="followStore()" unelevated size="13px" round
-                                        color="store-secondary" icon="far fa-thumbs-up"/>
-                                 <q-btn v-else unelevated size="13px" round color="store-secondary"
-                                        icon="far fa-handshake"/>
-                                 <q-tooltip content-class="store-secondary" :offset="[10, 10]">
-                                    <span v-if="!followedStore">Seguir Tienda</span>
-                                    <span v-else>
-                              Ya sigues esa tienda
-                            </span>
-                                 </q-tooltip>
-                              </q-card-actions>
-                           </div>
-                        </q-card>
-
-                        <q-card class="card-rounded text-center">
-                           <q-card-section class="full-height text-center">
-                              {{storeData.averageRating}} de {{storeData.countRatings}} usuario(s)
-                           </q-card-section>
-                           <div class="absolute-bottom text-right">
-                              <q-card-actions align="right">
-                                 <q-btn unelevated size="13px" @click="ratingStore=true" round color="store-secondary"
-                                        icon="grade"/>
-                                 <q-tooltip content-class="store-secondary" :offset="[10, 10]">
-                                    {{storeData.averageRating}} de {{storeData.countRatings}} usuario(s)
-                                 </q-tooltip>
-                              </q-card-actions>
-
-                           </div>
-
-                        </q-card>
-
                      </div>
                   </div>
                </div>
             </div>
          </div>
          <div class="col-12 bg-store-primary menuStore">
-            <div class="q-container q-py-sm" v-if="$q.platform.is.desktop">
+            <div class="q-container q-py-sm">
               <div class="row items-center justify-center">
                 <div class="col">
                   <q-btn flat icon="fas fa-home" no-caps label="Inicio" color="white" @click="$router.push({name: 'stores.show', params : {slug:storeData.slug}})" />
@@ -147,11 +105,71 @@
                       </div>
                   </div>
                   <q-btn v-if="!followedStore" @click="followStore()" flat icon="fas fa-heart" color="white"/>
-                  <cartHeader style="display: inline-block;"/>
+                  <cartHeader style="display: inline-block;"/></cartHeader>
                 </div>
               </div>
             </div>
-            <q-toolbar class="bg-store-primary" v-else>
+         </div>
+      </div>
+      <!-- Mobile -->
+      <div class="row" v-else>
+         <div class="col-12">
+  
+            <full-width-gallery :storeName="storeData.name" :gallery="storeData.gallery"
+                                      system-name="principal"></full-width-gallery>
+
+            <div class="text-center" style="margin-top: -50px;">
+                <q-avatar size="100px" round class="bg-white mx-auto" >
+                  <img :src="storeData.logo.path">
+                </q-avatar>
+                <h1 class="text-h6">{{storeData.name}}</h1>
+            </div>
+
+            <div class="q-container info-tienda-mobile ">
+               <div class="q-mx-sm">
+                  <div class="text-center q-mb-lg rating">
+                    <q-card class="card-rounded text-center q-mb-sm">
+                       <q-card-section class="full-height text-center" v-if="!followedStore">
+                          Seguir Tienda
+                       </q-card-section>
+                       <q-card-section class="full-height text-center" v-else>
+                          Ya sigues esa tienda
+                       </q-card-section>
+                       <div class="absolute-bottom text-right">
+                          <q-card-actions align="right">
+                             <q-btn v-if="!followedStore" @click="followStore()" unelevated size="13px" round
+                                    color="store-secondary" icon="far fa-thumbs-up"/>
+                             <q-btn v-else unelevated size="13px" round color="store-secondary"
+                                    icon="far fa-handshake"/>
+                             <q-tooltip content-class="store-secondary" :offset="[10, 10]">
+                                <span v-if="!followedStore">Seguir Tienda</span>
+                                <span v-else>
+                          Ya sigues esa tienda
+                        </span>
+                             </q-tooltip>
+                          </q-card-actions>
+                       </div>
+                    </q-card>
+                    <q-card class="card-rounded text-center">
+                       <q-card-section class="full-height text-center">
+                          {{storeData.averageRating}} de {{storeData.countRatings}} usuario(s)
+                       </q-card-section>
+                       <div class="absolute-bottom text-right">
+                          <q-card-actions align="right">
+                             <q-btn unelevated size="13px" @click="ratingStore=true" round color="store-secondary"
+                                    icon="grade"/>
+                             <q-tooltip content-class="store-secondary" :offset="[10, 10]">
+                                {{storeData.averageRating}} de {{storeData.countRatings}} usuario(s)
+                             </q-tooltip>
+                          </q-card-actions>
+                       </div>
+                    </q-card>             
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-12 bg-store-primary menuStore">
+            <q-toolbar class="bg-store-primary">
                <q-btn flat round dense icon="fas fa-home"
                       @click="$router.push({name: 'stores.show', params : {slug:storeData.slug}})" color="white"/>
                <q-btn-dropdown lat icon="fas fa-bars" no-caps color="store-primary">
@@ -388,6 +406,18 @@ export default {
             .q-card__section
                padding-top 25px
                font-weight bold
+
+      .info-tienda-mobile
+         .card-rounded
+            background-color #ffffff
+            border-radius 20px 0 20px 0
+            color $storePrimary
+            height: 68px
+            width: 262px
+
+            .q-card__section
+               padding-top 25px
+               font-weight bold         
 
       .border-x
          .q-field__control

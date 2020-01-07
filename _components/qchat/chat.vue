@@ -26,7 +26,7 @@
       </q-btn>
       <q-btn flat icon="far fa-comment-dots" @click="openChat = !openChat" no-caps label="Chatea con la tienda"
              :color="color" v-else-if="$q.platform.is.desktop"/>
-      <q-btn flat round dense icon="far fa-comment-dots" @click="openChat = !openChat" color="white" v-else/>
+      <q-btn flat round dense icon="far fa-comment-dots" @click="openChat = !openChat" :color="color" v-else/>
 
       <q-card id="qchat" v-bind:class="[!openChat ? 'closeChat':'', minimize?'minimizeChat':'']"
               style="min-width: 300px;">

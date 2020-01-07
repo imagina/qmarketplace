@@ -2,7 +2,6 @@
    <div id="cartHeader">
       <q-btn-dropdown :loading="loading"
                       split
-                      push
                       :text-color="color"
       >
          <template v-slot:label>
