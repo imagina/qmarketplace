@@ -580,8 +580,10 @@ export default {
       // console.log(this.$store.state.qmarketplaceStores.storeSelected);
       // console.log(this.$store.getters['qmarketplaceStores/userStoresSelect']);
       if (this.$route.params.id) this.storeId = this.$route.params.id
+      // if (this.storeId) await this.getData()//Get data if is edit
+      // else await this.getSuscription();
+      await this.getSuscription();
       if (this.storeId) await this.getData()//Get data if is edit
-      else await this.getSuscription();
       this.loading=false;
     },
     validateRequiredData(){
