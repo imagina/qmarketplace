@@ -1,25 +1,27 @@
 <template>
-  <div class="q-mt-lg">
+  <div id="orderStatusComponent" class="q-pa-md">
     <p>
       <b>Nuevo estado</b>
     </p>
     <q-field
-      helper="Helper"
+      helper="Helper" 
       :error="$v.form.status.$error"
       error-label="We need a valid email">
-      Status
       <tree-select v-model="form.status" :options="statuses"/>
     </q-field>
 
-    <q-field
+    <p>
+      <b>Comentario</b>
+    </p>
+    <q-field 
       helper="Helper"
       :error="$v.form.comment.$error"
       error-label="We need a valid email">
-      <q-input rows="3" type="textarea" v-model="form.comment" label="Comment"/>
+      <q-input class="text-comment" rows="2" type="textarea" placeholder="Escribe aqui tu comentario" v-model="form.comment" />
     </q-field>
 
-    <div class="q-mt-md">
-      <q-btn label="save" color="primary" icon="save" @click="saveOrderHistoryStatus()"/>
+    <div class="q-mt-md text-right">
+      <q-btn label="Guardar" color="primary" icon="save" @click="saveOrderHistoryStatus()"/>
     </div>
 
   </div>
@@ -97,3 +99,11 @@
     }
   }
 </script>
+<style lang="stylus">
+#orderStatusComponent
+  .text-comment
+    width 100%
+    .q-field__native
+      padding-top 0
+</style>
+

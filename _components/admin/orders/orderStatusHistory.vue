@@ -1,6 +1,6 @@
 <template>
   <div id="orderStatusHistoryComponent">
-    <q-table
+    <q-table 
       :data="items"
       :columns="columns"
       :pagination="{
@@ -22,11 +22,11 @@
     data () {
       return {
         columns: [
-          { name: 'title', label: 'Status', field: row => row.status.title, align: 'left' },
-          { name: 'comment', label: 'comment', field: row => row.comment || '-', align: 'left' },
+          { name: 'title', label: 'Estado', field: row => row.status.title, align: 'left' },
+          { name: 'comment', label: 'Comentario', field: row => row.comment || '-', align: 'left' },
           {
             name: 'created_at',
-            label: 'Date',
+            label: 'Fecha',
             field: 'created_at',
             format: val => val ? this.$d(this.$moment(val,"YYYY-MM-DD HH:mm").toDate(),'long',this.$i18n.locale) : "-",
             align: 'left'
@@ -38,4 +38,9 @@
   }
 </script>
 <style lang="stylus">
+  #orderStatusHistoryComponent
+    table
+      thead
+        th
+          background-color $light
 </style>
