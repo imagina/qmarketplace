@@ -53,7 +53,7 @@
                         </q-select>
                      </div>
                      <div class="col-xs-12 col-sm-4 q-px-sm filters" v-if="$auth.hasAccess('marketplace.notification.create')">
-                       <create-notification/>
+                        <create-notification/>
                      </div>
                      <div class="col-sm-4 text-right q-pt-md q-px-sm" v-if="false">
                         <q-btn dense round icon="fas fa-eye" class="q-mr-sm q-pa-xs" size="10px" color="primary"
