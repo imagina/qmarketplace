@@ -27,7 +27,8 @@ export default [
    pages.qmarketplace.coupons, // Coupons
    pages.qmarketplace.myChatMessages,
    pages.qmarketplace.myNotifications,
-   pages.qmarketplace.myBannersIndex
+   pages.qmarketplace.myBannersIndex,
+   pages.qmarketplace.mySubscription
 
 
 ]

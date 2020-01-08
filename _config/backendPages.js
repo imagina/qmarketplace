@@ -336,6 +336,17 @@ export default {
     icon: 'fas fa-photo-video',
     authenticated: true,
   },
+  mySubscription: {
+    permission: 'marketplace.stores.mystore',
+    activated: true,
+    path: '/admin/stores/my-subscription',
+    name: 'qqmarketplace.admin.subscriptions.mysubscriptions',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/subscriptions/subscription.vue'),
+    layout: () => import('src/layouts/admin'),
+    title: 'qmarketplace.sidebar.business.mySubscription',
+    icon: 'fas fa-photo-video',
+    authenticated: true,
+  },
 
   //create
 }
