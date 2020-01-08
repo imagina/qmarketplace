@@ -655,7 +655,8 @@ export default {
           }
         }else{
           //If not have suscription - redirect to
-          this.$router.push({name:products.show,params:{slug:'tiendas-en-linea'}});
+          this.$alert.error({message: "Debes suscribirte a un plan", pos: 'bottom'})
+          this.$router.push({name:'products.show',params:{slug:'tiendas-en-linea'}});
           // this.company.themeId=1;
         }
       });
