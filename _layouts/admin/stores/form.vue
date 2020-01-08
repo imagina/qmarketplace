@@ -621,7 +621,7 @@ export default {
           }
         }
       };
-      this.$crud.index("apiRoutes.qsubscription.suscriptions",params).then(response => {
+      this.$crud.index("apiRoutes.qsubscription.subscriptions",params).then(response => {
         if(response.data.length>0){
           if(response.data[0].plan.id==6){
             //Null theme to get default about theme in front.
