@@ -1,5 +1,5 @@
 export default {
-  business : {
+   business: {
       myStore: "Mi tienda",
       theme: 'Diseño',
       products: 'Productos',
@@ -9,7 +9,8 @@ export default {
       order: 'Orden',
       cupons: 'Cupones de descuento',
       quiz: 'Encuestas',
-      banners: 'Publicidad'
+      banners: 'Publicidad',
+      mySubscription: 'Mis suscripciones'
    },
    adminMarketplace: "Tienda",
    adminTheme: 'Diseño',
