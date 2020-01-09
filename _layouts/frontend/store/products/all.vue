@@ -5,51 +5,10 @@
          <div class="q-container ">
             <div class="row q-col-gutter-lg q-py-lg">
                <div class="col-md-12 title">
-                  <h2 class="text-primary text-center font-family-secondary q-mb-sm q-mx-lg">
+                  <h1 class="text-primary text-center font-family-secondary text-h4 q-mb-sm q-mx-lg">
                      Búsqueda de productos
-                  </h2>
+                  </h1>
                </div>
-               <q-card class="q-mt-lg">
-                  <q-card-section>
-                     <div class="row">
-                        <div class="col-xs-12 col-md-6 q-px-sm">
-                           <q-item-label class="caption q-mb-xs">Categoría
-                              <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
-                                 <q-tooltip>
-                                    Selecciona una categoría para obtener sus productos
-                                 </q-tooltip>
-                              </q-btn>
-                           </q-item-label>
-                           <tree-select
-                                   :clearable="false"
-                                   :append-to-body="true"
-                                   class="q-mb-md"
-                                   filter="searchText"
-                                   :options="categories"
-                                   value-consists-of="BRANCH_PRIORITY"
-                                   v-model="categoryId"
-                                   placeholder=""
-                           />
-                        </div>
-                        <div class="col-xs-12 col-md-6 q-px-sm">
-                           <q-item-label class="caption q-mb-xs">Nombre
-                              <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
-                                 <q-tooltip>
-                                    Puedes buscar por las iniciales de un producto
-                                 </q-tooltip>
-                              </q-btn>
-                           </q-item-label>
-                           <q-input dense @keydown.enter=getProducts() v-model="search" placeholder=""></q-input>
-                        </div>
-                     </div>
-
-                  </q-card-section>
-                  <q-card-actions>
-                     <q-btn @click="getProducts()" color="primary" icon="fas fa-search">
-                        Buscar
-                     </q-btn>
-                  </q-card-actions>
-               </q-card>
             </div>
          </div>
          <div class="q-container">
@@ -122,22 +81,22 @@
             },
          }
       },
-
-
       components: {
          product,
          footerStore,
          headerStore,
       },
       watch: {
-         $route(to, from) {
-            this.getProducts()
+         '$route.params.search': {
+            handler: function(search) {
+               this.init();
+            },
+            deep: true,
+            immediate: true
          }
       },
       mounted() {
-         this.$nextTick(() => {
-            this.init()
-         })
+         this.init();
       },
       data() {
          return {
@@ -159,65 +118,49 @@
          storeData() {
             let storeSlug = this.$route.params.slug
             return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
-         }
+         },
       },
       methods: {
          //Init
-         init() {
-            this.loading = true
-            this.search = this.$route.params.search;
-            this.getProducts()//Get products
-            this.getProductCategories()//Get products
-            this.loading = false
+         async init() {
+           this.loading=true
+            await this.getProducts()//Get products
+            this.loading=false
          },
          // Get all products by category :slug
          getProducts() {
-            this.loading = true
-            let params = {
-               params: {
-                  filter: {
-                     // categorySlug: this.$route.params.category,
-                     storeSlug: this.$route.params.slug,
-                     locale: 'es',
-                     search: this.search
-                  },
-                  take: this.paginate.take,
-                  page: this.paginate.page,
-               }
-            }
-            if (this.categoryId) {
-               params.params.filter.categories = [this.categoryId]
-            }
-
-            icommerceService.crud
-                .index('apiRoutes.qcommerce.products', params)
-                .then(response => {
-                   this.paginate.maxPages = response.meta.page.lastPage
-                   this.products = response.data
-                   this.loading = false
-                })
-                .catch(error => {
-                   this.$alert.error({message: 'Failed: ' + error, pos: 'bottom'})
-                   this.loading = false
-                })//
-         },
-         getProductCategories() {
-            let params = {
-               params: {
-                  filter: {
-                     'store': this.storeData.id
+            return new Promise((resolve, reject) => {
+               this.loading = true
+               let params = {
+                  params: {
+                     filter: {
+                        storeSlug: this.$route.params.slug,
+                        locale: 'es',
+                        search:  this.$route.params.search
+                     },
+                     take: this.paginate.take,
+                     page: this.paginate.page,
                   }
                }
-            }
-            this.loading = true
-            this.$crud.index('apiRoutes.qcommerce.categories', params).then(response => {
-               this.categories = this.$array.tree(response.data);//
-               this.loading = false
-            }).catch(error => {
-               this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
-               this.loading = false
+               if (this.categoryId) {
+                  params.params.filter.categories = [this.categoryId]
+               }
+               this.$crud.index('apiRoutes.qcommerce.products', params)
+                   .then(response => {
+                      this.paginate.maxPages = response.meta.page.lastPage
+                      this.products = response.data
+                      this.loading = false
+                      resolve(true);
+                   })
+                   .catch(error => {
+                      this.$alert.error({message: 'Failed: ' + error, pos: 'bottom'})
+                      this.loading = false
+                      reject(false)//Resolve
+                   })//
+
             })
-         },
+
+         }
       }
    }
 
@@ -244,10 +187,12 @@
 
    .color-primary
       color: $secondary
+
    @media screen and (max-width: $breakpoint-xs)
       .searchProduct
          .title
             padding-top 0
+
             h2
                font-size 20px
                margin-top 0

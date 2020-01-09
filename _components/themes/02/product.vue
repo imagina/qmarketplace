@@ -9,7 +9,7 @@
       <q-card-section class="card-title bg-store-primary adri">
          <q-list>
             <q-item>
-               <q-item-section><h5 class="q-my-none text-white">${{product.price}}</h5></q-item-section>
+               <q-item-section><h5 class="q-my-none text-white">${{$n(product.price)}}</h5></q-item-section>
                <q-item-section avatar>
                   <add-cart-favorite :favorite="true" :addCartDisable="false" color="white"></add-cart-favorite>
                </q-item-section>

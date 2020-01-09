@@ -25,7 +25,7 @@
                </div>
                <div class="col-xs-12 col-sm-6 slider-store">
                   <full-width-gallery :storeName="storeData.name" :gallery="storeData.gallery"
-                                      system-name="principal"></full-width-gallery>
+                                      system-name="principal"/>
                </div>
             </div>
 
@@ -66,7 +66,7 @@
                </div>
             </div>
          </div>
-         <div class="col-12 bg-store-primary menuStore">
+         <div class="col-12 bg-store-primary menuStore" id="menuStore">
             <div class="q-container q-py-sm">
               <div class="row items-center justify-center">
                 <div class="col">
@@ -81,21 +81,20 @@
                     </q-list>
                   </q-btn-dropdown>
                   <q-btn @click="$router.push({name: 'stores.about', params : {slug:storeData.slug}})" flat icon="fas fa-map-marker-alt" no-caps label="Info Empresa" color="white"/>
-                  <chat color="white" type="0"></chat>
+                  <chat color="white" type="0"/>
                 </div>
                 <div class="col-auto">
                   <div class="q-inline-block q-px-sm border-x">
                     <q-input dense
-                      placeholder="¿Qué buscas?"
-                      v-model="searchText"
-                      :keyup="search()"
-                      class="bg-store-primary"
-                      outlined
-                             @keydown.enter=searchProduct()
+                               placeholder="¿Qué buscas?"
+                               v-model="searchText"
+                               class="bg-store-primary"
+                               outlined
+                               @keydown.enter=searchProduct()
                     >
-                      <template v-slot:append >
-                        <q-icon @click="searchProduct()" name="search" color="white"  pinter />
-                      </template>
+                    <template v-slot:append>
+                              <q-icon name="search" color="white" style="cursor: pointer" @click="searchProduct()"/>
+                           </template>
                       </q-input>
                       <div class="dropdown-content" :style="productsStore.length>0 ? 'display: block;' : ''">
                         <router-link v-for="(product,index) in productsStore"  :key="product.id" v-if="index<=4"
@@ -105,7 +104,7 @@
                       </div>
                   </div>
                   <q-btn v-if="!followedStore" @click="followStore()" flat icon="fas fa-heart" color="white"/>
-                  <cartHeader style="display: inline-block;"/></cartHeader>
+                  <cartHeader style="display: inline-block;"/>
                 </div>
               </div>
             </div>
@@ -116,7 +115,7 @@
          <div class="col-12">
   
             <full-width-gallery :storeName="storeData.name" :gallery="storeData.gallery"
-                                      system-name="principal"></full-width-gallery>
+                                      system-name="principal"/>
 
             <div class="text-center" style="margin-top: -50px;">
                 <q-avatar size="100px" round class="bg-white mx-auto" >
@@ -184,7 +183,7 @@
                </q-btn-dropdown>
                <q-btn @click="$router.push({name: 'stores.about', params : {slug:storeData.slug}})" flat
                       icon="fas fa-map-marker-alt" no-caps color="white"/>
-               <chat color="white" type="0"></chat>
+               <chat color="white" type="0"/>
                <q-toolbar-title>
                </q-toolbar-title>
 
@@ -250,7 +249,6 @@
             <q-input bg-color="white" filled
                     placeholder="¿Qué buscas?"
                     v-model="searchText"
-                    :keyup="search()"
                     color="white">
            </q-input>
            <q-btn @click="searchProduct()" label="Buscar" no-caps class="text-bold full-width q-mt-sm" color="store-secondary"/>
@@ -301,30 +299,15 @@ export default {
     }
   },
   methods:{
-    search(){
-      if(this.searchText!=""){
-        this.$crud.index("apiRoutes.qcommerce.products",{
-          params:{
-            filter:{
-              store: this.storeData.id,
-              search:this.searchText
-            }
-          }
-        }).then(response => {
-          this.productsStore=response.data;
-        });
-      }
-    },
     searchProduct(){
       if(this.searchText!=""){
-        this.$router.push({
+     this.$router.push({
           name: 'stores.products.all',
           params:{
             slug:this.storeData.slug,
             search:this.searchText
-          }
+          },
         })
-         this.$store.dispatch('app/REFRESH_PAGE')
       }
     },
     getFollowedStore(){

@@ -16,7 +16,7 @@
                          :max="5" @input="val => { rating() }"
                />
                <p class="q-my-none text-truncate"><small>{{product.tienda}}</small></p>
-               <h5 class="q-my-sm">${{product.price}}</h5>
+               <h5 class="q-my-sm">${{$n(product.price)}}</h5>
 
                <q-card-actions>
                   <q-btn @click="addCart" color="store-secondary" label="COMPRAR" icon="shopping_cart"/>

@@ -89,10 +89,11 @@
                            <q-input dense
                                     placeholder="¿Qué buscas?"
                                     v-model="searchText"
-                                    :keyup="search()"
+                                    @keydown.enter=searchProduct()
                                     color="white" outlined>
                               <template v-slot:append>
-                                 <q-icon @click="searchProduct()" name="search" class="text-bold" color="store-secondary"/>
+                                 <q-icon @click="searchProduct()" name="search" class="text-bold"
+                                         color="store-secondary"/>
                               </template>
                            </q-input>
 
@@ -107,7 +108,7 @@
                         <div class="line-vertical"></div>
                         <q-btn flat icon="fas fa-heart" color="store-secondary"/>
                         <div class="line-vertical"></div>
-                       <cartHeader color="store-secondary" style="display: inline-block;"> </cartHeader>
+                        <cartHeader color="store-secondary" style="display: inline-block;"></cartHeader>
                      </div>
                   </div>
                </div>
@@ -121,11 +122,11 @@
       <div class="row" v-else>
          <div class="col-12 bg-store-primary">
             <full-width-gallery :storeName="storeData.name" :gallery="storeData.gallery"
-                                      system-name="principal"></full-width-gallery>
+                                system-name="principal"></full-width-gallery>
             <div class="top-mobile" style="margin-top: -50px;">
                <div class="q-container">
-                  <div class="text-center" >
-                     <q-avatar size="100px" round class="bg-white mx-auto" >
+                  <div class="text-center">
+                     <q-avatar size="100px" round class="bg-white mx-auto">
                         <img :src="storeData.logo.path">
                      </q-avatar>
                      <h1 class="text-h6 text-white">{{storeData.name}}</h1>
@@ -191,11 +192,10 @@
                      <q-btn flat round dense @click="modal = !modal" icon="fas fa-search" color="store-primary"/>
                      <q-btn flat round dense icon="fas fa-heart" v-if="!followedStore" @click="followStore()"
                             color="white"/>
-                    <cartHeader color="store-secondary" style="display: inline-block;"/></cartHeader>
+                     <cartHeader color="store-secondary" style="display: inline-block;"/>
                   </q-toolbar>
 
                   <p class="text-h6 text-center text-italic text-white q-my-xl">{{storeData.slogan}} </p>
-
 
 
                </div>
@@ -212,45 +212,46 @@
 
       <!-- RATING STORE QDIALOG -->
       <q-dialog v-model="ratingStore" @hide="ratingStore=false;">
-        <q-card>
-           <q-card-section>
-              <div class="text-h6">Calificar tienda</div>
-           </q-card-section>
+         <q-card>
+            <q-card-section>
+               <div class="text-h6">Calificar tienda</div>
+            </q-card-section>
 
-           <q-card-section>
-              <q-rating size="20px"
-                        @input="val => { rating() }"
-                        v-model="storeData.averageRating"
-                        :max="5"
-              />
-           </q-card-section>
+            <q-card-section>
+               <q-rating size="20px"
+                         @input="val => { rating() }"
+                         v-model="storeData.averageRating"
+                         :max="5"
+               />
+            </q-card-section>
 
-           <q-card-actions align="right">
-              <q-btn flat label="OK" color="primary" v-close-popup/>
-           </q-card-actions>
-        </q-card>
+            <q-card-actions align="right">
+               <q-btn flat label="OK" color="primary" v-close-popup/>
+            </q-card-actions>
+         </q-card>
       </q-dialog>
       <!-- Buscador -->
       <q-dialog v-model="modal">
-        <q-card class="bg-store-primary">
-          <q-card-section>
-            <div class="text-h6 text-white font-family-secondary">Buscador de Productos</div>
-          </q-card-section>
+         <q-card class="bg-store-primary">
+            <q-card-section>
+               <div class="text-h6 text-white font-family-secondary">Buscador de Productos</div>
+            </q-card-section>
 
-          <q-card-section>
-            <q-input bg-color="white" filled
-                    placeholder="¿Qué buscas?"
-                    v-model="searchText"
-                    :keyup="search()"
-                    color="white">
-           </q-input>
-           <q-btn @click="searchProduct()" label="Buscar" no-caps class="text-bold full-width q-mt-sm" color="store-secondary"/>
-          </q-card-section>
+            <q-card-section>
+               <q-input bg-color="white" filled
+                        placeholder="¿Qué buscas?"
+                        v-model="searchText"
+                        @keydown.enter=searchProduct()
+                        color="white">
+               </q-input>
+               <q-btn @click="searchProduct()" label="Buscar" no-caps class="text-bold full-width q-mt-sm"
+                      color="store-secondary"/>
+            </q-card-section>
 
-          <q-card-actions align="right">
-            <q-btn flat color="white" label="CERRAR" v-close-popup />
-          </q-card-actions>
-        </q-card>
+            <q-card-actions align="right">
+               <q-btn flat color="white" label="CERRAR" v-close-popup/>
+            </q-card-actions>
+         </q-card>
       </q-dialog>
       <!-- -->
       <q-dialog v-model="infoStore" @hide="infoStore=false">
@@ -329,18 +330,17 @@
                   this.productsStore = response.data;
                });
             }
-         },    searchProduct(){
-               if(this.searchText!=""){
-                 this.$router.push({
-                   name: 'stores.products.all',
-                   params:{
-                     slug:this.storeData.slug,
-                     search:this.searchText
-                   }
-                 })
-                  this.$store.dispatch('app/REFRESH_PAGE')
-               }
-             },
+         }, searchProduct() {
+            if (this.searchText != "") {
+               this.$router.push({
+                  name: 'stores.products.all',
+                  params: {
+                     slug: this.storeData.slug,
+                     search: this.searchText
+                  }
+               })
+            }
+         },
          getFollowedStore() {
             this.$crud.index("apiRoutes.qmarketplace.favoriteStore", {
                params: {
@@ -407,6 +407,7 @@
          .q-container
             padding-left 15px
             padding-right 15px
+
       .dropdown-content
          display: none;
          position: absolute;

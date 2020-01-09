@@ -14,7 +14,7 @@
                   <q-card-section>
                      <p class="q-my-none text-truncate text-dark text-weight-bold">{{product.name}}</p>
                      <p class="q-my-none text-truncate"><small>{{storeName}}</small></p>
-                     <h5 class="q-my-sm text-store-primary">${{product.price}}</h5>
+                     <h5 class="q-my-sm text-store-primary">${{$n(product.price)}}</h5>
                      <q-rating size="20px"
                                @input="val => { rating() }"
                                v-model="product.averageRating"

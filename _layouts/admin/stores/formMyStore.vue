@@ -7,9 +7,9 @@
 
           <q-card class="rounded-md q-mb-xl">
 
-            <!--<q-card-actions align="right" no-caps class="q-px-lg q-pt-lg q-pb-none">
+           <q-card-actions align="right" no-caps class="q-px-lg q-pt-lg q-pb-none" v-if="storeId">
             <q-btn class="rounded-sm  font-family-secondary" no-caps color="primary" icon="fas fa-eye" label="Vista previa"/>
-          </q-card-actions> -->
+          </q-card-actions>
 
           <q-card-section class="q-pa-xl form-general">
 
@@ -577,11 +577,7 @@ export default {
       await this.getPaymentMethods();//
       await this.getShippingMethods();//
       this.storeId=this.$store.state.qmarketplaceStores.storeSelected;
-      // console.log(this.$store.state.qmarketplaceStores.storeSelected);
-      // console.log(this.$store.getters['qmarketplaceStores/userStoresSelect']);
       if (this.$route.params.id) this.storeId = this.$route.params.id
-      // if (this.storeId) await this.getData()//Get data if is edit
-      // else await this.getSuscription();
       await this.getSuscription();
       if (this.storeId) await this.getData()//Get data if is edit
       this.loading=false;
@@ -614,12 +610,6 @@ export default {
       }else if(this.company.schedules[0]==""){
         this.$alert.error({message: "Debe ingresar su horario de atención", pos: 'bottom'});
         return false;
-      // }else if(this.company.mediasSingle.isEmpty()){
-      //   this.$alert.error({message: "Debe cargar el logo de su tienda", pos: 'bottom'});
-      //   return false;
-      // }else if(this.company.mediasMulti.isEmpty()){
-      //   this.$alert.error({message: "Debe cargar al menos una imagén en su galería o slider", pos: 'bottom'});
-      //   return false;
       }else if(this.company.paymentMethods.length==0){
         this.$alert.error({message: "Debe seleccionar al menos un método de pago", pos: 'bottom'});
         return false;

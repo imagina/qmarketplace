@@ -15,7 +15,7 @@
          />
          <router-link
                  :to="{name: 'stores.product.show',params:{slug: storeData.slug, product: product.slug}}">
-            <h5 class="q-my-sm text-store-primary">${{product.price}}</h5>
+            <h5 class="q-my-sm text-store-primary">${{$n(product.price)}}</h5>
          </router-link>
          <p class="q-my-none text-truncate">{{product.name}}</p>
          <p class="q-my-none text-truncate"><small>{{storeData.name}}</small></p>
