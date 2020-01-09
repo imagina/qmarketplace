@@ -8,7 +8,7 @@
             <q-card class="rounded-md q-mb-xl full-width">
 
               <q-card-actions align="right" no-caps class="q-px-lg q-pt-lg q-pb-none">
-                <q-btn class="rounded-sm  font-family-secondary" no-caps color="primary" icon="fas fa-eye" label="Vista previa"/>
+                <q-btn v-if="store" @click="$router.push({name: 'stores.show',params:{'slug':store.slug}})" class="rounded-sm  font-family-secondary" no-caps color="primary" icon="fas fa-eye" label="Vista previa"/>
               </q-card-actions>
 
               <q-card-section class="q-px-xl form-general">
@@ -175,12 +175,13 @@ export default {
           let params = {
             refresh: true,
             params: {
-              include: 'categories',
+              include: '',
               filter: {allTranslations: true}
             }
           }
           //Request
           this.$crud.show(this.configName, itemId, params).then(response => {
+            this.store=response.data;
             this.options=response.data.options;
             if(response.data.themeId !== undefined)
             this.themeId=response.data.themeId;
