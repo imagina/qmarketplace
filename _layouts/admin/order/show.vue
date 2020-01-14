@@ -1,7 +1,7 @@
 <template>
-  <div id="pageId" class="q-layout-page layout-padding">
+  <div id="pageId" class="q-layout-page layout-order layout-padding">
     <!--TITLE-->
-    <h1 class="text-h5 text-primary q-mb-md font-family-secondary">
+    <h1 class="text-h5 text-primary q-mb-xl font-family-secondary">
       <q-icon v-if="$route.meta.icon" class="q-pr-sm" :name="$route.meta.icon"/>
        {{$tr($route.meta.title)}} N° {{this.$route.params.id}}
     </h1>
@@ -11,10 +11,10 @@
       <div class="col-12">
 
         <q-card class="rounded-sm">
-
+          <h3 class="title-label-order text-center bg-tertiary">
+            <div>Información</div>
+          </h3>
           <q-card-section class="q-pa-lg">
-            <div class="text-h6 font-family-secondary text-bold q-mb-md">{{$tr('qcommerce.layout.orderAccountInformation')}}</div>
-
             <div class="row">
               <div class="col-md-3">
                 <div class="text-bold">{{$tr('qcommerce.layout.orderStatus')}}</div>
@@ -35,21 +35,7 @@
               </div>
               <div class="col-md-9">{{order.ip}}</div>
             </div>
-
-          </q-card-section>
-        </q-card>
-
-
-      </div>
-
-      <div class="col-12">
-
-        <q-card class="rounded-sm">
-
-          <q-card-section class="q-pa-lg">
-            <div class="text-h6 font-family-secondary text-bold q-mb-md">{{$tr('qcommerce.layout.accountInformation')}}</div>
-
-            <div class="row">
+                    <div class="row">
               <div class="col-md-3">
                 <div class="text-bold">{{$tr('ui.form.name')}}</div>
               </div>
@@ -65,26 +51,11 @@
                 {{order.customer.email}}
               </div>
             </div>
-
-          </q-card-section>
-        </q-card>
-
-      </div>
-
-      <div class="col-12">
-
-        <q-card class="rounded-sm">
-          <q-card-section>
-            <div class="text-h6 font-family-secondary text-bold q-mb-md">{{$tr('qcommerce.layout.addressInformation')}}</div>
-          </q-card-section>
-
-          <q-card-section>
-
             <div class="row">
-              <div class="col-md-12">
+              <div class="col-md-3">
                 <b>{{$tr('qcommerce.layout.billingAddress')}}</b>
               </div>
-              <div class="col-md-12 q-mt-sm">
+              <div class="col-md-9">
                 {{order.shippingFirstName}},
                 {{order.shippingLastName}},
                 {{order.shippingAddress1}},
@@ -93,38 +64,32 @@
                 {{order.shippingCountry}}
               </div>
             </div>
-          </q-card-section>
-        </q-card>
-      </div>
-
-      <div class="col-12">
-
-        <q-card class="rounded-sm">
-          <q-card-section>
-            <div class="text-h6 font-family-secondary text-bold q-mb-md">{{$tr('qcommerce.layout.paymentShippingMethod')}}</div>
-          </q-card-section>
-
-          <q-card-section>
-
             <div class="row">
-              <div class="col-md-12">
+              <div class="col-md-3">
                 <b>{{$tr('qcommerce.layout.paymentInformation')}}</b>
               </div>
-              <div class="col-md-12 q-mt-sm">
+              <div class="col-md-9">
                 {{order.paymentMethod}}
               </div>
             </div>
+
           </q-card-section>
+
         </q-card>
       </div>
+
+
+
+
       <div class="col-12">
 
-        <q-card class="rounded-sm">
-          <q-card-section>
-            <div class="text-h6 font-family-secondary text-bold q-mb-md">{{$tr('qcommerce.layout.itemsOrdered')}}</div>
-          </q-card-section>
+        <q-card class="rounded-sm q-mt-lg">
+          <h3 class="title-label-order text-center bg-primary">
+            <div>{{$tr('qcommerce.layout.itemsOrdered')}}</div>
+          </h3>
 
-          <q-card-section>
+
+          <q-card-section class="q-mt-lg">
             <orderItems :items="order.items"/>
           </q-card-section>
 
@@ -172,11 +137,14 @@
 
       </div>
       <div class="col-12">
-        <q-card class="rounded-sm">
+        <q-card class="rounded-sm q-mt-lg">
+          <h3 class="title-label-order text-center bg-tertiary">
+            <div>{{$tr('qcommerce.layout.orderHistory')}}</div>
+          </h3>
           <q-card-section>
-            <q-btn class="float-right rounded-sm" color="primary" icon="fas fa-edit" label="Agregar estado" @click="modal = !modal" />
-            <div class="text-h6 font-family-secondary text-bold q-mb-md">{{$tr('qcommerce.layout.orderHistory')}}</div>
-            
+            <div class="text-right">
+            <q-btn class=" rounded-sm" color="primary" icon="fas fa-edit" label="Agregar estado" @click="modal = !modal" />
+            </div>
           </q-card-section>
 
           <q-card-section>
@@ -256,3 +224,43 @@ export default {
   }
 }
 </script>
+<style lang="stylus">
+.layout-order
+  .title-label-order
+    -webkit-transform skew(10deg)
+    transform skew(10deg)
+    border-radius 10px
+    padding 0px 30px
+    display inline-block
+    min-width 40%
+    margin -58px 0 10px 0
+    color #FFFFFF
+    font-size 20px
+    position relative
+    font-family $font-secondary
+    &:before
+      content ''
+      background-image url('/statics/img/arrow-down-blue.png')
+      position absolute
+      right -25px
+      width 100%
+      height 50px
+      background-repeat no-repeat
+      background-size contain
+      top 27px
+      background-position right
+    @media screen and (max-width: $breakpoint-md)
+      min-width 60%
+      font-size 20px
+      padding 0 15px
+      &:before
+          display none !important   
+    @media screen and (max-width: $breakpoint-sm)
+      min-width 60%
+      font-size 15px
+      padding 0 10px         
+    & > div
+      -webkit-transform  skew(-10deg)
+      transform skew(-10deg)      
+
+</style>
