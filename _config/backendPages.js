@@ -340,7 +340,7 @@ export default {
     permission: 'marketplace.stores.mystore',
     activated: true,
     path: '/admin/stores/my-subscription',
-    name: 'qqmarketplace.admin.subscriptions.mysubscriptions',
+    name: 'qmarketplace.admin.subscriptions.mysubscriptions',
     page: () => import('@imagina/qmarketplace/_layouts/admin/subscriptions/subscription.vue'),
     layout: () => import('src/layouts/admin'),
     title: 'qmarketplace.sidebar.business.mySubscription',

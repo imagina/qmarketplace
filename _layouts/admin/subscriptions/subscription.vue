@@ -145,7 +145,7 @@
                            </q-item-label>
                         </q-item-section>
                         <q-item-section side>
-                           <q-btn color="green" :to="{name:''}">Registrar Plan</q-btn>
+                           <q-btn color="green" :to="{name: 'products.show', params: {slug: 'tiendas-en-linea'}}">Registrar Plan</q-btn>
                         </q-item-section>
                      </q-item>
                   </q-card>
@@ -385,6 +385,7 @@
             })
          },
          renovate() {
+            this.$router.push({name: 'products.show', params: {slug: 'tiendas-en-linea'}})
          }
       }
    }
