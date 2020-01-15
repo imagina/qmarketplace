@@ -14,4 +14,6 @@ export default {
   storeHistory: `${urlBase}/store-history`,
   theme: `${urlBase}/theme`,
   favoriteStore: `${urlBase}/favorite-store`,
+  level: `${urlBase}/level`,
+  levelCriteria: `${urlBase}/level-criteria`,
 }

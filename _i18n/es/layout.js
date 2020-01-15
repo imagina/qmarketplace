@@ -6,6 +6,16 @@ export default {
   newTheme : 'Nuevo tema',
   editTheme : 'Editar tema',
   store : 'Tienda',
+  newLevel : 'Nuevo nivel',
+  newLevelCriteria : 'Nuevo criterio de nivel',
+  updateLevelCriteria : 'Actualizar criterio de nivel',
+  form:{
+    types:{
+        quantity:'Cantidad',
+        text:'Texto',
+        boolean:'Booleano',
+    }
+  }
 
 
 }

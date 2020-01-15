@@ -347,6 +347,18 @@ export default {
     icon: 'fas fa-photo-video',
     authenticated: true,
   },
+  levelsCriteria: {
+    permission: null,
+    // permission: 'marketplace.levelcriterias.index',
+    activated: true,
+    path: '/admin/level-criterias',
+    name: 'qmarketplace.admin.levels.criteria.index',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/levelsCriteria/index'),
+    layout: () => import('src/layouts/admin'),
+    title: 'qmarketplace.sidebar.adminLevelCriterias',
+    icon: 'fas fa-ticket-alt',
+    authenticated: true,
+  },
 
   //create
 }
