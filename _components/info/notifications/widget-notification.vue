@@ -9,7 +9,7 @@
          </template>
          <q-list class="bg-light">
             <!--  :to="{name: 'user.profile.me'}" -->
-            <q-item clickable v-ripple v-for="item in notificationData" :key="item.id">
+            <q-item clickable v-ripple v-for="item in notificationData" :key="item.id" :to="item.link">
                <q-item-section avatar>
                   <q-avatar color="red" text-color="white" :icon="item.icon"/>
                </q-item-section>
@@ -108,6 +108,13 @@
                    this.getNotifications()
                 })
          },
+         redirect(url){
+            let base= this.$route
+            let uri=window.location.href+'/#'+url
+            console.warn(base)
+            //return window.open(uri);
+
+         }
       }
    }
 </script>

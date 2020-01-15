@@ -69,16 +69,19 @@
                      <li v-for="(item,i) in notifications" :key="item.id">
                         <div class="row q-col-gutter-md items-center">
                            <div class="col text-truncate">
-                              <div class="row">
-                                 <div class="col-xs-12 col-md-2 col-xl-1 text-truncate">
-                                    <q-avatar color="red" text-color="white" :icon="item.icon"></q-avatar>
+                              <router-link :to="item.link" class="text-secondary">
+                                 <div class="row">
+                                    <div class="col-xs-12 col-md-2 col-xl-1 text-truncate">
+                                       <q-avatar color="red" text-color="white" :icon="item.icon"></q-avatar>
+                                    </div>
+                                    <div class="col-xs-12 col-md-10 col-xl-11 ">
+                                       <div class="row"><span class="text-primary text-bold ">{{item.title}}</span></div>
+                                       <div class="row">{{item.message}}</div>
+                                       <div class="row">{{item.timeAgo}}</div>
+                                    </div>
                                  </div>
-                                 <div class="col-xs-12 col-md-10 col-xl-11 ">
-                                    <div class="row"><span class="text-primary text-bold ">{{item.title}}</span></div>
-                                    <div class="row">{{item.message}}</div>
-                                    <div class="row">{{item.timeAgo}}</div>
-                                 </div>
-                              </div>
+                              </router-link>
+
                            </div>
                            <div class="col-auto">
                               <q-btn v-if="!item.isRead" dense round icon="fas fa-eye" class="q-mr-sm q-pa-xs"

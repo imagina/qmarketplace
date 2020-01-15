@@ -62,7 +62,7 @@
                            <q-item>
                               <q-item-section>
                                  <q-item-label><span class="text-weight-bold q-pa-sm">Fecha de de Inicio:</span> <span
-                                         class="text-weight-bold text-green q-pa-sm">{{$trd(subscription.endDate)}}</span>
+                                         class="text-weight-bold text-green q-pa-sm">{{$trd(subscription.initDate)}}</span>
                                  </q-item-label>
                               </q-item-section>
                               <q-item-section>
@@ -76,7 +76,10 @@
                            <q-btn color="green" @click="renovate()">
                               Renovar Plan
                            </q-btn>
-                        </q-item-section>
+
+                        </q-item-section><!-- <q-btn color="green" @click="modify()">
+                              Moficar plan
+                           </q-btn>-->
                         <q-item-section side v-if="!subscription.active">
                            <q-icon name="fas fa-exclamation-triangle" color="red" size="32px">
                               <q-tooltip content-class="bg-red" :offset="[10, 10]">
@@ -116,7 +119,7 @@
                            </div>
                            <div class="col-xs-12 col-sm-auto">
                                <span
-                                       class="text-weight-bold text-green q-pa-sm">{{$trd(subscription.endDate)}}</span>
+                                       class="text-weight-bold text-green q-pa-sm">{{$trd(subscription.initDate)}}</span>
                            </div>
 
                         </div>
@@ -385,7 +388,8 @@
             })
          },
          renovate() {
-            this.$router.push({name: 'products.show', params: {slug: 'tiendas-en-linea'}})
+            let storeId=this.$store.state.qmarketplaceStores.storeSelected;
+            this.$router.push({name: 'products.show', params: {slug: 'tiendas-en-linea'},query:{'storeId':storeId}})
          }
       }
    }
