@@ -18,6 +18,7 @@ export default {
    adminCategories: 'Categorías',
    adminThemes: 'Temas',
    adminFavoritestores: 'Seguidores',
-   products: 'Productos'
+   products: 'Productos',
+   adminLevelCriterias: 'Criterios de nivel',
 
 }
