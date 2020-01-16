@@ -92,10 +92,14 @@
               <q-card class="rounded-md bg-white q-mb-xl" v-if="form.options.criterias.length>0">
 
                 <q-card-section class="q-pa-lg">
-                  <div class="q-mt-sm q-mb-sm" v-for="criteriaOpt in form.options.criterias">
+                  <div class="q-mt-sm q-mb-sm" v-for="(criteriaOpt,indexCritOpt) in form.options.criterias">
                     <p class="caption q-mb-md">{{criteriaOpt.label}}
                     </p>
-                    <q-input v-if="criteriaOpt.type=='0'" v-model="criteriaOpt.value" color="primary" class="codigo" outlined placeholder="" />
+                    <q-input v-if="criteriaOpt.type=='0'" v-model="criteriaOpt.value" color="primary" class="codigo" outlined placeholder="">
+                      <template v-slot:append>
+                        <q-icon name="close" @click="form.options.criterias.splice(indexCritOpt)" class="cursor-pointer" />
+                      </template>
+                    </q-input>
                   </div>
 
                 </q-card-section>
