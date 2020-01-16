@@ -135,6 +135,9 @@
       .q-btn-dropdown__arrow
          display block !important
 
+      .q-btn-dropdown--split .q-btn-dropdown__arrow-container
+         border-left 0   
+
    #productCartHeader
       .total
          font-size 15px !important

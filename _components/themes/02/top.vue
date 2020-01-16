@@ -81,7 +81,7 @@
                                icon="fas fa-map-marker-alt" class="text-bold" label="Info Empresa"
                                color="store-primary"/>
                         <div class="line-vertical"></div>
-                        <chat color="store-primary" type="0"></chat>
+                        <chat class="chat" color="store-primary" type="0"></chat>
                      </div>
                      <div class="col-auto q-pr-md">
                         <div class="line-vertical"></div>
@@ -123,91 +123,117 @@
          <div class="col-12 bg-store-primary">
             <full-width-gallery :storeName="storeData.name" :gallery="storeData.gallery"
                                 system-name="principal"></full-width-gallery>
-            <div class="top-mobile" style="margin-top: -50px;">
+            <div class="top-mobile" style="margin-top: -75px;">
                <div class="q-container">
                   <div class="text-center">
-                     <q-avatar size="100px" round class="bg-white mx-auto">
+                     <q-avatar size="150px" round class="bg-white mx-auto">
                         <img :src="storeData.logo.path">
                      </q-avatar>
                      <h1 class="text-h6 text-white">{{storeData.name}}</h1>
-                  </div>
-
-                  <div class="bg-store-secondary">
-
-                     <div class="row">
-                        <div class="col border-movil">
-                           <q-card @click="ratingStore=true"
-                                   class="cursor-pointer full-height text-center bg-store-secondary no-shadow no-border-radius ">
-                              <q-card-section class="q-pa-sm text-white">
-                                 <div class="text-h6">
-                                    <q-icon color="white" size="30px" round name="grade"/>
-                                 </div>
-                                 <div class="text-body2">{{storeData.countRatings}} han calificado</div>
-                              </q-card-section>
-                           </q-card>
-                        </div>
-                        <div class="col border-movil">
-                           <q-card class="text-center bg-store-secondary no-shadow no-border-radius">
-                              <q-card-section class="q-pa-sm text-white">
-                                 <div class="text-h5">
-                                    <q-icon v-if="!followedStore" @click="followStore()" color="white" size="30px" round
-                                            name="far fa-thumbs-up"/>
-                                    <q-icon v-else color="white" size="30px" round name="far fa-thumbs-up"/>
-                                 </div>
-                                 <div v-if="!followedStore" class="text-body2"> Seguir Tienda</div>
-                                 <div v-else class="text-body2"> Ya sigues esta tienda</div>
-                              </q-card-section>
-                           </q-card>
-                        </div>
-                        <div class="col border-movil">
-                           <q-card class="text-center bg-store-secondary no-shadow full-height no-border-radius">
-                              <q-card-section class="q-pa-sm text-white">
-                                 <div class="text-h4">{{storeData.usersFollowing}}</div>
-                                 <div class="text-body2">Seguidores</div>
-                              </q-card-section>
-                           </q-card>
-                        </div>
-                     </div>
                   </div>
 
                   <q-toolbar class="bg-white shadow-4">
                      <q-btn flat round dense icon="fas fa-home"
                             @click="$router.push({name: 'stores.show', params : {slug:storeData.slug}})"
                             color="store-primary"/>
-                     <q-btn-dropdown flat icon="fas fa-bars" no-caps color="store-primary">
-                        <q-list>
-                           <q-item v-for="item in categories" :key="'category'+item.title" clickable v-close-popup
-                                   @click="$router.push({name: 'stores.product.index', params : {slug:storeData.slug,category:item.slug}})">
-                              <q-item-section>
-                                 <q-item-label>{{item.title}}</q-item-label>
-                              </q-item-section>
-                           </q-item>
-                        </q-list>
-                     </q-btn-dropdown>
-                     <q-btn @click="$router.push({name: 'stores.about', params : {slug:storeData.slug}})" flat
-                            icon="fas fa-map-marker-alt" no-caps color="store-primary"/>
-                     <chat color="store-primary" type="0"></chat>
                      <q-toolbar-title>
                      </q-toolbar-title>
-                     <q-btn flat round dense @click="modal = !modal" icon="fas fa-search" color="store-primary"/>
-                     <q-btn flat round dense icon="fas fa-heart" v-if="!followedStore" @click="followStore()"
-                            color="white"/>
-                     <cartHeader color="store-secondary" style="display: inline-block;"/>
+                     
+                     <q-btn flat round dense icon="fas fa-heart" v-if="!followedStore" @click="followStore()" color="store-primary"/>
+                     
+                    <cartHeader color="store-primary" style="display: inline-block;"> </cartHeader>
+                     <q-btn-dropdown flat round dense icon="more_vert" color="store-primary">
+                      <q-list class="q-py-sm">
+                        <q-item clickable v-close-popup @click="categoryModal = !categoryModal">
+                          <q-item-section avatar>
+                            <q-icon name="fas fa-bars" color="store-primary"  />
+                          </q-item-section>
+
+                          <q-item-section >
+                            <q-item-label class="text-subtitle1 text-bold">Categorias</q-item-label>
+                          </q-item-section>
+
+                        </q-item>
+                        <q-item clickable v-close-popup @click="$router.push({name: 'stores.about', params : {slug:storeData.slug}})">
+                          <q-item-section avatar>
+                            <q-icon name="fas fa-map-marker-alt" color="store-primary"  />
+                          </q-item-section>
+                          <q-item-section>
+                            <q-item-label class="text-subtitle1 text-bold">Info Empresa</q-item-label>
+                          </q-item-section>
+                        </q-item>
+                        <chat color="store-primary" type="4"></chat> 
+                        <q-item clickable v-close-popup @click="modal = !modal">
+                          <q-item-section avatar>
+                            <q-icon name="fas fa-search" color="store-primary"  />
+                          </q-item-section>
+                          <q-item-section>
+                            <q-item-label class="text-subtitle1 text-bold">¿Qué Buscas?</q-item-label>
+                          </q-item-section>
+                        </q-item>
+                        <q-item clickable v-close-popup @click="ratingStore=true">
+                          <q-item-section avatar>
+                            <q-icon name="grade" color="store-primary"  />
+                          </q-item-section>
+                          <q-item-section>
+                            <q-item-label class="text-subtitle1 text-bold"> {{storeData.countRatings}} han calificado</q-item-label>
+                          </q-item-section>
+                        </q-item>
+                        <q-item clickable v-close-popup v-if="!followedStore" @click="followStore()">
+                          <q-item-section avatar>
+                            <q-icon name="far fa-thumbs-up" color="store-primary"  />
+                          </q-item-section>
+                          <q-item-section>
+                            <q-item-label class="text-subtitle1 text-bold"> Seguir Tienda</q-item-label>
+                          </q-item-section>
+                        </q-item>
+                        <q-item clickable v-close-popup v-else>
+                          <q-item-section avatar>
+                            <q-icon name="far fa-handshake" color="store-primary"  />
+                          </q-item-section>
+                          <q-item-section>
+                            <q-item-label class="text-subtitle1 text-bold"> Ya sigues esta tienda</q-item-label>
+                          </q-item-section>
+                        </q-item>
+
+
+                      </q-list>
+                    </q-btn-dropdown>
                   </q-toolbar>
 
-                  <p class="text-h6 text-center text-italic text-white q-my-xl">{{storeData.slogan}} </p>
-
+                  <p class="text-h6 text-center text-italic text-white q-my-lg">{{storeData.slogan}} </p>
 
                </div>
-            </div>
-         </div>
-         <!--<div class="col-12 bg-store-primary menuStore menu-02">
-            <div class="q-container">
-   
+                <q-card class="text-center bg-store-secondary no-shadow full-height no-border-radius">
+                    <q-card-section class="q-pa-sm text-white">
+                       <div class="text-h4">{{storeData.usersFollowing}}</div>
+                       <div class="text-body2">Seguidores</div>
+                    </q-card-section>
+                 </q-card>
 
             </div>
-         </div> -->
+         </div>
       </div>
+
+      <!-- Categorias en movil-->
+      <q-dialog v-model="categoryModal">
+         <q-card>
+            <q-card-section>
+               <div class="text-h6">Categorias</div>
+            </q-card-section>
+
+            <q-card-section>
+              <q-list>
+                 <q-item v-for="item in categories" :key="'category'+item.title" clickable v-close-popup
+                         @click="$router.push({name: 'stores.product.index', params : {slug:storeData.slug,category:item.slug}})">
+                    <q-item-section>
+                       <q-item-label>{{item.title}}</q-item-label>
+                    </q-item-section>
+                 </q-item>
+              </q-list>
+            </q-card-section>
+         </q-card>
+      </q-dialog>
 
 
       <!-- RATING STORE QDIALOG -->
@@ -304,6 +330,7 @@
             productsStore: [],
             searchText: '',
             modal: false,
+            categoryModal:false,
          }
       },
       mounted() {
@@ -402,77 +429,83 @@
    }
 </script>
 <style lang="stylus">
-   .theme-layout-02
+    .theme-layout-02
+      .chat
+        .q-btn__content
+          text-transform uppercase
+          font-weight bold
       .top-mobile
-         .q-container
-            padding-left 15px
-            padding-right 15px
+        .q-container
+          padding-left 15px
+          padding-right 15px
+        .q-btn-dropdown__arrow
+          display none  
 
       .dropdown-content
-         display: none;
-         position: absolute;
-         background-color: #f9f9f9;
-         min-width: 160px;
-         box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-         padding: 12px 16px;
-         z-index: 1;
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        padding: 12px 16px;
+        z-index: 1;
 
       #store-logo
-         font-size 304px
-         margin 0 100px 47px 100px
+        font-size 304px
+        margin 0 100px 47px 100px
 
       .store-title
-         display inline-block
-         color $storePrimary
-         background #ffffff
-         max-width 250px
-         font-size 40px
-         padding 0 30px
-         border-radius 10%
-         line-height: normal !important
+        display inline-block
+        color $storePrimary
+        background #ffffff
+        max-width 250px
+        font-size 40px
+        padding 0 30px
+        border-radius 10%
+        line-height: normal !important
 
       .border-movil
-         border 3px solid #fff
+        border 3px solid #fff
 
       .border-slider
-         border 10px solid #fff
-         position relative
-         z-index 9
+        border 10px solid #fff
+        position relative
+        z-index 9
 
       .menu-02
-         min-height 300px
-         margin-top -150px
-         padding-top 150px
+        min-height 300px
+        margin-top -150px
+        padding-top 150px
 
-         .line-vertical
-            display inline-block
-            margin 1px
+        .line-vertical
+          display inline-block
+          margin 1px
 
-            &:before
-               position absolute
-               content ''
-               background $storePrimary
-               width 1px
-               height 27px
-               top 12px
+          &:before
+            position absolute
+            content ''
+            background $storePrimary
+            width 1px
+            height 27px
+            top 12px
 
       .info-tienda
-         position absolute
-         margin 0 auto
-         left 0
-         bottom 0
-         right 0
+        position absolute
+        margin 0 auto
+        left 0
+        bottom 0
+        right 0
 
-         .card-rounded
-            background-color $storeSecondary
-            border-radius 20px 0 20px 0
-            color #ffffff
-            border 5px solid #fff
-            width 150px
-            margin 5px auto
+        .card-rounded
+          background-color $storeSecondary
+          border-radius 20px 0 20px 0
+          color #ffffff
+          border 5px solid #fff
+          width 150px
+          margin 5px auto
 
-            .q-card-section
-               line-height 1.1rem
+          .q-card-section
+            line-height 1.1rem
 
          .card-circle
             background-color $storeSecondary

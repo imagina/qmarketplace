@@ -2,7 +2,7 @@
    <div style="display: inline-block">
       <q-item @click="openChat = !openChat" v-if="type==='1'" clickable>
          <q-item-section avatar class="q-mr-md">
-            <q-icon color="white" size="lg" name="far fa-comment-dots" />
+            <q-icon :color="color" size="lg" name="far fa-comment-dots" />
          </q-item-section>
          <q-item-section class="q-pb-lg">
             <div class="text-subtitle1 text-bold">
@@ -24,6 +24,16 @@
          <q-icon size="3em" color="white" name="far fa-comment-dots" />
          <div class="text-subtitle1 q-mt-sm">CHATEA AQUI CON LA TIENDA</div>
       </q-btn>
+      <q-item @click="openChat = !openChat" v-else-if="type==='4'" clickable>
+         <q-item-section avatar>
+            <q-icon :color="color" name="far fa-comment-dots" />
+         </q-item-section>
+         <q-item-section>
+            <div class="text-subtitle1 text-bold">
+               ¡Chatea con nosotros ahora!
+            </div>
+         </q-item-section>
+      </q-item>
       <q-btn flat icon="far fa-comment-dots" @click="openChat = !openChat" no-caps label="Chatea con la tienda"
              :color="color" v-else-if="$q.platform.is.desktop"/>
       <q-btn flat round dense icon="far fa-comment-dots" @click="openChat = !openChat" :color="color" v-else/>
@@ -340,7 +350,7 @@
       display block
       bottom 0
       right 10px
-      width: 350px
+      width: 300px
       z-index: 999999 !important;
       height: 413px
       border-radius: 10px 10px 0 0 !important;
