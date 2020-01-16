@@ -21,7 +21,7 @@
                            <chat color="white" type="1"></chat>
                            <q-item>
                               <q-item-section avatar class="q-mr-md">
-                                 <q-icon size="lg" name="fas fa-map-marker-alt"/>
+                                 <q-icon size="lg" name="fas fa-envelope"/>
                               </q-item-section>
                               <q-item-section class="q-pb-lg">
                                  <div class="text-subtitle1 text-bold">Email</div>
