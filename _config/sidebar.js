@@ -28,7 +28,9 @@ export default [
    pages.qmarketplace.myChatMessages,
    pages.qmarketplace.myNotifications,
    pages.qmarketplace.myBannersIndex,
-   pages.qmarketplace.mySubscription
+   pages.qmarketplace.mySubscription,
+   pages.qmarketplace.levels,
+   pages.qmarketplace.levelsCriteria,
 
 
 ]

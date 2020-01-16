@@ -20,5 +20,6 @@ export default {
    adminFavoritestores: 'Seguidores',
    products: 'Productos',
    adminLevelCriterias: 'Criterios de nivel',
+   adminLevels: 'Niveles',
 
 }

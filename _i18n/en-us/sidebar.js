@@ -8,5 +8,6 @@ export default {
   adminThemes : 'Themes',
   adminFavoritestores : 'Seguidores',
   adminLevelCriterias: 'Level criterias',
+  adminLevels: 'Levels',
 
 }
