@@ -73,6 +73,22 @@
                 </q-card-section>
               </q-card>
 
+              <q-card class="rounded-md bg-white q-mb-xl" v-else>
+
+                <q-card-section class="q-pa-lg">
+                  <p class="caption q-mb-md">Puntos
+                    <q-btn round class="no-shadow" size="6px" icon="fas fa-question" >
+                      <q-tooltip>
+                        Puntos que debe tener el usuario para alcanzar este nivel
+                      </q-tooltip>
+                    </q-btn>
+                  </p>
+
+                  <q-input v-model="form.points" color="primary" class="codigo" outlined placeholder="" />
+
+                </q-card-section>
+              </q-card>
+
               <q-card class="rounded-md bg-white q-mb-xl" v-if="form.options.criterias.length>0">
 
                 <q-card-section class="q-pa-lg">
@@ -118,6 +134,7 @@
             id: '',
             name: '',
             type: '0',
+            points: 0,
             options:{
               criterias:[]
             }
