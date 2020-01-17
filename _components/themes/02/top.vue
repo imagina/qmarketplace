@@ -125,28 +125,25 @@
                                 system-name="principal"></full-width-gallery>
          
             <div class="top-mobile" style="margin-top: -75px;">
-                <div class="absolute-top-left text-center q-ma-sm">
-                  <q-badge color="store-secondary">
-                    Seguidores {{storeData.usersFollowing}}
-                  </q-badge>
+                <div class="absolute-top-left text-center q-ml-sm">
+                  <div class="pts">
+                     {{storeData.averageRating}}pts
+                  </div>
                </div>   
                <div class="q-container">
                   <div class="text-center" style="position:relative;">
                      <q-avatar size="150px" round class="bg-white mx-auto">
                         <img :src="storeData.logo.path">
                      </q-avatar>
-                     <h1 class="text-h6 text-white">{{storeData.name}}</h1>
-                     <q-badge color="store-secondary">
-                    Seguidores {{storeData.usersFollowing}}
-                  </q-badge>
-                     <p class="text-body2 text-center text-italic text-white q-my-sm q-mx-md">{{storeData.slogan}} </p>
-
-                     <div class="text-right" style="right:10px; top:85px; position: absolute;">
+                     <h1 class="text-h6 text-white q-mb-none">{{storeData.name}}</h1>
+                      <q-badge color="store-secondary" >
+                        Seguidores {{storeData.usersFollowing}}
+                      </q-badge>
+                     <p class="text-body2 text-center text-italic text-white q-mb-sm q-mx-md">{{storeData.slogan}} </p>
+                     <div class="absolute-right-top text-right">
                         <q-btn v-if="!followedStore" @click="followStore()" color="store-secondary" dense round
                                             icon="far fa-thumbs-up"/>
-                        <q-btn v-else dense color="store-secondary"  round icon="far fa-thumbs-up"/>
-                        <br><br>
-                         <q-btn color="white" @click="ratingStore=true" text-color="store-secondary" dense round icon="grade"/>
+                        <q-btn v-else dense color="store-secondary"  round icon="far fa-thumbs-up"/>   
                       </div>
                   </div>
                   <q-toolbar class="bg-white shadow-4">
@@ -172,6 +169,8 @@
                      
                     <cartHeader color="store-primary" style="display: inline-block;"> </cartHeader>
                   </q-toolbar>
+
+                  
 
                </div>
             </div>
@@ -381,6 +380,23 @@
           border-bottom 2px solid $storePrimary
         .q-btn-dropdown__arrow
           display none  
+        .absolute-right-top
+          right 10px 
+          top 85px 
+          position absolute    
+        .pts
+          background-image url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 54.18'%3E%3Cdefs%3E%3Cstyle%3E.cls-1{fill:%23fff;}%3C/style%3E%3C/defs%3E%3Ctitle%3ERecurso 2%3C/title%3E%3Cg id='Capa_2' data-name='Capa 2'%3E%3Cg id='home'%3E%3Cpath class='cls-1' d='M42.37,54,24,44.26,5.63,54A4.54,4.54,0,0,1,0,49.41V0H48V49.41A4.54,4.54,0,0,1,42.37,54Z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")
+          color $storeSecondary
+          font-family $font-secondary
+          display flex
+          align-items center
+          justify-content center
+          background-size 100% 100%
+          padding 0 5px
+          height 55px
+          width 55px
+          background-repeat no-repeat
+          background-position center
 
       .dropdown-content
         display: none;

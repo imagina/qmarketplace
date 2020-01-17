@@ -116,112 +116,62 @@
          <div class="col-12 bg-store-primary">
             <full-width-gallery :storeName="storeData.name" :gallery="storeData.gallery"
                                 system-name="principal"></full-width-gallery>
+         
             <div class="top-mobile" style="margin-top: -75px;">
+                <div class="absolute-top-left text-center q-ml-sm">
+                  <div class="pts">
+                     1pts
+                  </div>
+               </div>   
                <div class="q-container">
-                  <div class="text-center">
+                  <div class="text-center" style="position:relative;">
                      <q-avatar size="150px" round class="bg-white mx-auto">
                         <img :src="storeData.logo.path">
                      </q-avatar>
-                     <h1 class="text-h6 text-white">{{storeData.name}}</h1>
-                  </div>
+                     <h1 class="text-h6 text-white q-mb-none">{{storeData.name}}</h1>
+                      <q-badge color="store-secondary" >
+                        Seguidores {{storeData.usersFollowing}}
+                      </q-badge>
+                     <p class="text-body2 text-center text-italic text-white q-mb-sm q-mx-md">{{storeData.slogan}} </p>
 
+                     <div class="absolute-right-top text-right">
+                        <q-btn v-if="!followedStore" @click="followStore()" color="store-secondary" dense round
+                                            icon="far fa-thumbs-up"/>
+                        <q-btn v-else dense color="store-secondary"  round icon="far fa-thumbs-up"/>   
+                      </div>
+                  </div>
                   <q-toolbar class="bg-white shadow-4">
-                     <q-btn flat round dense icon="fas fa-home"
+                     <q-btn flat  dense icon="fas fa-home"
                             @click="$router.push({name: 'stores.show', params : {slug:storeData.slug}})"
                             color="store-primary"/>
-                     <q-toolbar-title>
-                     </q-toolbar-title>
-                     
-                     <q-btn flat round dense icon="fas fa-heart" v-if="!followedStore" @click="followStore()" color="store-primary"/>
+                      <q-btn-dropdown flat  dense icon="fas fa-bars" no-caps color="store-primary">
+                       <q-list>
+                          <q-item v-for="item in categories" :key="'category'+item.title" clickable v-close-popup
+                                  @click="$router.push({name: 'stores.product.index', params : {slug:storeData.slug,category:item.slug}})">
+                             <q-item-section>
+                                <q-item-label>{{item.title}}</q-item-label>
+                             </q-item-section>
+                          </q-item>
+                       </q-list>
+                    </q-btn-dropdown>
+                    <q-btn flat  dense  @click="$router.push({name: 'stores.about', params : {slug:storeData.slug}})"  icon="fas fa-map-marker-alt" color="store-primary"/>
+                        <chat class="chat" color="store-primary" type="0"></chat>
+                      <q-toolbar-title>
+                      </q-toolbar-title>
+                     <q-btn flat  dense @click="modal = !modal" icon="fas fa-search" color="store-primary"/>
+                     <q-btn flat  dense icon="fas fa-heart" v-if="!followedStore" @click="followStore()" color="store-primary"/>
                      
                     <cartHeader color="store-primary" style="display: inline-block;"> </cartHeader>
-                     <q-btn-dropdown flat round dense icon="more_vert" color="store-primary">
-                      <q-list class="q-py-sm">
-                        <q-item clickable v-close-popup @click="categoryModal = !categoryModal">
-                          <q-item-section avatar>
-                            <q-icon name="fas fa-bars" color="store-primary"  />
-                          </q-item-section>
-
-                          <q-item-section >
-                            <q-item-label class="text-subtitle1 text-bold">Categorias</q-item-label>
-                          </q-item-section>
-
-                        </q-item>
-                        <q-item clickable v-close-popup @click="$router.push({name: 'stores.about', params : {slug:storeData.slug}})">
-                          <q-item-section avatar>
-                            <q-icon name="fas fa-map-marker-alt" color="store-primary"  />
-                          </q-item-section>
-                          <q-item-section>
-                            <q-item-label class="text-subtitle1 text-bold">Info Empresa</q-item-label>
-                          </q-item-section>
-                        </q-item>
-                        <chat color="store-primary" type="4"></chat> 
-                        <q-item clickable v-close-popup @click="modal = !modal">
-                          <q-item-section avatar>
-                            <q-icon name="fas fa-search" color="store-primary"  />
-                          </q-item-section>
-                          <q-item-section>
-                            <q-item-label class="text-subtitle1 text-bold">¿Qué Buscas?</q-item-label>
-                          </q-item-section>
-                        </q-item>
-                        <q-item clickable v-close-popup @click="ratingStore=true">
-                          <q-item-section avatar>
-                            <q-icon name="grade" color="store-primary"  />
-                          </q-item-section>
-                          <q-item-section>
-                            <q-item-label class="text-subtitle1 text-bold"> {{storeData.countRatings}} han calificado</q-item-label>
-                          </q-item-section>
-                        </q-item>
-                        <q-item clickable v-close-popup v-if="!followedStore" @click="followStore()">
-                          <q-item-section avatar>
-                            <q-icon name="far fa-thumbs-up" color="store-primary"  />
-                          </q-item-section>
-                          <q-item-section>
-                            <q-item-label class="text-subtitle1 text-bold"> Seguir Tienda</q-item-label>
-                          </q-item-section>
-                        </q-item>
-                        <q-item clickable v-close-popup v-else>
-                          <q-item-section avatar>
-                            <q-icon name="far fa-handshake" color="store-primary"  />
-                          </q-item-section>
-                          <q-item-section>
-                            <q-item-label class="text-subtitle1 text-bold"> Ya sigues esta tienda</q-item-label>
-                          </q-item-section>
-                        </q-item>
-
-
-                      </q-list>
-                    </q-btn-dropdown>
                   </q-toolbar>
 
-                  <p class="text-h6 text-center text-italic text-white q-my-lg">{{storeData.slogan}} </p>
+                  
 
                </div>
-
             </div>
          </div>
       </div>
 
-      
-      <!-- Categorias en movil-->
-      <q-dialog v-model="categoryModal">
-         <q-card>
-            <q-card-section>
-               <div class="text-h6">Categorias</div>
-            </q-card-section>
 
-            <q-card-section>
-              <q-list>
-                 <q-item v-for="item in categories" :key="'category'+item.title" clickable v-close-popup
-                         @click="$router.push({name: 'stores.product.index', params : {slug:storeData.slug,category:item.slug}})">
-                    <q-item-section>
-                       <q-item-label>{{item.title}}</q-item-label>
-                    </q-item-section>
-                 </q-item>
-              </q-list>
-            </q-card-section>
-         </q-card>
-      </q-dialog>
       <!-- INFO ADDRESS STORE -->
       <q-dialog v-model="infoStore" @hide="infoStore=false">
          <q-carousel
@@ -314,8 +264,7 @@ export default {
       searchText:'',
       conversationId:null,
       productsStore:[],
-      modal: false,
-      categoryModal:false,
+      modal: false
     }
   },
   mounted() {
@@ -404,10 +353,26 @@ export default {
    .theme-layout-01
       .top-mobile
         .q-container
-          padding-left 15px
-          padding-right 15px
+          border-bottom 2px solid $storePrimary
         .q-btn-dropdown__arrow
           display none  
+        .absolute-right-top
+          right 10px 
+          top 85px 
+          position absolute  
+        .pts
+          background-image url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 54.18'%3E%3Cdefs%3E%3Cstyle%3E.cls-1{fill:%23fff;}%3C/style%3E%3C/defs%3E%3Ctitle%3ERecurso 2%3C/title%3E%3Cg id='Capa_2' data-name='Capa 2'%3E%3Cg id='home'%3E%3Cpath class='cls-1' d='M42.37,54,24,44.26,5.63,54A4.54,4.54,0,0,1,0,49.41V0H48V49.41A4.54,4.54,0,0,1,42.37,54Z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")
+          color $storePrimary
+          font-family $font-secondary
+          display flex
+          align-items center
+          justify-content center
+          background-size 100% 100%
+          padding 0 5px
+          height 55px
+          width 55px
+          background-repeat no-repeat
+          background-position center
       .info-tienda
          position absolute
          margin 0 auto

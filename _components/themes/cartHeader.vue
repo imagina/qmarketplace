@@ -1,7 +1,7 @@
 <template>
    <div id="cartHeader">
       <q-btn-dropdown :loading="loading"
-                      split
+                      split dense
                       :text-color="color"
       >
          <template v-slot:label>

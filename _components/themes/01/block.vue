@@ -1,6 +1,6 @@
 <template>
   <div class="theme-layout-01">
-    <div class="q-container">
+    <div class="q-container" v-if="$q.platform.is.desktop">
       <div class="row q-col-gutter-lg justify-end">
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 q-mb-lg">
           <div class="bg-store-secondary  text-white text-center q-pa-md">
