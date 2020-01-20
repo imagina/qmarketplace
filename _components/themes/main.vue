@@ -9,7 +9,7 @@
       <main3/>
    </div>
    <div v-else>
-     <default/>
+     <defaultTheme/>
    </div>
 </template>
 

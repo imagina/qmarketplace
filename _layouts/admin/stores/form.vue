@@ -563,9 +563,9 @@ export default {
       await this.getThemes();//
       await this.getPaymentMethods();//
       await this.getShippingMethods();//
+      await this.getSuscription();
       if (this.$route.params.id) this.storeId = this.$route.params.id
       if (this.storeId) await this.getData()//Get data if is edit
-      else await this.getSuscription();
       this.loading=false;
     },
     validateRequiredData(){
@@ -625,13 +625,21 @@ export default {
         if(response.data.length>0){
           if(response.data[0].plan.id==6){
             //Null theme to get default about theme in front.
+            this.company.type=3;//Free
+          }else if(response.data[0].plan.id==3){
+            this.company.type=2;//Directory pay
+            this.company.themeId=3;
           }else if(response.data[0].plan.product.id==6){
+            this.company.type=1;//Independent
             this.company.themeId=3;
           }else{
             this.company.themeId=1;
           }
         }else{
-          this.company.themeId=1;
+          //If not have suscription - redirect to
+          this.$alert.error({message: "Debes suscribirte a un plan", pos: 'bottom'})
+          this.$router.push({name:'products.show',params:{slug:'tiendas-en-linea'}});
+          // this.company.themeId=1;
         }
       });
     },

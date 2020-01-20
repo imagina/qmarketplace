@@ -211,54 +211,60 @@
             loading: true,
             configName: 'apiRoutes.qmarketplace.store',
             storeSlug: this.$route.params.slug,
-            store: null,
+            //store: null,
             cart: null,
             slide: 1
          }
       },
-      mounted() {
-         this.$nextTick(async function () {
-            await this.getData().catch(error => {
-            })
-         });
-      },
-      methods: {
-         async init() {
-            await this.getData().catch(error => {
-            })
-         },
-         getData() {
-            return new Promise((resolve, reject) => {
-               const itemId = this.$clone(this.storeSlug)
-               if (itemId) {
-                  //Params--
-                  let params = {
-                     refresh: true,
-                     params: {
-                        filter: {
-                           allTranslations: true,
-                           field: 'slug',
-                        },
-                     }
-                  }//test
-                  //Request
-                  this.$crud.show(this.configName, itemId, params).then(response => {
-                     this.store = this.$clone(response.data);
-                     colors.setBrand('storeprimary', this.store.options.theme_config.color_primary)
-                     colors.setBrand('storesecondary', this.store.options.theme_config.color_secondary)
-                     colors.setBrand('storebackground', this.store.options.theme_config.background)
-                     resolve(true)//Resolve
-                  }).catch(error => {
-                     this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
-                     reject(false)//Resolve
-                  })
-               } else {
-                  resolve(true)//Resolve
-               }
+        computed:{
+    store(){
+      let storeSlug = this.$route.params.slug
+      return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
+    }
+  },
+      // mounted() {
+      //    this.$nextTick(async function () {
+      //       await this.getData().catch(error => {
+      //       })
+      //    });
+      // },
+      // methods: {
+      //    async init() {
+      //       await this.getData().catch(error => {
+      //       })
+      //    },
+      //    getData() {
+      //       return new Promise((resolve, reject) => {
+      //          const itemId = this.$clone(this.storeSlug)
+      //          if (itemId) {
+      //             //Params--
+      //             let params = {
+      //                refresh: true,
+      //                params: {
+      //                   filter: {
+      //                      allTranslations: true,
+      //                      field: 'slug',
+      //                   },
+      //                }
+      //             }//test
+      //             //Request
+      //             this.$crud.show(this.configName, itemId, params).then(response => {
+      //                this.store = this.$clone(response.data);
+      //                colors.setBrand('storeprimary', this.store.options.theme_config.color_primary)
+      //                colors.setBrand('storesecondary', this.store.options.theme_config.color_secondary)
+      //                colors.setBrand('storebackground', this.store.options.theme_config.background)
+      //                resolve(true)//Resolve
+      //             }).catch(error => {
+      //                this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
+      //                reject(false)//Resolve
+      //             })
+      //          } else {
+      //             resolve(true)//Resolve
+      //          }
 
-            })
-         },
-      }
+      //       })
+      //    },
+      // }
 
    }
 </script>
