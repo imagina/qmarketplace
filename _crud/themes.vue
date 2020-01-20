@@ -59,7 +59,7 @@
                props : {
                   label: this.$tr('ui.form.firstImage'),
                   zone: 'mainimage',
-                  entity: "Modules\\Marketplace\\Entities\\CategoryStore",
+                  entity: "Modules\\Marketplace\\Entities\\Themes",
                   enitityId: null
                }
             },
