@@ -65,7 +65,6 @@ export const UPDATE_PRODUCT_INTO_CART = ({commit, dispatch, state, rootState}, i
       if (cartId) {
          item.cartId = cartId
          crud.update('apiRoutes.qcommerce.cartProducts', item.id, item).then(response => {
-            console.log('dasdad',item.storeId)
             dispatch('GET_CART', item.storeId)
             alert.success({message: "Producto Actualizado Exitosamente"})
             resolve(true)

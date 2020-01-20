@@ -375,7 +375,6 @@
                }
                //Request
                this.$crud.index('apiRoutes.qsubscription.subscriptions', params).then(response => {
-                  console.warn(response.data)
                   this.tableSubscriptions = response.data
                   this.loading = false;
                   resolve(true)//Resolve

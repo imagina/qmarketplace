@@ -5,8 +5,8 @@
          <div class="col-12">
             <div style="margin: 0 5%;">
                <div class="q-mb-md border-slider">
-                  <full-width-gallery :storeName="storeData.name" :gallery="storeData.gallery"
-                                      system-name="principal"></full-width-gallery>
+                  <full-width-gallery :storeName="storeData.name" :gallery="storeData.slider"
+                                      system-name="principal"/>
                   <div class="absolute-bottom-left text-center q-ma-sm">
                      <q-avatar id="store-logo" round class="bg-white">
                         <img :src="storeData.logo.path">
@@ -108,7 +108,7 @@
                         <div class="line-vertical"></div>
                         <q-btn flat icon="fas fa-heart" color="store-secondary"/>
                         <div class="line-vertical"></div>
-                        <cartHeader color="store-secondary" style="display: inline-block;"></cartHeader>
+                        <cartHeader color="store-secondary" style="display: inline-block;"/>
                      </div>
                   </div>
                </div>
@@ -121,8 +121,8 @@
       <!-- Mobile -->
       <div class="row" v-else>
          <div class="col-12 bg-store-primary">
-            <full-width-gallery :storeName="storeData.name" :gallery="storeData.gallery"
-                                system-name="principal"></full-width-gallery>
+            <full-width-gallery :storeName="storeData.name" :gallery="storeData.slider"
+                                system-name="principal"/>
          
             <div class="top-mobile" style="margin-top: -75px;">
                 <div class="absolute-top-left text-center q-ml-sm">

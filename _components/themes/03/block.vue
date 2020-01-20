@@ -16,11 +16,7 @@
                   <q-item-label class="text-h5 text-weight-bold q-mb-sm">Mi perfil</q-item-label>
                   <q-item-label class="text-subtitle1">
                     <div class="q-mb-md" v-html="store.description">
-                      <!-- En cada uno de sus trabajos, Juliana Vargas cuenta con los mejores productos faciales, que van desde frescas hidratantes hasta exclusivas cremas de cacao para las orejas. Además, si quieres definir también tu peinado de novia, también puedes hacerlo con ello, pues trabaja mano a mano con una profesional experta en peinados, que le permite ofrecer un servicio integral de belleza y a la vez dedicarse exclusivamente al maquillaje de la novia y sus acompañantes. -->
                     </div>
-                    <!-- <div>
-                    Los fotografos de moda, editores de catálogos y responsables de pasarelas como Colombiamoda ya han optado por contratar sus servicios. ¿Quieres ese nivel en tu día más especial? ¡No esperes más y contacta con ella!
-                  </div> -->
                 </q-item-label>
               </q-item-section>
             </q-item>
@@ -140,11 +136,13 @@
 <script>
 import quiz from '@imagina/qmarketplace/_components/themes/03/quiz'
 import share from '@imagina/qmarketplace/_components/themes/03/shareNetworks'
+import chat from '@imagina/qmarketplace/_components/qchat/chat'
 export default {
   name: 'PageLayout3',
   components: {
     quiz,
     share,
+    chat
   },computed:{
     store(){
       let storeSlug = this.$route.params.slug

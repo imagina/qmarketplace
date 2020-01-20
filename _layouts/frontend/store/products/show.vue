@@ -141,31 +141,35 @@
       methods: {
          //Get data
          getData() {
-            this.loading = true
-            let slugProduct = this.$route.params.product
-            let params = {
-               refresh: true,
-               params: {filter: {field: 'slug'}, include: 'productOptions,optionValues'}
-            }
-            icommerceService.crud.show('apiRoutes.qcommerce.products', slugProduct, params).then(response => {
-               this.productData = response.data//Add data
-               this.productSelectd = response.data.slug//Set product selected
-               let images = [
-                      {
-                         id: 0,
-                         src: this.productData.mainImage.path,
-                         thumbnail:this.productData.mainImage.path.replace('.jpg','_mediumThumb.jpg'),
-                      },
-               ]
-               this.productData.gallery.map(function (item, i) {
-                  images.push({id: i + 1, src: item.path,thumbnail:item.path})
-               })
+            return new Promise((resolve, reject) => {
+               this.loading = true
+               let slugProduct = this.$route.params.product
+               let params = {
+                  refresh: true,
+                  params: {filter: {field: 'slug'}, include: 'productOptions,optionValues'}
+               }
+               this.$crud.show('apiRoutes.qcommerce.products', slugProduct, params).then(response => {
+                  this.productData = response.data//Add data
+                  this.productSelectd = response.data.slug//Set product selected
+                  let images = [
+                     {
+                        id: 0,
+                        src: this.productData.mainImage.path,
+                        thumbnail: this.productData.mainImage.path.replace('.jpg', '_mediumThumb.jpg'),
+                     },
+                  ]
+                  this.productData.gallery.map(function (item, i) {
+                     images.push({id: i + 1, src: item.path, thumbnail: item.path})
+                  })
 
-               this.images = images
-               this.loading = false
-            }).catch(error => {
-               this.$alert.error({message: 'Failed: ' + error, pos: 'bottom'})
-               this.loading = false
+                  this.images = images
+                  this.loading = false
+                  resolve(true)//Resolve
+               }).catch(error => {
+                  this.$alert.error({message: 'Failed: ' + error, pos: 'bottom'})
+                  this.loading = false
+                  reject(error)//Resolve
+               })
             })
          },
          getDataStore() {
@@ -192,7 +196,7 @@
                      resolve(true)//Resolve
                   }).catch(error => {
                      this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
-                     reject(false)//Resolve
+                     reject(error)//Resolve
                   })
                } else {
                   resolve(true)//Resolve
@@ -202,16 +206,20 @@
             })
          },
          rating() {
-            this.$axios.post(config('apiRoutes.qcommerce.products') + '/rating/' + this.productData.id, {
-               attributes: {
-                  rating: this.productData.averageRating
-               }
-            }).then(response => {
-               this.$alert.success({message: "Calificación registrada exitosamente", pos: 'bottom'});
-               this.getData();
-            }).catch(error => {
-               this.$alert.error({message: error.response.data.errors, pos: 'bottom'})
-            });
+            return new Promise((resolve, reject) => {
+               this.$axios.post(config('apiRoutes.qcommerce.products') + '/rating/' + this.productData.id, {
+                  attributes: {
+                     rating: this.productData.averageRating
+                  }
+               }).then(response => {
+                  this.$alert.success({message: "Calificación registrada exitosamente", pos: 'bottom'});
+                  this.getData();
+                  resolve(true)//Resolve
+               }).catch(error => {
+                  reject(error)//Resolve
+                  this.$alert.error({message: error.response.data.errors, pos: 'bottom'})
+               });
+            })
          },
       }
    }

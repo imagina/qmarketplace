@@ -1,6 +1,7 @@
 <template>
    <q-page class="theme-layout-about">
       <header-store></header-store>
+      <div v-if="success">
       <div class="q-py-xl">
          <div class="q-container">
             <div class="row q-col-gutter-xl">
@@ -117,21 +118,36 @@
                   </q-list>
 
                   <q-carousel
-                          swipeable
+                          arrows
                           animated
                           v-model="slide"
                           thumbnails
                           infinite
+                          autoplay="3500"
+                          :fullscreen.sync="fullscreen"
+                          v-if="store.gallery.length"
                   >
-                     <q-carousel-slide v-for="(slide,i) in store.gallery" :key="'gallery'+i" :name="i"
-                                       :img-src="slide.path"/>
+                     <q-carousel-slide :img-src="slide.path" v-for="(slide,i) in store.gallery" :key="`gallery-${i}`" :name="`gallery-${i}`">
+                     </q-carousel-slide>
+                     <template v-slot:control>
+                        <q-carousel-control
+                                position="bottom-right"
+                                :offset="[18, 18]"
+                        >
+                           <q-btn
+                                   push round dense color="white" text-color="primary"
+                                   :icon="fullscreen ? 'fullscreen_exit' : 'fullscreen'"
+                                   @click="fullscreen = !fullscreen"
+                           />
+                        </q-carousel-control>
+                     </template>
                   </q-carousel>
 
                </div>
             </div>
          </div>
       </div>
-      <div class="map-google">
+      <div class="map-google" v-if="store.options.map">
          <div class="line"></div>
          <div class="q-container">
             <div class="row">
@@ -147,7 +163,6 @@
                </div>
             </div>
          </div>
-
          <iframe
                  width="100%"
                  height="550px"
@@ -156,7 +171,7 @@
                  allowfullscreen>
          </iframe>
       </div>
-
+      </div>
       <footer-store></footer-store>
 
    </q-page>
@@ -219,19 +234,19 @@
             storeSlug: this.$route.params.slug,
             store: null,
             cart: null,
-            slide: 1
+            slide: 'gallery-0',
+            fullscreen: false,
+            success:false
          }
       },
       mounted() {
          this.$nextTick(async function () {
-            await this.getData().catch(error => {
-            })
+           this.init()
          });
       },
       methods: {
          async init() {
-            await this.getData().catch(error => {
-            })
+            await this.getData()
          },
          getData() {
             return new Promise((resolve, reject) => {
@@ -250,13 +265,16 @@
                   //Request
                   this.$crud.show(this.configName, itemId, params).then(response => {
                      this.store = this.$clone(response.data);
+                   /* if(this.store.gallery.length) this.slide=this.$clone(this.store.gallery[0].path)
+                     console.slide*/
                      colors.setBrand('storeprimary', this.store.options.theme_config.color_primary)
                      colors.setBrand('storesecondary', this.store.options.theme_config.color_secondary)
                      colors.setBrand('storebackground', this.store.options.theme_config.background)
+                     this.success=true
                      resolve(true)//Resolve
                   }).catch(error => {
                      this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
-                     reject(false)//Resolve
+                     reject(error)//Resolve
                   })
                } else {
                   resolve(true)//Resolve

@@ -1,6 +1,11 @@
 <template></template>
 <script>
    export default {
+      data() {
+         return {
+            crudId: this.$uid()
+         }
+      },
       computed: {
          crudData() {
             return {
@@ -79,22 +84,22 @@
                   parentId: {
                      value: 0,
                      type: 'select',
-                     props : {
+                     props: {
                         label: this.$tr('ui.form.parent'),
-                        options : [
+                        options: [
                            {label: this.$tr('ui.label.disabled'), value: 0},
                         ],
                         loadOptions: {
-                          apiRoute: 'apiRoutes.qmarketplace.category',
-                          select: {label: 'title', id: 'id'},
-                          requestParams: {include: 'parent'}
+                           apiRoute: 'apiRoutes.qmarketplace.category',
+                           select: {label: 'title', id: 'id'},
+                           requestParams: {include: 'parent'}
                         }
                      },
                   },
                   icon: {
                      value: '',
                      type: 'input',
-                     props : {
+                     props: {
                         label: 'Icon',
                      }
                   },
@@ -102,7 +107,7 @@
                      name: 'mediasSingle',
                      value: {},
                      type: 'media',
-                     props : {
+                     props: {
                         label: this.$tr('ui.form.firstImage'),
                         zone: 'mainimage',
                         entity: "Modules\\Marketplace\\Entities\\CategoryStore",
@@ -111,7 +116,11 @@
                   },
                },
             }
+         },
+         //Crud info
+         crudInfo() {
+            return this.$store.state.qcrudComponent.component[this.crudId] || {}
          }
       }
-   }
+  }
 </script>

@@ -65,7 +65,7 @@
       },
       mounted() {
          this.$nextTick(async function () {
-            await this.getData().catch(error=>{})
+            await this.getData()
          });
       },
       methods: {

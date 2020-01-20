@@ -293,7 +293,6 @@
     },
     mounted () {
       this.$nextTick(function () {
-        console.log('xxxxxx hre');
         this.initForm()
       })
     },
