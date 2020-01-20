@@ -12,8 +12,16 @@
                         <img :src="logo" class="line-grey">
                     </router-link>
                   </div>
-                  <div class="text-h5 bg-primary q-inline-block q-pa-md text-white q-mb-sm">Juliana Vargas</div>
-                  <h5 class="text-subtitle1 text-secondary q-mt-none">MAQUILLADORA PROFESIONAL</h5>
+                  <div class="text-h5 bg-primary q-inline-block q-pa-md text-white q-mb-sm">
+                  <!-- Juliana Vargas -->
+                  {{storeData.name}}
+                  </div>
+                  <h5 class="text-subtitle1 text-secondary q-mt-none">
+                  {{storeData.slogan}}
+                  <!--
+                  MAQUILLADORA PROFESIONAL
+                  -->
+                  </h5>
 
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 q-mb-lg">

@@ -6,8 +6,8 @@
           <div class="row items-center gutter-md">
             <div class="col-md-5 text-center">
 
-              <div class="text-h5 bg-primary q-inline-block q-pa-md text-white q-mb-sm">Juliana Vargas</div>
-              <h5 class="text-subtitle1 text-secondary q-mt-none">MAQUILLADORA PROFESIONAL</h5>
+              <div class="text-h5 bg-primary q-inline-block q-pa-md text-white q-mb-sm">{{storeData.name}}</div>
+              <h5 class="text-subtitle1 text-secondary q-mt-none">{{storeData.slogan}}</h5>
 
             </div>
             <div class="col-md-7">
@@ -18,7 +18,7 @@
                   </q-item-section>
                   <q-item-section class="q-py-md">
                     <div class="q-subheading text-weight-bold q-mb-none">Correo Electrónico:</div>
-                      <div class="q-subheading "><a class="text-dark" href="mailto:everthperez82@yahoo.es">everthperez82@yahoo.es</a></div>
+                      <div class="q-subheading "><a class="text-dark" :href="'mailto:'+storeData.options.email">{{storeData.options.email}}</a></div>
                   </q-item-section>
                 </q-item>
                 <q-item>
@@ -28,7 +28,7 @@
                   <q-item-section class="q-py-md">
                     <div class="q-subheading text-weight-bold q-mb-none">Dirección:</div>
                     <div class="q-subheading">
-                      Carrera 8 # 20 - 88 Barrio: Luis Eduardo Cuellar Sitios de referencia: EL CUELLAR
+                      {{storeData.address}}
                     </div>
                   </q-item-section>
                 </q-item>
@@ -39,7 +39,7 @@
                   <q-item-section class="q-py-md">
                       <div class="q-subheading text-weight-bold q-mb-none">Horario de atención:</div>
                       <div class="q-subheading">
-                        24 horas
+                        {{storeData.schedules[0]}}
                       </div>
                   </q-item-section>
                 </q-item>
@@ -59,6 +59,12 @@ export default {
     share,
 
   },
+     computed:{
+      storeData(){
+         let storeSlug = this.$route.params.slug
+         return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
+      }
+   },
 }
 </script>
 <style lang="stylus"> 

@@ -3,10 +3,17 @@
     <div class="row items-center">
       <div class="col-12">
         <div class="networks text-center">
-          <a href="" target="_blank"><i class="fab fa-facebook"></i></a>
+          <a v-for="soc in store.social" v-if="soc.active" :href="soc.url" target="_blank">
+            <i :class="soc.icon"></i>
+            <q-tooltip>
+              {{soc.url}}
+            </q-tooltip>
+          </a>
+          <!--
           <a href="" target="_blank"><i class="fab fa-whatsapp"></i></a>
           <a href="" target="_blank"><i class="fab fa-twitter"></i></a>
           <a href="" target="_blank"><i class="fab fa-instagram"></i></a>
+          -->
         </div>
       </div>
     </div>
@@ -14,6 +21,12 @@
 </template>
 <script>
 export default {
+    computed:{
+    store(){
+      let storeSlug = this.$route.params.slug
+      return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
+    }
+  },
 }
 </script>
 <style lang="stylus">
