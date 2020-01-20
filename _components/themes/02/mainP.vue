@@ -38,6 +38,8 @@
             };//params
             this.$crud.index("apiRoutes.qcommerce.products", params).then(response => {
                this.products = response.data;
+            }).catch(error=>{
+
             });
          }
       },

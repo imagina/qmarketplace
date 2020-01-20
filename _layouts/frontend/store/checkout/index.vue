@@ -387,7 +387,6 @@
             return this.$clone(this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data)
          },
          cart() {
-            console.warn(this.$store.state.qmarketplaceCart.cart)
             return this.$clone(this.$store.state.qmarketplaceCart.cart)
          },
          products() {

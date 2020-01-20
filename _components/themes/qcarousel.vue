@@ -7,7 +7,7 @@
             infinite
             autoplay
     >
-      <q-carousel-slide v-for="(slide,index) in gallery" :key="'slide'+index" :name="'slide'+index"  :img-src="slide.path">
+      <q-carousel-slide v-for="(slide,i) in gallery" :key="i" :name="`slide-${i}`"  :img-src="slide.path">
       </q-carousel-slide>
     </q-carousel>
   </div>
@@ -29,7 +29,7 @@
             return {
                 loading: false,
                 position: {},
-                slide: 1
+                slide: 'slide-0'
             }
         },
         created() {

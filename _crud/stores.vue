@@ -5,7 +5,7 @@
       crudData() {
         return {
           apiRoute: 'apiRoutes.qmarketplace.store',
-          // permission: 'icommerce.products',
+          permission: 'marketplace.stores',
           create: {
             title: this.$tr('qmarketplace.layout.newStore'),
             to : {

@@ -24,7 +24,7 @@
                   </div>
                </div>
                <div class="col-xs-12 col-sm-6 slider-store">
-                  <full-width-gallery :storeName="storeData.name" :gallery="storeData.gallery"
+                  <full-width-gallery :storeName="storeData.name" :gallery="storeData.slider"
                                       system-name="principal"/>
                </div>
             </div>
@@ -104,7 +104,7 @@
                       </div>
                   </div>
                   <q-btn v-if="!followedStore" @click="followStore()" flat icon="fas fa-heart" color="white"/>
-                  <cartHeader style="display: inline-block;"/></cartHeader>
+                  <cartHeader style="display: inline-block;"/>
                 </div>
               </div>
             </div>

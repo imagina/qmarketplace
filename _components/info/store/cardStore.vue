@@ -88,7 +88,6 @@
                   }
                }
             }).then(response => {
-               console.warn(response)
                if (response.data.length > 0) {
                   this.followedStore = true;
                   this.loading = false

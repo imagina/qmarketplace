@@ -268,7 +268,6 @@
   /*Components*/
   import draggable from 'vuedraggable'
   import mediaForm from '@imagina/qmedia/_components/form'
-  import { Carousel, Slide } from 'vue-carousel';
   import renderMedia from '@imagina/qmarketplace/_components/admin/banners/slide/renderMedia'
 
   
@@ -277,8 +276,6 @@
     components: {
       draggable: draggable,
       mediaForm,
-      Carousel,
-      Slide,
       renderMedia,
     },
     mounted () {
