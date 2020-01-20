@@ -20,7 +20,7 @@
                 <div class="q-my-lg line-grey full-width"></div>
 
                 <div class="row q-col-gutter-md justify-center">
-                  <div @click="themeId=t.id;" class="col-xs-12 col-sm-12 col-md-6 col-lg-5 q-mb-md cursor-pointer" v-for="(t,index) in themes_option" :key="index">
+                  <div @click="setThemeId(t.id)" class="col-xs-12 col-sm-12 col-md-6 col-lg-5 q-mb-md cursor-pointer" v-for="(t,index) in themes_option" :key="index">
                     <div class="line-grey">
                       <q-img :ratio="1" :src="t.mainImage.path" />
                     </div>
@@ -124,6 +124,8 @@ export default {
       loading:true,
       storeId:false,
       store:null,
+      themeFree:false,
+      themeIndependent:false,
       configName: 'apiRoutes.qmarketplace.store',
       lang: this.$i18n.locale,
       userId: this.$store.state.quserAuth.userId,
@@ -163,7 +165,47 @@ export default {
       this.storeId=this.$store.state.qmarketplaceStores.storeSelected;
       // if (this.$route.params.id) this.storeId = this.$route.params.id
       if (this.storeId) await this.getData()//Get data if is edit
+      await this.getSuscription();
       this.loading=false;
+    },
+    setThemeId(themeId){
+      if(!this.themeFree && !this.themeIndependent){
+        this.themeId=themeId;
+      }else if(this.themeFree){
+        this.$alert.error({message: "Actualmente tienes el plan gratis, por lo que no puedes seleccionar ninguno de estos temas", pos: 'bottom'})
+        this.themeId=null;
+      }else if(this.themeIndependent){
+        this.$alert.error({message: "Actualmente tienes el plan independiente o directorio de pago, por lo que solo tienes disponible el tema 3", pos: 'bottom'})
+        this.themeId=3;
+      }
+    },
+    getSuscription(){
+      let params={
+        params:{
+          include:'plan.product',
+          filter:{
+            userId:this.$store.state.quserAuth.userId,
+            status:1
+          }
+        }
+      };
+      this.$crud.index("apiRoutes.qsubscription.subscriptions",params).then(response => {
+        if(response.data.length>0){
+          if(response.data[0].plan.id==6){
+            //Null theme to get default about theme in front.
+            this.themeFree=true;
+          }else if(response.data[0].plan.id==3){
+            this.themeIndependent=true;
+          }else if(response.data[0].plan.product.id==6){
+            this.themeIndependent=true;
+          }
+        }else{
+          //If not have suscription - redirect to
+          this.$alert.error({message: "Debes suscribirte a un plan", pos: 'bottom'})
+          this.$router.push({name:'products.show',params:{slug:'tiendas-en-linea'}});
+          // this.company.themeId=1;
+        }
+      });
     },
     //Get data item
     getData() {
