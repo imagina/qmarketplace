@@ -576,10 +576,10 @@ export default {
       await this.getThemes();//
       await this.getPaymentMethods();//
       await this.getShippingMethods();//
-      await this.getSuscription();
       this.storeId=this.$store.state.qmarketplaceStores.storeSelected;
       if (this.$route.params.id) this.storeId = this.$route.params.id
       if (this.storeId) await this.getData()//Get data if is edit
+      await this.getSuscription();
 
       this.loading=false;
     },
@@ -673,7 +673,6 @@ export default {
       return new Promise((resolve, reject) => {
         const itemId = this.$clone(this.storeId)
 
-      console.log(itemId);
         if (itemId) {
           //Params
           let params = {
