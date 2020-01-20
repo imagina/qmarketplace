@@ -1,6 +1,6 @@
 export default {
   categoriesStore: {
-    permission: 'qmarketplace.categories.manage',
+    permission: 'qmarketplace.productcategories.manage',
     activated: true,
     path: '/qmarketplace/categories/store',
     name: 'qmarketplace.admin.categories.store.index',
@@ -23,7 +23,7 @@ export default {
     authenticated: true
   },
   categories: {
-    permission: 'marketplace.stores.manage',
+    permission: 'marketplace.categorystores.manage',
     activated: true,//
     path: '/qmarketplace/categories/index',
     name: 'qmarketplace.admin.categories.index',

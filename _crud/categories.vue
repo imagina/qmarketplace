@@ -6,7 +6,7 @@
             return {
                crudId: this.crudId,
                apiRoute: 'apiRoutes.qmarketplace.category',
-               permission: 'marketplace.categories',
+               permission: 'marketplace.categorystores',
                create: {
                   title: this.$tr('qmarketplace.layout.newCategory'),
                },
@@ -57,7 +57,7 @@
                      isTranslatable: true,
                      props: {
                         label: `${this.$tr('ui.form.slug')}*`,
-                        vIf: (this.crudInfo.typeForm == 'update'),
+                        //vIf: (this.crudInfo.typeForm == 'update'),
                         rules: [
                            val => !!val || this.$tr('ui.message.fieldRequired')
                         ],
