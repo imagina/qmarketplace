@@ -11,6 +11,7 @@
             <mainProducts></mainProducts>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-4">
+            <div class="q-pt-lg w-100"></div>
             <quiz :system-name="`home-${storeData.id}`"/>
           </div>
         </div>

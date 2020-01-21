@@ -38,7 +38,7 @@ export default {
       & i
         margin 10px
         font-size 2rem
-        color $secondary
+        color $storeSecondary
         &:hover 
-          color $primary
+          color $storePrimary
 </style>

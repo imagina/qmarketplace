@@ -34,6 +34,10 @@
             </div>
          </q-item-section>
       </q-item>
+      <q-btn no-caps flat class=" q-py-sm" @click="openChat = !openChat" v-else-if="type==='5'">
+        <q-icon size="3em" color="store-primary" name="far fa-comment-dots" />
+        <h5 class="text-store-secondary q-mt-sm q-mb-none full-width">Chatea conmigo ahora</h5>
+      </q-btn>
       <q-btn flat icon="far fa-comment-dots" @click="openChat = !openChat" no-caps label="Chatea con la tienda"
              :color="color" v-else-if="$q.platform.is.desktop"/>
       <q-btn flat round dense icon="far fa-comment-dots" @click="openChat = !openChat" :color="color" v-else/>
