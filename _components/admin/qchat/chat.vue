@@ -70,8 +70,8 @@
 
          </q-card-actions>
       </q-card>
-      <q-card class="qchat" v-else style="box-shadow: none;">
-         <q-bar>
+      <q-card class="qchat" v-else style="box-shadow: none;  border-top-left-radius: 20px">
+         <q-bar style="min-height: 50px">
             <div class="cursor-pointer">
                <q-avatar>
                   <img :src="$store.getters['qsiteSettings/getSettingMediaByName']('isite::favicon').path"
@@ -205,30 +205,33 @@
         getMessagesPaginatedInit(refresh = false) {
           this.loading = true
           this.messages=[]
-          let params = {
-            refresh: refresh,
-            params: {
-              filter: {
-                conversation: this.conversationId,
-                order: {
-                  field: 'created_at',
-                  way: 'desc'
-                }
-              },
-              page: this.paginate.page,
-              take: this.paginate.take,
-            }
-          }
-          this.$crud.index('apiRoutes.qchat.messages', params)
-                  .then(response => {
-                    this.paginate.lastPage = response.meta.page.lastPage
-                    this.messages = response.data
-                    this.animateScroll()
-                    this.loading = false
+           let params = {
+              refresh: refresh,
+              params: {
+                 filter: {
+                    conversation: this.conversationId,
+                    order: {
+                       field: 'created_at',
+                       way: 'desc'
+                    }
+                 },
+                 page: this.paginate.page,
+                 take: this.paginate.take,
+              }
+           }
+           this.$crud.index('apiRoutes.qchat.messages', params)
+               .then(response => {
+                  //this.messages = response.data.reverse()
+                  this.paginate.lastPage = response.meta.page.lastPage
+                  response.data.forEach(item => {
+                     this.messages.unshift(item)
                   })
-                  .catch(error => {
-                    this.loading = false
-                  })
+                  this.animateScroll()
+                  this.loading = false
+               })
+               .catch(error => {
+                  this.loading = false
+               })
         },
          getMessagesPaginated(refresh = false) {
             this.loading = true

@@ -10,7 +10,7 @@
                   <q-card class="rounded-md bg-white full-width q-my-sm">
                      <div class="row gutter-md justify-center">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7 col-xl-8 card-border-right">
-                           <chat :conversation-id="conversationId"></chat>
+                           <chat :conversation-id="conversationId"/>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5 col-xl-4 bg-light"
                              style="border-bottom-right-radius: 20px;">

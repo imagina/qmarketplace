@@ -588,10 +588,16 @@
                // console.log('form submit');
                // console.log(data);
                this.$crud.create("apiRoutes.qcommerce.orders", data).then(response => {
+                  let order=response.data
                   this.$alert.success({message: this.$tr('ui.message.recordCreated'), pos: 'bottom'})
-                  this.$router.push({name: 'app.home', params: {}})
+                  if(order.paymentData.redirectRoute){
+                     return window.open(order.paymentData.redirectRoute, '_blank')
+                  }
+                  this.$router.push({name: 'qcommerce.account.order', params: {id:response.data.orderId}})
+                  this.loading = false
                }).catch(error => {
                   this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+                  this.loading = false
                })
             }
          },
