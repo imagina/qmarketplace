@@ -5,12 +5,13 @@ export default {
       products: 'Productos',
       categories: 'Categorías',
       services: 'Servicios',
-      orders: 'Ordenes',
+      orders: 'Mis Ventas',
       order: 'Orden',
       cupons: 'Cupones de descuento',
       quiz: 'Encuestas',
       banners: 'Publicidad',
-      mySubscription: 'Mis suscripciones'
+      mySubscription: 'Mis suscripciones',
+      storeReport:'Informe'
    },
    adminMarketplace: "Tienda",
    adminTheme: 'Diseño',
