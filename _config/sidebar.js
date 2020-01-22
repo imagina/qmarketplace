@@ -33,7 +33,5 @@ export default [
    pages.qmarketplace.levelTypes,
    pages.qmarketplace.levelsCriteria,
    pages.qmarketplace.levels,
-
-
-
+   pages.qmarketplace.myStoreLogout
 ]
