@@ -396,7 +396,7 @@ export default {
   myStoreReport:{
     permission: 'marketplace.stores.mystore',
     activated: true,
-    path: '/admin/stores/my-store/store-report',
+    path: '/admin/stores/my-store/report',
     name: 'qmarketplace.admin.mystore.report',
     page: () => import('@imagina/qmarketplace/_layouts/admin/stores/report/index.vue'),
     layout: () => import('src/layouts/admin'),
