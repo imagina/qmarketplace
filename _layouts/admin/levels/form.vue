@@ -37,18 +37,21 @@
                     </q-btn>
                   </p>
 
-                  <q-checkbox
-                  v-model="form.type"
-                  color="primary"
-                  label="¿Es un nivel de tienda?"
-                  true-value="1"
-                  false-value="0"
+                  <tree-select
+                  :clearable="false"
+                  :append-to-body="true"
+                  class="q-mb-md"
+                  :options="levelTypesOpt"
+                  value-consists-of="BRANCH_PRIORITY"
+                  @input="val => { getCriterias() }"
+                  v-model="form.levelTypeId"
+                  placeholder=""
                   />
 
                 </q-card-section>
               </q-card>
 
-              <q-card class="rounded-md bg-white q-mb-xl" v-if="form.type=='1'">
+              <q-card class="rounded-md bg-white q-mb-xl" v-if="criterias.length>0">
 
                 <q-card-section class="q-pa-lg">
                   <p class="caption q-mb-md">Criterios
@@ -66,28 +69,13 @@
                   :options="criterias"
                   value-consists-of="BRANCH_PRIORITY"
                   @input="val => { setCriteria() }"
-                  v-model="criteriaIndex"
+                  v-model="criteriaId"
                   placeholder=""
                   />
 
                 </q-card-section>
               </q-card>
 
-              <q-card class="rounded-md bg-white q-mb-xl" v-else>
-
-                <q-card-section class="q-pa-lg">
-                  <p class="caption q-mb-md">Puntos
-                    <q-btn round class="no-shadow" size="6px" icon="fas fa-question" >
-                      <q-tooltip>
-                        Puntos que debe tener el usuario para alcanzar este nivel
-                      </q-tooltip>
-                    </q-btn>
-                  </p>
-
-                  <q-input v-model="form.points" color="primary" class="codigo" outlined placeholder="" />
-
-                </q-card-section>
-              </q-card>
 
               <q-card class="rounded-md bg-white q-mb-xl" v-if="form.options.criterias.length>0">
 
@@ -133,12 +121,12 @@
         return {
           loading: false,
           criterias: [],
-          criteriaIndex:'nw',
+          criteriaId:'nw',
+          levelTypesOpt: [],
           form: {
             id: '',
             name: '',
-            type: '0',
-            points: 0,
+            levelTypeId:'nw',
             options:{
               criterias:[]
             }
@@ -154,11 +142,11 @@
       methods: {
         initForm () {
           this.getCriterias();
+          this.getLevelTypes();
           if (this.$route.params.id) this.getData();
         },
-        getCriterias(){
+        getLevelTypes(){
           let params = {
-            remember: false,
             params: {
               include: '',
               filter:{
@@ -166,28 +154,60 @@
               }
             }
           };//params
-          this.$crud.index("apiRoutes.qmarketplace.levelCriteria",params).then(response => {
-            this.criterias=[];
-            this.criterias.push({label:"Selecciona un criterio ",id:'nw'});
+          this.$crud.index("apiRoutes.qmarketplace.levelType",params).then(response => {
+            this.levelTypesOpt=[];
+            this.levelTypesOpt.push({label:"Selecciona un nivel de tienda ",id:'nw'});
             for(var i=0;i<response.data.length;i++){
-              this.criterias.push({label:response.data[i].name,type:response.data[i].type,value:'0',id:response.data[i].id});
+              this.levelTypesOpt.push({label:response.data[i].name,entityNamespace:response.data[i].entityNamespace,value:'0',id:response.data[i].id});
             }
           });
         },
+        getCriterias(){
+          if(this.form.levelTypeId!='nw'){
+            let params = {
+              remember: false,
+              params: {
+                include:'levelType',
+                filter:{
+                  levelType:this.form.levelTypeId,
+                  allTranslations: true,
+                }
+              }
+            };//params
+            this.$crud.index("apiRoutes.qmarketplace.levelCriteria",params).then(response => {
+              this.criterias=[];
+              this.criterias.push({label:"Selecciona un criterio ",id:'nw'});
+              for(var i=0;i<response.data.length;i++){
+                response.data[i].value=0;
+                response.data[i].label=response.data[i].name;
+                response.data[i].label=response.data[i].name;
+                this.criterias.push(response.data[i]);
+              }
+            });
+          }else{
+            this.$alert.error({ message: "Debes seleccionar un tipo de tienda válido", pos: 'bottom' });
+          }
+
+        },
         setCriteria(){
-          if(this.criteriaIndex>=0){
+          if(this.criteriaId>=0){
             var b=0;
             for(var i=0;i<this.form.options.criterias.length;i++){
-              if(this.form.options.criterias[i].id==this.criterias[this.criteriaIndex].id){
+              if(this.form.options.criterias[i].id==this.criteriaId){
                 b=1;
                 break;
               }
             }//for
             if(b==1){
               this.$alert.error({ message: "Ya has seleccionado este criterio", pos: 'bottom' });
-              this.criteriaIndex='nw';
+              this.criteriaId='nw';
             }else{
-              this.form.options.criterias.push(this.criterias[this.criteriaIndex]);
+              for(var i=0;i<this.criterias.length;i++){
+                if(this.criterias[i].id==this.criteriaId){
+                  this.form.options.criterias.push(this.criterias[i]);
+                  break;
+                }
+              }//for
             }
           }
         },

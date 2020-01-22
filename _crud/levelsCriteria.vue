@@ -21,7 +21,9 @@
               {name: 'name', label: this.$tr('ui.form.name'), field: 'name', align: 'left'},
               {name: 'actions', label: this.$tr('ui.form.actions'), align: 'right'},
             ],
-            requestParams: {},
+            requestParams: {
+              include:'levelType'
+            },
             filters: {},
           },
           update: {
@@ -40,6 +42,47 @@
                 ],
               }
             },
+            levelTypeId: {
+               value: 0,
+               type: 'select',
+               props: {
+                  label: "Tipo de nivel",
+                  options: [
+                     {label: 'Seleccione un tipo de nivel', value: 0},
+                  ],
+                  loadOptions: {
+                     apiRoute: 'apiRoutes.qmarketplace.levelType',
+                     select: {label: 'name', id: 'id'},
+                     requestParams: {}
+                  }
+               },
+            },
+            relationName: {
+              value: '',
+              type: 'input',
+              isTranslatable: false,
+              props:{
+                label: "Nombre de relación",
+                rules: [
+                  val => !!val || this.$tr('ui.message.fieldRequired')
+                ],
+              }
+            },
+            operator: {
+              props:{
+                label: "Operador",
+                options: [
+                  {label: "Conteo", value: 'count'},
+                  {label: '<', value: '<'},
+                  {label: '<=', value: '<='},
+                  {label: '>', value: '>'},
+                  {label: '>=', value: '>='},
+                  {label: '==', value: '=='},
+                ],
+              },
+              value: 1,
+              type: 'select',
+            },
             type: {
               props:{
                 label: this.$tr('qsubscription.layout.form.type'),
@@ -49,7 +92,7 @@
                   {label: this.$tr('qmarketplace.layout.form.types.boolean'), value: 2},
                 ],
               },
-              value: 1,
+              value: 0,
               type: 'select',
             },
 

@@ -24,7 +24,9 @@
               },
               {name: 'actions', label: this.$tr('ui.form.actions'), align: 'right'},
             ],
-            requestParams: {},
+            requestParams: {
+              include:'levelType'
+            },
             filters: {},
           },
           update: {

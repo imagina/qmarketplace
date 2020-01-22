@@ -16,4 +16,5 @@ export default {
   favoriteStore: `${urlBase}/favorite-store`,
   level: `${urlBase}/level`,
   levelCriteria: `${urlBase}/level-criteria`,
+  levelType: `${urlBase}/level-type`,//
 }

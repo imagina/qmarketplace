@@ -19,6 +19,7 @@ export default {
    adminThemes: 'Temas',
    adminFavoritestores: 'Seguidores',
    products: 'Productos',
+   adminLevelTypes: 'Tipos de nivel',
    adminLevelCriterias: 'Criterios de nivel',
    adminLevels: 'Niveles',
 

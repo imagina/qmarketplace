@@ -22,7 +22,7 @@ export default {
     icon: 'fas fa-store',
     authenticated: true
   },
-  categories: {
+  categories: {//
     permission: 'marketplace.categorystores.manage',
     activated: true,//
     path: '/qmarketplace/categories/index',
@@ -345,6 +345,18 @@ export default {
     layout: () => import('src/layouts/admin'),
     title: 'qmarketplace.sidebar.business.mySubscription',
     icon: 'fas fa-photo-video',
+    authenticated: true,
+  },
+  levelTypes: {//
+    permission: null,
+    // permission: 'marketplace.leveltypes.index',
+    activated: true,
+    path: '/admin/level-types',
+    name: 'qmarketplace.admin.level.types.index',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/levelTypes/index'),
+    layout: () => import('src/layouts/admin'),
+    title: 'qmarketplace.sidebar.adminLevelTypes',
+    icon: 'fas fa-ticket-alt',
     authenticated: true,
   },
   levelsCriteria: {

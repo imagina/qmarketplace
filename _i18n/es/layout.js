@@ -6,6 +6,7 @@ export default {
   newTheme : 'Nuevo tema',
   editTheme : 'Editar tema',
   store : 'Tienda',
+  newLevelType : 'Nuevo tipo de nivel',
   newLevel : 'Nuevo nivel',
   newLevelCriteria : 'Nuevo criterio de nivel',
   updateLevelCriteria : 'Actualizar criterio de nivel',
