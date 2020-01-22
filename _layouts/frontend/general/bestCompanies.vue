@@ -27,7 +27,7 @@
                   <q-card-section class="q-pa-lg">
                      <ul>
                         <li v-for="(item,i) in stores" :key="item.id">
-                           <div class="row q-col-gutter-md items-center" v-if="false">
+                           <div class="row q-col-gutter-md items-center" v-if="$q.platform.is.desktop">
                               <div class="col text-truncate">
                                  <div class="row">
                                     <div class="col-xs-12 col-md-2 col-xl-1 text-truncate">
@@ -39,6 +39,15 @@
                                        <div class="row"><span class="text-primary text-bold ">{{item.name}}</span>
                                        </div>
                                        <div class="row">{{item.slogan}}</div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-xs-2 text-truncate">
+                                 <div class="row">
+                                    <div class="col-xs-12 col-md-10 col-xl-11 ">
+                                       <div class="row"><span class="text-primary text-bold ">Categoria</span>
+                                       </div>
+                                       <div class="row">{{item.categories[0].title}}</div>
                                     </div>
                                  </div>
                               </div>
@@ -83,7 +92,7 @@
                                         size="10px" color="primary" :to="item.link"/>
                               </div>
                            </div>
-                           <div class="row q-col-gutter items-center" v-if="true">
+                           <div class="row q-col-gutter items-center" v-else>
                              <div class="col-12">
                                 <div class="row q-mb-sm">
                                    <div class="row">

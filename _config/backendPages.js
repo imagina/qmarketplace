@@ -87,7 +87,7 @@ export default {
     authenticated: true
   },
   storeProductsCreate: {
-     permission: 'marketplace.stores.manage',
+    permission: 'marketplace.stores.manage',
     activated: true,
     path: '/qmarketplace/products/create/:storeId',
     name: 'qmarketplace.admin.products.store.create',
@@ -173,7 +173,7 @@ export default {
     icon: 'fas fa-store',
     authenticated: true
   },
-  orders: {
+  myStoreOrders: {
     permission: 'marketplace.orders.index',
     activated: true,
     path: '/admin/stores/my-store/orders',
@@ -247,7 +247,7 @@ export default {
     page: () => import('@imagina/qmarketplace/_layouts/admin/coupons/index'),
     layout: () => import('src/layouts/admin'),
     title: 'qcommerce.sidebar.adminCoupons',
-    icon: 'fas fa-ticket-alt',
+    icon: 'fas fa-tags',
     authenticated: true,
   },
   couponsCreate: {
@@ -393,6 +393,16 @@ export default {
     icon: 'fas fa-photo-video',
     authenticated: true,
   },
-
+  myStoreReport:{
+    permission: 'marketplace.stores.mystore',
+    activated: true,
+    path: '/admin/stores/my-store/store-report',
+    name: 'qmarketplace.admin.mystore.report',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/stores/report/index.vue'),
+    layout: () => import('src/layouts/admin'),
+    title: 'qmarketplace.sidebar.business.storeReport',
+    icon: 'fas fa-file-alt',
+    authenticated: true,
+  }
   //create
 }

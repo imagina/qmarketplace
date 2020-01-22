@@ -21,16 +21,18 @@ export default [
          pages.qmarketplace.myStoreCategoryProducts, // categoriesStore
       ]
    },
-   pages.qmarketplace.orders, // orders
-   pages.qmarketplace.myStorePolls, // orders
    pages.qmarketplace.favoriteUsers, // Seguidores
+   pages.qmarketplace.myStorePolls, // orders
+   pages.qmarketplace.myStoreReport,
+   pages.qmarketplace.myStoreOrders, // orders
    pages.qmarketplace.coupons, // Coupons
-   pages.qmarketplace.myChatMessages,
    pages.qmarketplace.myNotifications,
+   pages.qmarketplace.myChatMessages,
    pages.qmarketplace.myBannersIndex,
    pages.qmarketplace.mySubscription,
    pages.qmarketplace.levels,
    pages.qmarketplace.levelsCriteria,
+
 
 
 ]
