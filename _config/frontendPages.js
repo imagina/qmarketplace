@@ -77,5 +77,16 @@ export default {
     icon: 'fas fa-layer-group',
     //authenticated: true
   },
+  bestCompany: {
+    permission: null,
+    activated: true,
+    path: 'mejores-empresas',
+    name: 'stores.best-company.search',
+    page: () => import('@imagina/qmarketplace/_layouts/frontend/general/bestCompanies'),
+    layout: () => import('src/layouts/master'),
+    title: 'qmarketplace.layout.bestCompany',
+    icon: 'fas fa-layer-group',
+    //authenticated: true
+  },
 
 }

@@ -9,8 +9,8 @@ export default {
   newLevel : 'Nuevo nivel',
   newLevelCriteria : 'Nuevo criterio de nivel',
   updateLevelCriteria : 'Actualizar criterio de nivel',
-  newLevel : 'Nuevo nivel',
   updateLevel : 'Actualizar nivel',
+  bestCompany:'Mejores Empresa',
   form:{
     types:{
         quantity:'Cantidad',
