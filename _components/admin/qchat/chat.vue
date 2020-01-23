@@ -97,7 +97,10 @@
       components: {
          Picker,
       },
-      props: {conversationId:{default:0}},
+      props: {
+        conversationId:{default:0},
+        conversationUser:{default:{}}
+      },
       data() {
          return {
             echo: null,
@@ -139,6 +142,7 @@
             await this.getConversation(true)
             await this.getMessagesPaginatedInit(true)
            await this.initPusher()
+          await this.updateConversation()
          }
       },
       computed: {
@@ -276,20 +280,14 @@
          },
          updateConversation() {
             this.loading = true
-            let conversationsUsers = this.$store.getters['qchatConversation/getConversationsUsers']
-                .find(item => {
-                   return item.conversationId == this.conversationId;
-                })
             let params = {params: {}}
-            if (parseInt(conversationsUsers.lastMessageReaded) != null) {
-               conversationsUsers.lastMessageReaded = null
-               this.$crud.update('apiRoutes.qchat.conversationUser', conversationsUsers.id, conversationsUsers, params)
-                   .then(response => {
-                      this.loading = false
-                   })
-                   .catch(error => {
-                      this.loading = false
-                   })
+            if (parseInt(this.conversationUser.lastMessageReaded) != null) {
+               this.conversationUser.lastMessageReaded = null
+               this.$crud.update('apiRoutes.qchat.conversationUser', this.conversationUser.id, this.conversationUser, params).then(response => {
+                  this.loading = false
+               }).catch(error => {
+                  this.loading = false
+               })
             }
          },
          sendMessage() {
