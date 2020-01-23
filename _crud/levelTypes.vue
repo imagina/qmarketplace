@@ -5,7 +5,7 @@
       crudData() {
         return {
           apiRoute: 'apiRoutes.qmarketplace.levelType',
-          //permission: 'marketplace.levels',
+          permission: 'marketplace.leveltypes',
           create: {
             title: this.$tr('qmarketplace.layout.newLevelType'),
             // to : {

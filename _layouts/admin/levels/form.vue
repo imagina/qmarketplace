@@ -29,6 +29,23 @@
               <q-card class="rounded-md bg-white q-mb-xl">
 
                 <q-card-section class="q-pa-lg">
+                  <p class="caption q-mb-md">Descripción
+                    <q-btn round class="no-shadow" size="6px" icon="fas fa-question" >
+                      <q-tooltip>
+                        Ingresa la descripción del nivel
+                      </q-tooltip>
+                    </q-btn>
+                  </p>
+
+                  <q-editor v-model="form.description" class="full-width"
+                  :toolbar="editorText.toolbar" content-class="text-grey-9" toolbar-text-color="grey-9"/>
+
+                </q-card-section>
+              </q-card>
+
+              <q-card class="rounded-md bg-white q-mb-xl">
+
+                <q-card-section class="q-pa-lg">
                   <p class="caption q-mb-md">Tipo de nivel
                     <q-btn round class="no-shadow" size="6px" icon="fas fa-question" >
                       <q-tooltip>
@@ -126,11 +143,30 @@
           form: {
             id: '',
             name: '',
+            description:'',
             levelTypeId:'nw',
             options:{
               criterias:[]
             }
           },
+          editorText: {
+            toolbar: [
+              ['bold', 'italic', 'strike', 'underline', 'removeFormat'],
+              ['link'],
+              [
+                {
+                  label: 'Font Size',
+                  icon: 'format_size',
+                  fixedLabel: true,
+                  fixedIcon: true,
+                  list: 'no-icons',
+                  options: ['size-1', 'size-2', 'size-3', 'size-4', 'size-5', 'size-6', 'size-7']
+                }
+              ],
+              ['quote', 'unordered', 'ordered'],
+              ['fullscreen']
+            ]
+          }
 
         }
       },

@@ -6,7 +6,7 @@
         return {
           apiRoute: 'apiRoutes.qmarketplace.levelCriteria',
           permission: null,
-          // permission: 'marketplace.levelcriterias',
+          permission: 'marketplace.levelcriterias',
           create: {
             title: this.$tr('qmarketplace.layout.newLevelCriteria'),
             // to : {
@@ -19,6 +19,10 @@
             columns: [
               {name: 'id', label: this.$tr('ui.form.id'), field: 'id', align: 'left'},
               {name: 'name', label: this.$tr('ui.form.name'), field: 'name', align: 'left'},
+              {
+                name: 'levelType', label: "Tipo de nivel", field: 'levelType', align: 'left',
+                format: val => (val && val.name) ? val.name : ''
+              },
               {name: 'actions', label: this.$tr('ui.form.actions'), align: 'right'},
             ],
             requestParams: {
