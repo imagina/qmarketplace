@@ -24,9 +24,6 @@
                   <q-input v-model="form.name" color="primary" class="codigo" outlined placeholder="" />
 
                 </q-card-section>
-              </q-card>
-
-              <q-card class="rounded-md bg-white q-mb-xl">
 
                 <q-card-section class="q-pa-lg">
                   <p class="caption q-mb-md">Descripción
@@ -41,6 +38,25 @@
                   :toolbar="editorText.toolbar" content-class="text-grey-9" toolbar-text-color="grey-9"/>
 
                 </q-card-section>
+
+                <q-card-section class="q-pa-lg">
+                  <p class="caption q-mb-md">Orden
+                    <q-btn round class="no-shadow" size="6px" icon="fas fa-question" >
+                      <q-tooltip>
+                        Ingresa el número de orden del nivel (Ejemplo 1,2 o 3...)
+                      </q-tooltip>
+                    </q-btn>
+                  </p>
+
+                  <q-input type="number" v-model="form.order" color="primary" class="codigo" outlined placeholder="" />
+
+                </q-card-section>
+
+
+              </q-card>
+
+              <q-card class="rounded-md bg-white q-mb-xl">
+
               </q-card>
 
               <q-card class="rounded-md bg-white q-mb-xl">
@@ -144,6 +160,7 @@
             id: '',
             name: '',
             description:'',
+            order:'',
             levelTypeId:'nw',
             options:{
               criterias:[]
@@ -265,31 +282,49 @@
             this.loading = false
           })
         },
+        validateData(){
+          if(this.form.name==""){
+            this.$alert.error({ message: 'Debes ingresar el nombre', pos: 'bottom' });
+            return false;
+          }else if(this.form.description==""){
+            this.$alert.error({ message: 'Debes ingresar la descripción', pos: 'bottom' });
+            return false;
+          }else if(this.form.order==""){
+            this.$alert.error({ message: 'Debes ingresar el orden del nivel', pos: 'bottom' });
+            return false;
+          }else if(this.form.levelTypeId=="nw"){
+            this.$alert.error({ message: 'Debes seleccionar el tipo de nivel', pos: 'bottom' });
+            return false;
+          }
+          return true;
+        },
         createItem () {
-          this.loading = true;
-          this.$crud.create('apiRoutes.qmarketplace.level', this.form)
+          if(this.validateData()){
+            this.loading = true;
+            this.$crud.create('apiRoutes.qmarketplace.level', this.form)
             .then(response => {
               this.loading = false
               this.$router.push({ name: 'qmarketplace.admin.levels.index' })
               this.$alert.success({ message: `${this.$tr('ui.message.recordCreated')} ID: ${response.data.id}` })
-            })
-            .catch(error => {
+            }).catch(error => {
               this.loading = false
               this.$alert.error({ message: this.$tr('ui.message.recordNoCreatde'), pos: 'bottom' })
-            })
+            });
+          }
         },
         updateItem () {
-          this.loading = true
-          this.$crud.update('apiRoutes.qmarketplace.level', this.form.id, this.form)
+          if(this.validateData()){
+            this.loading = true
+            this.$crud.update('apiRoutes.qmarketplace.level', this.form.id, this.form)
             .then(response => {
               this.loading = false
               this.$alert.success({ message: `${this.$tr('ui.message.recordUpdated')}` })
               this.initForm()
-            })
-            .catch(error => {
+            }).catch(error => {
               this.loading = false
               this.$alert.error({ message: this.$tr('ui.message.recordNoUpdated'), pos: 'bottom' })
-            })
+            });
+          }
         },
 
       }
