@@ -301,7 +301,7 @@ export default {
           }
         }
       };//params
-      this.$crud.index("apiRoutes.ianalytics.marketplace",params).then(response => {
+      this.$crud.index("apiRoutes.qanalytics.marketplace",params).then(response => {
         console.log(response.data);
       });
     }
