@@ -47,19 +47,23 @@
               }
             },
             levelTypeId: {
-               value: 0,
-               type: 'select',
-               props: {
-                  label: "Tipo de nivel",
-                  options: [
-                     {label: 'Seleccione un tipo de nivel', value: 0},
-                  ],
-                  loadOptions: {
-                     apiRoute: 'apiRoutes.qmarketplace.levelType',
-                     select: {label: 'name', id: 'id'},
-                     requestParams: {}
-                  }
-               },
+              value: 0,
+              type: 'select',
+              loadOptions: {
+                apiRoute: 'apiRoutes.qmarketplace.levelType',
+                select: {label: 'name', id: 'id'},
+                requestParams: {}
+              },
+              props : {
+                label: "Tipo de nivel",
+                clearable: true,
+                options : [
+                  {label: "Seleccione un tipo de nivel", value: 0},
+                ],
+                rules: [
+                  val => !!val || this.$tr('ui.message.fieldRequired')
+                ],
+              }
             },
             relationName: {
               value: '',
@@ -84,7 +88,7 @@
                   {label: '==', value: '=='},
                 ],
               },
-              value: 1,
+              value: 'count',
               type: 'select',
             },
             type: {
@@ -92,8 +96,7 @@
                 label: this.$tr('qsubscription.layout.form.type'),
                 options: [
                   {label: this.$tr('qmarketplace.layout.form.types.quantity'), value: 0},
-                  {label: this.$tr('qmarketplace.layout.form.types.text'), value: 1},
-                  {label: this.$tr('qmarketplace.layout.form.types.boolean'), value: 2},
+                  {label: this.$tr('qmarketplace.layout.form.types.boolean'), value: 1},
                 ],
               },
               value: 0,

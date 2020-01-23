@@ -415,6 +415,15 @@ export default {
     title: 'qmarketplace.sidebar.business.storeReport',
     icon: 'fas fa-file-alt',
     authenticated: true,
+  },
+  myStoreLogout:{
+    permission: null,
+    activated: true,
+    path: '/auth/logout',
+    name: 'qmarketplace.admin.mystore.logout',
+    title: 'quser.layout.label.logout',
+    icon: 'fas fa-sign-out-alt',
+    authenticated: true,
   }
   //create
 }
