@@ -83,8 +83,8 @@
                <div class="col-xs-12 col-sm-12 col-md-7">
                   <div class="q-pa-md">
                      <div class="text-h6 q-mb-lg">
-                        <q-icon class="q-mr-sm icon-sm" name="event"/>  
-                        Ventas totales 
+                        <q-icon class="q-mr-sm icon-sm" name="event"/>
+                        Ventas totales
                      </div>
 
                      <chart :options="chartOptionsBase" style=" height:430px;"/>
@@ -93,11 +93,11 @@
                <div class="col-xs-12 col-sm-12 col-md-5">
                   <div class="line-grey q-pa-md">
                      <div class="text-h6 q-mb-lg">
-                        <q-icon class="q-mr-sm icon-sm" name="fas fa-shopping-basket"/>   
+                        <q-icon class="q-mr-sm icon-sm" name="fas fa-shopping-basket"/>
                         Productos más vendidos
                      </div>
                      <q-list>
-                        <q-item class="items-product" v-for="product in products">
+                        <q-item class="items-product" v-for="product in products" :key="product.id">
                            <q-item-section avatar top>
                               <q-avatar rounded class="q-mr-sm" size="70px">
                                  <img :src="product.logo.path">
@@ -115,7 +115,7 @@
                <div class="col-12">
                   <div class="line-grey q-pa-md">
                      <div class="text-h6 q-mb-lg">
-                        <q-icon class="q-mr-sm icon-sm" name="fas fa-users"/>   
+                        <q-icon class="q-mr-sm icon-sm" name="fas fa-users"/>
                         Mis seguidores destacados
                      </div>
 
@@ -283,19 +283,19 @@ export default {
 
              }]
 
-          } 
+          }
       }
    },
    methods: {}
 }
 </script>
 <style lang="stylus">
-#storeReport 
+#storeReport
    .btn-more
       border-top 1px solid #eee
    .highcharts-legend
-      display none !important   
-   .avatar-user   
+      display none !important
+   .avatar-user
       .q-avatar__content
          border-radius 50%
          border 2px solid #eee
@@ -309,5 +309,5 @@ export default {
       .icon-sm
          display none !important
       .text-h6
-         text-align center 
+         text-align center
 </style>
