@@ -348,7 +348,7 @@ export default {
     authenticated: true,
   },
   levelTypes: {//
-    permission: null,
+    //permission: null,
     permission: 'marketplace.leveltypes.index',
     activated: true,
     path: '/admin/level-types',
@@ -360,7 +360,7 @@ export default {
     authenticated: true,
   },
   levelsCriteria: {
-    permission: null,
+    //permission: null,
     permission: 'marketplace.levelcriterias.index',
     activated: true,
     path: '/admin/level-criterias',
@@ -373,7 +373,7 @@ export default {
   },
   levels: {
     permission: null,
-    permission: 'marketplace.levels.index',
+    //permission: 'marketplace.levels.index',
     activated: true,
     path: '/admin/levels',
     name: 'qmarketplace.admin.levels.index',
