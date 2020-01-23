@@ -80,7 +80,6 @@
               props:{
                 label: "Operador",
                 options: [
-                  {label: "Conteo", value: 'count'},
                   {label: '<', value: '<'},
                   {label: '<=', value: '<='},
                   {label: '>', value: '>'},
