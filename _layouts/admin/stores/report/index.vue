@@ -7,21 +7,43 @@
       <div class="bg-light">
         <div class="row justify-end items-center q-col-gutter-md q-pb-md q-px-md">
           <div class="col-xs-12 col-sm-12 col-md-auto text-center">
-            <q-icon name="event" class="q-mr-sm" /> Julio / Junio / Hoy
+            <q-icon name="event" class="q-mr-sm" />
+            <q-btn  flat color="secondary" :label="$trd(month2,{type:'month'})" @click="getDates(month2,month2End)"/> / <q-btn  flat color="secondary" :label="$trd(month1,{type:'month'})" @click="getDates(month1,month1End)"/> /<q-btn flat color="secondary" label="hoy"@click="getDates(today)"/>
+
           </div>
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-            <q-select filled v-model="model" color="primary" bg-color="white" :options="options" dense>
+            <q-input filled dense v-model="startDate" mask="date" :rules="['date']" label="fecha inicial">
+               <template v-slot:append>
+                  <q-icon name="event" class="cursor-pointer">
+                     <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                        <q-date v-model="startDate" @input="{ marketplaceReport() }" />
+                        <!-- <q-date v-model="startDate" @input="(marketplaceReport()) => $refs.qDateProxy.hide()" /> -->
+                     </q-popup-proxy>
+                  </q-icon>
+               </template>
+            </q-input>
+            <!-- <q-select filled v-model="model" color="primary" bg-color="white" :options="options" dense>
               <template v-slot:prepend>
                 <q-icon name="event" />
               </template>
-            </q-select>
+            </q-select> -->
           </div>
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-            <q-select filled v-model="model" color="primary" bg-color="white" :options="options" dense>
+            <q-input filled dense v-model="endDate" mask="date" :rules="['date']" label="Fecha final">
+               <template v-slot:append>
+                  <q-icon name="event" class="cursor-pointer">
+                     <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                        <q-date v-model="endDate" @input="{ marketplaceReport() }"/>
+                        <!-- <q-date v-model="endDate" @input="() => $refs.qDateProxy.hide()" /> -->
+                     </q-popup-proxy>
+                  </q-icon>
+               </template>
+            </q-input>
+            <!-- <q-select filled v-model="model" color="primary" bg-color="white" :options="options" dense>
               <template v-slot:prepend>
                 <q-icon name="event" />
               </template>
-            </q-select>
+            </q-select> -->
           </div>
         </div>
       </div>
@@ -97,17 +119,27 @@
                 Productos más vendidos
               </div>
               <q-list>
-                <q-item class="items-product" v-for="product in products" :key="product.id">
+                <q-item v-if="soldProducts.length>0" class="items-product" v-for="product in soldProducts" :key="product.id">
                   <q-item-section avatar top>
                     <q-avatar rounded class="q-mr-sm" size="70px">
-                      <img :src="product.logo.path">
+                      <img :src="product.product.mainImage.path">
                     </q-avatar>
                   </q-item-section>
                   <q-item-section>
-                    <q-item-label>{{product.name}}</q-item-label>
-                    <q-item-label caption> Código: {{product.codigo}}</q-item-label>
+                    <q-item-label>{{product.title}}</q-item-label>
+                    <q-item-label caption> Código: {{product.product.sku}}</q-item-label>
                   </q-item-section>
 
+                </q-item>
+                <q-item v-if="soldProducts.length==0" class="items-product" >
+                  <!-- <q-item-section avatar top>
+                    <q-avatar rounded class="q-mr-sm" size="70px">
+                      <img :src="product.product.mainImage.path">
+                    </q-avatar>
+                  </q-item-section> -->
+                  <q-item-section>
+                    <q-item-label>Sin productos vendidos en estas fechas</q-item-label>
+                  </q-item-section>
                 </q-item>
               </q-list>
             </div>
@@ -128,7 +160,7 @@
                     </q-avatar>
                     <q-card-section class="text-subtitle2 ">
                       <div>{{user.user.fullName}}</div>
-                      <q-rating :value="5" readonly color="yellow" :max="5" />
+                      <!-- <q-rating :value="5" readonly color="yellow" :max="5" /> -->
                       <div class="q-mt-xs" >
                         <q-btn color="primary" class="btn-more" no-caps flat label="Ver más"/>
                       </div>
@@ -156,10 +188,6 @@ export default {
     Chart
   },
   watch: {},
-  mounted() {
-    this.$nextTick(function () {
-    })
-  },
   data() {
     return {
       model: '',
@@ -287,18 +315,36 @@ export default {
 
         }]
 
-      }
+      },
+      month1: null,
+      month1End:null,
+      month2: null,
+      month2End: null,
+      startDate: this.$moment().format('YYYY-MM-DD'),
+      endDate: this.$moment().format('YYYY-MM-DD'),
+      today:this.$moment().format('YYYY-MM-DD'),
     }
   },
   mounted(){
-    this.marketplaceReport()
+    this.$nextTick(function () {
+       this.init()
+    });
   },
   methods: {
+    async init() {
+       this.month1=this.$moment().subtract(1, 'month').startOf('month').format('YYYY-MM-')+"01"
+       this.month1End= this.$clone(this.$moment(this.month1).add(1,'month').format('YYYY-MM-DD'))
+       this.month2=this.$moment().subtract(2, 'month').startOf('month').format('YYYY-MM-')+"01"
+       this.month2End=this.$clone(this.$moment(this.month2).add(1,'month').format('YYYY-MM-DD'))
+       this.marketplaceReport()
+    },
     marketplaceReport(){
       let params = {
         params: {
           filter:{
             storeId:this.$store.state.qmarketplaceStores.storeSelected,
+            startDate: this.startDate,
+            endDate: this.endDate,
             totalFollowers: 1,
             followers: 1,
             soldProducts: 1,
@@ -312,6 +358,11 @@ export default {
         this.soldProducts=response.data.soldProducts;
         this.totalPolls=response.data.totalPolls;
       });
+    },
+    getDates(initDate,endDate=this.$moment().format('YYYY-MM-DD')){
+       this.startDate=initDate;
+       this.endDate=endDate;
+       this.marketplaceReport();
     }
 
   }
