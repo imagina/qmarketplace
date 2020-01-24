@@ -33,7 +33,7 @@
             <div class="row items-center bg-teal full-height">
               <div class="col-5 bg-teal-8 full-height">
                 <div class="row full-height justify-center items-center text-white text-h5">
-                  50
+                  {{soldProducts.length}}
                 </div>
               </div>
               <div class="col-7">
@@ -46,7 +46,7 @@
             <div class="row items-center bg-red full-height">
               <div class="col-5 bg-red-8 full-height">
                 <div class="row full-height justify-center items-center text-white text-h5">
-                  150
+                  {{totalFollowers}}
                 </div>
               </div>
               <div class="col-7">
@@ -58,7 +58,7 @@
             <div class="row items-center bg-blue full-height">
               <div class="col-5 bg-blue-8 full-height">
                 <div class="row full-height justify-center items-center text-white text-h5">
-                  250
+                  {{totalPolls}}
                 </div>
               </div>
               <div class="col-7">
@@ -74,7 +74,7 @@
                 </div>
               </div>
               <div class="col-7">
-                <div class="q-pl-md text-white q-py-md">Total de <br>vistas</div>
+                <div class="q-pl-md text-white q-py-md">Total de <br>visitas</div>
               </div>
             </div>
           </div>
@@ -120,15 +120,15 @@
               </div>
 
               <div class="row justify-center q-col-gutter-md">
-                <div class="col-lg-3" v-for="user in users">
+                <div class="col-lg-3" v-for="user in followers">
 
                   <q-card class="no-shadow text-center">
                     <q-avatar class="bg-white avatar-user" size="100px">
-                      <img :src="user.logo.path">
+                      <img :src="user.user.mainImage">
                     </q-avatar>
                     <q-card-section class="text-subtitle2 ">
-                      <div>{{user.name}}</div>
-                      <q-rating v-model="user.rating" readonly color="yellow" :max="5" />
+                      <div>{{user.user.fullName}}</div>
+                      <q-rating :value="5" readonly color="yellow" :max="5" />
                       <div class="q-mt-xs" >
                         <q-btn color="primary" class="btn-more" no-caps flat label="Ver más"/>
                       </div>
@@ -163,6 +163,10 @@ export default {
   data() {
     return {
       model: '',
+      totalPolls:0,
+      totalFollowers:0,
+      followers:0,
+      soldProducts:[],
       options: ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle' ],
       users:  [
         {
@@ -298,11 +302,15 @@ export default {
             totalFollowers: 1,
             followers: 1,
             soldProducts: 1,
+            totalPolls: 1,
           }
         }
       };//params
       this.$crud.index("apiRoutes.qanalytics.marketplace",params).then(response => {
-        console.log(response.data);
+        this.totalFollowers=response.data.totalFollowers;
+        this.followers=response.data.followers;
+        this.soldProducts=response.data.soldProducts;
+        this.totalPolls=response.data.totalPolls;
       });
     }
 
