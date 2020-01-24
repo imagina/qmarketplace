@@ -109,7 +109,7 @@
                 Ventas totales
               </div>
 
-              <chart :options="chartOptionsBase" style=" height:430px;"/>
+              <chart :options="chartOptions" style=" height:430px;"/>
             </div>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-5">
@@ -260,7 +260,7 @@ export default {
           codigo: 5
         }
       ],
-      chartOptionsBase: {
+      chartOptions: {
         chart: {
           type: 'column',
           backgroundColor: null,
@@ -269,17 +269,7 @@ export default {
           text: '',
         },
         xAxis: {
-          categories: [
-            'Ene',
-            'Feb',
-            'Mar',
-            'Abr',
-            'May',
-            'Jun',
-            'Jul',
-            'Ago',
-            'Sep',
-          ], //Answers
+          categories: [], //Answers
           title: {
             text: null,
             style: {
@@ -309,11 +299,7 @@ export default {
           enabled: false
         },
         colors: ['#f96353'],
-        series: [{
-          name: 'Ventas',
-          data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4]
-
-        }]
+        series: []
 
       },
       month1: null,
@@ -345,10 +331,11 @@ export default {
             storeId:this.$store.state.qmarketplaceStores.storeSelected,
             startDate: this.startDate,
             endDate: this.endDate,
-            totalFollowers: 1,
-            followers: 1,
-            soldProducts: 1,
-            totalPolls: 1,
+            totalFollowers: true,
+            followers: true,
+            soldProducts: true,
+            totalPolls: true,
+            totalSold:true
           }
         }
       };//params
@@ -357,6 +344,16 @@ export default {
         this.followers=response.data.followers;
         this.soldProducts=response.data.soldProducts;
         this.totalPolls=response.data.totalPolls;
+
+        let totalSold=this.$clone(response.data.totalSold)
+        this.chartOptions.xAxis.categories = totalSold.dates
+        this.chartOptions.series = [
+          {
+            name: 'Ventas',
+            data: totalSold.sold
+          },
+        ]
+
       });
     },
     getDates(initDate,endDate=this.$moment().format('YYYY-MM-DD')){

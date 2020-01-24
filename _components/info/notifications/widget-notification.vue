@@ -9,20 +9,33 @@
          </template>
          <q-list class="bg-light">
             <!--  :to="{name: 'user.profile.me'}" -->
-            <q-item clickable v-ripple v-for="item in notificationData" :key="item.id" :to="item.link">
-               <q-item-section avatar>
-                  <q-avatar color="red" text-color="white" :icon="item.icon"/>
-               </q-item-section>
-               <q-item-section class="q-py-md">
-                  <div class="row"><span class="text-primary text-bold ">{{item.title}}</span></div>
-                  <div class="row">{{item.timeAgo}}</div>
-               </q-item-section>
-               <q-item-section side>
-                  <q-btn v-if="!item.isRead" dense round icon="fas fa-eye" class="q-mr-sm q-pa-xs"
-                         size="10px" color="primary" @click="updateNotification(item.id)"/>
-               </q-item-section>
-               <q-separator/>
-            </q-item>
+            <div v-if="notifications">
+               <q-item clickable v-ripple v-for="item in notificationData" :key="item.id" :to="item.link">
+                  <q-item-section avatar>
+                     <q-avatar color="red" text-color="white" :icon="item.icon"/>
+                  </q-item-section>
+                  <q-item-section class="q-py-md">
+                     <div class="row"><span class="text-primary text-bold ">{{item.title}}</span></div>
+                     <div class="row">{{item.timeAgo}}</div>
+                  </q-item-section>
+                  <q-item-section side>
+                     <q-btn v-if="!item.isRead" dense round icon="fas fa-eye" class="q-mr-sm q-pa-xs"
+                            size="10px" color="primary" @click="updateNotification(item.id)"/>
+                  </q-item-section>
+                  <q-separator/>
+               </q-item>
+            </div>
+            <div v-else>
+               <q-item v-ripple>
+                  <q-item-section avatar>
+                     <q-avatar color="red" text-color="white" icon="far fa-times-circle"/>
+                  </q-item-section>
+                  <q-item-section class="q-py-md">
+                     <span class="text-primary text-bold ">No tiene Notificaciones</span>
+                  </q-item-section>
+               </q-item>
+            </div>
+
 
          </q-list>
       </q-btn-dropdown>
@@ -32,6 +45,7 @@
 
 <script>
    import Echo from "laravel-echo";
+
    export default {
       props: {},
       components: {},
@@ -46,7 +60,7 @@
          return {
             notificationData: false,
             opened: false,
-            notifications:0
+            notifications: 0
          }
       },
       methods: {
@@ -108,9 +122,9 @@
                    this.getNotifications()
                 })
          },
-         redirect(url){
-            let base= this.$route
-            let uri=window.location.href+'/#'+url
+         redirect(url) {
+            let base = this.$route
+            let uri = window.location.href + '/#' + url
             console.warn(base)
             //return window.open(uri);
 
@@ -126,6 +140,7 @@
 
       .q-btn__wrapper
          padding-left: 0;
+
          &:before
             box-shadow none
 </style>

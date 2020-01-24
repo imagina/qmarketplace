@@ -40,7 +40,6 @@
                 sent>
                 <q-spinner-dots size="2rem" />
               </q-chat-message>
-
               <q-chat-message
                 v-if="loadingMessageSender"
                 name="me"
@@ -291,6 +290,8 @@
                    this.loading = false
                 })
          },
+
+
          loadMoreMessage() {
             if (this.paginate.page < this.paginate.lastPage) {
                this.paginate.page++
@@ -316,10 +317,12 @@
             if (this.form.body != '') {
               this.animateScroll()
                this.form.conversationId = this.conversationId
+               let message=this.$clone(this.form)
+               this.form.body = ''
                this.loadingMessage = true
-               this.$crud.create('apiRoutes.qchat.messages', this.form)
+               this.$crud.create('apiRoutes.qchat.messages', message)
                    .then(response => {
-                      this.form.body = ''
+                      //this.form.body = ''
                       this.messages.push(response.data)
                       this.loadingMessage = false
                       this.animateScroll()

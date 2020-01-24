@@ -13,6 +13,9 @@ export default {
   updateLevel : 'Actualizar nivel',
   bestCompany:'Mejores Empresa',
   form:{
+    checkout:{
+      coupons:'Cupones de descuento'
+    },
     types:{
         quantity:'Cantidad',
         text:'Texto',
