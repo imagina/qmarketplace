@@ -40,6 +40,16 @@
                 sent>
                 <q-spinner-dots size="2rem" />
               </q-chat-message>
+
+              <q-chat-message
+                v-if="loadingMessageSender"
+                name="me"
+                :avatar="userReceive.smallImage"
+                text-color="white"
+                bg-color="primary">
+                <q-spinner-dots size="2rem" />
+              </q-chat-message>
+
             </q-scroll-area>
          </q-card-section>
          <q-separator/>
@@ -55,6 +65,7 @@
             </div>
             <q-input outlined class="full-width" bottom-slots :readonly="loading"
                      @keyup.enter="sendMessage()"
+                     @focus="updateConversation"
                      placeholder="Type Message ... "
                      v-model="form.body" counter maxlength="140" dense>
                <template v-slot:before>
@@ -115,6 +126,7 @@
             echo: null,
             loading: false,
             loadingMessage: false,
+            loadingMessageSender: false,
             close: !this.openChat,
             store: null,
             openChat: true,
@@ -146,13 +158,17 @@
       },
       mounted() {
          this.storeData();
+          this.updateConversation()
       },
+     beforeDestroy(){
+       this.disconnectPusher()
+     },
       watch: {
         conversationId: async function (n) {
+            await this.disconnectPusher()
             await this.getConversation(true)
             await this.getMessagesPaginatedInit(true)
-           await this.initPusher()
-          await this.updateConversation()
+            await this.updateConversation()
          }
       },
       computed: {
@@ -204,21 +220,18 @@
                }
             }
             let criteria = this.conversationId;
-            this.$crud.show('apiRoutes.qchat.conversations', criteria, params)
-                .then(response => {
-                   this.conversation = response.data
-                   let users = response.data.users
-                   let user = users.find(user => user.id !== this.$store.state.quserAuth.userId);
-                   this.userReceive = user
-                   this.loading = false
-                })
-                .catch(error => {
-                   this.loading = false
-                })
+            this.$crud.show('apiRoutes.qchat.conversations', criteria, params).then(response => {
+               this.conversation = response.data
+               this.userReceive = response.data.users.find(user => user.id != this.$store.state.quserAuth.userId);
+                this.initPusher(response.data.users.find(user => user.id != this.$store.state.quserAuth.userId))
+               this.loading = false
+            }).catch(error => {
+               this.loading = false
+            })
          },
         getMessagesPaginatedInit(refresh = false) {
-          this.loading = true
-          this.messages=[]
+          this.loadingMessageSender = true
+
            let params = {
               refresh: refresh,
               params: {
@@ -233,18 +246,20 @@
                  take: this.paginate.take,
               }
            }
+          this.animateScroll()
            this.$crud.index('apiRoutes.qchat.messages', params)
                .then(response => {
+                 this.messages=[]
                   //this.messages = response.data.reverse()
                   this.paginate.lastPage = response.meta.page.lastPage
                   response.data.forEach(item => {
                      this.messages.unshift(item)
                   })
                   this.animateScroll()
-                  this.loading = false
+                  this.loadingMessageSender = false
                })
                .catch(error => {
-                  this.loading = false
+                  this.loadingMessageSender = false
                })
         },
          getMessagesPaginated(refresh = false) {
@@ -289,14 +304,11 @@
             return message.userId == this.$store.state.quserAuth.userId ? true : false
          },
          updateConversation() {
-            this.loading = true
             let params = {params: {}}
-            if (parseInt(this.conversationUser.lastMessageReaded) != null) {
+            if (this.conversationUser.lastMessageReaded != null) {
                this.conversationUser.lastMessageReaded = null
                this.$crud.update('apiRoutes.qchat.conversationUser', this.conversationUser.id, this.conversationUser, params).then(response => {
-                  this.loading = false
                }).catch(error => {
-                  this.loading = false
                })
             }
          },
@@ -348,24 +360,30 @@
                 })
             return res
          },
-
-
-        async initPusher() {
-            this.echo = new Echo({
-               broadcaster: env('BROADCAST_DRIVER', 'pusher'),
-               key: env('PUSHER_APP_KEY'),
-               cluster: env('PUSHER_APP_CLUSTER'),
-               encrypted: env('PUSHER_APP_ENCRYPTED'),
-            })
-            this.echo.channel('global')
-                .listen(`.notification_${this.$store.state.quserAuth.userData.id}_1`, message => {
-                   this.messages.push(message.data)
-                   this.animateScroll()
-                })
-         },
-         animateScroll() {
-            this.$refs.scrollArea.setScrollPosition(10000000, 300)
-         }
+        initPusher(userReceive) {
+          this.echo = new Echo({
+            broadcaster: env('BROADCAST_DRIVER', 'pusher'),
+            key: env('PUSHER_APP_KEY'),
+            cluster: env('PUSHER_APP_CLUSTER'),
+            encrypted: env('PUSHER_APP_ENCRYPTED'),
+          })
+          let event = `.notification_${this.$store.state.quserAuth.userData.id}_${userReceive.id}`
+          console.error(event)
+          this.echo.channel('global').listen(event, message => {
+            console.error('message recibed', event)
+            this.messages.push(message.data)
+            this.animateScroll()
+          })
+        },
+        disconnectPusher(){
+           if (this.echo != null ) {
+             this.echo.disconnect()
+             console.warn('Disconnect Pusher')
+           }
+        },
+        animateScroll() {
+          this.$refs.scrollArea.setScrollPosition(10000000, 300)
+        }
       }
    }
 </script>
