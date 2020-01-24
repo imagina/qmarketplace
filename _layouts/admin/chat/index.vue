@@ -126,7 +126,6 @@
           encrypted: env('PUSHER_APP_ENCRYPTED'),
         })
         this.echo.channel('global').listen(`.conversationsUserUpdated${this.$store.state.quserAuth.userData.id}`, response => {
-          console.warn('this data si send by pusher',response)
           this.getData(true)
         })
       },
