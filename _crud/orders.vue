@@ -9,11 +9,13 @@
           create: false,
           read: {
             columns: [
-              {name: 'id', label: this.$tr('ui.form.id'), field: 'id'},
+              {name: 'id', label: 'Orden N°', field: 'id'},
               {name: 'total', label: this.$tr('qcommerce.layout.form.total'), field: 'total'},
               {name: 'statusName', label: this.$tr('ui.form.status'), field: 'statusName'},
-              {name: 'paymentCity', label: this.$tr('qcommerce.layout.form.city'), field: 'paymentCity'},
-              {name: 'paymentCountry', label: this.$tr('qcommerce.layout.form.country'), field: 'paymentCountry'},
+              // {name: 'paymentCity', label: this.$tr('qcommerce.layout.form.city'), field: 'paymentCity'},
+              // {name: 'paymentCountry', label: this.$tr('qcommerce.layout.form.country'), field: 'paymentCountry'},
+              {name: 'paymentFirstName', label: this.$tr('ui.form.name'), field: 'paymentFirstName'},
+              {name: 'paymentLastName', label: this.$tr('ui.form.lastName'), field: 'paymentLastName'},
               {name: 'email', label: this.$tr('ui.form.email'), field: 'email', style: 'width: 50px'},
               {name: 'shippingMethod', label: this.$tr('qcommerce.layout.form.shippingMethod'), field: 'shippingMethod'},
               {name: 'actions', label: this.$tr('ui.form.actions'), align: 'right'},
