@@ -93,7 +93,7 @@
 
                                  <div class="col-xs-12">
                                     <div class="q-mb-md">
-                                       <p class="caption q-mb-sm">Valiar Cupoon de descuento</p>
+                                       <p class="caption q-mb-sm">Valiar Cupón de descuento</p>
                                        <div class="row">
                                           <div class="col-xs-6 col-sm-9 q-pa-md">
                                              <q-input dense
@@ -320,7 +320,7 @@
                               <p class="q-subheading q-my-md">Subtotal</p>
                            </div>
                            <div class="col-6 text-right">
-                              <p v-if="cart" class="q-subheading q-my-md">$ {{cart.total}}</p>
+                              <p v-if="cart" class="q-subheading q-my-md">$ {{subTotal}}</p>
                               <p v-else class="q-subheading q-my-md">$ 0</p>
                            </div>
                         </div>
@@ -342,13 +342,13 @@
                               <p class="q-subheading q-my-md">$ {{discont}}</p>
                            </div>
                         </div>
-                        <hr class="line-grey">
+<!--                         <hr class="line-grey">
                         <div class="row">
                            <div class="col-12">
                               <div class="q-subheading q-my-md cursor-pointer"><u>{{$tr('qsubscription.layout.form.checkout.calculateShipping')}}</u>
                               </div>
                            </div>
-                        </div>
+                        </div> -->
                         <hr class="line-grey">
                         <div class="row">
                            <div class="col-6">
@@ -356,7 +356,7 @@
                            </div>
                            <div class="col-6 text-right">
                               <p v-if="cart" class="q-subheading text-weight-bold text-primary q-my-md">$
-                                 {{cart.total}}</p>
+                                 {{total}}</p>
                               <p v-else class="q-subheading text-weight-bold text-primary q-my-md">$ 0</p>
                            </div>
                         </div>
@@ -437,6 +437,19 @@
          products() {
             return this.$clone(this.cart && this.cart.products ? this.cart.products : [])
          },
+         subTotal(){
+          var subTot=0;
+          var prods=this.products;
+          for(var i=0;i<prods.length;i++){
+            subTot=subTot+prods[i].total;
+          }
+          return subTot;
+         },
+         total(){
+          var sub=this.subTotal;
+          var tot=sub-this.discont;
+          return tot;
+         }
 
       },
       data() {
