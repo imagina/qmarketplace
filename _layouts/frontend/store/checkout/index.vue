@@ -448,6 +448,7 @@
          total(){
           var sub=this.subTotal;
           var tot=sub-this.discont;
+          tot=tot+this.shipping;
           return tot;
          }
 
