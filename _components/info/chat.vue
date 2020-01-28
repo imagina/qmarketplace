@@ -4,12 +4,12 @@
              class="q-mx-sm">enviar mensage
       </q-btn>
       <q-dialog v-model="openChat" >
-         <q-card class="q-pa-lg bg-fondo" style="height: 70vh; max-width: 450px; width: 100% ">
+         <q-card class="q-pa-lg bg-fondo" style="height: 51vh; max-width: 450px; width: 100% ">
             <q-toolbar>
                <q-btn flat v-close-popup color="primary" round dense icon="fas fa-arrow-left"/>
                <q-toolbar-title class="text-primary font-family-secondary">Enviar Mensajes</q-toolbar-title>
             </q-toolbar>
-            <q-card id="qchat"
+            <q-card id="qchats"
                     style="width: 100%;  margin: auto">
                <q-bar class="bg-primary text-white">
                   <div class="cursor-pointer">
@@ -320,8 +320,17 @@
          },
          animateScroll() {
             this.$refs.scrollArea.setScrollPosition(10000000, 300)
-         }
-      }
+         },
+        disconnectPusher(){
+          if (this.echo != null ) {
+            this.echo.disconnect()
+            console.warn('Disconnect Pusher')
+          }
+        },
+      },
+     beforeDestroy() {
+        this.disconnectPusher()
+     }
    }
 </script>
 <style lang="stylus">
