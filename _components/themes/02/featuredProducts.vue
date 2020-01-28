@@ -48,8 +48,11 @@
                remember: false,
                params: {
                   include: '',
-                  filter: {
-                     store: this.storeData.id,
+                  store: this.storeData.id,
+                  top: true,
+                  order: {
+                     field: 'created_at',
+                     way: 'desc'
                   },
                   take: 2
                }

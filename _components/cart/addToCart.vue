@@ -121,8 +121,8 @@
                }
             }
             //Request
-            commerceServices.crud.index('apiRoutes.qcommerce.productOptions', params).then(response => {
-               this.template.options = this.$array.tree(response.data)
+            this.$crud.index('apiRoutes.qcommerce.productOptions', params).then(response => {
+               this.template.options = this.$array.select(response.data)
                this.loading = false
             }).catch(error => {
                this.loading = false

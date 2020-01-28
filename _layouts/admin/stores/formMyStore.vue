@@ -138,7 +138,7 @@
                   </q-input>
                 </div>
                 <div  class="q-mb-xl">
-                  <p class="caption q-mb-sm">Enlace de youtube
+                  <p class="caption q-mb-sm">Video de youtube
                     <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
                       <q-tooltip>
                         Aquí puedes ingresar el link de un video promocional
@@ -384,12 +384,24 @@ export default {
   components: {
     uploadMedia,
   },
+  watch:{
+    storeId() {
+      this.init()
+    }
+  },
+  computed:{
+   storeId(){
+     if (this.$route.params.id){
+       return  this.$route.params.id
+     }
+     return this.$store.state.qmarketplaceStores.storeSelected
+   }
+  },
   data() {
     return {
       loading:true,
       stores:[],
       storesOptions:[],
-      storeId:false,
       configName: 'apiRoutes.qmarketplace.store',
       lang: this.$i18n.locale,
       userId: this.$store.state.quserAuth.userId,
@@ -444,38 +456,8 @@ export default {
             color_secondary:"#E91E63",
             background:"#FFFFFF",
           },
-          payment_methods: [
-            // {
-            //   name: 'Contraentrega',
-            //   active: false
-            // },
-            // {
-            //   name: 'Paypal',
-            //   active: false
-            // },
-            // {
-            //   name: 'Entrega de Tienda',
-            //   active: false
-            // },
-            // {
-            //   name: 'PayU',
-            //   active: false
-            // }
-          ],
-          shipping_methods: [
-            // {
-            //   name: 'Recoger en Tienda',
-            //   active: false
-            // },
-            // {
-            //   name: 'Servicio a Domicilio',
-            //   active: false
-            // },
-            // {
-            //   name: 'A convenir',
-            //   active: false
-            // }
-          ]
+          payment_methods: [],
+          shipping_methods: [],
         },
         social: [
           {
@@ -571,17 +553,14 @@ export default {
   },
   methods: {
     async init(){
+      this.loading=true
       await this.getStoreCategories();//
       await this.getProvinces();//
       await this.getThemes();//
       await this.getPaymentMethods();//
       await this.getShippingMethods();//
-      this.storeId=this.$store.state.qmarketplaceStores.storeSelected;
-      if (this.$route.params.id) this.storeId = this.$route.params.id
       if (this.storeId) await this.getData()//Get data if is edit
       await this.getSuscription();
-
-      this.loading=false;
     },
     validateRequiredData(){
       if(this.company.name==""){
@@ -707,13 +686,16 @@ export default {
             this.company.categories=categories;
             this.getCities()
             this.getNeighborhoods()
+            this.loading=false;
             resolve(true)//Resolve
           }).catch(error => {
             this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
             reject(false)//Resolve
+            this.loading=false;
           })
         } else {
           resolve(true)//Resolve
+          this.loading=false;
         }
 
       })
@@ -932,11 +914,11 @@ export default {
         });
       }
     }
-
-
-  },
+      },
   mounted(){
-    this.init();
+    this.$nextTick(async function () {
+      await this.init();
+    })
   }
 }
 </script>

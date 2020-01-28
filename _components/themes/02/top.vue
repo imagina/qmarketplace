@@ -106,7 +106,7 @@
 
                         </div>
                         <div class="line-vertical"></div>
-                        <q-btn flat icon="fas fa-heart" color="store-secondary"/>
+                        <q-btn flat icon="fas fa-heart" color="store-secondary" :to="{name:'stores.product.wishlist',params:{slug:storeData.slug}}"/>
                         <div class="line-vertical"></div>
                         <cartHeader color="store-secondary" style="display: inline-block;"/>
                      </div>
@@ -165,7 +165,7 @@
                       <q-toolbar-title>
                       </q-toolbar-title>
                      <q-btn flat  dense @click="modal = !modal" icon="fas fa-search" color="store-primary"/>
-                     <q-btn flat  dense icon="fas fa-heart" v-if="!followedStore" @click="followStore()" color="store-primary"/>
+                     <q-btn flat  dense icon="fas fa-heart"  :to="{name:'stores.product.wishlist',params:{slug:storeData.slug}}" color="store-primary"/>
                      
                     <cartHeader color="store-primary" style="display: inline-block;"> </cartHeader>
                   </q-toolbar>

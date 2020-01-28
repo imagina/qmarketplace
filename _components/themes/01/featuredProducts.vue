@@ -35,9 +35,13 @@
                   include: '',
                   filter: {
                      store: this.storeData.id,
-                     categories: [2]
+                     top: true,
+                     order: {
+                        field: 'created_at',
+                        way: 'desc'
+                     },
                   },
-                  take:3
+                  take: 3
                }
             };//params
             this.$crud.index("apiRoutes.qcommerce.products", params).then(response => {

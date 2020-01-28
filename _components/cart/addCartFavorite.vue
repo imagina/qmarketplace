@@ -95,7 +95,34 @@
             })
          },
          addFavorite() {
+            return new Promise((resolve, reject) => {
+               this.visible = true
+               let formData = {
+                  storeId: this.storeData.id,
+                  productId: this.productId,
+                  userId:this.$store.state.quserAuth.userId,
+               }
 
+               this.$crud.create('apiRoutes.qcommerce.wishlists',formData).then(response => {
+                  this.$q.dialog({
+                     title: 'Producto agregado a su lista de deseo!',
+                     color: 'positive',
+                  }).onOk(() => {
+                     this.visible = false
+                     resolve(true)//Resolve
+                  })
+
+               }).catch(error => {
+                  this.$q.dialog({
+                     title: 'Producto ya existe en su lista de deseo!',
+                     color: 'negative',
+                  }).onOk(() => {
+                     this.visible = false
+                     reject(false)//Resolve
+                  })
+
+               })
+            });
          }
       }
    }

@@ -44,6 +44,17 @@ export default {
     icon: 'fas fa-layer-group',
     //authenticated: true
   },
+  wishList: {
+    permission: null,
+    activated: true,
+    path: 'tienda/:slug/wish-list',
+    name: 'stores.product.wishlist',
+    page: () => import('@imagina/qmarketplace/_layouts/frontend/store/products/wishlist'),
+    layout: () => import('src/layouts/master'),
+    title: 'qmarketplace.layout.wishList',
+    icon: 'fas fa-layer-group',
+    //authenticated: true
+  },
   product: {
     permission: null,
     activated: true,
@@ -66,6 +77,7 @@ export default {
     icon: 'fas fa-layer-group',
     //authenticated: true
   },
+
   products: {
     permission: null,
     activated: true,

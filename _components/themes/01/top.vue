@@ -103,7 +103,7 @@
                         </router-link>
                       </div>
                   </div>
-                  <q-btn v-if="!followedStore" @click="followStore()" flat icon="fas fa-heart" color="white"/>
+                  <q-btn :to="{name:'stores.product.wishlist',params:{slug:storeData.slug}}" flat icon="fas fa-heart" color="white"/>
                   <cartHeader style="display: inline-block;"/>
                 </div>
               </div>
@@ -159,7 +159,7 @@
                       <q-toolbar-title>
                       </q-toolbar-title>
                      <q-btn flat  dense @click="modal = !modal" icon="fas fa-search" color="store-primary"/>
-                     <q-btn flat  dense icon="fas fa-heart" v-if="!followedStore" @click="followStore()" color="store-primary"/>
+                     <q-btn flat  dense icon="fas fa-heart" :to="{name:'stores.product.wishlist',params:{slug:storeData.slug}}" color="store-primary"/>
                      
                     <cartHeader color="store-primary" style="display: inline-block;"> </cartHeader>
                   </q-toolbar>

@@ -12,6 +12,7 @@ export default {
   updateLevelCriteria : 'Actualizar criterio de nivel',
   updateLevel : 'Actualizar nivel',
   bestCompany:'Mejores Empresa',
+  wishList:"Lista de Deseo",
   form:{
     checkout:{
       coupons:'Cupones de descuento'
