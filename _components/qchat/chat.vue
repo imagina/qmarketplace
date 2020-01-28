@@ -75,6 +75,17 @@
                           :sent="isSendMessage(message)"
                   />
                </div>
+  
+              <q-chat-message
+                v-if="loadingMessage"
+                name="me"
+                :avatar="user.smallImage"
+                text-color="white"
+                bg-color="primary"
+                sent>
+                <q-spinner-dots size="2rem" />
+              </q-chat-message>
+              
             </q-scroll-area>
          </q-card-section>
          <q-separator/>
@@ -129,6 +140,8 @@
       props: ['color','type'],
       data() {
          return {
+           loadingMessage: false,
+           loadingMessageSender: false,
             echo: null,
             loading: false,
             close: !this.openChat,
@@ -279,17 +292,18 @@
          },
          sendMessage() {
             if (this.form.body != '') {
+                this.animateScroll()
                this.form.conversationId = this.conversationId
-               this.loading = true
+               this.loadingMessage = true
                this.$crud.create('apiRoutes.qchat.messages', this.form)
                    .then(response => {
                       this.form.body = ''
                       this.messages.push(response.data)
-                      this.loading = false
+                      this.loadingMessage = false
                       this.animateScroll()
                    })
                    .catch(error => {
-                      this.loading = false
+                      this.loadingMessage = false
                    })
             }
          },
