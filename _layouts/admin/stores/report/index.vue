@@ -92,11 +92,11 @@
             <div class="row items-center bg-amber full-height">
               <div class="col-5 bg-amber-8 full-height">
                 <div class="row full-height justify-center items-center text-white text-h5">
-                  300
+                  {{totalSolds}}
                 </div>
               </div>
               <div class="col-7">
-                <div class="q-pl-md text-white q-py-md">Total de <br>visitas</div>
+                <div class="q-pl-md text-white q-py-md">Total de <br>ventas</div>
               </div>
             </div>
           </div>
@@ -151,7 +151,7 @@
                 Mis seguidores destacados
               </div>
 
-              <div class="row justify-center q-col-gutter-md">
+              <div class="row justify-center q-col-gutter-md" v-if="followers.length>0">
                 <div class="col-lg-3" v-for="user in followers">
 
                   <q-card class="no-shadow text-center">
@@ -162,15 +162,27 @@
                       <div>{{user.user.fullName}}</div>
                       <!-- <q-rating :value="5" readonly color="yellow" :max="5" /> -->
                       <div class="q-mt-xs" >
-                        <q-btn color="primary" class="btn-more" no-caps flat label="Ver más"/>
+                        <q-btn color="primary" class="btn-more" no-caps flat label="Ver más" @click="openProfile(user.user)"/>
                       </div>
                     </q-card-section>
 
                   </q-card>
 
+                  <q-dialog v-model="card.open">
+                      <card-user :card="card"></card-user>
+                  </q-dialog>
+
                 </div>
+
               </div>
 
+              <div class="row justify-center q-col-gutter-md" v-else>
+                <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+                  <div class="text-h6 q-mb-lg">
+                    No hay seguidores en este rango de fecha
+                  </div>
+                </div>
+              </div>
 
             </div>
           </div>
@@ -182,84 +194,28 @@
 </template>
 <script>
 import {Chart} from 'highcharts-vue'
+import cardUser from '@imagina/qmarketplace/_components/info/cardUser'
 export default {
   props: {},
   components: {
-    Chart
+    Chart,
+    cardUser
+
   },
   watch: {},
   data() {
     return {
       model: '',
       totalPolls:0,
+      totalSolds:0,
       totalFollowers:0,
       followers:0,
+      card: {
+        open: false,
+        info: [],
+      },
       soldProducts:[],
       options: ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle' ],
-      users:  [
-        {
-          name: 'Nombre Apellido',
-          logo : { path: 'https://cdn.quasar.dev/img/avatar.png' },
-          rating: 5
-        },
-        {
-          name: 'Nombre Apellido',
-          logo : { path: 'https://cdn.quasar.dev/img/avatar.png' },
-          rating: 5
-        },
-        {
-          name: 'Nombre Apellido',
-          logo : { path: 'https://cdn.quasar.dev/img/avatar.png' },
-          rating: 5
-        },
-        {
-          name: 'Nombre Apellido',
-          logo : { path: 'https://cdn.quasar.dev/img/avatar.png' },
-          rating: 5
-        },
-        {
-          name: 'Nombre Apellido',
-          logo : { path: 'https://cdn.quasar.dev/img/avatar.png' },
-          rating: 5
-        },
-        {
-          name: 'Nombre Apellido',
-          logo : { path: 'https://cdn.quasar.dev/img/avatar.png' },
-          rating: 5
-        },
-        {
-          name: 'Nombre Apellido',
-          logo : { path: 'https://cdn.quasar.dev/img/avatar.png' },
-          rating: 5
-        },
-        {
-          name: 'Lorem Ipsom',
-          logo : { path: 'https://cdn.quasar.dev/img/avatar.png' },
-          rating: 5
-        }
-      ],
-      products:  [
-        {
-          name: 'Lorem Ipsom',
-          logo : { path: 'https://cdn.quasar.dev/img/avatar.png' },
-          codigo: 5
-        },
-        {
-          name: 'Lorem Ipsom',
-          logo : { path: 'https://cdn.quasar.dev/img/avatar.png' },
-          codigo: 5
-        },
-        {
-          name: 'Lorem Ipsom',
-          logo : { path: 'https://cdn.quasar.dev/img/avatar.png' },
-          codigo: 5
-        },
-        {
-          name: 'Lorem Ipsom',
-          logo : { path: 'https://cdn.quasar.dev/img/avatar.png' },
-          codigo: 5
-        }
-      ],
       chartOptions: {
         chart: {
           type: 'column',
@@ -344,7 +300,7 @@ export default {
         this.followers=response.data.followers;
         this.soldProducts=response.data.soldProducts;
         this.totalPolls=response.data.totalPolls;
-
+        this.totalSolds=0;
         let totalSold=this.$clone(response.data.totalSold)
         this.chartOptions.xAxis.categories = totalSold.dates
         this.chartOptions.series = [
@@ -352,7 +308,10 @@ export default {
             name: 'Ventas',
             data: totalSold.sold
           },
-        ]
+        ];
+        for(var i=0;i<totalSold.sold.length;i++){
+          this.totalSolds+=totalSold.sold[i];
+        }
 
       });
     },
@@ -360,6 +319,11 @@ export default {
        this.startDate=initDate;
        this.endDate=endDate;
        this.marketplaceReport();
+    },
+    openProfile(result) {
+      this.card.open = true;
+      this.card.info = result;
+      this.card.info.fields=this.$helper.convertToFrontField(this.card.info.fields);
     }
 
   }
