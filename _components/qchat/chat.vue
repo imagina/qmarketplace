@@ -358,8 +358,17 @@
          },
          animateScroll() {
             this.$refs.scrollArea.setScrollPosition(10000000, 300)
-         }
-      }
+         },
+        disconnectPusher(){
+          if (this.echo != null ) {
+            this.echo.disconnect()
+            console.warn('Disconnect Pusher')
+          }
+        },
+      },
+     beforeDestroy() {
+       this.disconnectPusher()
+     }
    }
 </script>
 <style lang="stylus">
