@@ -33,8 +33,12 @@ export default {
             remember: false,
             params: {
                include: '',
-               filter:{
+               filter: {
                   store: this.storeData.id,
+                  order:{
+                     field:'created_at',
+                     way:'desc'
+                  }
                },
                take:2
             }

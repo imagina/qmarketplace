@@ -36,7 +36,10 @@
                   include: '',
                   filter: {
                      store: this.storeData.id,
-                     news: true
+                     order:{
+                        field:'created_at',
+                        way:'desc'
+                     }
                   },
                   take: 4
                }

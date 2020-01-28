@@ -78,7 +78,7 @@
                      </div>
 
                   </div>
-                  <!--metodos de envio-->
+                  <!--Coupons validate-->
                   <div class="row">
                      <div class="col-12">
                         <h5 class="q-ma-md text-secondary font-family-secondary"><i
@@ -108,7 +108,7 @@
                                                      class=" text-weight-bold rounded-sm q-mb-md" color="primary"
                                                      label="Validar cupon"/>
                                           </div>
-                                          <div class="col-xs-12" v-if="couponMessage"><span>{{couponMessage}}</span></div>
+                                          <div class="col-xs-12" v-if="couponMessage"><span v-bind:class="couponMessage.status?'text-positive':'text-negative'">{{couponMessage.message}}</span></div>
                                        </div>
 
                                     </div>
@@ -780,12 +780,10 @@
                       }
                       this.$crud.show('apiRoutes.qcommerce.coupons', criteria, params).then(response => {
                          this.discont = response.data.discount
-                         this.couponMessage=response.data.message
+                         this.couponMessage=response.data
                          this.loading = false
                          resolve(true)//Resolve
                       }).catch(error => {
-                         this.discont =0
-                         this.couponMessage=error.errors
                          this.loading = false
                          reject(error)//Resolve
                       })
