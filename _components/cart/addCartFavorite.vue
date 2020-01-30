@@ -6,6 +6,7 @@
              flat dense
              :loading="loading"
              :text-color="color"
+             label="COMPRAR"
       >
          <template v-slot:loading>
             <q-spinner-facebook></q-spinner-facebook>
@@ -171,4 +172,6 @@
 <style lang="stylus">
    #addCartOptions
       display inline-block
+      .q-btn__content > div
+         display none
 </style>

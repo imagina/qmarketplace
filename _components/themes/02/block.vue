@@ -94,12 +94,6 @@ export default {
   background-color $storeBackground
   .line-store-secondary
     border 1px solid $storeSecondary
-  .btn-banner
-    border 2px solid #fff
-    padding 5px 25px
-    font-size 22px
-    font-weight bold
-    margin-top -25px
   .banner-two
     background-attachment fixed
     background-size cover

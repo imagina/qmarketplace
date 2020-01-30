@@ -3,14 +3,14 @@
       <div class="q-container">
          <h4 class="line-text text-center q-mb-lg">
             <hr class="line-store-secondary q-my-none full-width">
-            <span class="bg-store-background q-px-lg" style="font-size: 30px; font-weight: bold">LO MÁS RECOMENDADO</span>
+            <span class="bg-store-background q-px-lg">LO MÁS RECOMENDADO</span>
          </h4>
       </div>
-      <div class="bg-store-primary q-py-lg q-px-md">
+      <div class="bg-store-primary q-py-lg q-px-sm">
          <div class="q-container">
             <q-infinite-scroll @load="getProducts" :offset="250" ref="infinityScroll">
                <div v-for="(item,i) in items" :key="i">
-                  <div class="row q-col-gutter-lg q-py-lg">
+                  <div class="row q-py-lg" :class="$q.platform.is.desktop ? 'q-col-gutter-lg' : 'q-col-gutter-sm'">
                      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-3" v-for="product in item.products">
                         <product :product="product" className="cardProductTwo"></product>
                      </div>
@@ -104,6 +104,10 @@
          span
             position relative
             z-index 2
+            font-size 30px 
+            font-weight bold
+            @media screen and (max-width: $breakpoint-sm)
+               font-size 20px 
 
       .general-products
          .VueCarousel-pagination

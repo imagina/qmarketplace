@@ -6,10 +6,10 @@
             <q-img :ratio="1" :src="product.mainImage.path" class="rounded-sm"/>
          </router-link>
       </q-card-section>
-      <q-card-section class="card-title bg-store-primary adri">
+      <q-card-section class="card-title bg-store-primary">
          <q-list>
             <q-item>
-               <q-item-section><h5 class="q-my-none text-white">${{$n(product.price)}}</h5></q-item-section>
+               <q-item-section><h5 class="q-my-none price text-white">${{$n(product.price)}}</h5></q-item-section>
                <q-item-section avatar>
                   <add-cart-favorite :productId="product.id"  :favorite="true" :addCartDisable="false" color="white"></add-cart-favorite>
                </q-item-section>
@@ -17,17 +17,16 @@
          </q-list>
       </q-card-section>
       <q-card-section class="card-main q-pt-sm">
-         <q-rating size="20px"
-                   v-model="product.averageRating" color="store-secondary"
+         <q-rating v-model="product.averageRating" color="store-secondary"
                    :max="5" @input="val => { rating() }"
          />
          <router-link :to="{name: 'stores.product.show',params:{slug: storeData.slug, product: product.slug}}">
-            <p class="q-my-sm text-dark">{{product.name}}</p>
+            <p class="q-my-sm text-dark text-ellipsis" :title="product.name">{{product.name}}</p>
          </router-link>
-         <p class="q-my-sm "><small>{{storeData.name}}</small></p>
+         <p class="q-my-sm text-ellipsis" :title="storeData.name"><small>{{storeData.name}}</small></p>
       </q-card-section>
       <q-card-actions>
-         <add-cart-favorite  :product-id="product.id" :price="product.price" :favorite="false" color="storePrimary"></add-cart-favorite>
+         <add-cart-favorite  :product-id="product.id" :price="product.price" :favorite="false" color="storeSecondary"></add-cart-favorite>
       </q-card-actions>
    </q-card>
 </template>
@@ -110,12 +109,17 @@
    }
 </script>
 <style lang="stylus">
+.theme-layout-02
    .cardProductTwo
       border-radius 20px 20px 20px 0
       position relative
       margin 8px
       background-color var(--q-color-light)
       overflow hidden
+      .text-ellipsis
+         white-space nowrap
+         overflow hidden
+         text-overflow ellipsis 
       & .card-title
          margin-right 30px
          margin-top -30px
@@ -130,16 +134,38 @@
          & .q-list
             -webkit-transform  skew(-10deg)
             transform skew(-10deg)
+         @media screen and (max-width: $breakpoint-xs)
+            padding 5px
+            margin-top 0
+            margin-right 5px
+            .price 
+               font-size 1rem!important
+               line-height 1rem !important      
       & .card-main
          font-size 16px
-
+         .q-rating
+            font-size 20px
+         @media screen and (max-width: $breakpoint-xs)
+            .q-rating 
+               font-size 15px    
       & .q-card__actions
          .q-btn
-            margin-left -7px
+            margin-left -8px
             border-radius 0
             margin-bottom 10px
             box-shadow none
-            padding-right 20px
-
-
+            padding-right 10px
+            padding-top 3px
+            padding-bottom 3px
+            background-color $storeSecondary
+            .q-icon
+               color #fff
+            .q-btn__content > div
+               display block !important
+               color #fff
+            @media screen and (max-width: $breakpoint-xs)   
+               padding-left 10px
+               .q-btn__content > div
+                  display none !important
+                  
 </style>

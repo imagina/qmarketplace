@@ -2,7 +2,7 @@
    <div class="featured-products q-mb-xl" v-if="products.length">
       <h4 class="line-text q-mb-lg q-mt-none">
          <hr class="line-store-secondary q-my-none full-width">
-         <span class="bg-store-background q-pr-lg" style="font-size: 30px; font-weight: bold">DESTACADOS</span>
+         <span class="bg-store-background q-pr-lg">DESTACADOS</span>
       </h4>
       <div class="row q-col-gutter-lg q-py-lg">
          <div class="col-xs-12">
@@ -10,7 +10,7 @@
                       :autoplayTimeout="4000"
                       :loop="true"
                       :centerMode="true"
-                      :perPageCustom="[[480, 1], [768, 2], [992, 3]]"
+                      :perPageCustom="[[576, 1], [768, 2], [992, 3]]"
                       navigationNextLabel="<i class='fas fa-angle-right'></i>"
                       navigationPrevLabel="<i class='fas fa-angle-left'></i>">
 
@@ -77,6 +77,9 @@
 <style lang="stylus">
    .theme-layout-02
       .featured-products
+         .cardProductTwo
+            .text-ellipsis
+               white-space normal
          .line-text
             position relative
             color $storeSecondary
@@ -91,6 +94,10 @@
             span
                position relative
                z-index 2
+               font-size 30px 
+               font-weight bold
+               @media screen and (max-width: $breakpoint-sm)
+                  font-size 20px 
 
          .VueCarousel-pagination
             position absolute
