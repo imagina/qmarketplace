@@ -31,7 +31,7 @@
                      </q-item-section>
                      <q-item-section top side>
                         <div class="text-grey-8 q-gutter-xs">
-                           <q-btn @click="deleteProduct(product)" class="gt-xs" size="12px" flat dense round
+                           <q-btn @click="deleteProduct(product)" class="" size="12px" flat dense round
                                   icon="delete"></q-btn>
                         </div>
                      </q-item-section>

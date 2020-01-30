@@ -97,14 +97,15 @@
                isRead: true
             }
             this.$crud.update('apiRoutes.qnotification.notifications', key, data).then(response => {
-               this.$q.dialog({
+            /*   this.$q.dialog({
                   title: 'Notificacion marcada como Leida!',
                   color: 'positive',
                }).onOk(() => {
                   this.getNotifications()
                   this.loading = false
-               })
-
+               })*/
+               this.getNotifications()
+               this.loading = false
             }).catch(error => {
                this.loading = false
                this.$alert.error({message: this.$tr('ui.message.recordNoUpdated'), pos: 'bottom'})

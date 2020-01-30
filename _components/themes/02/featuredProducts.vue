@@ -2,11 +2,10 @@
    <div class="featured-products q-mb-xl" v-if="products.length">
       <h4 class="line-text q-mb-lg q-mt-none">
          <hr class="line-store-secondary q-my-none full-width">
-         <span class="bg-store-background q-pr-lg">DESTACADOS</span>
+         <span class="bg-store-background q-pr-lg" style="font-size: 30px; font-weight: bold">DESTACADOS</span>
       </h4>
       <div class="row q-col-gutter-lg q-py-lg">
          <div class="col-xs-12">
-
             <carousel autoplay
                       :autoplayTimeout="4000"
                       :loop="true"
@@ -43,22 +42,28 @@
       },
       methods: {
          getProducts() {
-            //
-            let params = {
-               remember: false,
-               params: {
-                  include: '',
-                  store: this.storeData.id,
-                  top: true,
-                  order: {
-                     field: 'created_at',
-                     way: 'desc'
-                  },
-                  take: 2
-               }
-            };//params
-            this.$crud.index("apiRoutes.qcommerce.products", params).then(response => {
-               this.products = response.data;
+            return new Promise((resolve, reject) => {
+               let params = {
+                  remember: false,
+                  params: {
+                     include: '',
+                     filter: {
+                        store: this.storeData.id,
+                        visible: true,
+                        order: {
+                           field: 'created_at',
+                           way: 'desc'
+                        }
+                     },
+                     take: 2
+                  }
+               };//params
+               this.$crud.index("apiRoutes.qcommerce.products", params).then(response => {
+                  this.products = response.data;
+                  resolve(true)//Resolve
+               }).catch(error => {
+                  reject(true)//Resolve
+               });
             });
          }
       },
@@ -70,46 +75,46 @@
    }
 </script>
 <style lang="stylus">
-.theme-layout-02
-   .featured-products
-      .line-text
-         position relative
-         color $storeSecondary
-
-         .line-store-secondary
-            position absolute
-            top 50%
-            z-index 0
-            @media screen and (max-width: $breakpoint-xs)
-               display none
-
-         span
+   .theme-layout-02
+      .featured-products
+         .line-text
             position relative
-            z-index 2
+            color $storeSecondary
 
-      .VueCarousel-pagination
-         position absolute
-         top -117px
-         text-align right !important
-         right -2px
+            .line-store-secondary
+               position absolute
+               top 50%
+               z-index 0
+               @media screen and (max-width: $breakpoint-xs)
+                  display none
 
-         .VueCarousel-dot-container
-            background-color #fff !important
-            z-index 9
-            padding-left 10px
-            padding-right 10px
+            span
+               position relative
+               z-index 2
 
-            .VueCarousel-dot
+         .VueCarousel-pagination
+            position absolute
+            top -117px
+            text-align right !important
+            right -2px
+
+            .VueCarousel-dot-container
                background-color #fff !important
-               border 1px solid $storeSecondary !important
-               padding 0 !important
-               width 15px !important
-               height 15px !important
-               margin 5px
+               z-index 9
+               padding-left 10px
+               padding-right 10px
 
-               &:focus
-                  outline 0 !important
+               .VueCarousel-dot
+                  background-color #fff !important
+                  border 1px solid $storeSecondary !important
+                  padding 0 !important
+                  width 15px !important
+                  height 15px !important
+                  margin 5px
 
-            .VueCarousel-dot.VueCarousel-dot--active
-               background-color $storeSecondary !important
+                  &:focus
+                     outline 0 !important
+
+               .VueCarousel-dot.VueCarousel-dot--active
+                  background-color $storeSecondary !important
 </style>

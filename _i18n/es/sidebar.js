@@ -11,7 +11,8 @@ export default {
       quiz: 'Encuestas',
       banners: 'Publicidad',
       mySubscription: 'Mis suscripciones',
-      storeReport:'Informe'
+      storeReport:'Informe',
+      storeLevel:'Nivel de Mi tienda '
    },
    adminMarketplace: "Tienda",
    adminTheme: 'Diseño',

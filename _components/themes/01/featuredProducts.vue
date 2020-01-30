@@ -35,7 +35,7 @@
                   include: '',
                   filter: {
                      store: this.storeData.id,
-                     top: true,
+                     visible: true,
                      order: {
                         field: 'created_at',
                         way: 'desc'

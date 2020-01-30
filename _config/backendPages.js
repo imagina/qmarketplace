@@ -372,8 +372,7 @@ export default {
     authenticated: true,
   },
   levels: {
-    permission: null,
-    //permission: 'marketplace.levels.index',
+    permission: 'marketplace.level.manage',
     activated: true,
     path: '/admin/levels',
     name: 'qmarketplace.admin.levels.index',
@@ -414,6 +413,17 @@ export default {
     layout: () => import('src/layouts/admin'),
     title: 'qmarketplace.sidebar.business.storeReport',
     icon: 'fas fa-file-alt',
+    authenticated: true,
+  },
+  myStoreLevel:{
+    permission: 'marketplace.stores.mystore',
+    activated: true,
+    path: '/admin/stores/my-store/level',
+    name: 'qmarketplace.admin.mystore.level',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/stores/levels/index.vue'),
+    layout: () => import('src/layouts/admin'),
+    title: 'qmarketplace.sidebar.business.storeLevel',
+    icon: 'fas fa-sign-out-alt',
     authenticated: true,
   },
   myStoreLogout:{

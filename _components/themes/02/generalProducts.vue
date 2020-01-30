@@ -1,31 +1,28 @@
 <template>
-   <div class="general-products"  v-if="products.length">
+   <div class="general-products">
       <div class="q-container">
          <h4 class="line-text text-center q-mb-lg">
             <hr class="line-store-secondary q-my-none full-width">
-            <span class="bg-store-background q-px-lg">LO MÁS RECOMENDADO</span>
+            <span class="bg-store-background q-px-lg" style="font-size: 30px; font-weight: bold">LO MÁS RECOMENDADO</span>
          </h4>
       </div>
       <div class="bg-store-primary q-py-lg q-px-md">
          <div class="q-container">
-            <div class="row q-py-lg">
-               <div class="col-xs-12">
-
-                  <carousel autoplay
-                            :autoplayTimeout="4000"
-                            :loop="true"
-                            :centerMode="true"
-                            :perPageCustom="[[480, 1], [768, 2], [992, 4]]"
-                            navigationNextLabel="<i class='fas fa-angle-right'></i>"
-                            navigationPrevLabel="<i class='fas fa-angle-left'></i>">
-
-                     <slide v-for="(product,index) in products" :key="index">
+            <q-infinite-scroll @load="getProducts" :offset="250" ref="infinityScroll">
+               <div v-for="(item,i) in items" :key="i">
+                  <div class="row q-col-gutter-lg q-py-lg">
+                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-3" v-for="product in item.products">
                         <product :product="product" className="cardProductTwo"></product>
-                     </slide>
-                  </carousel>
-
+                     </div>
+                  </div>
                </div>
-            </div>
+               <template v-slot:loading v-if="loadingScroll">
+                  <div class="row justify-center q-my-md">
+                     <q-spinner-dots color="primary" size="40px"></q-spinner-dots>
+                  </div>
+               </template>
+            </q-infinite-scroll>
+
          </div>
       </div>
    </div>
@@ -45,29 +42,48 @@
          }
       },
       mounted() {
-         this.getProducts();
       },
       methods: {
-         getProducts() {
-            //
-            let params = {
-               remember: false,
-               params: {
-                  include: '',
-                  filter: {
-                     store: this.storeData.id,
-                  },
-                  take: 2
-               }
-            };//params
-            this.$crud.index("apiRoutes.qcommerce.products", params).then(response => {
-               this.products = response.data;
+         getProducts(index, done) {
+            return new Promise((resolve, reject) => {
+               let currentPage = this.page
+               //Validate last page before do request
+               if ((currentPage != 1) && (currentPage > this.totalPage)) return this.$refs.infinityScroll.stop()
+               let params = {
+                  remember: true,
+                  params: {
+                     include: '',
+                     filter: {
+                        store: this.storeData.id,
+                     },
+                     take: this.take,
+                     page: currentPage
+                  }
+               };//params
+               this.$crud.index("apiRoutes.qcommerce.products", params).then(response => {
+                  this.items.push({products: response.data})
+                  this.totalPage = response.meta.page.lastPage
+                  this.page++
+                  this.numSlide++
+                  done()
+                  resolve(true)//Resolve
+               }).catch(error => {
+                  this.$refs.infinityScroll.stop()
+                  reject(true)//Resolve
+               });
             });
          }
       },
       data() {
          return {
-            products: []
+            products: [],
+            loading: false,
+            loadingScroll: true,
+            page: 1,
+            items: [],
+            totalPage: 0,
+            take: 8,
+            numSlide: 0
          }
       }
    }

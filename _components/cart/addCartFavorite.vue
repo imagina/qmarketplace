@@ -96,6 +96,7 @@
          },
          addFavorite() {
             return new Promise((resolve, reject) => {
+
                this.visible = true
                let formData = {
                   storeId: this.storeData.id,
@@ -114,12 +115,51 @@
 
                }).catch(error => {
                   this.$q.dialog({
+                     title: 'Producto ya existe en su lista de deseo, ¿Desea Eliminarlo?!',
+                     color: 'negative',
+                     ok: 'Eliminar',
+                     cancel: 'Cancel'
+                  }).onOk(() => {
+                     this.removeFavorite()
+                  }).onCancel(() => {
+                     this.visible = false
+                     resolve(true)//Resolve
+                  })
+
+               })
+            });
+         },
+         removeFavorite() {
+            return new Promise((resolve, reject) => {
+               console.warn(this.productId)
+               this.visible = true
+               let params = {
+                  params: {
+                     filter: {
+                        field: 'product_id'
+                     }
+                  }
+               }
+               let criteria=this.productId
+
+               this.$crud.delete('apiRoutes.qcommerce.wishlists',criteria,params).then(response => {
+                  this.$q.dialog({
+                     title: 'Producto eliminado de sus lista de deseo!',
+                     color: 'negative',
+                  }).onOk(() => {
+                     this.visible = false
+                     resolve(true)//Resolve
+                  })
+
+               }).catch(error => {
+                  reject(false)
+                /*  this.$q.dialog({
                      title: 'Producto ya existe en su lista de deseo!',
                      color: 'negative',
                   }).onOk(() => {
                      this.visible = false
                      reject(false)//Resolve
-                  })
+                  })*/
 
                })
             });

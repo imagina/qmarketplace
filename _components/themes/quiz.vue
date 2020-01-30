@@ -1,12 +1,13 @@
 <template>
-   <q-card class="card-quiz-1 rounded-sm full-width q-mb-xl">
+   <q-card class="card-quiz-1 rounded-sm full-width q-mb-xl" v-if="success">
 
       <div class="q-card-title bg-store-primary rounded-sm text-center text-white q-py-sm">
          ENCUESTA
       </div>
       <q-stepper ref="stepper"
-                 v-model="currentStep" class="no-shadow" v-if="poll">
-         <q-step :name="question.id" :order="index" :title="question.title" v-for="(question, index) in poll.questions" v-if="poll.questions.length"
+                 v-model="currentStep" class="no-shadow" v-if="poll && poll.questions.length">
+
+         <q-step :name="`question-${index}`" :order="index" :title="question.title" v-for="(question, index) in poll.questions"
                  :key="index">
             <q-card-section>
 
@@ -61,12 +62,6 @@
 
 
          </q-step>
-         <q-card-section v-else class="q-py-xl">
-            <div class="font-family-secondary text-center">
-               No hay encuestas activas
-            </div>
-         </q-card-section>
-         <q-inner-loading :visible="loading"/>
       </q-stepper>
       <q-card-section v-else-if="!alertContent.active" class="q-py-xl">
          <div class="font-family-secondary text-center">
@@ -79,7 +74,6 @@
             {{alertContent.msj}}
          </div>
       </q-card-section>
-
    </q-card>
 
 
@@ -102,11 +96,11 @@
       },
       data() {
          return {
-            loading: false,
+            loading: true,
             success: false,
             pollUserIds: [],
             polls: [],
-            poll: null,
+            poll: false,
             selectedOption: null,
             finalDataSave: [],
             userId: this.$store.state.quserAuth.userId ? this.$store.state.quserAuth.userId : null,
@@ -116,7 +110,7 @@
                icon: 'check',
                msj: 'Gracias por participar!!'
             },
-            currentStep: 1,
+            currentStep: "question-0",
             votesPoll: null,
             showVotes: false
          }
@@ -130,10 +124,7 @@
       methods: {
          // Init Method
          async init() {
-            this.loading = true
-            this.success = true
-            this.loading = false
-            this.getPoll()
+            await this.getPoll()
          },
          getPoll() {
             return new Promise((resolve, reject) => {
@@ -151,10 +142,10 @@
                this.$crud.show("apiRoutes.qquiz.polls", this.systemName, params)
                    .then(response => {
                       this.poll = response.data
+                      this.success=true
                       resolve(true)//Resolve
                    }).catch(error => {
-                  this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
-
+                  this.success=true
                   reject(false)//Resolve
                })
 

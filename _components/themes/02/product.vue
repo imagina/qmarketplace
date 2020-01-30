@@ -27,7 +27,7 @@
          <p class="q-my-sm "><small>{{storeData.name}}</small></p>
       </q-card-section>
       <q-card-actions>
-         <add-cart-favorite  :price="product.price" :favorite="false" color="storePrimary"></add-cart-favorite>
+         <add-cart-favorite  :product-id="product.id" :price="product.price" :favorite="false" color="storePrimary"></add-cart-favorite>
       </q-card-actions>
    </q-card>
 </template>

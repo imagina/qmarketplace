@@ -4,10 +4,7 @@
     <div class="q-pa-md">
       <div class="q-container">
         <div class="row q-col-gutter-lg">
-          <div class="col-xs-12 col-sm-12 col-md-4">
-            <mainProducts></mainProducts>
-          </div>
-          <div class="col-xs-12 col-sm-12 col-md-4">
+          <div class="col-xs-12 col-sm-12 col-md-8">
             <mainProducts></mainProducts>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-4">
@@ -17,13 +14,24 @@
         </div>
       </div>
     </div>
-    <qbanner :systemName="`home-${storeData.id}`" height="auto"/>
+    <div class="banner-two q-mb-xl" :style="`background-image: url('${storeData.mainImage.path}');`">
+      <div class="q-container">
+        <div class="row justify-center">
+          <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
+            <div class="content text-center">
+              <h4 class="q-my-md text-white">CONÓCENOS</h4>
+              <div class="text-white text-h6" v-html="storeData.description"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- destacado  y compartir -->
     <div class="q-pa-md">
       <div class="q-container">
         <div class="row q-col-gutter-lg">
           <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
-            <featured-products ></featured-products>
+            <featured-products></featured-products>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
             <share></share>
@@ -35,7 +43,7 @@
       </div>
     </div>
     <!-- Productos -->
-    <general-products ></general-products>
+    <general-products></general-products>
     <!-- Chat -->
 
 
@@ -97,6 +105,7 @@ export default {
     background-size cover
     padding 10% 0
     position relative
+    max-height: 551px;
     &:before
       height 100%
       width 100%
