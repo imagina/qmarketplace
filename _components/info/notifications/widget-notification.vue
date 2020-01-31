@@ -24,6 +24,10 @@
                   </q-item-section>
                   <q-separator/>
                </q-item>
+               <div class="text-center q-py-md">
+                  <q-btn class="rounded-sm  font-family-secondary" no-caps color="primary" :to="{name:'qmarketplace.admin.notifications.index'}">Ir a Notificaciones</q-btn>
+               </div>
+
             </div>
             <div v-else>
                <q-item v-ripple>

@@ -12,7 +12,8 @@
             <q-card-section>
 
                <div class="text-subtitle1 text-bold text-center q-mb-sm">{{question.title}}</div>
-               <div v-if="!question.users.find(function(element) {return element = userId;})">
+
+               <div v-if="!question.users.find(element => element == userId)">
                   <q-option-group keep-color
                                   v-model="selectedOption"
                                   :options="getAnswers(question.answers)"
@@ -118,6 +119,7 @@
       computed: {
          storeData() {
             let storeSlug = this.$route.params.slug
+
             return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
          },
       },

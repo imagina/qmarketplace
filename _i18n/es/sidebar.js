@@ -12,7 +12,8 @@ export default {
       banners: 'Publicidad',
       mySubscription: 'Mis suscripciones',
       storeReport:'Informe',
-      storeLevel:'Nivel de Mi tienda '
+      storeLevel:'Nivel de Mi tienda ',
+      servicesCategory:'Categorias'
    },
    adminMarketplace: "Tienda",
    adminTheme: 'Diseño',

@@ -5,15 +5,42 @@
 
         <div class="networks text-center">
           <div class="text-h3  text-center title-networks">Compartir</div>
-          <i :class="soc.icon" v-for="soc in storeData.social" v-if="soc.active">
+          <!--<i :class="soc.icon" v-for="soc in storeData.social" v-if="soc.active">
             <q-tooltip>
               {{soc.url}}
             </q-tooltip>
-          </i>
-          <!-- <a href="" target="_blank"><i class="fab fa-facebook"></i></a>
-          <a href="" target="_blank"><i class="fab fa-whatsapp"></i></a>
-          <a href="" target="_blank"><i class="fab fa-twitter"></i></a>
-          <a href="" target="_blank"><i class="fab fa-instagram"></i></a> -->
+          </i>-->
+          <social-sharing :url="url"
+                          :title="storeData.name"
+                          :description="storeData.slogan"
+                          :quote="storeData.description"
+                          inline-template
+          >
+            <div>
+              <network network="facebook">
+                <i class="fab fa-facebook">
+                  <q-tooltip>
+                  Compartir en Facebook
+                  </q-tooltip>
+                </i>
+
+              </network>
+              <network network="twitter">
+                <i class="fab fa-twitter">
+                  <q-tooltip>
+                    Compartir en Twitter
+                  </q-tooltip>
+                </i>
+              </network>
+              <network network="whatsapp">
+                <i class="fab fa-whatsapp">
+                  <q-tooltip>
+                   Compartir en WhatsApp
+                  </q-tooltip>
+                </i>
+              </network>
+            </div>
+          </social-sharing>
         </div>
       </div>
     </div>

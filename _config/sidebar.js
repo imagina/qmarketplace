@@ -21,6 +21,14 @@ export default [
          pages.qmarketplace.myStoreCategoryProducts, // categoriesStore
       ]
    },
+   {
+      title: 'qmarketplace.sidebar.business.services',
+      icon: 'fas fa-shopping-basket',
+      children: [
+         pages.qmarketplace.myStoreServices, // themes
+         pages.qmarketplace.myStoreServicesCategory, // categoriesStore
+      ]
+   },
    pages.qmarketplace.favoriteUsers, // Seguidores
    pages.qmarketplace.myStorePolls, // orders
    pages.qmarketplace.myStoreReport,

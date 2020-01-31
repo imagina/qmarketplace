@@ -3,14 +3,43 @@
     <div class="bg-store-secondary title-share text-white rounded-sm q-mb-sm text-center">
       <div class="q-py-sm text-subtitle1"> <q-icon color="white" name="share" /> COMPARTIR</div>
     </div>
-    <div v-for="soc in store.social" v-if="soc.active">
-      <q-item clickable :to="soc.url">
-        <q-item-section avatar>
-          <q-icon color="store-primary" :name="soc.icon" />
-        </q-item-section class="q-py-md">
-        <q-item-section class="q-py-md">{{soc.name}}</q-item-section>
-      </q-item>
-      <q-separator />
+    <div no-ssr>
+      <social-sharing :url="url"
+                      :title="storeData.name"
+                      :description="storeData.slogan"
+                      :quote="storeData.description"
+                      inline-template
+      >
+        <div>
+          <network network="facebook">
+            <q-item>
+              <q-item-section avatar>
+                <q-icon color="store-primary" name="fab fa-facebook" />
+              </q-item-section>
+              <q-item-section class="q-py-md">Facebook</q-item-section>
+            </q-item>
+            <q-separator />
+          </network>
+          <network network="twitter">
+            <q-item>
+              <q-item-section avatar>
+                <q-icon color="store-primary" name="fab fa-twitter" />
+              </q-item-section>
+              <q-item-section class="q-py-md">Twitter</q-item-section>
+            </q-item>
+            <q-separator />
+          </network>
+          <network network="whatsapp">
+            <q-item>
+              <q-item-section avatar>
+                <q-icon color="store-primary" name="fab fa-whatsapp" />
+              </q-item-section>
+              <q-item-section class="q-py-md">Whatsapp</q-item-section>
+            </q-item>
+            <q-separator />
+          </network>
+        </div>
+      </social-sharing>
     </div>
   </q-list>
 </template>
@@ -18,11 +47,15 @@
 export default {
   name: 'ShareNetworksComponent',
   computed:{
-    store(){
+    storeData(){
       let storeSlug = this.$route.params.slug
       return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
+    },
+    url(){
+      return window.location.href
     }
   },
+
 }
 </script>
 <style lang="stylus">

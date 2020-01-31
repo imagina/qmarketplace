@@ -193,12 +193,11 @@
   </div>
 </template>
 <script>
-import {Chart} from 'highcharts-vue'
+
 import cardUser from '@imagina/qmarketplace/_components/info/cardUser'
 export default {
   props: {},
   components: {
-    Chart,
     cardUser
 
   },
