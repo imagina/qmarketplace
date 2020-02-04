@@ -11,7 +11,7 @@
             return {
                crudId: this.crudId,
                apiRoute: 'apiRoutes.qblog.posts',
-               permission: 'marketplaces.posts',
+               permission: 'marketplace.posts',
                create: {
                   title: this.$tr('qblog.layout.newPost'),
                },
@@ -172,7 +172,7 @@
                      type: 'crud',
                      props: {
                         crudType: 'select',
-                        crudData: import('@imagina/qblog/_crud/categories'),
+                        crudData: import('@imagina/qmarketplace/_crud/blog/categories'),
                         crudProps: {
                            label: `${this.$tr('ui.form.category')}*`,
                            rules: [
@@ -186,11 +186,12 @@
                      type: 'crud',
                      props: {
                         crudType: 'select',
-                        crudData: import('@imagina/qblog/_crud/categories'),
+                        crudData: import('@imagina/qmarketplace/_crud/blog/categories'),
                         crudProps: {
                            label: this.$trp('ui.form.category'),
                            multiple: true,
-                           useChips: true
+                           useChips: true,
+                           requestParams: {include: 'parent', filter: {store: this.$store.state.qmarketplaceStores.storeSelected}}
                         },
                      },
                   },
