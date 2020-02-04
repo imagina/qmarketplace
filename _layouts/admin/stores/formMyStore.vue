@@ -611,18 +611,33 @@ export default {
       };
       this.$crud.index("apiRoutes.qsubscription.subscriptions",params).then(response => {
         if(response.data.length>0){
-          if(response.data[0].plan.id==6){
-            //Null theme to get default about theme in front.
-            this.company.type=3;//Free
-          }else if(response.data[0].plan.id==3){
-            this.company.type=2;//Directory pay
-            this.company.themeId=3;
-          }else if(response.data[0].plan.product.id==6){
-            this.company.type=1;//Independent
-            this.company.themeId=3;
-          }else{
-            this.company.themeId=1;
+          let themeId=response.data[0].plan.options.theme;
+          this.company.themeId=themeId;
+          if(themeId==1 || themeId==2){
+            //Normal store
+            this.company.type=0;
+          }else if(themeId==3){
+            //Independent
+            this.company.type=1;
+          }else if(themeId==4){
+            //Directory
+            this.company.type=2;
+          }else if(themeId==5){
+            //Free
+            this.company.type=3;
           }
+          // if(response.data[0].plan.id==6){
+          //   //Null theme to get default about theme in front.
+          //   this.company.type=3;//Free
+          // }else if(response.data[0].plan.id==3){
+          //   this.company.type=2;//Directory pay
+          //   this.company.themeId=3;
+          // }else if(response.data[0].plan.product.id==6){
+          //   this.company.type=1;//Independent
+          //   this.company.themeId=3;
+          // }else{
+          //   this.company.themeId=1;
+          // }
         }else{
           //If not have suscription - redirect to
           this.$alert.error({message: "Debes suscribirte a un plan", pos: 'bottom'})

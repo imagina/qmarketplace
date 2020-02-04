@@ -20,7 +20,7 @@
                 <div class="q-my-lg line-grey full-width"></div>
 
                 <div class="row q-col-gutter-md justify-center">
-                  <div @click="setThemeId(t.id)" class="col-xs-12 col-sm-12 col-md-6 col-lg-5 q-mb-md cursor-pointer" v-for="(t,index) in themes_option" :key="index">
+                  <div @click="setThemeId(t.id)" class="col-xs-12 col-sm-12 col-md-6 col-lg-5 q-mb-md cursor-pointer" v-if="t.type==typeStore" v-for="(t,index) in themes_option" :key="index">
                     <div class="line-grey">
                       <q-img :ratio="1" :src="t.mainImage.path" />
                     </div>
@@ -124,6 +124,7 @@ export default {
       loading:true,
       storeId:false,
       store:null,
+      typeStore:"0",
       themeFree:false,
       themeIndependent:false,
       configName: 'apiRoutes.qmarketplace.store',
@@ -216,6 +217,7 @@ export default {
             }else if(this.store.type==1){
               this.themeIndependent=true;
             }
+            this.typeStore=this.store.type;
             this.options=response.data.options;
             if(response.data.themeId !== undefined)
             this.themeId=response.data.themeId;
