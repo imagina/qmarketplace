@@ -140,22 +140,7 @@ export default {
       }
       ,
       themes_option: [
-        {
-          id: 1,
-          name: 'Tienda personal',
-          mainImage:{
-            path:'/statics/img/product.jpg',
-            mimeType:'jpg'
-          }
-        },
-        {
-          id: 2,
-          name: 'Tienda corporativa',
-          mainImage:{
-            path:'/statics/img/pregunta.jpg',
-            mimeType:'jpg'
-          }
-        }
+
       ],
     }
   },
@@ -165,17 +150,18 @@ export default {
       this.storeId=this.$store.state.qmarketplaceStores.storeSelected;
       // if (this.$route.params.id) this.storeId = this.$route.params.id
       if (this.storeId) await this.getData()//Get data if is edit
-      await this.getSuscription();
+      // await this.getSuscription();
       this.loading=false;
     },
     setThemeId(themeId){
       if(!this.themeFree && !this.themeIndependent){
         this.themeId=themeId;
       }else if(this.themeFree){
-        this.$alert.error({message: "Actualmente tienes el plan gratis, por lo que no puedes seleccionar ninguno de estos temas", pos: 'bottom'})
+        this.$alert.error({message: "Actualmente tienes un plan de directorio, por lo que no puedes seleccionar ninguno de estos temas", pos: 'bottom'})
+        // this.$alert.error({message: "Actualmente tienes el plan gratis, por lo que no puedes seleccionar ninguno de estos temas", pos: 'bottom'})
         this.themeId=null;
       }else if(this.themeIndependent){
-        this.$alert.error({message: "Actualmente tienes el plan independiente o directorio de pago, por lo que solo tienes disponible el tema 3", pos: 'bottom'})
+        this.$alert.error({message: "Actualmente tienes el plan independiente, por lo que solo tienes disponible el tema 3", pos: 'bottom'})
         this.themeId=3;
       }
     },
@@ -224,6 +210,12 @@ export default {
           //Request
           this.$crud.show(this.configName, itemId, params).then(response => {
             this.store=response.data;
+            if(this.store.type==2 || this.store.type==3){
+              //Null theme to get default about theme in front.
+              this.themeFree=true;
+            }else if(this.store.type==1){
+              this.themeIndependent=true;
+            }
             this.options=response.data.options;
             if(response.data.themeId !== undefined)
             this.themeId=response.data.themeId;
