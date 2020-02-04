@@ -11,7 +11,7 @@
             return {
                crudId: this.crudId,
                apiRoute: 'apiRoutes.qblog.categories',
-               permission: 'marketplaces.postcategories',
+               permission: 'marketplace.postcategories',
                create: {
                   title: this.$tr('qblog.layout.newCategory'),
                },
@@ -30,7 +30,7 @@
                      },
                      {name: 'actions', label: this.$tr('ui.form.actions'), align: 'left'},
                   ],
-                  requestParams: {include: 'parent', store: this.$store.state.qmarketplaceStores.storeSelected}
+                  requestParams: {filter: {store: this.$store.state.qmarketplaceStores.storeSelected},include: 'parent', }
                },
                update: {
                   title: this.$tr('qblog.layout.updateCategory'),
@@ -117,7 +117,7 @@
                      loadOptions: {
                         apiRoute: 'apiRoutes.qblog.categories',
                         select: {label: 'title', id: 'id'},
-                        requestParams: {include: 'parent'}
+                        requestParams: {include: 'parent', filter: {store: this.$store.state.qmarketplaceStores.storeSelected}}
                      }
                   },
                   mediasSingle: {

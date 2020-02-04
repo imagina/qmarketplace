@@ -199,7 +199,6 @@ export default {
   props: {},
   components: {
     cardUser
-
   },
   watch: {},
   data() {
@@ -214,7 +213,7 @@ export default {
         info: [],
       },
       soldProducts:[],
-      options: ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle' ],
+      options: [],
       chartOptions: {
         chart: {
           type: 'column',
