@@ -15,7 +15,7 @@
                 <q-item-section>
                   <q-item-label class="text-h5 text-weight-bold q-mb-sm">Mi perfil</q-item-label>
                   <q-item-label class="text-subtitle1">
-                    <div class="q-mb-md" v-html="store.description">
+                    <div class="q-mb-md" v-html="storeData.description">
                     </div>
                 </q-item-label>
               </q-item-section>
@@ -24,36 +24,7 @@
 
           <div class="line-grey q-my-lg"></div>
           
-          <q-list padding>
-            <q-item>
-              <q-item-section top avatar class="q-mr-md q-hide q-md-show ">
-                <q-icon size="xl" color="store-primary" name="fas fa-briefcase" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label class="text-h5 text-weight-bold q-mb-sm">
-                  Habilidades o servicios
-                </q-item-label>
-                <q-item-label>
-                  <div class="text-subtitle1 list-item">
-                    <i class="fas fa-check text-store-secondary q-pr-sm q-pt-xs"></i>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  </div>
-                  <div class="text-subtitle1 list-item">
-                    <i class="fas fa-check text-store-secondary q-pr-sm q-pt-xs"></i>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  </div>
-                  <div class="text-subtitle1 list-item">
-                    <i class="fas fa-check text-store-secondary q-pr-sm q-pt-xs"></i>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  </div>
-                  <div class="text-subtitle1 list-item">
-                    <i class="fas fa-check text-store-secondary q-pr-sm q-pt-xs"></i>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  </div>
-                </q-item-label>
-              </q-item-section>
-            </q-item>
-          </q-list>
+         <services/>
 
           <div class="line-grey q-my-lg"></div>
 
@@ -80,7 +51,7 @@
 
             </q-card-section>
           </q-card>
-          <quiz :system-name="`home-${store.id}`"/>
+          <quiz :system-name="`home-${storeData.id}`"/>
 
         </div>
       </div>
@@ -106,7 +77,7 @@
 
     </div>
     <div class="row">
-      <div class="col-xs-6 col-sm-6 col-md-3" v-for="img in store.gallery">
+      <div class="col-xs-6 col-sm-6 col-md-3" v-for="img in storeData.gallery">
         <div class="ratio-4-3" style="border: 2px solid #fff;">
           <img :src="img.path" alt="">
         </div>
@@ -121,15 +92,17 @@
 import quiz from '@imagina/qmarketplace/_components/themes/quiz'
 import share from '@imagina/qmarketplace/_components/themes/03/shareNetworks'
 import chat from '@imagina/qmarketplace/_components/qchat/chat'
+import services from  '@imagina/qmarketplace/_components/themes/03/services'
 export default {
   name: 'PageLayout3',
   components: {
     quiz,
     share,
-    chat
+    chat,
+    services
   },
   computed:{
-    store(){
+    storeData(){
       let storeSlug = this.$route.params.slug
       return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
     }

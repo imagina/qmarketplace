@@ -1,5 +1,5 @@
 <template>
-   <div class="theme-layout-default">
+   <div class="theme-layout-05">
       <!-- destacado encuenta nuevos y publicidad -->
                  <div v-if="success">
                    <div class="q-py-xl">
@@ -177,7 +177,7 @@
 </template>
 <script>
    import quiz from '@imagina/qmarketplace/_components/themes/quiz'
-   import share from '@imagina/qmarketplace/_components/themes/default/shareNetworks'
+   import share from '@imagina/qmarketplace/_components/themes/05/shareNetworks'
    import chat from '@imagina/qmarketplace/_components/qchat/chat'
    export default {
       name: 'PageLayout5',
@@ -212,7 +212,7 @@
    }
 </script>
 <style lang="stylus">
-   .theme-layout-default
+   .theme-layout-05
       background-color $storeBackground
 
       .q-container

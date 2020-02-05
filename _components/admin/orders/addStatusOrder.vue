@@ -11,7 +11,7 @@
     </q-field>
 
     <p>
-      <b>Comentario</b>
+      <b style="font-size: 12px ">Comentario</b>
     </p>
     <q-field 
       helper="Helper"

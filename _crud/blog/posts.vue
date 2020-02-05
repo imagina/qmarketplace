@@ -151,21 +151,6 @@
                   },
                   userId: {
                      value: parseInt(this.$store.state.quserAuth.userId),
-                     type: 'crud',
-                     props: {
-                        type: 'select',
-                        crudData: import('@imagina/quser/_crud/users'),
-                        crudProps: {
-                           label: `${this.$tr('ui.form.author')}*`,
-                           rules: [
-                              val => !!val || this.$tr('ui.message.fieldRequired')
-                           ],
-                        },
-                        config: {
-                           options: {label: 'fullName', value: 'id'},
-                           requestParams: {filter: {roleSlug: 'author'}}
-                        },
-                     },
                   },
                   categoryId: {
                      value: null,
@@ -191,7 +176,10 @@
                            label: this.$trp('ui.form.category'),
                            multiple: true,
                            useChips: true,
-                           requestParams: {include: 'parent', filter: {store: this.$store.state.qmarketplaceStores.storeSelected}}
+                           requestParams: {
+                              include: 'parent',
+                              filter: {store: this.$store.state.qmarketplaceStores.storeSelected}
+                           }
                         },
                      },
                   },

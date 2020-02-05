@@ -185,7 +185,7 @@ export default {
     authenticated: true,
   },
   order: {
-    permission: 'marketplace.orders.index.edit',
+    permission: 'marketplace.orders.edit',
     activated: true,
     path: '/admin/stores/my-store/order/:id',
     name: 'qmarketplace.admin.shipping.orders.show',

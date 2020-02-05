@@ -1,13 +1,19 @@
 <template>
    <div>
       <div v-if="storeData.themeId==1" class="headerStore theme-layout-01">
-         <header1></header1>
+         <header1/>
       </div>
       <div v-else-if="storeData.themeId==2" class="headerStore theme-layout-02">
-         <header2></header2>
+         <header2/>
       </div>
       <div v-else-if="storeData.themeId==3" class="headerStore theme-layout-03">
-         <header3></header3>
+         <header3/>
+      </div>
+      <div v-else-if="storeData.themeId==4" class="headerStore theme-layout-04">
+         <header4/>
+      </div>
+      <div v-else-if="storeData.themeId==5" class="headerStore theme-layout-05">
+         <header5/>
       </div>
    </div>
 </template>
@@ -16,6 +22,8 @@
    import header1 from '@imagina/qmarketplace/_components/themes/01/top'
    import header2 from '@imagina/qmarketplace/_components/themes/02/top'
    import header3 from '@imagina/qmarketplace/_components/themes/03/top'
+   import header4 from '@imagina/qmarketplace/_components/themes/04/top'
+   import header5 from '@imagina/qmarketplace/_components/themes/05/top'
    import {colors, AddressbarColor} from 'quasar'
 
    export default {
@@ -23,7 +31,9 @@
       components: {
          header1,
          header2,
-         header3
+         header3,
+         header4,
+         header5
       },
       data() {
          return {}
