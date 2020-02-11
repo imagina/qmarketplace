@@ -38,7 +38,13 @@ export default [
    pages.qmarketplace.myChatMessages,
    pages.qmarketplace.myBannersIndex,
    pages.qmarketplace.mySubscription,
-   pages.qmarketplace.levelTypes,
-   pages.qmarketplace.levelsCriteria,
-   pages.qmarketplace.levels
+   {
+      title: 'qmarketplace.sidebar.business.levels',
+      icon: 'fas fa-shopping-basket',
+      children: [
+         pages.qmarketplace.levels,
+         pages.qmarketplace.levelTypes,
+         pages.qmarketplace.levelsCriteria,
+      ]
+   },
 ]

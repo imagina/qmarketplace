@@ -13,7 +13,8 @@ export default {
       mySubscription: 'Mis suscripciones',
       storeReport:'Informe',
       storeLevel:'Nivel de Mi tienda ',
-      servicesCategory:'Categorias'
+      servicesCategory:'Categorias',
+      levels: 'Sistema de Niveles'
    },
    adminMarketplace: "Tienda",
    adminTheme: 'Diseño',

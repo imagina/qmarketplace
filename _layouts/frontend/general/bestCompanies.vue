@@ -47,7 +47,7 @@
                                     <div class="col-xs-12 col-md-10 col-xl-11 ">
                                        <div class="row"><span class="text-primary text-bold ">Categoria</span>
                                        </div>
-                                       <div class="row">{{item.categories[0].title}}</div>
+                                      <div class="row" v-if="item.categories[0].title">{{item.categories[0].title}}</div>
                                     </div>
                                  </div>
                               </div>
@@ -56,7 +56,8 @@
                                     <div class="col-xs-12 col-md-10 col-xl-11 ">
                                        <div class="row"><span class="text-primary text-bold ">Nivel</span>
                                        </div>
-                                       <div class="row">{{item.levelName}}</div>
+<pre>{{item.level}}</pre>
+                                      <!-- <div class="row" v-if="item.level.name">{{item.level.name}}</div>-->
                                     </div>
                                  </div>
                               </div>
@@ -89,7 +90,7 @@
                               </div>
                               <div class="col-auto">
                                  <q-btn dense round icon="fas fa-eye" class="q-mr-sm q-pa-xs"
-                                        size="10px" color="primary" :to="item.link"/>
+                                        size="10px" color="primary" :to="{name:'stores.show',params:{slug:item.slug}}"/>
                               </div>
                            </div>
                            <div class="row q-col-gutter items-center" v-else>

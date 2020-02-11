@@ -13,7 +13,7 @@
           <social-sharing :url="url"
                           :title="storeData.name"
                           :description="storeData.slogan"
-                          :quote="storeData.description"
+                          :quote="storeData.slogan"
                           inline-template
           >
             <div>
@@ -53,6 +53,9 @@ export default {
     storeData(){
       let storeSlug = this.$route.params.slug
       return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
+    },
+    url(){
+      return window.location.href
     }
   },
 }

@@ -372,7 +372,7 @@ export default {
     authenticated: true,
   },
   levels: {
-    permission: 'marketplace.level.manage',
+    permission: 'marketplace.levels.manage',
     activated: true,
     path: '/admin/levels',
     name: 'qmarketplace.admin.levels.index',
@@ -383,7 +383,7 @@ export default {
     authenticated: true,
   },
   levelsCreate: {
-    permission: null,
+    permission: 'marketplace.levels.create',
     activated: true,
     path: '/admin/levels/create',
     name: 'qmarketplace.admin.levels.create',
@@ -394,7 +394,7 @@ export default {
     authenticated: true,
   },
   levelsEdit: {
-    permission: null,
+    permission: 'marketplace.levels.edit',
     activated: true,
     path: '/admin/levels/update/:id',
     name: 'qmarketplace.admin.levels.update',
