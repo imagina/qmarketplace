@@ -104,9 +104,10 @@
                            <q-select
                                    :options="criterias"
                                    v-model="criteriaId"
+                                   option-value="id"
+                                   option-label="name"
                                    emit-value
                                    map-options
-                                   option-label="label"
                                    placeholder="Selecciona un criterio"
                                    :rules="[val => !!val || $tr('ui.message.fieldRequired')]"
                            />
@@ -119,7 +120,7 @@
 
                         <q-card-section class="q-pa-lg">
                            <div class="q-mt-sm q-mb-sm" v-for="(criteriaOpt,indexCritOpt) in form.options.criterias">
-                              <p class="caption q-mb-md">{{criteriaOpt.label}}
+                              <p class="caption q-mb-md">{{criteriaOpt.name}}
                               </p>
                               <q-input v-if="criteriaOpt.type=='0'" v-model="criteriaOpt.value" color="primary"
                                        class="codigo" outlined placeholder="">
@@ -207,7 +208,7 @@
             deep: true,
             immediate: true
          },
-         'form.criteriaId': {
+         'criteriaId': {
             handler: function (criteriaId) {
                this.setCriteria()
             },
@@ -247,9 +248,10 @@
                };//params
                this.$crud.index("apiRoutes.qmarketplace.levelCriteria", params).then(response => {
                   this.criterias = [];
-                  this.criteriaId=0
-                  this.criterias = this.$array.select(response.data, {label: 'name', id: 'id'})
-                  this.criterias.push({label: "Selecciona un criterio ", id: 0, value:0});
+                  this.criterias = response.data;
+                  this.criterias.push({name: "Selecciona un criterio ", id: 0, value:0});
+                  this.criteriaId=0;
+                  // this.criterias = this.$array.select(response.data, {label: 'name', id: 'id'})
 
                   resolve(true)
                }).catch(error => {
@@ -258,7 +260,7 @@
             })
          },
          setCriteria() {
-            if (this.criteriaId >= 0) {
+            if (this.criteriaId > 0 && this.criteriaId!=null ) {
                var b = 0;
                for (var i = 0; i < this.form.options.criterias.length; i++) {
                   if (this.form.options.criterias[i].id == this.criteriaId) {
@@ -268,7 +270,7 @@
                }//for
                if (b == 1) {
                   this.$alert.error({message: "Ya has seleccionado este criterio", pos: 'bottom'});
-                  this.criteriaId = 'nw';
+                  this.criteriaId = 0;
                } else {
                   for (var i = 0; i < this.criterias.length; i++) {
                      if (this.criterias[i].id == this.criteriaId) {
