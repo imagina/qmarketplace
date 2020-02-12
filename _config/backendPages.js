@@ -217,6 +217,17 @@ export default {
     icon: 'fas fa-question-circle',
     authenticated: true
   },
+  myStoreQuestionReport: {
+    permission: 'marketplace.questions.index',
+    activated: true,
+    path: '/admin/stores/my-store/question/:id/report',
+    name: 'qmarketplace.admin.questions.report.index',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/quiz/questions/report'),
+    layout: () => import('src/layouts/admin'),
+    title: 'qquiz.sidebar.adminQuestions',
+    icon: 'fas fa-question-circle',
+    authenticated: true
+  },
   myStoreAnswers: {
     permission: 'marketplace.answers.index',
     activated: true,

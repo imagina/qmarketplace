@@ -45,7 +45,7 @@
                         icon: 'fas fa-edit',
                         color: 'warning',
                         tooltip:'Reporte',
-                        route: 'qquiz.admin.questions.report.index', //redirect to route, and set all data row as route params
+                        route: 'qmarketplace.admin.questions.report.index', //redirect to route, and set all data row as route params
                         action: (rowData) => {
                         } //Get row data as param
                      }
