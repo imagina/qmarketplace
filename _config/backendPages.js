@@ -358,6 +358,18 @@ export default {
     icon: 'fas fa-photo-video',
     authenticated: true,
   },
+  benefits: {
+    //permission: null,
+    permission: 'marketplace.leveltypes.index',
+    activated: true,
+    path: '/admin/benefits',
+    name: 'qmarketplace.admin.benefits.index',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/benefits/index'),
+    layout: () => import('src/layouts/admin'),
+    title: 'qmarketplace.sidebar.adminBenefits',
+    icon: 'fas fa-ticket-alt',
+    authenticated: true,
+  },
   levelTypes: {//
     //permission: null,
     permission: 'marketplace.leveltypes.index',

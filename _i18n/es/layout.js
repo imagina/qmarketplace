@@ -22,7 +22,8 @@ export default {
         text:'Texto',
         boolean:'Booleano',
     }
-  }
+  },
+  newBenefit : 'Nuevo beneficio',
 
 
 }

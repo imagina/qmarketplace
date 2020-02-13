@@ -45,6 +45,7 @@ export default [
          pages.qmarketplace.levels,
          pages.qmarketplace.levelTypes,
          pages.qmarketplace.levelsCriteria,
+         pages.qmarketplace.benefits,
       ]
    },
 ]

@@ -26,5 +26,6 @@ export default {
    adminLevelTypes: 'Tipos de nivel',
    adminLevelCriterias: 'Criterios de nivel',
    adminLevels: 'Niveles',
+   adminBenefits: 'Beneficios',
 
 }
