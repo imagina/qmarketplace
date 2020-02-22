@@ -57,6 +57,20 @@
 
               </q-card-section>
 
+              <q-card-section class="q-pa-lg">
+                <p class="caption q-mb-md">Cantidad de beneficios
+                  <q-btn round class="no-shadow" size="6px" icon="fas fa-question">
+                    <q-tooltip>
+                      Cantidad de beneficios activos que puede tener el usuario al estar en este nivel
+                    </q-tooltip>
+                  </q-btn>
+                </p>
+
+                <q-input type="number" v-model="form.benefitsQuantity" color="primary" class="codigo" outlined
+                placeholder="" :rules="[val =>  val >= 0 || $tr('ui.message.fieldRequired')]"/>
+
+              </q-card-section>
+
 
             </q-card>
 
@@ -135,7 +149,7 @@
                 emit-value
                 map-options
                 placeholder="Selecciona un criterio"
-                
+
                 />
 
               </q-card-section>
@@ -195,6 +209,7 @@ export default {
         name: '',
         description: '',
         order: 0,
+        benefitsQuantity: 1,
         levelTypeId: null,
         options: {
           criterias: []
