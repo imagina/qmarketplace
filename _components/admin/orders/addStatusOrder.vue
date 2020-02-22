@@ -1,29 +1,48 @@
 <template>
-  <div id="orderStatusComponent" class="q-pa-md">
+  <div id="orderStatusComponent" class="q-pa-md" style="min-width: 240px">
+    <q-form autocorrect="off" autocomplete="off" ref="formContent" class="box"
+            @submit="createItem()"
+            @validation-error="$alert.error($tr('ui.message.formInvalid'))">
     <p>
       <b>Nuevo estado</b>
     </p>
-    <q-field
-      helper="Helper" 
-      :error="$v.form.status.$error"
-      error-label="We need a valid email">
-      <tree-select v-model="form.status" :options="statuses"/>
-    </q-field>
+      <q-select
+              outlined
+              dense
+              v-model="form.status"
+              :options="statOptions"
+              map-options
+              emit-value
+              use-input
+              clearable
+              option-label="label"
+              @filter="(val, update)=>update(()=>{statOptions = $helper.filterOptions(val,statusOptions,form.status)})"
+
+      />
 
     <p>
       <b style="font-size: 12px ">Comentario</b>
     </p>
-    <q-field 
-      helper="Helper"
-      :error="$v.form.comment.$error"
-      error-label="We need a valid email">
-      <q-input class="text-comment" rows="2" type="textarea" placeholder="Escribe aqui tu comentario" v-model="form.comment" />
-    </q-field>
-
+      <q-input  outlined
+                dense
+                class="text-comment" rows="2"
+                type="textarea"
+                placeholder="Escribe aqui tu comentario"
+                v-model="form.comment"
+      />
+      <q-toggle
+              v-model="form.notify"
+              checked-icon="check"
+              color="primary"
+              :false-value=false
+              :true-value=true
+              label="Notificar al usuario"
+              unchecked-icon="clear"
+      />
     <div class="q-mt-md text-right">
-      <q-btn label="Guardar" color="primary" icon="save" @click="saveOrderHistoryStatus()"/>
+      <q-btn label="Guardar" color="primary" icon="save" type="submit"/>
     </div>
-
+    </q-form>
   </div>
 </template>
 
@@ -33,7 +52,8 @@
     data () {
       return {
         loading: false,
-        statuses:[],
+        statusOptions:[],
+        statOptions:[],
         form :{
           orderId: this.$route.params.id,
           status:null,
@@ -42,44 +62,31 @@
         }
       }
     },
-    validations: {
-      form: {
-        orderId: { required },
-        status: { required },
-        comment: { required },
-      }
-    },
+
     created(){
       this.getStatus()
     },
     methods: {
       getStatus(){
-        let params= {
-          params :{
-
+        return new Promise((resolve, reject) => {
+          let params = {
+            params: {}
           }
-        }
-        this.$crud.index('apiRoutes.qcommerce.orderStatus', params)
-          .then( response => {
-            this.statuses =  response.data.map( item => {
-              return {
-                id: item.id,
-                label: item.title
-              }
-            })
-          })
-          .catch( error => {
-
-          })
+          this.$crud.index('apiRoutes.qcommerce.orderStatus', params)
+                  .then(response => {
+                    this.statusOptions=this.$array.select(response.data, {label: 'title', id: 'id'});
+                    this.statOptions =this.$clone(this.statusOptions)
+                    this.loading = false
+                    resolve(true)
+                  })
+                  .catch(error => {
+                    console.error('ERROR GET Status:' + error)
+                    this.loading = false
+                    reject(error)
+                  })
+        });
       },
-      saveOrderHistoryStatus(){
-        this.$v.form.$touch()
-        this.loading = true
-        if (this.$v.form.$error) {
-          this.$alert.error({message: this.$tr('ui.message.formInvalid'), pos: 'bottom'})
-          this.loading = false
-          return
-        }
+      createItem(){
         this.$crud.create('apiRoutes.qcommerce.orderStatusHistory', this.form)
           .then( response => {
             this.$emit('orderHistoryCreated')
