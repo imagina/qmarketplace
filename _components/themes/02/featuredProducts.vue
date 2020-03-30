@@ -44,7 +44,7 @@
          getProducts() {
             return new Promise((resolve, reject) => {
                let params = {
-                  remember: false,
+                  //remember: false,
                   params: {
                      include: '',
                      filter: {
@@ -94,10 +94,10 @@
             span
                position relative
                z-index 2
-               font-size 30px 
+               font-size 30px
                font-weight bold
                @media screen and (max-width: $breakpoint-sm)
-                  font-size 20px 
+                  font-size 20px
 
          .VueCarousel-pagination
             position absolute

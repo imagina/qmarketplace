@@ -49,22 +49,35 @@
 
 <script>
    import Echo from "laravel-echo";
-
    export default {
       props: {},
       components: {},
       watch: {},
+      computed:{
+         focusWindow(){
+            window.onfocus = function() {
+               this.focused = true;
+            };
+            window.onblur = function() {
+               this.focused = false;
+            };
+            return this.focused
+         }
+      },
       mounted() {
          this.$nextTick(function () {
             this.getNotifications()
-            this.initPusher()
+            this.initPusher();
+            this.checkPermissionForNotification()
          })
       },
       data() {
          return {
             notificationData: false,
             opened: false,
-            notifications: 0
+            notifications: 0,
+            focused: true,
+            token:null,
          }
       },
       methods: {
@@ -90,8 +103,8 @@
                this.notificationData = response.data
 
             }).catch(error => {
-               console.error(error)
-               this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
+               console.error('GET NOTIFICATIONS', error)
+               //this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
                this.loading = false
             })
          },
@@ -125,15 +138,40 @@
             this.echo.channel('imagina.notifications')
                 .listen(`.notification.new.${this.$store.state.quserAuth.userData.id}`, response => {
                    this.getNotifications()
+                   this.showPushNotitication(response)
                 })
+            if(this.$q.platform.is.cordova){
+               FCMPlugin.subscribeToTopic(`notification.new.${this.$store.state.quserAuth.userData.id}`);
+            }
+
          },
          redirect(url) {
             let base = this.$route
             let uri = window.location.href + '/#' + url
-            console.warn(base)
-            //return window.open(uri);
+         },
+         checkPermissionForNotification(){
+            window.Notification.requestPermission().then( response => {
+               if (response === 'granted'){
+                  this.permissionForNotification = true
+               }
+            })
+         },
+         showPushNotitication(data){
+           console.warn('service notification vali',this.permissionForNotification , this.focused)
+            if (this.permissionForNotification && this.focused){
+               console.warn('notification content',data, navigator.serviceWorker.ready.then())
+               navigator.serviceWorker.ready.then( registration => {
+                  registration.showNotification(data.title, {
+                     body: data.message,
+                     icon: this.$store.getters['qsiteSettings/getSettingMediaByName']('isite::logo1').path,
+                     click_action: ''
+                  })
+               }).catch(error => {
+                  console.error(error)
+               })
+            }
+         },
 
-         }
       }
    }
 </script>

@@ -93,7 +93,8 @@
                   this.loading = false
                }
             }).catch(error => {
-               this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+               //this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+               console.error('GET FAVORITESTORE', error)
                this.loading = false
             });
          },
@@ -105,7 +106,8 @@
                this.followedStore = true;
                this.$alert.success({message: "Ahora sigues esta tienda", pos: 'bottom'})
             }).catch(error => {
-               this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+               console.error('Create FAVORITESTORE ', error)
+               //this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
             });
          },
          openUrl(url, target) {

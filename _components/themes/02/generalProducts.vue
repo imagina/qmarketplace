@@ -50,7 +50,7 @@
                //Validate last page before do request
                if ((currentPage != 1) && (currentPage > this.totalPage)) return this.$refs.infinityScroll.stop()
                let params = {
-                  remember: true,
+                  //remember: true,
                   params: {
                      include: '',
                      filter: {
@@ -104,10 +104,10 @@
          span
             position relative
             z-index 2
-            font-size 30px 
+            font-size 30px
             font-weight bold
             @media screen and (max-width: $breakpoint-sm)
-               font-size 20px 
+               font-size 20px
 
       .general-products
          .VueCarousel-pagination

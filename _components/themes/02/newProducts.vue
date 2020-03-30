@@ -31,7 +31,7 @@
          getProducts() {
             return new Promise((resolve, reject) => {
                let params = {
-                  remember: false,
+                  //remember: false,
                   params: {
                      include: '',
                      filter: {

@@ -44,7 +44,7 @@
             //Validate last page before do request
             if ((currentPage != 1) && (currentPage > this.totalPage)) return this.$refs.infinityScroll.stop()
             let params = {
-               remember: false,
+               //remember: false,
                params: {
                   include: '',
                   filter: {

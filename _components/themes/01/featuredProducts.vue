@@ -30,7 +30,7 @@
       methods: {
          getProducts() {
             let params = {
-               remember: false,
+               //remember: false,
                params: {
                   include: '',
                   filter: {
