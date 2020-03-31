@@ -306,7 +306,7 @@
                   </q-card-section>
                </q-card>
 
-               <q-card class="rounded-md bg-white full-width q-mb-xl">
+               <q-card class="rounded-md bg-white full-width q-mb-xl" v-show="showPaymentMethods">
                   <q-card-section class="q-px-xl q-pb-lg form-general">
 
                      <div class="q-my-lg">
@@ -334,7 +334,7 @@
                   </q-card-section>
                </q-card>
 
-               <q-card class="rounded-md bg-white full-width q-mb-lg">
+               <q-card class="rounded-md bg-white full-width q-mb-lg" v-show="showShippingMethods">
                   <q-card-section class="q-px-xl q-pb-lg form-general">
 
                      <div class="q-my-lg">
@@ -552,7 +552,9 @@
                   ['quote', 'unordered', 'ordered'],
                   ['fullscreen']
                ]
-            }
+            },
+            showPaymentMethods: false,
+            showShippingMethods: false,
          }
       },
       methods: {
@@ -621,6 +623,8 @@
                   if (themeId == 1 || themeId == 2) {
                      //Normal store
                      this.company.type = 0;
+                     this.showPaymentMethods= true;
+                     this.showShippingMethods= true;
                   } else if (themeId == 3) {
                      //Independent
                      this.company.type = 1;
