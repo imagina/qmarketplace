@@ -570,6 +570,7 @@
 
          },
          validateRequiredData() {
+
             if (this.company.name == "") {
                this.$alert.error({message: "Debe ingresar el nombre de la tienda", pos: 'bottom'});
                return false;
@@ -597,34 +598,39 @@
             } else if (this.company.schedules[0] == "") {
                this.$alert.error({message: "Debe ingresar su horario de atención", pos: 'bottom'});
                return false;
-            } else if (this.company.paymentMethods.length == 0) {
-               this.$alert.error({message: "Debe seleccionar al menos un método de pago", pos: 'bottom'});
-               return false;
-            } else if (this.company.shippingMethods.length == 0) {
-               this.$alert.error({message: "Debe seleccionar al menos un método de envío", pos: 'bottom'});
-               return false;
+            } else if (this.$auth.hasAccess('marketplace.payments.index') || this.$auth.hasAccess('marketplace.payments.shippings') ) {
+               if (this.company.paymentMethods.length == 0) {
+                  this.$alert.error({message: "Debe seleccionar al menos un método de pago", pos: 'bottom'});
+                  return false;
+               } else if (this.company.shippingMethods.length == 0) {
+                  this.$alert.error({message: "Debe seleccionar al menos un método de envío", pos: 'bottom'});
+                  return false;
+               }
             } else
                return true;
          },
          getSuscription() {
             let params = {
                params: {
-                  include: 'plan.product',
+                  include: 'plan',
                   filter: {
-                     userId: this.$store.state.quserAuth.userId,
+                     field: 'user_id',
                      status: 1
                   }
                }
             };
-            this.$crud.index("apiRoutes.qsubscription.subscriptions", params).then(response => {
-               if (response.data.length > 0) {
-                  let themeId = response.data[0].plan.options.theme;
+            let criteria = this.$store.state.quserAuth.userId;
+
+            this.$crud.show("apiRoutes.qsubscription.subscriptions", criteria, params).then(response => {
+
+               if (response.data) {
+                  let themeId = response.data.plan.options.theme;
                   this.company.themeId = themeId;
                   if (themeId == 1 || themeId == 2) {
                      //Normal store
                      this.company.type = 0;
-                     this.showPaymentMethods= true;
-                     this.showShippingMethods= true;
+                     this.showPaymentMethods = true;
+                     this.showShippingMethods = true;
                   } else if (themeId == 3) {
                      //Independent
                      this.company.type = 1;
@@ -635,12 +641,12 @@
                      //Free
                      this.company.type = 3;
                   }
-                 this.loading = false
-               } else if (!this.auth.hasAccess('marketplace.store.manage')) {
+                  this.loading = false
+               } else if (!this.$auth.hasAccess('marketplace.stores.manage')) {
                   //If not have suscription - redirect to
                   this.$alert.error({message: "Debes suscribirte a un plan", pos: 'bottom'})
                   this.$router.push({name: 'products.show', params: {slug: 'tiendas-en-linea'}});
-                 this.loading = false
+                  this.loading = false
                   // this.company.themeId=1;
                }
             });
@@ -948,7 +954,8 @@
                });
             }
          }
-      },
+      }
+      ,
       mounted() {
          this.$nextTick(async function () {
             await this.init();
