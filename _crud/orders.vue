@@ -22,7 +22,11 @@
             ],
             requestParams: {
               filter:{
-                store: this.$store.state.qmarketplaceStores.storeSelected
+                store: this.$store.state.qmarketplaceStores.storeSelected,
+                order:{
+                  field:"created_at",
+                  way:"DESC",
+                }
               }
             },
             filters: {
