@@ -23,7 +23,7 @@
           </q-list>
 
           <div class="line-grey q-my-lg"></div>
-          
+
          <services/>
 
           <div class="line-grey q-my-lg"></div>
@@ -41,7 +41,7 @@
               </q-btn>
 
               <div class="line-grey q-my-md"></div>
-              <q-btn no-caps flat class=" q-py-sm">
+              <q-btn @click="ratingStore=true" no-caps flat class=" q-py-sm">
                 <q-icon size="3em" color="store-primary" name="star" />
                 <h5 class="text-store-secondary q-mt-sm q-mb-none full-width">Calificar servicio</h5>
               </q-btn>
@@ -84,9 +84,31 @@
       </div>
     </div>
 
+    <!-- RATING STORE QDIALOG -->
+    <q-dialog v-model="ratingStore" @hide="ratingStore=false;">
+       <q-card>
+          <q-card-section>
+             <div class="text-h6">Calificar tienda</div>
+          </q-card-section>
+
+          <q-card-section>
+             <q-rating size="20px"
+                       @input="val => { rating() }"
+                       v-model="storeData.averageRating"
+                       :max="5"
+             />
+          </q-card-section>
+
+          <q-card-actions align="right">
+             <q-btn flat label="OK" color="primary" v-close-popup/>
+          </q-card-actions>
+       </q-card>
+    </q-dialog>
+
 
   </div>
 </div>
+
 </template>
 <script>
 import quiz from '@imagina/qmarketplace/_components/themes/quiz'
@@ -101,12 +123,32 @@ export default {
     chat,
     services
   },
+  data() {
+     return {
+        ratingStore: false,
+     }
+  },
   computed:{
     storeData(){
       let storeSlug = this.$route.params.slug
       return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
-    }
+    },
+
   },
+  methods:{
+    rating() {
+       this.$axios.post(config('apiRoutes.qmarketplace.store') + '/rating/' + this.storeData.id, {
+          attributes: {
+             rating: this.storeData.averageRating
+          }
+       }).then(response => {
+          this.$alert.success({message: "Calificación registrada exitosamente", pos: 'bottom'});
+          this.ratingStore = false;
+       }).catch(error => {
+          this.$alert.error({message: error.response.data.errors, pos: 'bottom'})
+       });
+    },//ratingStore
+  }
 }
 </script>
 <style lang="stylus">
@@ -115,7 +157,7 @@ export default {
     display flex
     text-align justify
     margin-bottom 10px
-  .card-quiz-1 
+  .card-quiz-1
     border-radius 0!important
     border-top 6px solid $storeSecondary
     box-shadow 0 1px 5px rgba(0,0,0,0.2), 0 2px 2px rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12)

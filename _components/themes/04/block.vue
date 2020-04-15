@@ -123,7 +123,7 @@
                                    v-model="slide"
                                    thumbnails
                                    infinite
-                                   autoplay="3500"
+                                   :autoplay="autoplayTime"
                                    :fullscreen.sync="fullscreen"
                                    v-if="storeData.gallery.length"
                            >
@@ -200,6 +200,7 @@
          storeSlug: this.$route.params.slug,
          store: null,
          cart: null,
+         autoplayTime:3500,
          slide: 'gallery-0',
          fullscreen: false,
          success:true
