@@ -54,9 +54,22 @@
                   field: row => row.title,
                   format: val => `${val}`,
                   sortable: true
-                  },
-                  { name: 'votes', align: 'center', label: 'Cantidad de usuarios que han utilizado esta respuesta', field: 'votes', sortable: true },
-                  ]"
+                },
+                {
+                  name: 'votes',
+                  align: 'center',
+                  label: 'Cantidad de usuarios que han utilizado esta respuesta',
+                  field: 'votes',
+                  sortable: true
+                },
+                {
+                  name: 'userNames',
+                  align: 'center', 
+                  label: 'Usuarios que han marcado esta respuesta',
+                  field: 'userNames',
+                  sortable: true
+                },
+                ]"
                   row-key="name"
                   />
                 <div class="row full-height justify-center items-center text-white text-h5">
@@ -103,7 +116,7 @@ export default {
           filter:{
             //storeId:this.$store.state.qmarketplaceStores.storeSelected,
             //question: this.$route.params.id,
-          },include:"answers.userQuestionAnswers,userQuestionAnswers"
+          },include:"answers.userQuestionAnswers,userQuestionAnswers.user"
         }
       };//params
       this.$crud.show("apiRoutes.qquiz.questions",this.$route.params.id,params).then(response => {
