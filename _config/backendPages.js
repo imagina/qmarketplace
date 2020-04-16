@@ -288,7 +288,7 @@ export default {
     activated: true,
     path: '/admin/stores/my-store/chat/messages',
     name: 'qchat.admin.messages.index',
-    page: () => import('@imagina/qmarketplace/_layouts/admin/chat/index'),
+    page: () => import('@imagina/qchat/_pages/admin/index'),
     layout: () => import('src/layouts/admin'),
     title: 'qchat.sidebar.adminMessages',
     icon: 'far fa-comments',
