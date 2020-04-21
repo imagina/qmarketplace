@@ -18,5 +18,6 @@ export default {
   levelCriteria: `${urlBase}/level-criteria`,
   levelType: `${urlBase}/level-type`,//
   email:`${urlBase}/email`,
-  benefit: `${urlBase}/benefit`
+  benefit: `${urlBase}/benefit`,
+  storeContact: `${urlBase}/store-contact`,//
 }

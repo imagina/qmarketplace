@@ -27,5 +27,6 @@ export default {
    adminLevelCriterias: 'Criterios de nivel',
    adminLevels: 'Niveles',
    adminBenefits: 'Beneficios',
+   adminStoreContacts: 'Mensajes de contacto',
 
 }

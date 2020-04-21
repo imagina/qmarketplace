@@ -35,7 +35,7 @@
             <q-card-section class="q-pa-lg text-center">
               <chat color="store-secondary" type="5"/>
               <div class="line-grey q-my-md"></div>
-              <q-btn no-caps flat class=" q-py-sm">
+              <q-btn @click="contactStore=true" no-caps flat class=" q-py-sm">
                 <q-icon size="3em" color="store-primary" name="fas fa-briefcase" />
                 <h5 class="text-store-secondary q-mt-sm q-mb-none full-width">Solicita tu servicio</h5>
               </q-btn>
@@ -105,6 +105,63 @@
        </q-card>
     </q-dialog>
 
+    <!-- CONTACT REQUEST QDIALOG -->
+    <q-dialog v-model="contactStore" @hide="contactStore=false;">
+       <q-card style="width: 700px; max-width: 80vw;">
+          <q-card-section>
+             <div class="text-h6">Solicitud de servicio</div>
+          </q-card-section>
+
+          <q-card-section>
+
+            <div class="row q-col-gutter-xl justify-center">
+              <!-- FORM  -->
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+
+                <div class="q-mb-xl">
+                   <p class="caption q-mb-sm">Nombre completo</p>
+                   <q-input dense v-model="formContact.fullName" placeholder=""/>
+                </div>
+
+                <div class="q-mb-xl">
+                   <p class="caption q-mb-sm">Asunto</p>
+                   <q-input dense v-model="formContact.subject" placeholder=""/>
+                </div>
+
+                <div class="q-mb-xl">
+                   <p class="caption q-mb-sm">Teléfono</p>
+                   <q-input dense v-model="formContact.phone" placeholder=""/>
+                </div>
+
+                <div class="q-mb-xl">
+                   <p class="caption q-mb-sm">Correo electrónico</p>
+                   <q-input dense v-model="formContact.email" placeholder="info@lorem.com">
+                      <template v-slot:prepend>
+                         <q-icon name="fas fa-envelope" color="primary"/>
+                      </template>
+                   </q-input>
+                </div>
+
+                <!--message-->
+                <div class="q-mb-xl">
+                   <p class="caption q-mb-sm">Mensaje</p>
+                   <q-editor v-model="formContact.message" class="full-width"
+                             :toolbar="editorText.toolbar" content-class="text-grey-9"
+                             toolbar-text-color="grey-9"/>
+                </div>
+              </div>
+
+            </div>
+
+          </q-card-section>
+
+          <q-card-actions align="right">
+            <q-btn :loading="contactLoading" class="bg-primary text-white" @click="sendContact()" >Enviar solicitud</q-btn>
+             <q-btn flat label="Cerrar" color="primary" v-close-popup/>
+          </q-card-actions>
+       </q-card>
+    </q-dialog>
+
 
   </div>
 </div>
@@ -126,6 +183,36 @@ export default {
   data() {
      return {
         ratingStore: false,
+        //Contact section
+        contactLoading:false,
+        contactStore: false,
+        formContact:{
+          fullName:'',
+          subject:'Solicitud de servicio',
+          email:'',
+          phone:'',
+          message:'',
+          storeId:this.$store.state.qmarketplaceStores.storeSelected
+        },
+        editorText: {
+           toolbar: [
+              ['bold', 'italic', 'strike', 'underline', 'removeFormat'],
+              ['link'],
+              [
+                 {
+                    label: 'Font Size',
+                    icon: 'format_size',
+                    fixedLabel: true,
+                    fixedIcon: true,
+                    list: 'no-icons',
+                    options: ['size-1', 'size-2', 'size-3', 'size-4', 'size-5', 'size-6', 'size-7']
+                 }
+              ],
+              ['quote', 'unordered', 'ordered'],
+              ['fullscreen']
+           ]
+        },
+        //Contact section
      }
   },
   computed:{
@@ -136,8 +223,51 @@ export default {
 
   },
   methods:{
+    // Contact form
+    validateRequiredContactData() {
+       if (this.formContact.fullName == "") {
+          this.$alert.error({message: "Debe ingresar su nombre completo", pos: 'bottom'});
+          return false;
+       } else if (this.formContact.subject == "") {
+          this.$alert.error({message: "Debe ingresar el asunto de su solicitud", pos: 'bottom'});
+          return false;
+       } else if (this.formContact.phone == "") {
+          this.$alert.error({message: "Debe ingresar su teléfono de contacto", pos: 'bottom'});
+          return false;
+          return false;
+       } else if (this.formContact.email == "") {
+          this.$alert.error({message: "Debe ingresar el correo electrónico donde quiere recibir la respuesta", pos: 'bottom'});
+          return false;
+       } else if (this.formContact.message == "") {
+          this.$alert.error({message: "Debe ingresar el mensaje de solicitud", pos: 'bottom'});
+          return false;
+       } else
+          return true;
+    },
+    clearFormContact(){
+      this.formContact.fullName="";
+      this.formContact.phone="";
+      this.formContact.message="";
+      this.formContact.email="";
+      this.formContact.subject="Solicitud de servicio";
+    },
+    sendContact(){
+      if (this.validateRequiredContactData()) {
+        this.contactLoading=true;
+        this.$crud.create("apiRoutes.qmarketplace.storeContact", this.formContact).then(response => {
+           this.$alert.success({message: "Solicitud enviada correctamente", pos: 'bottom'})
+           this.clearFormContact();
+           this.contactStore=false;
+           this.contactLoading=false;
+        }).catch(error => {
+          this.contactLoading=false;
+           this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+        });
+      }
+    },
+    // Contact form
     rating() {
-       this.$axios.post(config('apiRoutes.qmarketplace.store') + '/rating/' + this.storeData.id, {
+       this.$axios.post(config('apiRoutes.marketplace.store') + '/rating/' + this.storeData.id, {
           attributes: {
              rating: this.storeData.averageRating
           }

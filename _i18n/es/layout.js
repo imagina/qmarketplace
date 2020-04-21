@@ -21,9 +21,15 @@ export default {
         quantity:'Cantidad',
         text:'Texto',
         boolean:'Booleano',
+    },
+    storeContact:{
+      fullName:"Nombre completo",
+      message:"Mensaje",
     }
   },
   newBenefit : 'Nuevo beneficio',
+  newStoreContact : 'Nuevo mensaje de contacto',
+  editStoreContact : 'Editar mensaje de contacto',
 
 
 }

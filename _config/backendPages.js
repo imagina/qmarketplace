@@ -124,6 +124,18 @@ export default {
     authenticated: true
   },
 
+  myStoreContacts: {
+    permission: 'marketplace.stores.mystore',
+    activated: true,
+    path: '/admin/stores/my-store/contact-messages/index',
+    name: 'qmarketplace.admin.storecontacts.index',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/storeContacts/index'),
+    layout: () => import('src/layouts/admin'),
+    title: 'qmarketplace.sidebar.adminStoreContacts',
+    icon: 'fas fa-store',
+    authenticated: true
+  },
+
   //Products of selected store
   myStoreProducts: {
     permission: 'marketplace.products.index',

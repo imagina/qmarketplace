@@ -66,7 +66,7 @@
                   <div class="pts">
                      {{storeData.averageRating}}pts
                   </div>
-               </div>   
+               </div>
                <div class="q-container">
                   <div class="text-center" style="position:relative;">
                      <q-avatar size="150px" round class="bg-white mx-auto">
@@ -79,11 +79,11 @@
                      <p class="text-body2 text-center text-italic text-white q-mb-sm q-mx-md">{{storeData.slogan}} </p>
                      <div class="absolute-right-top text-right">
                         <q-btn v-if="!followedStore" @click="followStore()" color="store-secondary" dense round icon="far fa-thumbs-up"/>
-                        <q-btn v-else dense color="store-secondary"  round icon="far fa-handshake"/>   
+                        <q-btn v-else dense color="store-secondary"  round icon="far fa-handshake"/>
                       </div>
                   </div>
-                
-                  <q-toolbar class="bg-white shadow-4"> 
+
+                  <q-toolbar class="bg-white shadow-4">
                      <chat class="chat" color="store-primary" type="0"></chat>
                      <q-btn flat dense icon="fas fa-briefcase" color="store-primary"/>
                      <q-btn flat dense icon="star" color="store-primary"/>
@@ -92,7 +92,7 @@
 
                </div>
             </div>
-         </div>             
+         </div>
       </div>
 
    </div>
@@ -151,7 +151,7 @@
             });
          },
          rating() {
-            this.$axios.post(config('apiRoutes.qmarketplace.store') + '/rating/' + this.storeData.id, {
+            this.$axios.post(config('apiRoutes.marketplace.store') + '/rating/' + this.storeData.id, {
                attributes: {
                   rating: this.storeData.averageRating
                }
@@ -177,7 +177,7 @@
          border 5px solid #E1E1E1 !important
          background-color #fff
    .line-store-primary
-         border 1px solid $storePrimary      
+         border 1px solid $storePrimary
 
    .btn-top
       margin-top -40px
@@ -188,11 +188,11 @@
      .q-container
        border-bottom 2px solid $storePrimary
      .q-btn-dropdown__arrow
-       display none  
+       display none
      .absolute-right-top
-       right 10px 
-       top 85px 
-       position absolute    
+       right 10px
+       top 85px
+       position absolute
      .pts
        background-image url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 54.18'%3E%3Cdefs%3E%3Cstyle%3E.cls-1{fill:%23fff;}%3C/style%3E%3C/defs%3E%3Ctitle%3ERecurso 2%3C/title%3E%3Cg id='Capa_2' data-name='Capa 2'%3E%3Cg id='home'%3E%3Cpath class='cls-1' d='M42.37,54,24,44.26,5.63,54A4.54,4.54,0,0,1,0,49.41V0H48V49.41A4.54,4.54,0,0,1,42.37,54Z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")
        color $storeSecondary
@@ -205,5 +205,5 @@
        height 55px
        width 55px
        background-repeat no-repeat
-       background-position center   
+       background-position center
 </style>

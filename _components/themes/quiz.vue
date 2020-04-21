@@ -140,14 +140,9 @@ export default {
       var from = new Date(d1[0], parseInt(d1[1])-1, d1[2]);  // -1 because months are from 0 to 11
       var to   = new Date(d2[0], parseInt(d2[1])-1, d2[2]);
       var check = new Date(year, month, day);
-      console.log(check);
-      console.log(from);
-      console.log(to);
       if(check >= from && check < to){
-        console.log(true);
         return true;
       }else {
-        console.log(false);
         return false;
       }
     },

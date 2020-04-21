@@ -9,5 +9,6 @@ export default {
   adminFavoritestores : 'Seguidores',
   adminLevelCriterias: 'Level criterias',
   adminLevels: 'Levels',
+  adminStoreContacts: 'Contact messages',
 
 }
