@@ -328,6 +328,47 @@
                                  <q-icon color="grey-6" name="fas fa-edit" size="sm"/>
                               </div>
                            </div>
+                           <!--  -->
+                           <div class="row items-center q-py-sm border-bottom-gray" v-if="item.name=='icommercepaypal'" v-show="company.paymentMethods.includes(item.id)">
+                             <div class="col">
+                               <p class="caption q-mb-sm">Client Id</p>
+                                <q-input dense v-model="dataPaypal.clientid" placeholder="clientId"/>
+                             </div>
+                             <div class="col">
+                               <p class="caption q-mb-sm">Client Secret</p>
+                                <q-input dense v-model="dataPaypal.clientsecret" placeholder="clientsecret"/>
+                             </div>
+                             <div class="col">
+                               <p class="caption q-mb-sm">Modo</p>
+                                <q-input dense v-model="dataPaypal.mode" placeholder="mode"/>
+                             </div>
+                           </div>
+                           <div class="row items-center q-py-sm border-bottom-gray" v-if="item.name=='icommercepayu'" v-show="company.paymentMethods.includes(item.id)">
+                             <div class="col">
+                               <p class="caption q-mb-sm">Merchant Id</p>
+                                <q-input dense v-model="dataPayU.merchantid" placeholder="merchantid"/>
+                             </div>
+                             <div class="col">
+                               <p class="caption q-mb-sm">Api Login</p>
+                                <q-input dense v-model="dataPayU.apilogin" placeholder="apilogin"/>
+                             </div>
+                             <div class="col">
+                               <p class="caption q-mb-sm">Api Key</p>
+                                <q-input dense v-model="dataPayU.apikey" placeholder="apikey"/>
+                             </div>
+                             <div class="col">
+                               <p class="caption q-mb-sm">Account ID</p>
+                                <q-input dense v-model="dataPayU.accountid" placeholder="accountid"/>
+                             </div>
+                             <div class="col">
+                               <p class="caption q-mb-sm">Test</p>
+                                <q-input dense v-model="dataPayU.test" placeholder="test"/>
+                             </div>
+                             <div class="col">
+                               <p class="caption q-mb-sm">Modo</p>
+                                <q-input dense v-model="dataPayU.mode" placeholder="mode"/>
+                             </div>
+                           </div>
                         </div>
 
                      </div>
@@ -357,6 +398,18 @@
                               <div class="col-auto">
                                  <q-icon color="grey-6" name="fas fa-edit" size="sm"/>
                               </div>
+                           </div>
+                           <div class="row items-center q-py-sm border-bottom-gray" v-if="item.name=='icommerceflatrate'" v-show="company.shippingMethods.includes(item.id)">
+                             <div class="col">
+                               <p class="caption q-mb-sm">Costo</p>
+                                <q-input dense v-model="dataFlatrate.cost" placeholder="cost"/>
+                             </div>
+                           </div>
+                           <div class="row items-center q-py-sm border-bottom-gray" v-if="item.name=='icommercefreeshipping'"  v-show="company.shippingMethods.includes(item.id)">
+                             <div class="col">
+                               <p class="caption q-mb-sm">Mínimo</p>
+                                <q-input dense v-model="dataFreeShipping.minimum" placeholder="minimum"/>
+                             </div>
                            </div>
                         </div>
 
@@ -555,6 +608,27 @@
             },
             showPaymentMethods: false,
             showShippingMethods: false,
+            //Payment Methods
+            dataPaypal:{
+              clientid:"",
+              clientsecret:"",
+              mode:"",
+            },
+            dataPayU:{
+              merchantid:"",
+              apilogin:"",
+              apikey:"",
+              accountid:"",
+              test:"",
+              mode:"",
+            },
+            // Shipping methods
+            dataFlatrate:{
+              cost:0
+            },
+            dataFreeShipping:{
+              minimum:1
+            },
          }
       },
       methods: {
@@ -605,6 +679,8 @@
                } else if (this.company.shippingMethods.length == 0) {
                   this.$alert.error({message: "Debe seleccionar al menos un método de envío", pos: 'bottom'});
                   return false;
+               }else{
+                 return true;
                }
             } else
                return true;
@@ -693,11 +769,36 @@
                   this.$crud.show(this.configName, itemId, params).then(response => {
                      var paymentMethods = [];
                      for (var i = 0; i < response.data.paymentMethods.length; i++) {
+                       if(response.data.paymentMethods[i].name=="icommercepayu"){
+                         if(response.data.paymentMethods[i].optionsPivot!=null){
+                           this.dataPayU.merchantid=response.data.paymentMethods[i].optionsPivot.accountid;
+                           this.dataPayU.apilogin=response.data.paymentMethods[i].optionsPivot.apilogin;
+                           this.dataPayU.apikey=response.data.paymentMethods[i].optionsPivot.apikey;
+                           this.dataPayU.accountid=response.data.paymentMethods[i].optionsPivot.accountid;
+                           this.dataPayU.test=response.data.paymentMethods[i].optionsPivot.test;
+                           this.dataPayU.mode=response.data.paymentMethods[i].optionsPivot.mode;
+                         }
+                       }else if(response.data.paymentMethods[i].name=="icommercepaypal"){
+                         if(response.data.paymentMethods[i].optionsPivot!=null){
+                           this.dataPaypal.accountid=response.data.paymentMethods[i].optionsPivot.clientid;
+                           this.dataPaypal.test=response.data.paymentMethods[i].optionsPivot.clientsecret;
+                           this.dataPaypal.mode=response.data.paymentMethods[i].optionsPivot.mode;
+                         }
+                       }
                         paymentMethods.push(response.data.paymentMethods[i].id);
                      }//for
                      var shippingMethods = [];
                      for (var i = 0; i < response.data.shippingMethods.length; i++) {
-                        shippingMethods.push(response.data.shippingMethods[i].id);
+                       if(response.data.shippingMethods[i].name=="icommerceflatrate"){
+                         if(response.data.shippingMethods[i].optionsPivot!=null){
+                           this.dataFlatrate.cost=response.data.shippingMethods[i].optionsPivot.cost;
+                         }
+                       }else if(response.data.shippingMethods[i].name=="icommercefreeshipping"){
+                         if(response.data.shippingMethods[i].optionsPivot!=null){
+                           this.dataFreeShipping.minimum=response.data.shippingMethods[i].optionsPivot.minimum;
+                         }
+                       }
+                       shippingMethods.push(response.data.shippingMethods[i].id);
                      }//for
                      var categories = [];
                      for (var i = 0; i < response.data.categories.length; i++) {
@@ -847,6 +948,64 @@
                   slug: this.slugable(this.company.name)
                };
                this.company.user_id = this.userId;
+
+               //this.company.paymentMethods
+               let sendPaymentMethods=[];
+               let defaultPaymentMethods=this.company.paymentMethods;
+               for(myPayMethod in this.company.paymentMethods){
+                 for(paym in this.paymentMethods){
+                   if(myPayMethod==paym.id && paym.name=="icommercepayu"){
+                     sendPaymentMethods[myPayMethod]={
+                       "options":{
+                         merchantid:this.dataPayU.merchantid,
+                         apilogin:this.dataPayU.apilogin,
+                         apikey:this.dataPayU.apikey,
+                         accountid:this.dataPayU.accountid,
+                         test:this.dataPayU.test,
+                         mode:this.dataPayU.mode,
+                       }
+                     };
+                   }else if(myPayMethod==paym.id && paym.name=="icommercepaypal"){
+                     sendPaymentMethods[myPayMethod]={
+                       "options":{
+                         merchantid:this.dataPaypal.clientid,
+                         apilogin:this.dataPaypal.clientsecret,
+                         apikey:this.dataPaypal.mode
+                       }
+                     };
+                   }else{
+                     sendPaymentMethods[myPayMethod]={
+                       "options":null
+                     };
+                   }
+                 }//
+               }//for
+               this.company.paymentMethods=sendPaymentMethods;
+               //Shipping methods:
+               var sendShippingMethods=[];
+               var defaultShippingMethods=this.company.shippingMethods;
+               for(var myShipM=0;myShipM<this.company.shippingMethods.length;myShipM++){
+                 for(var shipM=0;shipM<this.shipping_methods.length;shipM++){
+                   if(this.company.shippingMethods[myShipM]==this.shipping_methods[shipM].id && this.shipping_methods[shipM].name=="icommerceflatrate"){
+                    sendShippingMethods[this.company.shippingMethods[myShipM]]={
+                      "options":JSON.stringify({
+                        cost:this.dataFlatrate.cost,
+                      })
+                    };
+                  }else if(this.company.shippingMethods[myShipM]==this.shipping_methods[shipM].id && this.shipping_methods[shipM].name=="icommercefreeshipping"){
+                   sendShippingMethods[this.company.shippingMethods[myShipM]]={
+                     "options":JSON.stringify({
+                       minimum:this.dataFlatrate.minimum,
+                     })
+                   };
+                 }else{
+                    sendShippingMethods[this.company.shippingMethods[myShipM]]={
+                      "options":null
+                    };
+                  }
+                }//for 2
+               }//for 1
+               this.company.shippingMethods=sendShippingMethods;
                this.$crud.create("apiRoutes.qmarketplace.store", this.company).then(response => {
                   this.$alert.success({message: this.$tr('ui.message.recordCreated'), pos: 'bottom'})
                   this.$router.push({
@@ -854,10 +1013,12 @@
                      params: {
                         id: response.data.id
                      }
-                  })
+                  });
                }).catch(error => {
                   this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
                });
+               this.company.shippingMethods=defaultShippingMethods;
+               this.company.paymentMethods=defaultPaymentMethods;
             }//if(validateRequiredData()){
          },
          updateStore() {
@@ -868,6 +1029,64 @@
                   description: this.company.description,
                   slug: this.slugable(this.company.name)
                };
+               //this.company.paymentMethods
+               var sendPaymentMethods=[];
+               var defaultPaymentMethods=this.company.paymentMethods;
+               for(var myPayMethod=0;myPayMethod<this.company.paymentMethods.length;myPayMethod++){
+                 for(var paym=0;paym<this.payment_methods.length;paym++){
+                   if(this.company.paymentMethods[myPayMethod]==this.payment_methods[paym].id && this.payment_methods[paym].name=="icommercepayu"){
+                     sendPaymentMethods[this.company.paymentMethods[myPayMethod]]={
+                       "options":JSON.stringify({
+                         merchantid:this.dataPayU.merchantid,
+                         apilogin:this.dataPayU.apilogin,
+                         apikey:this.dataPayU.apikey,
+                         accountid:this.dataPayU.accountid,
+                         test:this.dataPayU.test,
+                         mode:this.dataPayU.mode,
+                       })
+                     };
+                   }else if(this.company.paymentMethods[myPayMethod]==this.payment_methods[paym].id && this.payment_methods[paym].name=="icommercepaypal"){
+                     sendPaymentMethods[this.company.paymentMethods[myPayMethod]]={
+                       "options":JSON.stringify({
+                         merchantid:this.dataPaypal.clientid,
+                         apilogin:this.dataPaypal.clientsecret,
+                         apikey:this.dataPaypal.mode
+                       })
+                     };
+                   }else{
+                     sendPaymentMethods[this.company.paymentMethods[myPayMethod]]={
+                       "options":null
+                     };
+                   }
+                 }//for
+               }//for
+               this.company.paymentMethods=sendPaymentMethods;
+               //Shipping methods:
+               var sendShippingMethods=[];
+               var defaultShippingMethods=this.company.shippingMethods;
+               for(var myShipM=0;myShipM<this.company.shippingMethods.length;myShipM++){
+                 for(var shipM=0;shipM<this.shipping_methods.length;shipM++){
+                   if(this.company.shippingMethods[myShipM]==this.shipping_methods[shipM].id && this.shipping_methods[shipM].name=="icommerceflatrate"){
+                    sendShippingMethods[this.company.shippingMethods[myShipM]]={
+                      "options":JSON.stringify({
+                        cost:this.dataFlatrate.cost,
+                      })
+                    };
+                  }else if(this.company.shippingMethods[myShipM]==this.shipping_methods[shipM].id && this.shipping_methods[shipM].name=="icommercefreeshipping"){
+                   sendShippingMethods[this.company.shippingMethods[myShipM]]={
+                     "options":JSON.stringify({
+                       minimum:this.dataFlatrate.minimum,
+                     })
+                   };
+                 }else{
+                    sendShippingMethods[this.company.shippingMethods[myShipM]]={
+                      "options":null
+                    };
+                  }
+                }//for 2
+               }//for 1
+               this.company.shippingMethods=sendShippingMethods;
+               //Data update:
                var data = this.company;
                this.$crud.update("apiRoutes.qmarketplace.store", this.storeId, data).then(response => {
                   this.$alert.success({message: this.$tr('ui.message.recordUpdated'), pos: 'bottom'})
@@ -877,6 +1096,8 @@
                }).catch(error => {
                   this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
                });
+               this.company.paymentMethods=defaultPaymentMethods;
+               this.company.shippingMethods=defaultShippingMethods;
             }//if(validateRequiredData()){
          },
          getProvinces() {
