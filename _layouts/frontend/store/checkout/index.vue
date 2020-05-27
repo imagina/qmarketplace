@@ -254,6 +254,7 @@
                                  <q-radio v-model="form.shippingMethodId"
                                           v-for="(shipMethod,index) in storeData.shippingMethods"
                                           :key="'shipMethod'+shipMethod.id" :val="shipMethod.id"
+                                          @input="val => { updateShippingCost(shipMethod) }"
                                           :label="shipMethod.title"/>
 
                               </div>
@@ -295,7 +296,7 @@
                      <div class="col-12 text-right">
                         <h6 class="text-weight-bold q-my-lg">
                            TOTAL
-                           <span v-if="cart" class="text-primary q-pl-md">$ {{cart.total}}</span>
+                           <span v-if="cart" class="text-primary q-pl-md">$ {{total}}</span>
                            <span v-else class="text-primary q-pl-md">$ 0</span>
                         </h6>
                         <q-btn
@@ -312,6 +313,7 @@
                   <q-card class="rounded-sm bg-white plan">
                      <q-card-section style="color: #333333;">
                         <q-btn size="lg"
+                        @click="submitOrder"
                                class="capitalize text-weight-bold full-width rounded-sm q-mb-md" color="primary"
                                :label="$tr('qsubscription.layout.form.checkout.finalizePurchase')"/>
                         <hr class="line-grey">
@@ -612,6 +614,17 @@
                this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
             });
 
+         },
+         updateShippingCost(shipMethod){
+           if(shipMethod.optionsPivot!=undefined){
+             if(shipMethod.name=="icommerceflatrate"){
+               this.shipping=shipMethod.optionsPivot.cost
+             }else{
+               this.shipping=0
+             }
+           }else{
+             this.shipping=0
+           }
          },
          submitOrder() {
             this.loading = true
