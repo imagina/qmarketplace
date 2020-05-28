@@ -330,44 +330,58 @@
                            </div>
                            <!--  -->
                            <div class="row items-center q-py-sm border-bottom-gray" v-if="item.name=='icommercepaypal'" v-show="company.paymentMethods.includes(item.id)">
-                             <div class="col">
+                             <div class="col-12 q-my-sm items-center text-center">
+                               <p class="caption q-mb-sm">Configuración de plataforma de pago PayPal</p>
+                             </div>
+                             <div class="col-12 q-pt-sm">
                                <p class="caption q-mb-sm">Client Id</p>
                                 <q-input dense v-model="dataPaypal.clientid" placeholder="clientId"/>
                              </div>
-                             <div class="col">
+                             <div class="col-12 q-pt-sm">
                                <p class="caption q-mb-sm">Client Secret</p>
                                 <q-input dense v-model="dataPaypal.clientsecret" placeholder="clientsecret"/>
                              </div>
-                             <div class="col">
+                             <div class="col-12 q-pt-sm">
                                <p class="caption q-mb-sm">Modo</p>
                                 <q-input dense v-model="dataPaypal.mode" placeholder="mode"/>
                              </div>
                            </div>
                            <div class="row items-center q-py-sm border-bottom-gray" v-if="item.name=='icommercepayu'" v-show="company.paymentMethods.includes(item.id)">
-                             <div class="col">
-                               <p class="caption q-mb-sm">Merchant Id</p>
-                                <q-input dense v-model="dataPayU.merchantid" placeholder="merchantid"/>
+                             <div class="col-12 q-my-sm items-center text-center">
+                               <p class="caption q-mb-sm">Configuración de plataforma de pago PayU</p>
                              </div>
-                             <div class="col">
-                               <p class="caption q-mb-sm">Api Login</p>
-                                <q-input dense v-model="dataPayU.apilogin" placeholder="apilogin"/>
+                            <div class="col-6 q-mt-sm">
+                               <div class="row">
+                                 <div class="col-12 q-pt-sm">
+                                   <p class="caption q-mb-sm">Merchant Id</p>
+                                    <q-input dense v-model="dataPayU.merchantid" placeholder="merchantid"/>
+                                 </div>
+                                 <div class="col-12 q-pt-sm">
+                                   <p class="caption q-mb-sm">Api Login</p>
+                                    <q-input dense v-model="dataPayU.apilogin" placeholder="apilogin"/>
+                                 </div>
+                                 <div class="col-12 q-pt-sm">
+                                   <p class="caption q-mb-sm">Api Key</p>
+                                    <q-input dense v-model="dataPayU.apikey" placeholder="apikey"/>
+                                 </div>
+                               </div>
                              </div>
-                             <div class="col">
-                               <p class="caption q-mb-sm">Api Key</p>
-                                <q-input dense v-model="dataPayU.apikey" placeholder="apikey"/>
+
+                             <div class="col-6 q-mt-sm">
+                               <div class="col-12">
+                                 <p class="caption q-mb-sm q-pt-sm">Account ID</p>
+                                  <q-input dense v-model="dataPayU.accountid" placeholder="accountid"/>
+                               </div>
+                               <div class="col-12">
+                                 <p class="caption q-mb-sm q-pt-sm">Test</p>
+                                  <q-input dense v-model="dataPayU.test" placeholder="test"/>
+                               </div>
+                               <div class="col-12">
+                                 <p class="caption q-mb-sm q-pt-sm">Modo</p>
+                                  <q-input dense v-model="dataPayU.mode" placeholder="mode"/>
+                               </div>
                              </div>
-                             <div class="col">
-                               <p class="caption q-mb-sm">Account ID</p>
-                                <q-input dense v-model="dataPayU.accountid" placeholder="accountid"/>
-                             </div>
-                             <div class="col">
-                               <p class="caption q-mb-sm">Test</p>
-                                <q-input dense v-model="dataPayU.test" placeholder="test"/>
-                             </div>
-                             <div class="col">
-                               <p class="caption q-mb-sm">Modo</p>
-                                <q-input dense v-model="dataPayU.mode" placeholder="mode"/>
-                             </div>
+
                            </div>
                         </div>
 
@@ -401,7 +415,7 @@
                            </div>
                            <div class="row items-center q-py-sm border-bottom-gray" v-if="item.name=='icommerceflatrate'" v-show="company.shippingMethods.includes(item.id)">
                              <div class="col">
-                               <p class="caption q-mb-sm">Costo</p>
+                               <p class="caption q-mb-sm">Costo fijo por envío</p>
                                 <q-input dense v-model="dataFlatrate.cost" placeholder="cost"/>
                              </div>
                            </div>
