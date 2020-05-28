@@ -450,7 +450,7 @@
          total(){
           var sub=this.subTotal;
           var tot=sub-this.discont;
-          tot=tot+this.shipping;
+          tot=tot+parseFloat(this.shipping);
           return tot;
          }
 
@@ -666,7 +666,8 @@
                   let order = response.data
                   this.$alert.success({message: this.$tr('ui.message.recordCreated'), pos: 'bottom'})
                   if (order.paymentData.redirectRoute) {
-                     return window.open(order.paymentData.redirectRoute, '_blank')
+                    console.log('abre ventana');
+                     window.open(order.paymentData.redirectRoute, '_blank')
                   }
                   this.$router.push({name: 'qcommerce.account.order', params: {id: response.data.orderId}})
                   this.loading = false
