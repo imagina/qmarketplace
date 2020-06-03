@@ -28,7 +28,77 @@
 
                   </div>
                </div>
-               <div class="row description q-pt-xl">
+<br>
+<q-splitter
+v-model="splitterModel"
+style="height: 250px"
+>
+
+<template v-slot:before>
+  <q-tabs
+  v-model="tab"
+  vertical
+  class="text-teal"
+  >
+  <q-tab name="description" icon="edit" label="Descripción" />
+  <q-tab v-if="comments.length>0" name="comments" icon="comments" label="Comentarios" />
+  </q-tabs>
+</template>
+
+<template v-slot:after>
+  <q-tab-panels
+  v-model="tab"
+  animated
+  swipeable
+  vertical
+  transition-prev="jump-up"
+  transition-next="jump-up"
+  >
+  <q-tab-panel name="description">
+    <div class="q-container">
+      <div class="row q-pa-lg">
+        <div class="col" v-html="productData.description">
+        </div>
+      </div>
+    </div>
+  </q-tab-panel>
+
+  <q-tab-panel name="comments">
+    <ul id="comments-list" class="comments-list" v-if="comments.length>0">
+      <li v-for="comentary in comments">
+        <div class="comment-main-level">
+          <!-- Avatar -->
+          <div class="comment-avatar"><img
+            :src="comentary.user.smallImage"
+            alt=""></div>
+            <!-- Contenedor del Comentario -->
+            <div class="comment-box">
+              <div class="comment-head">
+                <h6 class="comment-name">
+                  <a href="#">
+                    {{comentary.user.fullName}}
+                  </a>
+                </h6>
+                <span>{{comentary.diffTime}}</span>
+              </div>
+              <div class="comment-content">
+                {{comentary.comment}}
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </q-tab-panel>
+
+
+  </q-tab-panels>
+</template>
+
+</q-splitter>
+
+
+
+               <!-- <div class="row description q-pt-xl">
                   <div class="col">
                      <h3 class="title-label-tertiary text-center">
                         <div>Descripción</div>
@@ -40,8 +110,9 @@
                         </div>
                      </div>
                   </div>
-               </div>
-               <div class="row description q-pt-xl" v-if="comments.length>0">
+               </div> -->
+
+               <!-- <div class="row description q-pt-xl" v-if="comments.length>0">
                   <div class="col">
                      <h3 class="title-label-tertiary text-center">
                         <div>Comentarios</div>
@@ -50,11 +121,9 @@
                      <ul id="comments-list" class="comments-list" v-if="comments.length>0">
                        <li v-for="comentary in comments">
                          <div class="comment-main-level">
-                           <!-- Avatar -->
                            <div class="comment-avatar"><img
                              :src="comentary.user.smallImage"
                              alt=""></div>
-                             <!-- Contenedor del Comentario -->
                              <div class="comment-box">
                                <div class="comment-head">
                                  <h6 class="comment-name">
@@ -73,7 +142,8 @@
                        </ul>
 
                   </div>
-               </div>
+               </div> -->
+
             </div>
          </div>
 
@@ -190,6 +260,8 @@
             productData: false,
             productSelectd: false,
             images:[],
+            tab: 'description',
+            splitterModel: 20,
             comment:"",
             comments:[],
             commentProduct:false,
