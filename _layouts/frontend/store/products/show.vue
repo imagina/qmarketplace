@@ -209,15 +209,15 @@
         getComments() {
             this.$axios.get(config('apiRoutes.icomments.comments'), {
                 params: {
-                    filters: {
+                    filter: {
                         commentableId: this.productData.id,
                         commentableType: "Modules\\Icommerce\\Entities\\Product",
                         order: {
                             field: 'created_at',
                             way: 'desc',
-                        },
-                        take: 8
-                    }
+                        }
+                    },
+                    take: 8
                 }
             }).then(response => {
                 this.comments = response.data.data;
