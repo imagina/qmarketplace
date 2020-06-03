@@ -22,6 +22,10 @@
                      </div>
                      <add-to-cart :product-id="productData.id" :product-name="productData.name"
                                   :price="productData.price"/>
+                                  <q-btn @click="commentProduct=true;" icon="star"
+                                         label="Agregar comentario" color="positive"
+                                         />
+
                   </div>
                </div>
                <div class="row description q-pt-xl">
@@ -37,8 +41,66 @@
                      </div>
                   </div>
                </div>
+               <div class="row description q-pt-xl" v-if="comments.length>0">
+                  <div class="col">
+                     <h3 class="title-label-tertiary text-center">
+                        <div>Comentarios</div>
+                     </h3>
+
+                     <ul id="comments-list" class="comments-list" v-if="comments.length>0">
+                       <li v-for="comentary in comments">
+                         <div class="comment-main-level">
+                           <!-- Avatar -->
+                           <div class="comment-avatar"><img
+                             :src="comentary.user.smallImage"
+                             alt=""></div>
+                             <!-- Contenedor del Comentario -->
+                             <div class="comment-box">
+                               <div class="comment-head">
+                                 <h6 class="comment-name">
+                                   <a href="#">
+                                     {{comentary.user.fullName}}
+                                   </a>
+                                 </h6>
+                                 <span>{{comentary.diffTime}}</span>
+                               </div>
+                               <div class="comment-content">
+                                 {{comentary.comment}}
+                               </div>
+                             </div>
+                           </div>
+                         </li>
+                       </ul>
+
+                  </div>
+               </div>
             </div>
          </div>
+
+                 <!-- Add comment product QDIALOG -->
+                 <q-dialog v-model="commentProduct" @hide="commentProduct=false">
+                   <q-card>
+                     <q-card-section>
+                       <div class="text-h6">¿Qué te ha parecido el producto {{productData.name}}?</div>
+                     </q-card-section>
+
+                     <q-card-section class="text-center">
+                       <div class="input-title">
+                         <h5>Añadir un comentario</h5>
+                       </div>
+
+                       <q-input class="q-mt-sm" v-model="comment" outlined dense
+                       label="Comentario" placeholder=""/>
+
+                     </q-card-section>
+
+                     <q-card-actions align="right">
+                       <q-btn @click="addComment();" flat label="Agregar comentario" color="primary"/>
+                       <q-btn flat label="Cancelar" color="secondary" v-close-popup/>
+                     </q-card-actions>
+
+                   </q-card>
+                 </q-dialog>
          <!--Inner Loading-->
          <inner-loading :loading="loading"></inner-loading>
       </div>
@@ -112,6 +174,8 @@
          this.$nextTick(function () {
             this.getData(),
                 this.getDataStore();
+                this.getComments();
+
 
          })
       },
@@ -126,6 +190,9 @@
             productData: false,
             productSelectd: false,
             images:[],
+            comment:"",
+            comments:[],
+            commentProduct:false,
             items: [
                {
                   src: 'https://picsum.photos/600/400/?image=0',
@@ -139,6 +206,47 @@
          }
       },
       methods: {
+        getComments() {
+            this.$axios.get(config('apiRoutes.icomments.comments'), {
+                params: {
+                    filters: {
+                        commentableId: this.productData.id,
+                        commentableType: "Modules\\Icommerce\\Entities\\Product",
+                        order: {
+                            field: 'created_at',
+                            way: 'desc',
+                        },
+                        take: 8
+                    }
+                }
+            }).then(response => {
+                this.comments = response.data.data;
+            }).catch(error => {
+                this.$alert.error({message: error.response.data.errors, pos: 'bottom'})
+            });
+        },
+        addComment() {
+            if (this.comment != "") {
+                this.$axios.post(config('apiRoutes.icomments.comments'), {
+                    attributes: {
+                        comment: this.comment,
+                        commentable_id: this.productData.id,
+                        commentable_type: "Modules\\Icommerce\\Entities\\Product"
+                    }
+                }, {
+                    headers: {
+                        Authorization: this.$store.state.quserAuth.userToken
+                    }
+                }).then(response => {
+                    this.comment = "";
+                    this.$alert.success({message: "Comentario almacenado exitosamente", pos: 'bottom'});
+                    this.commentProduct=false;
+                    this.getComments();
+                }).catch(error => {
+                    this.$alert.error({message: error.response.data.errors, pos: 'bottom'})
+                });
+            }
+        },//comment
          //Get data
          getData() {
             return new Promise((resolve, reject) => {
@@ -227,6 +335,179 @@
 
 <style lang="stylus">
    #showProductPage
+
+   #comments-list
+       margin-top 30px
+       position relative
+       &:after
+           content ''
+           position absolute
+           background #c7cacb
+           bottom 0
+           left 27px
+           width 7px
+           height 7px
+           border 3px solid #dee1e3
+           -webkit-border-radius 50%
+           -moz-border-radius 50%
+           border-radius 50%
+
+       li
+           margin-bottom 15px
+           display block
+           position relative
+
+           &:after
+               content ''
+               display block
+               clear both
+               height 0
+               width 0
+
+       .comment-avatar
+           width 65px
+           height 65px
+           position relative
+           z-index 99
+           float left
+           border 3px solid #FFF
+           -webkit-border-radius 4px
+           -moz-border-radius 4px
+           border-radius 4px
+           -webkit-box-shadow 0 1px 2px rgba(0, 0, 0, 0.2)
+           -moz-box-shadow 0 1px 2px rgba(0, 0, 0, 0.2)
+           box-shadow 0 1px 2px rgba(0, 0, 0, 0.2)
+           overflow hidden
+
+           img
+               width 100%
+               height 100%
+
+       .comment-box
+           width 680px
+           float right
+           position relative
+           -webkit-box-shadow 0 1px 1px rgba(0, 0, 0, 0.15)
+           -moz-box-shadow 0 1px 1px rgba(0, 0, 0, 0.15)
+           box-shadow 0 1px 1px rgba(0, 0, 0, 0.15)
+
+           &:before
+               border-width 11px 13px 11px 0
+               border-color transparent rgba(0, 0, 0, 0.05)
+               left -12px
+
+       .reply-list:before, .reply-list:after
+           display none
+
+       .reply-list
+           padding-left 88px
+           clear both
+           margin-top 15px
+
+           li
+               &:before
+                   content ''
+                   width 60px
+                   height 2px
+                   background #c7cacb
+                   position absolute
+                   top 25px
+                   left -55px
+
+           .comment-avatar
+               width 50px
+               height 50px
+
+           .comment-box
+               width 610px
+               width 320px
+
+       .comment-main-level
+           &:after
+               content ''
+               width 0
+               height 0
+               display block
+               clear both
+
+       .comments-list .comment-box:before, .comments-list .comment-box:after
+           content ''
+           height 0
+           width 0
+           position absolute
+           display block
+           border-width 10px 12px 10px 0
+           border-style solid
+           border-color transparent #FCFCFC
+           top 8px
+           left -11px
+
+       .comment-box
+           .comment-head
+               background #FCFCFC
+               padding 10px 12px
+               border-bottom 1px solid #E5E5E5
+               overflow hidden
+               -webkit-border-radius 4px 4px 0 0
+               -moz-border-radius 4px 4px 0 0
+               border-radius 4px 4px 0 0
+
+               i
+                   float right
+                   margin-left 14px
+                   position relative
+                   top 2px
+                   color #A6A6A6
+                   cursor pointer
+                   -webkit-transition color 0.3s ease
+                   -o-transition color 0.3s ease
+                   transition color 0.3s ease
+
+                   &:hover
+                       color #03658c
+
+               span
+                   float left
+                   color #999
+                   font-size 13px
+                   position relative
+                   top 1px
+
+           .comment-name
+               color #283035
+               font-size 14px
+               font-weight 700
+               float left
+               margin-right 10px
+
+               a
+                   color #283035
+
+               &.by-author
+                   &:after
+                       content 'autor'
+                       background #03658c
+                       color #FFF
+                       font-size 12px
+                       padding 3px 5px
+                       font-weight 700
+                       margin-left 10px
+                       -webkit-border-radius 3px
+                       -moz-border-radius 3px
+                       border-radius 3px
+
+           .comment-content
+               background #FFF
+               padding 12px
+               font-size 15px
+               color #595959
+               -webkit-border-radius 0 0 4px 4px
+               -moz-border-radius 0 0 4px 4px
+               border-radius 0 0 4px 4px
+
+       .comment-box .comment-name.by-author, .comment-box .comment-name.by-author a
+           color #03658c
+
       #product
          .text-h1
             font-size 1.5rem
