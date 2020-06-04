@@ -24,6 +24,7 @@
    import header3 from '@imagina/qmarketplace/_components/themes/03/top'
    import header4 from '@imagina/qmarketplace/_components/themes/04/top'
    import header5 from '@imagina/qmarketplace/_components/themes/05/top'
+   import register from '@imagina/qmarketplace/_components/themes/register'
    import {colors, AddressbarColor} from 'quasar'
 
    export default {
@@ -33,7 +34,8 @@
          header2,
          header3,
          header4,
-         header5
+         header5,
+         register
       },
       data() {
          return {}

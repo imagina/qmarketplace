@@ -55,7 +55,7 @@ export default {
       return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
     },
     url(){
-      return window.location.href
+      return 'https://dondeestaesavaina.com/#/tienda/'+this.$route.params.slug
     }
   },
 }

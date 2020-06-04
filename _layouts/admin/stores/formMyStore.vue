@@ -305,7 +305,6 @@
                      </div>
                   </q-card-section>
                </q-card>
-
                <q-card class="rounded-md bg-white full-width q-mb-xl" v-show="showPaymentMethods">
                   <q-card-section class="q-px-xl q-pb-lg form-general">
 
@@ -744,25 +743,15 @@
          getPaymentMethods() {
             //Get
             this.$crud.index("apiRoutes.qcommerce.paymentMethods").then(response => {
-               for (var i = 0; i < response.data.length; i++) {
-                  this.payment_methods.push({
-                     id: response.data[i].id,
-                     name: response.data[i].name,
-                     title: response.data[i].title
-                  });
-               }
+               let payment_methods=response.data;
+               this.payment_methods=payment_methods.map(paymet=> ({id:paymet.id,name:paymet.name,title:paymet.title}));
             })
          },
          getShippingMethods() {
             //Get
             this.$crud.index("apiRoutes.qcommerce.shippingMethods").then(response => {
-               for (var i = 0; i < response.data.length; i++) {
-                  this.shipping_methods.push({
-                     id: response.data[i].id,
-                     name: response.data[i].name,
-                     title: response.data[i].title
-                  });
-               }
+               let shipping_methods=response.data;
+               this.shipping_methods=shipping_methods.map(shipping=> ({id:shipping.id,name:shipping.name,title:shipping.title}));
             })
          },
          //Get data item

@@ -5,7 +5,7 @@
       ENCUESTA
     </div>
     <q-stepper ref="stepper"
-    v-model="currentStep" class="no-shadow" v-if="poll && poll.questions.length">
+    v-model="currentStep" class="no-shadow" v-if="poll && questions.length">
 
     <q-step :name="`question-${index}`" :order="index" :title="question.title" v-for="(question, index) in questions"
     :key="index">
@@ -151,26 +151,46 @@ export default {
         //Params
         let params = {
           params: {
-            include: 'questions',
             filter: {
               storeId: this.storeData.id,
               status: 1,
-              field: 'system_name'
+              field: 'system_name',
+              questionActive:true
             },
           }
         }
         this.$crud.show("apiRoutes.qquiz.polls", this.systemName, params)
         .then(response => {
           this.poll = response.data
-          for(var i=0;i<this.poll.questions.length;i++){
-            if(this.validateDateWithNow(this.poll.questions[i].startDate,this.poll.questions[i].endDate) && this.poll.questions[i].status==1){
-              this.questions.push(this.poll.questions[i])
-            }//if
-          }//for
-
           this.success=true
+          this.getQstions()
           resolve(true)//Resolve
         }).catch(error => {
+          this.success=true
+          reject(false)//Resolve
+        })
+
+      })
+    },
+    getQstions() {
+      return new Promise((resolve, reject) => {
+        //Params
+        let params = {
+          params: {
+            include:'answers',
+            filter: {
+              pollId: this.poll.id,
+              status: 1,
+              questionActive:true
+            },
+          }
+        }
+        this.$crud.index("apiRoutes.qquiz.questions", params)
+                .then(response => {
+                  this.questions = response.data
+                  this.success=true
+                  resolve(true)//Resolve
+                }).catch(error => {
           this.success=true
           reject(false)//Resolve
         })
@@ -194,6 +214,17 @@ export default {
           this.$v.$reset()
           this.showVotes = true
           this.loading = false;
+          this.$q.dialog({
+            title: 'Encuesta realizada has ganado 5 puntos!',
+            color: 'positive',
+            ok: 'Ir a Mis Puntos',
+            cancel: 'Continuar'
+          }).onOk(() => {
+            this.$router.push({name: 'qredeems.account.points'})
+          }).onCancel(() => {
+            this.init()
+            this.loading = false
+          })
 
         }).catch(error => {
           console.error('[CREATE USER QUESTION ANSWERS] ', error)

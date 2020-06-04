@@ -21,10 +21,13 @@
 </template>
 <script>
 export default {
-    computed:{
-    store(){
+  computed:{
+    storeData(){
       let storeSlug = this.$route.params.slug
       return this.$store.state.qcrudMaster.show[`qmarketplace-store-${storeSlug}`].data
+    },
+    url(){
+      return 'https://dondeestaesavaina.com/#/tienda/'+this.$route.params.slug
     }
   },
 }
@@ -33,12 +36,12 @@ export default {
 .theme-layout-03
   .share-networks
     padding 2% 0
-    .networks  
+    .networks
       a
       & i
         margin 10px
         font-size 2rem
         color $storeSecondary
-        &:hover 
+        &:hover
           color $storePrimary
 </style>

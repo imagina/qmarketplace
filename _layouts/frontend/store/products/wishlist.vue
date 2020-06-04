@@ -123,12 +123,12 @@
                }
 
                this.$crud.index('apiRoutes.qcommerce.wishlists', params).then(response => {
-                  console.warn(response.data)
+                  //console.warn(response.data)
                   this.paginate.maxPages = response.meta.page.lastPage
                   this.products =  response.data.map( item => {
                          return item.product
                       })
-                 console.warn(this.products)
+                 //console.warn(this.products)
                   this.visible = false
                   resolve(true)//Resolve
                }).catch(error => {

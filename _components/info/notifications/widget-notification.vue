@@ -157,9 +157,9 @@
             })
          },
          showPushNotitication(data){
-           console.warn('service notification vali',this.permissionForNotification , this.focused)
+           //console.warn('service notification vali',this.permissionForNotification , this.focused)
             if (this.permissionForNotification && this.focused){
-               console.warn('notification content',data, navigator.serviceWorker.ready.then())
+               //console.warn('notification content',data, navigator.serviceWorker.ready.then())
                navigator.serviceWorker.ready.then( registration => {
                   registration.showNotification(data.title, {
                      body: data.message,

@@ -1,7 +1,7 @@
 <template>
    <div style="display: inline-block">
       <q-btn @click="openChat = !openChat" color="primary"
-             class="q-mx-sm">enviar mensage
+             class="q-mx-sm">enviar mensaje
       </q-btn>
       <q-dialog v-model="openChat" >
          <q-card class="q-pa-lg bg-fondo" style="height: 51vh; max-width: 450px; width: 100% ">
@@ -89,7 +89,7 @@
             </q-card>
          </q-card>
       </q-dialog>
-      
+
    </div>
 </template>
 <script>

@@ -132,7 +132,7 @@
          },
          removeFavorite() {
             return new Promise((resolve, reject) => {
-               console.warn(this.productId)
+               //console.warn(this.productId)
                this.visible = true
                let params = {
                   params: {
