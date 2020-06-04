@@ -22,13 +22,97 @@
                      </div>
                      <add-to-cart :product-id="productData.id" :product-name="productData.name"
                                   :price="productData.price"/>
-                                  <q-btn @click="commentProduct=true;" icon="star"
-                                         label="Agregar comentario" color="positive"
-                                         />
+                                  <div class="relative-position">
+                                    <div class="row q-my-sm">
+                                      <div class="col-12 text-center">
+                                        <q-btn @click="commentProduct=true;" icon="comments"
+                                               label="Comentar" color="positive"
+                                               />
+                                      </div>
+                                    </div>
+                                  </div>
+
+
 
                   </div>
                </div>
 <br>
+
+
+<q-card>
+       <q-tabs
+         v-model="tab"
+         dense
+         class="bg-grey-3 text-grey-7"
+         active-color="primary"
+         indicator-color="purple"
+         align="justify"
+       >
+         <q-tab name="description" label="Descripción" class="arrowDown text-white" style="
+         font-size:18px;
+         height: 70px;
+         background-color: var(--q-color-tertiary);
+         border-radius: 10px;
+transform: skew(15deg);
+color: #fff;
+font-size: 30px;
+position: relative;
+         " />
+         <q-tab name="comments" class="arrowDown text-white" label="Comentarios" style="
+         font-size:18px;
+         height: 70px;
+         background-color: var(--q-color-tertiary);
+         border-radius: 10px;
+         margin-left: 10px;
+transform: skew(15deg);
+color: #fff;
+font-size: 30px;
+position: relative;
+         "/>
+       </q-tabs>
+
+       <q-tab-panels v-model="tab" animated >
+         <q-tab-panel name="description">
+           <div class="q-container">
+             <div class="row q-pa-lg">
+               <div class="col" v-html="productData.description">
+               </div>
+             </div>
+           </div>
+         </q-tab-panel>
+
+         <q-tab-panel name="comments">
+           <ul id="comments-list" class="comments-list" v-if="comments.length>0">
+             <li v-for="comentary in comments">
+               <div class="comment-main-level">
+                 <div class="comment-avatar"><img
+                   :src="comentary.user.smallImage"
+                   alt=""></div>
+                   <div class="comment-box">
+                     <div class="comment-head">
+                       <h6 class="comment-name">
+                         <a href="#">
+                           {{comentary.user.fullName}}
+                         </a>
+                       </h6>
+                       <span>{{comentary.diffTime}}</span>
+                     </div>
+                     <div class="comment-content">
+                       {{comentary.comment}}
+                     </div>
+                   </div>
+                 </div>
+               </li>
+             </ul>
+         </q-tab-panel>
+
+       </q-tab-panels>
+     </q-card>
+
+<br>
+
+
+<!--
 <q-splitter
 v-model="splitterModel"
 style="height: 250px"
@@ -67,11 +151,9 @@ style="height: 250px"
     <ul id="comments-list" class="comments-list" v-if="comments.length>0">
       <li v-for="comentary in comments">
         <div class="comment-main-level">
-          <!-- Avatar -->
           <div class="comment-avatar"><img
             :src="comentary.user.smallImage"
             alt=""></div>
-            <!-- Contenedor del Comentario -->
             <div class="comment-box">
               <div class="comment-head">
                 <h6 class="comment-name">
@@ -94,11 +176,11 @@ style="height: 250px"
   </q-tab-panels>
 </template>
 
-</q-splitter>
+</q-splitter> -->
 
 
-
-               <!-- <div class="row description q-pt-xl">
+<!--
+               <div class="row description q-pt-xl">
                   <div class="col">
                      <h3 class="title-label-tertiary text-center">
                         <div>Descripción</div>
@@ -407,7 +489,6 @@ style="height: 250px"
 
 <style lang="stylus">
    #showProductPage
-
    #comments-list
        margin-top 30px
        position relative
@@ -581,6 +662,16 @@ style="height: 250px"
            color #03658c
 
       #product
+         .arrowDown
+            &:before
+                height: 70px;
+                background-image:url(https://dondeestaesavaina.com/statics/img/arrow-down-blue.png);
+                position: absolute;
+                right: 1px;
+                width: 55px;
+                background-repeat: no-repeat;
+                content: '';
+                top: 0px;
          .text-h1
             font-size 1.5rem
             font-weight bold
