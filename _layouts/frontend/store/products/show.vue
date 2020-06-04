@@ -277,7 +277,7 @@
       methods: {
         loadMoreComments(){
           this.loadPageComment++;
-          getComments();
+          this.getComments();
         },
         getComments() {
           this.loading = true
