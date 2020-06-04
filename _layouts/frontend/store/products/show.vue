@@ -663,6 +663,8 @@ style="height: 250px"
 
       #product
          .arrowDown
+            @media screen and (min-width: 760px)
+                width 500px
             &:before
                 height: 70px;
                 background-image:url(https://dondeestaesavaina.com/statics/img/arrow-down-blue.png);
