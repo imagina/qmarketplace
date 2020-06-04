@@ -119,8 +119,11 @@
                       <div class="relative-position">
                         <div class="row q-my-sm">
                           <div class="col-12 text-center">
-                            <q-btn @click="loadPageComment++;getComments()" icon="comments"
+                            <q-btn v-if="!noMoreComments" :loading="loading" @click="loadMoreComments()" icon="comments"
                                    label="Ver mas comentarios" color="positive"
+                                   />
+                            <q-btn v-else :loading="loading" icon="comments"
+                                   label="No hay más comentarios disponibles" color="negative"
                                    />
                           </div>
                         </div>
@@ -253,6 +256,8 @@
             tab: 'description',
             splitterModel: 20,
             loadPageComment: 1,
+            noMoreComments: false,
+            totalComments: 0,
             comment:"",
             userAuth:null,
             comments:[],
@@ -270,7 +275,12 @@
          }
       },
       methods: {
+        loadMoreComments(){
+          this.loadPageComment++;
+          getComments();
+        },
         getComments() {
+          this.loading = true
             this.$axios.get(config('apiRoutes.icomments.comments'), {
                 params: {
                     filter: {
@@ -286,7 +296,12 @@
                 }
             }).then(response => {
                 this.comments = response.data.data;
+                if(this.totalComments==this.comments.length)
+                  this.noMoreComments=true;
+                this.totalComments=this.comments.length;
+                this.loading = false
             }).catch(error => {
+              this.loading = false
                 this.$alert.error({message: error.response.data.errors, pos: 'bottom'})
             });
         },
