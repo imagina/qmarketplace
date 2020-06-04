@@ -2,232 +2,140 @@
    <div>
       <header-store></header-store>
       <div id="showProductPage" class="q-container">
-         <div class="row gutter-x-sm q-mt-md">
-            <!--== Content ==-->
-            <div id="product" class="col-12">
-               <div class="row">
-                  <div class="col-12 col-md-6 Image">
-                     <lingallery
-                             :items="images"
-                     />
-                  </div>
-                  <div class="col-12 col-md-6 attributes q-pl-xl">
-                     <h1 class="text-h1">{{productData.name}}</h1>
-                     <q-rating size="40px"
-                               v-model="productData.averageRating" color="store-secondary"
-                               :max="5" @input="val => { rating() }"
-                     />
-                     <div class="summary q-pt-lg">
-                        {{productData.summary}}
-                     </div>
-                     <add-to-cart :product-id="productData.id" :product-name="productData.name"
-                                  :price="productData.price"/>
-                                  <div class="relative-position">
-                                    <div class="row q-my-sm">
-                                      <div class="col-12 text-center">
-                                        <q-btn @click="commentProduct=true;" icon="comments"
-                                               label="Comentar" color="positive"
-                                               />
-                                      </div>
-                                    </div>
-                                  </div>
-
-
-
-                  </div>
-               </div>
-<br>
-
-
-<q-card>
-       <q-tabs
-         v-model="tab"
-         dense
-         class="bg-grey-3 text-grey-7"
-         active-color="primary"
-         indicator-color="purple"
-         align="justify"
-       >
-         <q-tab name="description" label="Descripción" class="arrowDown text-white" style="
-         font-size:18px;
-         height: 70px;
-         background-color: var(--q-color-tertiary);
-         border-radius: 10px;
-transform: skew(15deg);
-color: #fff;
-font-size: 30px;
-position: relative;
-         " />
-         <q-tab name="comments" class="arrowDown text-white" label="Comentarios" style="
-         font-size:18px;
-         height: 70px;
-         background-color: var(--q-color-tertiary);
-         border-radius: 10px;
-         margin-left: 10px;
-transform: skew(15deg);
-color: #fff;
-font-size: 30px;
-position: relative;
-         "/>
-       </q-tabs>
-
-       <q-tab-panels v-model="tab" animated >
-         <q-tab-panel name="description">
-           <div class="q-container">
-             <div class="row q-pa-lg">
-               <div class="col" v-html="productData.description">
-               </div>
-             </div>
-           </div>
-         </q-tab-panel>
-
-         <q-tab-panel name="comments">
-           <ul id="comments-list" class="comments-list" v-if="comments.length>0">
-             <li v-for="comentary in comments">
-               <div class="comment-main-level">
-                 <div class="comment-avatar"><img
-                   :src="comentary.user.smallImage"
-                   alt=""></div>
-                   <div class="comment-box">
-                     <div class="comment-head">
-                       <h6 class="comment-name">
-                         <a href="#">
-                           {{comentary.user.fullName}}
-                         </a>
-                       </h6>
-                       <span>{{comentary.diffTime}}</span>
-                     </div>
-                     <div class="comment-content">
-                       {{comentary.comment}}
-                     </div>
-                   </div>
-                 </div>
-               </li>
-             </ul>
-         </q-tab-panel>
-
-       </q-tab-panels>
-     </q-card>
-
-<br>
-
-
-<!--
-<q-splitter
-v-model="splitterModel"
-style="height: 250px"
->
-
-<template v-slot:before>
-  <q-tabs
-  v-model="tab"
-  vertical
-  class="text-teal"
-  >
-  <q-tab name="description" icon="edit" label="Descripción" />
-  <q-tab v-if="comments.length>0" name="comments" icon="comments" label="Comentarios" />
-  </q-tabs>
-</template>
-
-<template v-slot:after>
-  <q-tab-panels
-  v-model="tab"
-  animated
-  swipeable
-  vertical
-  transition-prev="jump-up"
-  transition-next="jump-up"
-  >
-  <q-tab-panel name="description">
-    <div class="q-container">
-      <div class="row q-pa-lg">
-        <div class="col" v-html="productData.description">
-        </div>
-      </div>
-    </div>
-  </q-tab-panel>
-
-  <q-tab-panel name="comments">
-    <ul id="comments-list" class="comments-list" v-if="comments.length>0">
-      <li v-for="comentary in comments">
-        <div class="comment-main-level">
-          <div class="comment-avatar"><img
-            :src="comentary.user.smallImage"
-            alt=""></div>
-            <div class="comment-box">
-              <div class="comment-head">
-                <h6 class="comment-name">
-                  <a href="#">
-                    {{comentary.user.fullName}}
-                  </a>
-                </h6>
-                <span>{{comentary.diffTime}}</span>
+        <div class="row gutter-x-sm q-mt-md">
+          <!--== Content ==-->
+          <div id="product" class="col-12">
+            <div class="row">
+              <div class="col-12 col-md-6 Image">
+                <lingallery
+                :items="images"
+                />
               </div>
-              <div class="comment-content">
-                {{comentary.comment}}
+              <div class="col-12 col-md-6 attributes q-pl-xl">
+                <h1 class="text-h1">{{productData.name}}</h1>
+                <q-rating size="40px"
+                v-model="productData.averageRating" color="store-secondary"
+                :max="5" @input="val => { rating() }"
+                />
+                <div class="summary q-pt-lg">
+                  {{productData.summary}}
+                </div>
+                <add-to-cart :product-id="productData.id" :product-name="productData.name"
+                :price="productData.price"/>
+
               </div>
             </div>
-          </div>
-        </li>
-      </ul>
-    </q-tab-panel>
+            <br>
 
 
-  </q-tab-panels>
-</template>
+            <q-card>
+              <q-tabs
+              v-model="tab"
+              dense
+              class="bg-grey-3 text-grey-7"
+              active-color="primary"
+              indicator-color="purple"
+              align="justify"
+              >
+              <q-tab name="description" label="Descripción" class="arrowDown text-white" style="
+              font-size:18px;
+              height: 70px;
+              background-color: var(--q-color-tertiary);
+              border-radius: 10px;
+              transform: skew(15deg);
+              color: #fff;
+              font-size: 30px;
+              position: relative;
+              " />
+              <q-tab name="comments" class="arrowDown text-white" label="Comentarios" style="
+              font-size:18px;
+              height: 70px;
+              background-color: var(--q-color-tertiary);
+              border-radius: 10px;
+              margin-left: 10px;
+              transform: skew(15deg);
+              color: #fff;
+              font-size: 30px;
+              position: relative;
+              "/>
+            </q-tabs>
 
-</q-splitter> -->
+            <q-tab-panels v-model="tab" animated >
+              <q-tab-panel name="description">
+                <div class="q-container">
+                  <div class="row q-pa-lg">
+                    <div class="col" v-html="productData.description">
+                    </div>
+                  </div>
+                </div>
+              </q-tab-panel>
 
+              <q-tab-panel name="comments">
+                <ul id="comments-list" class="comments-list" >
+                  <li>
+                    <div class="comment-main-level">
+                      <div class="comment-avatar"><img
+                        :src="userAuth.mediumImage"
+                        alt=""></div>
+                        <div class="comment-box">
+                          <div class="comment-head">
+                            <h6 class="comment-name">
+                              <a href="#">
+                                {{userAuth.fullName}}
+                              </a>
+                            </h6>
+                          </div>
+                          <div class="comment-content">
+                            <q-input class="q-mt-sm" v-model="comment" outlined dense
+                            label="Comentario"  type="textarea"/>
+                            <q-btn @click="addComment();" flat label="Agregar comentario" color="primary"/>
 
-<!--
-               <div class="row description q-pt-xl">
-                  <div class="col">
-                     <h3 class="title-label-tertiary text-center">
-                        <div>Descripción</div>
-                     </h3>
-                     <div class="q-container">
-                        <div class="row q-pa-lg">
-                           <div class="col" v-html="productData.description">
-                           </div>
+                          </div>
+
                         </div>
-                     </div>
-                  </div>
-               </div> -->
+                      </div>
+                  </li>
+                  <li v-for="comentary in comments">
+                    <div class="comment-main-level">
+                      <div class="comment-avatar"><img
+                        :src="comentary.user.smallImage"
+                        alt=""></div>
+                        <div class="comment-box">
+                          <div class="comment-head">
+                            <h6 class="comment-name">
+                              <a href="#">
+                                {{comentary.user.fullName}}
+                              </a>
+                            </h6>
+                            <span>{{comentary.diffTime}}</span>
+                          </div>
+                          <div class="comment-content">
+                            {{comentary.comment}}
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="relative-position">
+                        <div class="row q-my-sm">
+                          <div class="col-12 text-center">
+                            <q-btn @click="loadPageComment++;getComments()" icon="comments"
+                                   label="Ver mas comentarios" color="positive"
+                                   />
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </q-tab-panel>
 
-               <!-- <div class="row description q-pt-xl" v-if="comments.length>0">
-                  <div class="col">
-                     <h3 class="title-label-tertiary text-center">
-                        <div>Comentarios</div>
-                     </h3>
+              </q-tab-panels>
+            </q-card>
 
-                     <ul id="comments-list" class="comments-list" v-if="comments.length>0">
-                       <li v-for="comentary in comments">
-                         <div class="comment-main-level">
-                           <div class="comment-avatar"><img
-                             :src="comentary.user.smallImage"
-                             alt=""></div>
-                             <div class="comment-box">
-                               <div class="comment-head">
-                                 <h6 class="comment-name">
-                                   <a href="#">
-                                     {{comentary.user.fullName}}
-                                   </a>
-                                 </h6>
-                                 <span>{{comentary.diffTime}}</span>
-                               </div>
-                               <div class="comment-content">
-                                 {{comentary.comment}}
-                               </div>
-                             </div>
-                           </div>
-                         </li>
-                       </ul>
+            <br>
 
-                  </div>
-               </div> -->
-
-            </div>
-         </div>
+          </div>
+        </div>
 
                  <!-- Add comment product QDIALOG -->
                  <q-dialog v-model="commentProduct" @hide="commentProduct=false">
@@ -327,7 +235,7 @@ style="height: 250px"
             this.getData(),
                 this.getDataStore();
                 this.getComments();
-
+                this.userAuth=this.$store.state.quserAuth.userData
 
          })
       },
@@ -344,7 +252,9 @@ style="height: 250px"
             images:[],
             tab: 'description',
             splitterModel: 20,
+            loadPageComment: 1,
             comment:"",
+            userAuth:null,
             comments:[],
             commentProduct:false,
             items: [
@@ -371,7 +281,8 @@ style="height: 250px"
                             way: 'desc',
                         }
                     },
-                    take: 8
+                    take: 6*this.loadPageComment
+
                 }
             }).then(response => {
                 this.comments = response.data.data;
@@ -537,8 +448,6 @@ style="height: 250px"
                height 100%
 
        .comment-box
-           width 680px
-           float right
            position relative
            -webkit-box-shadow 0 1px 1px rgba(0, 0, 0, 0.15)
            -moz-box-shadow 0 1px 1px rgba(0, 0, 0, 0.15)
@@ -620,7 +529,7 @@ style="height: 250px"
                        color #03658c
 
                span
-                   float left
+                   float right
                    color #999
                    font-size 13px
                    position relative
@@ -663,8 +572,12 @@ style="height: 250px"
 
       #product
          .arrowDown
+            @media screen and (max-width: 360px)
+                width 200px
             @media screen and (min-width: 760px)
                 width 500px
+            @media screen and (min-width: 1350px)
+                width 560px
             &:before
                 height: 70px;
                 background-image:url(https://dondeestaesavaina.com/statics/img/arrow-down-blue.png);
