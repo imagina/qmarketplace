@@ -88,7 +88,8 @@
                           <div class="comment-content">
                             <q-input class="q-mt-sm" v-model="comment" outlined dense
                             label="Comentario"  type="textarea"/>
-                            <q-btn @click="addComment();" flat label="Agregar comentario" color="primary"/>
+                            <br>
+                            <q-btn class="text-right" @click="addComment();" align="right"  label="Agregar comentario" color="primary"/>
 
                           </div>
 
