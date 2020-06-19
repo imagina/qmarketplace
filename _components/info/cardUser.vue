@@ -1,6 +1,6 @@
 <template>
    <div>
-      <q-card class="card-user">
+      <q-card class="card-user" style="min-width: 350px">
          <q-img src="statics/img/fondo.jpg"/>
          <q-card-section class="text-center">
             <q-avatar size="100px">
@@ -175,7 +175,7 @@
         },
          getPointsUser() {
             return new Promise((resolve, reject) => {
-               
+
                this.pointsAvailables = 0
                this.loading = true
 

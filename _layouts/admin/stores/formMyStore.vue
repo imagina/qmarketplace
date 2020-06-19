@@ -955,33 +955,34 @@
                //this.company.paymentMethods
                let sendPaymentMethods=[];
                let defaultPaymentMethods=this.company.paymentMethods;
-               for(myPayMethod in this.company.paymentMethods){
-                 for(paym in this.paymentMethods){
-                   if(myPayMethod==paym.id && paym.name=="icommercepayu"){
-                     sendPaymentMethods[myPayMethod]={
-                       "options":{
-                         merchantid:this.dataPayU.merchantid,
-                         apilogin:this.dataPayU.apilogin,
-                         apikey:this.dataPayU.apikey,
-                         accountid:this.dataPayU.accountid,
-                         test:this.dataPayU.test,
-                         mode:this.dataPayU.mode,
-                       }
-                     };
-                   }else if(myPayMethod==paym.id && paym.name=="icommercepaypal"){
-                     sendPaymentMethods[myPayMethod]={
-                       "options":{
-                         merchantid:this.dataPaypal.clientid,
-                         apilogin:this.dataPaypal.clientsecret,
-                         apikey:this.dataPaypal.mode
-                       }
-                     };
-                   }else{
-                     sendPaymentMethods[myPayMethod]={
-                       "options":null
-                     };
-                   }
-                 }//
+               console.log(this.company.paymentMethods);
+               for(var myPayMethod=0;myPayMethod<this.company.paymentMethods.length;myPayMethod++){
+                  for(var paym=0;paym<this.payment_methods.length;paym++){
+                     if(this.company.paymentMethods[myPayMethod]==this.payment_methods[paym].id && this.payment_methods[paym].name=="icommercepayu"){
+                        sendPaymentMethods[this.company.paymentMethods[myPayMethod]]={
+                           "options":JSON.stringify({
+                              merchantid:this.dataPayU.merchantid,
+                              apilogin:this.dataPayU.apilogin,
+                              apikey:this.dataPayU.apikey,
+                              accountid:this.dataPayU.accountid,
+                              test:this.dataPayU.test,
+                              mode:this.dataPayU.mode,
+                           })
+                        };
+                     }else if(this.company.paymentMethods[myPayMethod]==this.payment_methods[paym].id && this.payment_methods[paym].name=="icommercepaypal"){
+                        sendPaymentMethods[this.company.paymentMethods[myPayMethod]]={
+                           "options":JSON.stringify({
+                              merchantid:this.dataPaypal.clientid,
+                              apilogin:this.dataPaypal.clientsecret,
+                              apikey:this.dataPaypal.mode
+                           })
+                        };
+                     }else{
+                        sendPaymentMethods[this.company.paymentMethods[myPayMethod]]={
+                           "options":null
+                        };
+                     }
+                  }//for
                }//for
                this.company.paymentMethods=sendPaymentMethods;
                //Shipping methods:
