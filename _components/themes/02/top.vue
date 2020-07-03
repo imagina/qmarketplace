@@ -81,7 +81,7 @@
                                icon="fas fa-map-marker-alt" class="text-bold" label="Info Empresa"
                                color="store-primary"/>
                         <div class="line-vertical"></div>
-                        <chat class="chat" color="store-primary" type="0"></chat>
+                        <chat class="chat" color="store-primary" type="0" v-if="$store.state.quserAuth.userId"></chat>
                      </div>
                      <div class="col-auto q-pr-md">
                         <div class="line-vertical"></div>
@@ -161,7 +161,7 @@
                        </q-list>
                     </q-btn-dropdown>
                     <q-btn flat  dense  @click="$router.push({name: 'stores.about', params : {slug:storeData.slug}})"  icon="fas fa-map-marker-alt" color="store-primary"/>
-                        <chat class="chat" color="store-primary" type="0"></chat>
+                        <chat class="chat" color="store-primary" type="0" v-if="$store.state.quserAuth.userId"></chat>
                       <q-toolbar-title>
                       </q-toolbar-title>
                      <q-btn flat  dense @click="modal = !modal" icon="fas fa-search" color="store-primary"/>
@@ -295,7 +295,9 @@
       mounted() {
          this.getProductCategories();
          this.getFollowedStore();
-         this.getCommentsOfStore()
+	        if(this.$store.state.quserAuth.userId){
+          this.getCommentsOfStore()
+        }
       },
       computed: {
          storeData() {
