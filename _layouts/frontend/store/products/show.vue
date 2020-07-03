@@ -26,9 +26,96 @@
               </div>
             </div>
             <br>
-
-
-            <q-card>
+	
+	
+	          <div class="row q-mx-sm mobile-only">
+		          <div class="col-12">
+			          <q-card class="rounded-md q-mb-xl full-width">
+				          <div class="q-pl-md">
+					          <h3 class="title-label-puntos text-center bg-tertiary">
+						          <div>Descripción</div>
+					          </h3>
+				          </div>
+				          <q-card-section class="q-py-xl">
+					          <div class="col" v-html="productData.description" />
+				          </q-card-section>
+			          </q-card>
+		          </div>
+		          <div class="col-12">
+			          <q-card class="rounded-md q-mb-xl full-width">
+				          <div class="q-pl-md">
+					          <h3 class="title-label-puntos text-center bg-tertiary">
+						          <div>Comentarios</div>
+					          </h3>
+				          </div>
+				          <q-card-section class="q-py-xl">
+					          <ul id="comments-list-mobile" class="comments-list" >
+						          <li>
+							          <div class="comment-main-level">
+								          <div class="comment-avatar"><img
+												          :src="userAuth.mediumImage"
+												          alt=""></div>
+								          <div class="comment-box">
+									          <div class="comment-head q-my-sm">
+										          <h6 class="comment-name q-my-sm">
+											          <a href="#">
+												          {{userAuth.fullName}}
+											          </a>
+										          </h6>
+									          </div>
+									          <div class="comment-content">
+										          <q-input class="q-mt-sm" v-model="comment" outlined dense
+										                   label="Comentario"  type="textarea"/>
+										          <br>
+										          <q-btn class="text-right" @click="addComment();" align="right"  label="Agregar comentario" color="primary"/>
+									
+									          </div>
+								
+								          </div>
+							          </div>
+						          </li>
+						          <li v-for="comentary in comments">
+							          <div class="comment-main-level">
+								          <div class="comment-avatar"><img
+												          :src="comentary.user.smallImage"
+												          alt=""></div>
+								          <div class="comment-box">
+									          <div class="comment-head q-my-sm">
+										          <h6 class="comment-name q-my-sm">
+											          <a href="#">
+												          {{comentary.user.fullName}}
+											          </a>
+										          </h6>
+										          <span>{{comentary.diffTime}}</span>
+									          </div>
+									          <div class="comment-content q-ml-xl">
+										          {{comentary.comment}}
+									          </div>
+								          </div>
+							          </div>
+						          </li>
+						          <li>
+							          <div class="relative-position">
+								          <div class="row q-my-sm">
+									          <div class="col-12 text-center">
+										          <q-btn v-if="!noMoreComments" :loading="loading" @click="loadMoreComments()" icon="comments"
+										                 label="Ver mas comentarios" color="positive"
+										          />
+										          <q-btn v-else :loading="loading" icon="comments"
+										                 label="No hay más comentarios disponibles" color="negative"
+										          />
+									          </div>
+								          </div>
+							          </div>
+						          </li>
+					          </ul>
+				          </q-card-section>
+			          </q-card>
+		          </div>
+	          </div>
+	          
+	          
+            <q-card class="desktop-only">
               <q-tabs
               v-model="tab"
               dense
@@ -59,7 +146,7 @@
               position: relative;
               "/>
             </q-tabs>
-
+	           
             <q-tab-panels v-model="tab" animated >
               <q-tab-panel name="description">
                 <div class="q-container">
@@ -625,5 +712,42 @@
                vertical-align: middle;
             img
                vertical-align: middle;
+   
+   .title-label-puntos
+    -webkit-transform skew(10deg)
+    transform skew(10deg)
+    border-radius 10px
+    padding 0px 30px
+    display inline-block
+    min-width 40%
+    margin -58px 0 10px 0
+    color #FFFFFF
+    font-size 20px
+    position relative
+    font-family $font-secondary
+    &:before
+      content ''
+      background-image url('/statics/img/arrow-down-blue.png')
+      position absolute
+      right -25px
+      width 100%
+      height 50px
+      background-repeat no-repeat
+      background-size contain
+      top 27px
+      background-position right
+    @media screen and (max-width: $breakpoint-md)
+      min-width 60%
+      font-size 20px
+      padding 0 15px
+      &:before
+          display none !important
+    @media screen and (max-width: $breakpoint-sm)
+      min-width 60%
+      font-size 15px
+      padding 0 10px
+    & > div
+      -webkit-transform  skew(-10deg)
+      transform skew(-10deg)
 
 </style>
