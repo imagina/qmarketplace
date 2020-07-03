@@ -197,25 +197,40 @@
          </q-carousel>
       </q-dialog>
       <!-- RATING STORE QDIALOG -->
-      <q-dialog v-model="ratingStore" @hide="ratingStore=false">
-         <q-card>
-            <q-card-section>
-               <div class="text-h6">Calificar tienda</div>
-            </q-card-section>
-
-            <q-card-section>
-               <q-rating size="20px"
-                         @input="val => { rating() }"
-                         v-model="storeData.averageRating"
-                         :max="5"
-               />
-            </q-card-section>
-
-            <q-card-actions align="right">
-               <q-btn flat label="OK" color="primary" v-close-popup/>
-            </q-card-actions>
-         </q-card>
-      </q-dialog>
+	   <q-dialog v-model="ratingStore" @hide="ratingStore=false;">
+		   <q-card style="width: 350px; max-width: 80vw;">
+			   <q-card-section>
+				   <div class="text-h5">CALIFICACIÓN</div>
+			   </q-card-section>
+			
+			   <q-card-section>
+				   <div class="flex flex-center">
+					   <q-rating
+									   size="40px"
+									   v-model="storeData.averageRating"
+									   :max="5"/>
+				   </div>
+			   </q-card-section>
+			
+			   <q-card-section>
+				   <div v-if="comments.length>0">
+					   <q-chat-message
+									   text-color="white"
+									   bg-color="primary"
+									   v-for="(comentary, key) in comments"
+									   :key="key"
+									   :name="comentary.user.fullName"
+									   :avatar="comentary.user.smallImage"
+									   :text="[comentary.comment]"
+									   :stamp="comentary.diffTime"/>
+				   </div>
+			   </q-card-section>
+			   <!--here-->
+			   <q-card-actions align="right">
+				   <q-btn flat label="OK" color="primary" v-close-popup/>
+			   </q-card-actions>
+		   </q-card>
+	   </q-dialog>
       <!-- Chat -->
 
       <q-dialog v-model="modal">
@@ -264,12 +279,14 @@ export default {
       searchText:'',
       conversationId:null,
       productsStore:[],
-      modal: false
+      modal: false,
+      comments: [],
     }
   },
   mounted() {
    this.getProductCategories();
    this.getFollowedStore();
+    this.getCommentsOfStore()
   },
   computed:{
     storeData(){
@@ -278,6 +295,25 @@ export default {
     }
   },
   methods:{
+    getCommentsOfStore() {
+      this.$axios.get(config('apiRoutes.icomments.comments'), {
+        params: {
+          filter: {
+            commentableId: this.storeData.id,
+            commentableType: "Modules\\Marketplace\\Entities\\Store",
+            order: {
+              field: 'created_at',
+              way: 'desc',
+            }
+          },
+          take: 8
+        }
+      }).then(response => {
+        this.comments = response.data.data;
+      }).catch(error => {
+        this.$alert.error({message: error.response.data.errors, pos: 'bottom'})
+      });
+    },
     searchProduct(){
       if(this.searchText!=""){
      this.$router.push({
