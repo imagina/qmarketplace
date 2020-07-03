@@ -1,11 +1,13 @@
 <template>
    <div class="q-inline-block widget-notification">
-      <q-btn-dropdown class="" v-model="opened">
+      <q-btn-dropdown class="q-ml-md" v-model="opened" size="sm">
          <template v-slot:label>
             <div class="row items-center no-wrap">
-               <q-icon left name="fas fa-bell"></q-icon>
+               <q-icon name="fas fa-bell" >
+	               <q-badge color="orange" floating v-if="notifications" style="right: -15px">{{notifications}}</q-badge>
+               </q-icon>
             </div>
-            <q-badge color="orange" floating v-if="notifications">{{notifications}}</q-badge>
+            
          </template>
          <q-list class="bg-light">
             <!--  :to="{name: 'user.profile.me'}" -->
