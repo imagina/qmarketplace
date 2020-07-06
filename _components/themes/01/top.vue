@@ -197,40 +197,49 @@
          </q-carousel>
       </q-dialog>
       <!-- RATING STORE QDIALOG -->
-	   <q-dialog v-model="ratingStore" @hide="ratingStore=false;">
-		   <q-card style="width: 350px; max-width: 80vw;">
-			   <q-card-section>
-				   <div class="text-h5">CALIFICACIÓN</div>
-			   </q-card-section>
-			
-			   <q-card-section>
-				   <div class="flex flex-center">
-					   <q-rating
-									   size="40px"
-									   v-model="storeData.averageRating"
-									   :max="5"/>
-				   </div>
-			   </q-card-section>
-			
-			   <q-card-section>
-				   <div v-if="comments.length>0">
-					   <q-chat-message
-									   text-color="white"
-									   bg-color="primary"
-									   v-for="(comentary, key) in comments"
-									   :key="key"
-									   :name="comentary.user.fullName"
-									   :avatar="comentary.user.smallImage"
-									   :text="[comentary.comment]"
-									   :stamp="comentary.diffTime"/>
-				   </div>
-			   </q-card-section>
-			   <!--here-->
-			   <q-card-actions align="right">
-				   <q-btn flat label="OK" color="primary" v-close-popup/>
-			   </q-card-actions>
-		   </q-card>
-	   </q-dialog>
+	      <q-dialog v-model="ratingStore" @hide="ratingStore=false;">
+	      <q-card style="width: 550px; max-width: 80vw;" class="bg-degradado">
+				   <q-card-section class="flex flex-center">
+					   <div class="text-h5 text-white">CALIFICACIÓN</div>
+				   </q-card-section>
+				   <q-card-section>
+					   <div class="bg-white q-mx-lg rounded-borders q-pa-lg">
+						   <div class="flex flex-center q-mb-md">
+							   <q-rating
+								   readonly
+								   size="40px"
+								   v-model="storeData.averageRating"
+								   :max="5"/>
+						   </div>
+						   <div v-if="comments.length>0">
+							   <q-list>
+								   <q-item
+									    class="q-mb-sm"
+											v-for="(comentary, key) in comments"
+											:key="key">
+									   <q-item-section avatar>
+										   <q-avatar square>
+											   <img :src="comentary.user.smallImage">
+										   </q-avatar>
+									   </q-item-section>
+									   <q-item-section class="bg-degradado text-white rounded-borders q-px-sm">
+										   {{comentary.comment}}
+										   <div class="block">
+											   <small class="text-caption">
+												   {{comentary.diffTime}}
+											   </small>
+										   </div>
+									   </q-item-section>
+								   </q-item>
+							   </q-list>
+						   </div>
+					   </div>
+				   </q-card-section>
+				   <q-card-actions align="right">
+					   <q-btn label="OK" color="white" outline v-close-popup/>
+				   </q-card-actions>
+			   </q-card>
+		   </q-dialog>
       <!-- Chat -->
 
       <q-dialog v-model="modal">
