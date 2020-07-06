@@ -101,7 +101,7 @@
             </div>
             <q-input outlined class="full-width" bottom-slots :readonly="loading"
                      @keyup.enter="sendMessage()"
-                     placeholder="Type Message ... "
+                     placeholder="Escribe un mensaje"
                      v-model="form.body" counter maxlength="140" dense>
                <template v-slot:before>
                   <q-avatar>
