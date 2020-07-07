@@ -75,13 +75,13 @@
                                     </div>
                                  </q-card-section>
                               </q-card>
-                              <q-dialog v-model="card.open">
-                                 <card-user :card="card"></card-user>
-                              </q-dialog>
                            </div>
                         </div>
                      </div>
                   </q-infinite-scroll>
+                  <q-dialog v-model="card.open">
+                     <card-user :card="card"></card-user>
+                  </q-dialog>
                   <!-- not results -->
                   <div v-if="false" class="col-12">
                      <q-banner class="bg-red q-mx-sm q-mt-xl q-mb-xl">
@@ -254,9 +254,11 @@
 
          },
          openProfile(result) {
-            this.card.open = true;
+            console.warn(typeof result.fields)
             this.card.info = result;
-            this.card.info.fields = this.$helper.convertToFrontField(this.card.info.fields);
+            if(this.card.info.fields[0])
+               this.card.info.fields = this.$helper.convertToFrontField(this.card.info.fields);
+            this.card.open = true;
          }
 
       }
