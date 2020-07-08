@@ -20,12 +20,15 @@
          </div>
 
       </div>
-      <div v-else class="bg-fondo q-px-sm q-py-xl">
+      <div v-else class="bg-fondo q-px-sm q-py-md">
          <div class="q-container">
             <div class="row q-col-gutter-lg">
                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
+	
+	                <!--Products-->
                   <div class="row">
-                     <div class="col">
+                     <div class="col-12">
+	                     
                         <h5 class="q-ma-md text-secondary font-family-secondary">
                            <i class="fas fa-shopping-basket text-primary"></i>
                            {{$tr('qsubscription.layout.form.checkout.products')}}
@@ -35,41 +38,45 @@
                            <q-card-section>
                               <!-- PRODUCT ROW -->
                               <div class="row q-col-gutter-sm q-pb-sm" v-for="product in products">
-                                 <div class="col-xs-5 col-sm-2 col-md-2">
-                                    <div style="border: 2px solid #ccc;">
-                                       <q-img :ratio="1" contain :src="product.mainImage.path"/>
-                                    </div>
-                                 </div>
-                                 <div class="col-xs-7 col-sm-6 col-md-6">
-                                    <h6 class="text-primary font-family-secondary q-mt-sm q-mb-none">
-                                       {{product.name}}</h6>
-                                    <div class="q-body-1 text-secondary q-mb-lg">{{product.summary}}</div>
-                                    <div class="q-subheading text-secondary text-weight-bold q-mb-lg">$
-                                       {{product.priceUnit}}
-                                    </div>
-                                 </div>
-                                 <div class="col-xs-11 col-sm-3 col-lg-3 self-center">
-                                    <div class="row items-center">
-                                       <div class="col-6 text-right q-pr-sm">
-                                          <div class="q-body-1 text-secondary">
-                                             {{$tr('qsubscription.layout.form.types.quantity')}}
-                                          </div>
-                                       </div>
-                                       <div class="col-6">
-                                          <q-select outlined dense emit-value
-                                                    @input="val => { updateCart(product) }"
-                                                    v-model="product.quantity"
-                                                    align="right"
-                                                    :options="selectOptions"
-                                          />
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <div class="col-xs-1 col-sm-1 col-md-1 self-center">
-                                    <q-btn @click="deleteProductCart(product)" round color="primary"
-                                           icon="fas fa-times"/>
-                                 </div>
-
+	                              
+	                              <div class="col-xs-5 col-md-2">
+		                              <div style="border: 2px solid #ccc;">
+			                              <q-img :ratio="1" contain :src="product.mainImage.path"/>
+		                              </div>
+	                              </div>
+	                              
+	                              <q-btn @click="deleteProductCart(product)" round dense flat color="primary"
+	                                     size="xs"
+	                                     icon="fas fa-times" class="absolute-top-right">
+		                              
+	                              </q-btn>
+	                              
+	                              <div class="col-xs-7 col-md-10">
+		                             <div class="row">
+			                             <div class="col-xs-12 col-md-6">
+				                             <h6 class="text-primary font-family-secondary q-mt-sm q-mb-none">
+					                             {{product.name}}</h6>
+				                             <div class="q-body-1 text-secondary">{{product.summary}}</div>
+				                             <div class="q-subheading text-secondary text-weight-bold q-mb-md">$
+					                             {{product.priceUnit}}
+				                             </div>
+			                             </div>
+			                             <div class="col-xs-12 col-md-6">
+				
+				                             <span class="q-body-1 text-secondary">
+					                             {{$tr('qsubscription.layout.form.types.quantity')}}
+				                             </span>
+				                             <q-select outlined dense emit-value
+                                       @input="val => { updateCart(product) }"
+                                       v-model="product.quantity"
+                                       align="right"
+                                       :options="selectOptions"
+				                             />
+				                             
+			                             </div>
+		                             </div>
+	                              </div>
+	                              
                               </div>
 
                            </q-card-section>
@@ -78,14 +85,15 @@
                      </div>
 
                   </div>
+	               
                   <!--Coupons validate-->
                   <div class="row">
-                     <div class="col-12">
+                     <div class="col-12 q-mt-md">
                         <h5 class="q-ma-md text-secondary font-family-secondary"><i
                                 class="fas fa-truck text-primary"></i>
                            {{$tr('qmarketplace.layout.form.checkout.coupons')}}
                         </h5>
-                        <q-card class="rounded-sm bg-white q-mb-xl">
+                        <q-card class="rounded-sm bg-white ">
 
                            <q-card-section class="q-pa-xl form-general">
 
@@ -93,20 +101,21 @@
 
                                  <div class="col-xs-12">
                                     <div class="q-mb-md">
-                                       <p class="caption q-mb-sm">Valiar Cupón de descuento</p>
+                                       <p class="caption">Valiar Cupón de descuento</p>
                                        <div class="row">
-                                          <div class="col-xs-6 col-sm-9 q-pa-md">
+                                          <div class="col-xs-12 col-sm-8 q-pa-sm">
                                              <q-input dense
+                                                      outlined
                                                       class="full-width"
                                                       v-model="form.coupon_code"
                                              />
                                           </div>
-                                          <div class="col-xs-6 col-sm-3 q-pa-md">
+                                          <div class="col-xs-12 col-sm-4 q-pa-sm">
                                              <q-btn
                                                      @click="validateCoupon"
                                                      size="md"
-                                                     class=" text-weight-bold rounded-sm q-mb-md" color="primary"
-                                                     label="Validar cupon"/>
+                                                     class=" text-weight-bold rounded-sm full-width" color="primary"
+                                                     label="Validar cupón"/>
                                           </div>
                                           <div class="col-xs-12" v-if="couponMessage"><span v-bind:class="couponMessage.status?'text-positive':'text-negative'">{{couponMessage.message}}</span></div>
                                        </div>
@@ -120,9 +129,10 @@
                         </q-card>
                      </div>
                   </div>
+                 
                   <!--metodos de envio-->
                   <div class="row">
-                     <div class="col-12">
+                     <div class="col-12 q-mt-md">
                         <h5 class="q-ma-md text-secondary font-family-secondary"><i
                                 class="fas fa-truck text-primary"></i>
                            {{$tr('qsubscription.layout.form.checkout.shippingInformation')}}
@@ -137,18 +147,18 @@
                                     <div class="q-mb-md">
                                        <p class="caption q-mb-sm">Dirección</p>
                                        <div class="row" v-if="addresses.length">
-                                          <div class="col-xs-6 col-sm-9 q-pa-md">
+                                          <div class="col-xs-12 col-sm-8 q-pa-md">
                                              <q-select dense
                                                        class="full-width"
                                                        v-model="form.addressShippingId"
                                                        :options="addresses"
                                              />
                                           </div>
-                                          <div class="col-xs-6 col-sm-3 q-pa-md">
+                                          <div class="col-xs-12 col-sm-4 q-pa-md">
                                              <q-btn
                                                      @click="modalAddress= !modalAddress"
                                                      size="md"
-                                                     class=" text-weight-bold rounded-sm q-mb-md" color="primary"
+                                                     class=" text-weight-bold rounded-sm q-mb-md full-width" color="primary"
                                                      label="Nueva Direccion"/>
                                           </div>
 
@@ -263,23 +273,24 @@
                         </q-card>
                      </div>
                   </div>
+                 
                   <!--metodos de pago-->
                   <div class="row">
-                     <div class="col">
+                     <div class="col-12">
                         <h5 class="q-ma-md text-secondary font-family-secondary">
                            <i class="fas fa-credit-card text-primary"></i>
                            {{$tr('qsubscription.layout.form.checkout.paymentMethods')}}
                         </h5>
-                        <q-card class="rounded-sm bg-white q-mb-xl">
+                        <q-card class="rounded-sm bg-white">
 
                            <q-card-section class="q-pa-xl form-general">
 
                               <div class="row gutter-md justify-center">
-                                 <div class="col-12">
+                                 <div class="col-12" v-for="(payMethod,index) in storeData.paymentMethods"
+                                      :key="'payMethod'+payMethod.id">
 
                                     <q-radio v-model="form.paymentMethodId"
-                                             v-for="(payMethod,index) in storeData.paymentMethods"
-                                             :key="'payMethod'+payMethod.id" :val="payMethod.id"
+                                              :val="payMethod.id"
                                              :label="payMethod.title"/>
 
                                  </div>
@@ -290,8 +301,8 @@
                         </q-card>
                      </div>
                   </div>
-
-
+	
+	                <!--Finalizar Compra-->
                   <div class="row">
                      <div class="col-12 text-right">
                         <h6 class="text-weight-bold q-my-lg">
@@ -306,10 +317,15 @@
                                 :label="$tr('qsubscription.layout.form.checkout.finalizePurchase')"/>
                      </div>
                   </div>
-
-
+	               
                </div>
-               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+	            
+               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 desktop-only">
+	               
+	               <h5 class="q-ma-md text-secondary font-family-secondary">
+		               Resumen
+	               </h5>
+	               
                   <q-card class="rounded-sm bg-white plan">
                      <q-card-section style="color: #333333;">
                         <q-btn size="lg"
@@ -367,6 +383,7 @@
                   </q-card>
 
                </div>
+	            
             </div>
          </div>
       </div>
