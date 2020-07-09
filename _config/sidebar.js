@@ -9,6 +9,7 @@ export default [
          pages.qmarketplace.stores, // my Stores setup
          pages.qmarketplace.categories, // categories
          pages.qmarketplace.themes, // themes
+         pages.qmarketplace.favoriteUsersAdmin, // themes
       ]
    },
    pages.qmarketplace.myStore, // themes
