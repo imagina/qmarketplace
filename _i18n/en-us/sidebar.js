@@ -7,6 +7,7 @@ export default {
   adminCategories : 'Categories',
   adminThemes : 'Themes',
   adminFavoritestores : 'Seguidores',
+  adminUsers: 'Users',
   adminLevelCriterias: 'Level criterias',
   adminLevels: 'Levels',
   adminStoreContacts: 'Contact messages',
