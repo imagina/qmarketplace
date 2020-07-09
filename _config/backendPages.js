@@ -252,13 +252,24 @@ export default {
     authenticated: true
   },
   favoriteUsers: {
-    permission: 'marketplace.stores.mystore',
+    permission: 'marketplace.stores.manage',
     activated: true,
     path: '/admin/followers/index',
     name: 'qmarketplace.admin.favoritestores.index',
     page: () => import('@imagina/qmarketplace/_layouts/admin/stores/favoritestores/index'),
     layout: () => import('src/layouts/admin'),
     title: 'qmarketplace.sidebar.adminFavoritestores',
+    icon: 'fas fa-users',
+    authenticated: true
+  },
+  favoriteUsersAdmin: {
+    permission: 'marketplace.stores.mystore',
+    activated: true,
+    path: '/admin/users/index',
+    name: 'qmarketplace.admin.users.index',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/stores/favoritestores/indexForAdmins'),
+    layout: () => import('src/layouts/admin'),
+    title: 'qmarketplace.sidebar.adminUsers',
     icon: 'fas fa-users',
     authenticated: true
   },
