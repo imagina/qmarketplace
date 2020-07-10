@@ -147,11 +147,11 @@ export default {
   },
   methods: {
     async init(){
-      await this.getThemes();//
       this.storeId=this.$store.state.qmarketplaceStores.storeSelected;
       // if (this.$route.params.id) this.storeId = this.$route.params.id
       if (this.storeId) await this.getData()//Get data if is edit
       // await this.getSuscription();
+      await this.getThemes();//
       this.loading=false;
     },
     setThemeId(themeId){
@@ -242,6 +242,7 @@ export default {
         params: {
           include: '',
           filter:{
+            type: this.store.type,
             allTranslations: true,
           }
         }
