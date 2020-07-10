@@ -10,26 +10,36 @@
 				<q-card class="rounded-md q-mb-xl full-width q-py-md">
 					<q-card-section class="q-px-xl form-general">
 						
-						<div>
-							<q-input outlined v-model="search">
-								<template v-slot:append>
-									<q-btn
-										round
-										dense
-										flat
-										v-if="search !== ''"
-										icon="close"
-										@click="clearSeach"
-										class="search" />
-								</template>
-								<template v-slot:after>
-									<q-btn
-										round
-										color="primary"
-										icon="search"
-										@click="searchNewUsers"/>
-								</template>
-							</q-input>
+						<div class="row flex justify-end">
+							<div class="col-md-6">
+								
+								<q-input
+									rounded
+									dense
+									placeholder="Búsqueda"
+									outlined
+									@keydown.enter="searchNewUsers()"
+									v-model="search">
+									<template v-slot:append>
+										<q-btn
+											rounded
+											dense
+											outlined
+											flat
+											v-if="search !== ''"
+											icon="close"
+											@click="clearSeach"
+											class="search" />
+									</template>
+									<template v-slot:after>
+										<q-btn
+											round
+											color="primary"
+											icon="search"
+											@click="searchNewUsers"/>
+									</template>
+								</q-input>
+							</div>
 						</div>
 						
 						<div class="row q-col-gutter-lg q-my-md">
