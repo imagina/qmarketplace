@@ -262,8 +262,8 @@ export default {
     icon: 'fas fa-users',
     authenticated: true
   },
-  favoriteUsersAdmin: {
-    permission: 'marketplace.stores.mystore',
+  UsersAdmin: {
+    permission: 'profile.user.manage',
     activated: true,
     path: '/admin/users/index',
     name: 'qmarketplace.admin.users.index',
