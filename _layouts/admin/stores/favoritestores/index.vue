@@ -69,7 +69,12 @@
                                  <q-card-section class="q-pa-none">
                                     <div class="link-profile text-right">
                                        <!-- <q-btn flat label="+ Ver Perfil" :to="{name:'quser.account.public.profile',params:{userId:result.user.id}}" /> -->
-
+                                       <q-btn color="primary" icon="fas fa-trash"
+                                              @click="deleteFavoriteStore(result)">
+                                          <q-tooltip>
+                                             Eliminar Seguidor
+                                          </q-tooltip>
+                                       </q-btn>
                                        <q-btn flat color="primary" class="text-bold" label="+ Ver Perfil"
                                               @click="openProfile(result.user)"/>
                                     </div>
@@ -79,8 +84,7 @@
                         </div>
                      </div>
                   </q-infinite-scroll>
-                  <q-dialog v-model="card.open">
-                     <card-user :card="card"></card-user>
+                  <q-dialog v-model="card.open">                     <card-user :card="card"></card-user>
                   </q-dialog>
                   <!-- not results -->
                   <div v-if="false" class="col-12">
@@ -259,6 +263,23 @@
             if(this.card.info.fields[0])
                this.card.info.fields = this.$helper.convertToFrontField(this.card.info.fields);
             this.card.open = true;
+         },
+
+         deleteFavoriteStore(store){
+            this.$q.dialog({
+               title: 'Eliminar Seguidor',
+               message: 'Está seguro de Eliminar este seguidor?',
+               cancel: true,
+               persistent: true
+            }).onOk(() => {
+               this.$crud.delete('apiRoutes.qmarketplace.favoriteStore', store.id).then(response => {
+                  this.items = []
+                  this.$refs.infinityScrollFavoryteUser.reset()
+                  this.$refs.infinityScrollFavoryteUser.resume()
+               }).catch(error => {
+                  this.$alert.error({message: this.$tr('ui.message.recordNoUpdated'), pos: 'bottom'})
+               })
+            })
          }
 
       }

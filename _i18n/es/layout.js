@@ -27,9 +27,11 @@ export default {
       message:"Mensaje",
     }
   },
+  messages:{
+    warnAddAnswers: 'Para agregar respuestas, primero debe crear la pregunta',
+  },
   newBenefit : 'Nuevo beneficio',
   newStoreContact : 'Nuevo mensaje de contacto',
   editStoreContact : 'Editar mensaje de contacto',
-
-
+  message:"Mensaje",
 }
