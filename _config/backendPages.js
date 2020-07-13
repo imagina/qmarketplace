@@ -229,6 +229,28 @@ export default {
     icon: 'fas fa-question-circle',
     authenticated: true
   },
+  myStoreQuestionsCreate: {
+    permission: 'marketplace.questions.create',
+    activated: true,
+    path: '/admin/stores/my-store/poll/:pollId/questions/create',
+    name: 'qmarketplace.admin.questions.create',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/quiz/questions/form'),
+    layout: () => import('src/layouts/admin'),
+    title: 'qquiz.sidebar.adminQuestionsCreate',
+    icon: 'fas fa-question-circle',
+    authenticated: true
+  },
+  myStoreQuestionsUpdate: {
+    permission: 'marketplace.questions.edit',
+    activated: true,
+    path: '/admin/stores/my-store/question/:id',
+    name: 'qmarketplace.admin.questions.edit',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/quiz/questions/form'),
+    layout: () => import('src/layouts/admin'),
+    title: 'qquiz.sidebar.adminQuestionsUpdate',
+    icon: 'fas fa-question-circle',
+    authenticated: true
+  },
   myStoreQuestionReport: {
     permission: 'marketplace.questions.index',
     activated: true,

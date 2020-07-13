@@ -9,6 +9,12 @@
                permission: 'marketplace.questions',
                create: {
                   title: this.$tr('qquiz.layout.newQuestion'),
+                  to: {
+                      name: 'qmarketplace.admin.questions.create',
+                      params:{
+                          pollId: this.$route.params.id
+                      }
+                  }
                },
                read: {
                   columns: [
@@ -16,13 +22,15 @@
                         name: 'id',
                         label: this.$tr('ui.form.id'),
                         field: 'id',
-                        align: 'left'
+                        align: 'left',
+                        style: 'width: 10%',
                      },
                      {
                         name: 'title',
                         label: this.$tr('ui.form.title'),
                         field: 'title',
-                        align: 'left'
+                        align: 'left',
+                        style: 'width: 50%',
                      },
                      {
                         name: 'created_at',
@@ -30,25 +38,9 @@
                         field: 'createdAt',
                         align: 'left',
                         format: val => val ? this.$trd(val) : '-',
+                        style: 'width: 20%',
                      },
-                     {name: 'actions', label: this.$tr('ui.form.actions'), align: 'right'},
-                  ],
-                  actions: [//Add action buttons by record
-                     {
-                        icon: 'fas fa-list-alt',
-                        color: 'pink-7',
-                        route: 'qmarketplace.admin.answers.index', //redirect to route, and set all data row as route params
-                        action: (rowData) => {
-                        } //Get row data as param
-                     },
-                     {
-                        icon: 'fas fa-edit',
-                        color: 'warning',
-                        tooltip:'Reporte',
-                        route: 'qmarketplace.admin.questions.report.index', //redirect to route, and set all data row as route params
-                        action: (rowData) => {
-                        } //Get row data as param
-                     }
+                     {name: 'actions', label: this.$tr('ui.form.actions'), align: 'right', style: 'width: 20%',},
                   ],
                   requestParams: {
                      filter: {pollId: this.$route.params.id}
@@ -56,7 +48,8 @@
                   filters: {},
                },
                update: {
-                  requestParams: {filter: {pollId: this.$route.params.id}}
+                  requestParams: {filter: {pollId: this.$route.params.id}},
+                  to: 'qmarketplace.admin.questions.edit'
                },
                delete: true,
                formLeft: {

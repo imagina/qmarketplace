@@ -16,13 +16,15 @@
                         name: 'id',
                         label: this.$tr('ui.form.id'),
                         field: 'id',
-                        align: 'left'
+                        align: 'left',
+                       style: 'width: 10%',
                      },
                      {
                         name: 'title',
                         label: this.$tr('ui.form.title'),
                         field: 'title',
-                        align: 'left'
+                        align: 'left',
+                         style: 'width: 50%',
                      },
                      {
                         name: 'created_at',
@@ -30,8 +32,9 @@
                         field: 'createdAt',
                         align: 'left',
                         format: val => val ? this.$trd(val) : '-',
+                        style: 'width: 20%',
                      },
-                     {name: 'actions', label: this.$tr('ui.form.actions'), align: 'right'},
+                     {name: 'actions', label: this.$tr('ui.form.actions'), align: 'right', style: 'width: 20%',},
                   ],
                   requestParams: {
                      filter: {questionId: this.$route.params.id}

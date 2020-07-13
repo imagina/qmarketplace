@@ -16,19 +16,22 @@
                         name: 'id',
                         label: this.$tr('ui.form.id'),
                         field: 'id',
-                        align: 'left'
+                        align: 'left',
+                        style: 'width: 10%',
                      },
                      {
                         name: 'title',
                         label: this.$tr('ui.form.title'),
                         field: 'title',
-                        align: 'left'
+                        align: 'left',
+                        style: 'width: 30%',
                      },
                      {
                         name: 'systemName',
                         label: this.$tr('qquiz.layout.form.systemName'),
                         field: 'systemName',
-                        align: 'left'
+                        align: 'left',
+                        style: 'width: 25%',
                      },
                      {
                         name: 'created_at',
@@ -36,8 +39,11 @@
                         field: 'createdAt',
                         align: 'left',
                         format: val => val ? this.$trd(val) : '-',
+                        style: 'width: 10%',
                      },
-                     {name: 'actions', label: this.$tr('ui.form.actions'), align: 'right'},
+                     {
+                         name: 'actions', label: this.$tr('ui.form.actions'), align: 'right', style: 'width: 25%',
+                     },
                   ],
                   actions: [//Add action buttons by record
                      {

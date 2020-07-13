@@ -352,8 +352,8 @@
                             <div class="col-6 q-mt-sm">
                                <div class="row">
                                  <div class="col-12 q-pt-sm">
-                                   <p class="caption q-mb-sm">Merchant Id</p>
-                                    <q-input dense v-model="dataPayU.merchantid" placeholder="merchantid"/>
+                                   <p class="caption q-mb-sm">ID Comercio</p>
+                                    <q-input dense v-model="dataPayU.merchantid" placeholder="idcomercio"/>
                                  </div>
                                  <div class="col-12 q-pt-sm">
                                    <p class="caption q-mb-sm">Api Login</p>
@@ -368,16 +368,16 @@
 
                              <div class="col-6 q-mt-sm">
                                <div class="col-12">
-                                 <p class="caption q-mb-sm q-pt-sm">Account ID</p>
+                                 <p class="caption q-mb-sm q-pt-sm">ID Cuenta</p>
                                   <q-input dense v-model="dataPayU.accountid" placeholder="accountid"/>
                                </div>
                                <div class="col-12">
-                                 <p class="caption q-mb-sm q-pt-sm">Test</p>
+                                 <p class="caption q-mb-sm q-pt-sm">Pruebas?</p>
                                   <q-input dense v-model="dataPayU.test" placeholder="test"/>
                                </div>
                                <div class="col-12">
                                  <p class="caption q-mb-sm q-pt-sm">Modo</p>
-                                  <q-input dense v-model="dataPayU.mode" placeholder="mode"/>
+                                  <q-input dense v-model="dataPayU.mode" placeholder="modo"/>
                                </div>
                              </div>
 

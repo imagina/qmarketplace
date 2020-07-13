@@ -15,6 +15,9 @@ export default {
       message:"Mensaje",
     }
   },
+  messages:{
+    warnAddAnswers: 'To add answers, you must first create the question',
+  },
   newBenefit : 'New benefit',
   newStoreContact : 'New Contact Message',
   editStoreContact : 'Edit Contact Message',
