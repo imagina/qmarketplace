@@ -3,7 +3,7 @@
 		<div class="q-container">
 			<div class="row q-mb-md">
 				<div class="text-h5 text-primary q-mb-xs font-family-secondary">
-					Seguidores
+					Usuarios
 				</div>
 			</div>
 			<div class="row">
@@ -104,7 +104,7 @@
 
 <script>
   import InfiniteLoading from 'vue-infinite-loading'
-  import cardUser from '@imagina/qmarketplace/_components/info/cardUser'
+  import cardUser from '@imagina/qmarketplace/_components/info/cardUserForAdmin'
   
 	export default {
     components:{
@@ -140,8 +140,9 @@
           refresh: true,
           params: {
             filter: {
-              search: this.search
+              search: this.search,
             },
+            include: 'fields,addresses,level',
             page: this.page,
             take: this.take,
           }
@@ -166,9 +167,9 @@
 				this.searchNewUsers()
 			},
       openProfile(result) {
-        this.card.open = true;
-        this.card.info = result;
-        this.card.info.fields = this.$helper.convertToFrontField(this.card.info.fields);
+        this.card.open = true
+        this.card.info = result
+        this.card.info.fields = this.$helper.convertToFrontField(this.card.info.fields)
       }
 		}
   }
