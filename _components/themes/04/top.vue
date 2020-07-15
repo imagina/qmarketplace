@@ -85,8 +85,6 @@
 
                   <q-toolbar class="bg-white shadow-4">
                      <chat class="chat" color="store-primary" type="0"></chat>
-                     <q-btn flat dense icon="fas fa-briefcase" color="store-primary"/>
-                     <q-btn flat dense icon="star" color="store-primary"/>
                      <q-toolbar-title></q-toolbar-title>
                   </q-toolbar>
 
