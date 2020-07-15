@@ -29,8 +29,8 @@
                   <q-card-section class="q-pa-lg">
                      <div style="min-height: 550px">
                         <q-infinite-scroll @load="getStores" :offset="550" ref="infinityScrollOfferStore">
-                           <ul v-for="(item,i) in items" :key="i">
-                              <li v-for="(item,i) in item.stores" :key="item.id">
+                           <ul>
+                              <li v-for="(item,j) in stores" :key="j">
                                  <div class="row q-col-gutter-md items-center" v-if="$q.platform.is.desktop">
                                     <div class="col text-truncate">
                                        <div class="row">
@@ -40,7 +40,9 @@
                                              </q-avatar>
                                           </div>
                                           <div class="col-xs-12 col-md-9 col-xl-10 ">
-                                             <div class="row"><span class="text-primary text-bold ">{{item.name}}</span>
+                                             <div class="row"><span class="text-primary text-bold ">
+	                                             {{ j + 1 }} {{item.name}}
+                                             </span>
                                              </div>
                                              <div class="row">{{item.slogan}}</div>
                                           </div>
@@ -225,6 +227,7 @@
             page: 1,
             loadingScroll: true,
             items: [],
+	          stores:[],
             totalPage: 0,
             take: 16,
             categoryOptions: [],
@@ -259,6 +262,7 @@
                this.$crud.index('apiRoutes.qmarketplace.store', params).then(response => {
 
                   this.items.push({stores: response.data})
+	                this.stores.push(...response.data)
                   this.totalPage = response.meta.page.lastPage
                   this.page++
                   this.numSlide++
