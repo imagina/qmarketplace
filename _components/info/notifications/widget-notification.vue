@@ -129,9 +129,14 @@
       },
       mounted() {
          this.$nextTick(function () {
-            this.getNotifications()
-            this.initPusher();
+
             this.checkPermissionForNotification()
+            if(this.$store.state.quserAuth.userData.id){
+               this.getNotifications()
+               this.initPusher()
+            }
+
+
          })
       },
       data() {
@@ -206,6 +211,7 @@
                 })
             if(this.$q.platform.is.cordova){
                FCMPlugin.subscribeToTopic(`notification.new.${this.$store.state.quserAuth.userData.id}`);
+               cordova.plugins.firebase.analytics.setCurrentScreen(this.$store.state.quserAuth.userData.fullName);
             }
 
          },
@@ -228,10 +234,18 @@
                   registration.showNotification(data.title, {
                      body: data.message,
                      icon: this.$store.getters['qsiteSettings/getSettingMediaByName']('isite::logo1').path,
-                     click_action: ''
                   })
                }).catch(error => {
                   console.error(error)
+               })
+               window.addEventListener('notificationclick', function(event) {
+                  const clickedNotification = event.notification;
+                  clickedNotification.close();
+                  console.warn('dsdsdsd',clickedNotification )
+                  if (data.link) {
+                     const promiseChain = clients.openWindow(data.link);
+                     event.waitUntil(promiseChain);
+                  }
                })
             }
          },

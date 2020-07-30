@@ -320,34 +320,27 @@
             }
             //Request
             this.$crud.show(this.configName, itemId, params).then(response => {
-              //Get categories ID
-              /*
-              let categories = []
-              response.data.categories.forEach(category => {
-                categories.push(category.id)
-              })
-              */
-              //Replace categories to response
-              //response.data.categories = this.$clone(categories)
-              //Set response to form
+
               this.locale.form = this.$clone(response.data)
               let answers = this.$clone(this.locale.form.answers)
-              this.tab = 'tabResults'+answers[0].id
-              let votes = {
+              if(answers.length){
+                this.tab = 'tabResults'+answers[0].id
+                let votes = {
                   name: 'Votos',
                   data: [],
+                }
+                let categories = []
+                for(let x in answers){
+                  votes.data.push(answers[x].votes)
+                  categories.push(answers[x].title)
+                }
+                this.chartOptions.series.push(votes)
+                this.chartOptions.xAxis.categories = categories
               }
-              let categories = []
-              for(let x in answers){
-                votes.data.push(answers[x].votes)
-                categories.push(answers[x].title)
-              }
-              this.chartOptions.series.push(votes)
-              this.chartOptions.xAxis.categories = categories
+
               this.loading.page = false
               resolve(true)//Resolve
             }).catch(error => {
-              this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
               this.loading.page = false
               reject(false)//Resolve
             })
@@ -414,6 +407,7 @@
           this.$alert.error({message: this.$tr('ui.message.formInvalid'), pos: 'bottom'})
         }
       },
+
       addNewAnswer(){
         let newAnswer = {
           status: 1,

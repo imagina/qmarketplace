@@ -9,10 +9,10 @@
 			<div class="row">
 				<q-card class="rounded-md q-mb-xl full-width q-py-md">
 					<q-card-section class="q-px-xl form-general">
-						
+
 						<div class="row flex justify-end">
 							<div class="col-md-6">
-								
+
 								<q-input
 									rounded
 									dense
@@ -41,7 +41,7 @@
 								</q-input>
 							</div>
 						</div>
-						
+
 						<div class="row q-col-gutter-lg q-my-md">
 							<div v-for="(user, key) in users" :key="key" class="col-xs-12 col-sm-6">
 								<q-card class="flat bordered">
@@ -105,7 +105,7 @@
 <script>
   import InfiniteLoading from 'vue-infinite-loading'
   import cardUser from '@imagina/qmarketplace/_components/info/cardUserForAdmin'
-  
+
 	export default {
     components:{
       InfiniteLoading,
@@ -134,7 +134,7 @@
         ) , 500)
 	    })
     },
-		methods:{
+	methods:{
 	    getUsers($state){
         let params = {
           refresh: true,

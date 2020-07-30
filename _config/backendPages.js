@@ -274,7 +274,7 @@ export default {
     authenticated: true
   },
   favoriteUsers: {
-    permission: 'marketplace.stores.manage',
+    permission: 'marketplace.stores.mystore',
     activated: true,
     path: '/admin/followers/index',
     name: 'qmarketplace.admin.favoritestores.index',

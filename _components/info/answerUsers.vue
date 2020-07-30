@@ -2,7 +2,7 @@
     <div class="col-12 relative-position">
         <div class="row q-col-gutter-md" v-if="success">
             <div class="col-12 col-md-6" v-for="(user,k) in users">
-                <card-user-single :userData="user.user" @input="openProfile" />
+                <card-user-single :userData="user.user" @input="openProfile(user.id)" />
             </div>
             <div class="col-12">
                 <q-dialog v-model="card.open">
@@ -75,9 +75,7 @@
             },
             openProfile(result) {
                 //console.warn(result)
-                this.card.info = result;
-                if(this.card.info.fields[0])
-                    this.card.info.fields = this.$helper.convertToFrontField(this.card.info.fields);
+                this.card.userId = result;
                 this.card.open = true;
             }
         }

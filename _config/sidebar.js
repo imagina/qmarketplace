@@ -11,7 +11,7 @@ export default [
          pages.qmarketplace.themes, // themes
       ]
    },
-    pages.qmarketplace.UsersAdmin,
+   pages.qmarketplace.UsersAdmin,
    pages.qmarketplace.myStore, // themes
    pages.qmarketplace.myStoreTheme, // themes
    {

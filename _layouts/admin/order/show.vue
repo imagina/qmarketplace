@@ -57,7 +57,7 @@
                      </div>
 
                      <div class="col-md-9">
-                        {{order.customer.fields.cellularPhone.value}}
+                        {{order.customer.fields.cellularPhone.value||'N/A'}}
                      </div>
                   </div>
                   <div class="row">
@@ -115,7 +115,7 @@
                               </div>
                               <div class="col-6 text-right secondary-font">
 
-                                 <!-- $ {{$n(order.total - order.shippingAmount)}} -->
+                                 &lt;!&ndash; $ {{$n(order.total - order.shippingAmount)}} &ndash;&gt;
                                  $ {{$n(subTotal)}}
                               </div>
                            </div>
@@ -206,6 +206,13 @@
             order: {
                customer: {
                   fullName: '',
+                  customer:{
+                     fields:{
+                        cellularPhone:{
+                           value:'N/A'
+                        }
+                     }
+                  }
                },
                items: [],
             }
