@@ -142,6 +142,7 @@
             filter: {
               categorySlug: this.$route.params.category,
               storeSlug:this.$route.params.slug,
+              status:1,
               locale: 'es',
                search: this.search
             },

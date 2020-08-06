@@ -50,6 +50,7 @@
                      filter: {
                         store: this.storeData.id,
                         visible: true,
+                       status:1,
                         order: {
                            field: 'created_at',
                            way: 'desc'

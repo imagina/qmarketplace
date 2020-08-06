@@ -49,6 +49,7 @@
                   include: '',
                   filter: {
                      store: this.storeData.id,
+                    status:1,
                   },
                   take: this.take,
                   page: currentPage

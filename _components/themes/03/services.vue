@@ -64,7 +64,8 @@
               refresh: refresh,
               params:{
                 filter:{
-                  store:this.storeData.id
+                  store:this.storeData.id,
+                  status:2,
                 },
                 take:null
               }
