@@ -126,7 +126,7 @@
                title: null,
                message: '',
                icon: null,
-               link: '#',
+               link: '/account/notifications/',
                userId: null,
             },
             person: [],
@@ -168,7 +168,7 @@
                             title: null,
                             message: '',
                             icon: null,
-                            link: '#',
+                            link: '/account/notifications/',
                             userId: null,
                          }
                          this.CreateNotification = false

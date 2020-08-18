@@ -98,7 +98,7 @@
                title: null,
                message: '',
                icon: null,
-               link: '#',
+               link: '/account/notifications/',
                userId: this.userSelect,
             },
             person: [],
@@ -123,6 +123,8 @@
             this.loading = true
             this.$crud.create("apiRoutes.qnotification.notifications", this.form)
                 .then(response => {
+                  this.loading = false
+
                    this.$q.dialog({
                       title: 'Notificaciòn enviada ',
                       color: 'positive',
@@ -131,11 +133,11 @@
                          title: null,
                          message: '',
                          icon: null,
-                         link: '#',
+                         link: '/account/notifications/',
                          userId: null,
                       }
                       this.CreateNotification = false
-                      this.loading = false
+
                    })
                 }).catch(error => {
                this.loading = false

@@ -196,7 +196,7 @@ export default {
     icon: 'fas fa-box-open',
     authenticated: true,
   },
-  order: {
+  myStoreOrder: {
     permission: 'marketplace.orders.edit',
     activated: true,
     path: '/admin/stores/my-store/order/:id',
@@ -326,6 +326,17 @@ export default {
     layout: () => import('src/layouts/admin'),
     title: 'qcommerce.sidebar.editCoupons',
     icon: 'fas fa-ticket-alt',
+    authenticated: true,
+  },
+  OrderAdmin: {
+    permission: 'marketplace.orders.manage',
+    activated: true,
+    path: '/admin/commerce/order/:id',
+    name: 'qmarketplace.admin.shipping.orders.show',
+    page: () => import('@imagina/qmarketplace/_layouts/admin/order/show'),
+    layout: () => import('src/layouts/admin'),
+    title: 'qmarketplace.sidebar.business.order',
+    icon: 'fas fa-box-open',
     authenticated: true,
   },
   myChatMessages: {

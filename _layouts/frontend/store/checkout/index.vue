@@ -204,7 +204,7 @@
                                                                             <p class="caption q-mb-sm">
                                                                                 {{$tr('ui.form.phone')}}</p>
                                                                             <q-input dense type="text"
-                                                                                     v-model="form.telephone"
+                                                                                     v-model="form.paymentAddress2"
                                                                                      mask="(###) ### - ####"
                                                                                      placeholder="000 000 0000"
                                                                                      :rules="[val => !!val || $tr('ui.message.fieldRequired')]"
@@ -216,6 +216,9 @@
                                                                                       @input="val => { getCities() }"
                                                                                       v-model="province_id"
                                                                                       :options="optionsProvinces"
+                                                                                      map-options
+                                                                                      emit-value
+                                                                                      option-label="label"
                                                                                       :rules="[val => !!val || $tr('ui.message.fieldRequired')]"
                                                                             />
                                                                         </div>
@@ -256,7 +259,10 @@
                                                                             <p class="caption q-mb-sm">
                                                                                 {{$tr('qsubscription.layout.form.checkout.cityResidence')}}</p>
                                                                             <q-select dense
-                                                                                      v-model="city_id"
+                                                                                      map-options
+                                                                                      emit-value
+                                                                                      option-label="label"
+                                                                                      v-model="form.paymentCity"
                                                                                       :options="optionsCities"
                                                                                       :rules="[val => !!val || $tr('ui.message.fieldRequired')]"
                                                                             />
@@ -530,8 +536,8 @@
                     firstName: '',
                     lastName: '',
                     email: '',
-                    telephone: '',
                     paymentAddress1: '',
+                    paymentAddress2: '',
                     paymentZipCode: '1234',
                     addressPaymentId: 0,
                     addressShippingId: {label: "Selecciona una dirección", value: 0, id: 0},
@@ -539,6 +545,7 @@
                     paymentCountry: {label: "Selecciona una provincia", value: 0, id: 0},
                     paymentMethodId: 0,
                     shippingAddress1: '',
+                    shippingAddress2: '',
                     shippingZipCode: '1234',
                     shippingCity: {label: "Selecciona una ciudad", value: 0, id: 0},
                     shippingCountry: {label: "Selecciona una provincia", value: 0, id: 0},
@@ -638,6 +645,7 @@
                     firstName: this.form.firstName,
                     lastName: this.form.lastName,
                     address1: this.form.paymentAddress1,
+                    address2: this.form.paymentAddress2,
                     countryId: 48,
                     country: "Colombia",
                     provinceId: this.province_id.value,
@@ -649,7 +657,7 @@
                     this.$alert.success({message: this.$tr('ui.message.recordCreated'), pos: 'bottom'});
                     this.form.firstName = "";
                     this.form.lastName = "";
-                    this.form.telephone = "";
+                    this.form.paymentAddress2 = "";
                     this.form.email = "";
                     this.form.paymentAddress1 = "";
                     this.modalAddress = !this.modalAddress;
@@ -702,6 +710,8 @@
                     data.shipping_last_name = data.addressShippingId.lastName;
                     data.paymentAddress1 = data.addressShippingId.address1;
                     data.shippingAddress1 = data.paymentAddress1;
+                   data.paymentAddress2 = data.addressShippingId.address2;
+                   data.shippingAddress2 = data.paymentAddress1;
                     data.addressShippingId = data.addressShippingId.id;
                     data.addressPaymentId = data.addressShippingId;
                     // console.log('form submit');

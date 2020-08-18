@@ -119,8 +119,8 @@
 
             <div class="top-mobile" style="margin-top: -75px;">
                 <div class="absolute-top-left text-center q-ml-sm">
-                  <div class="pts">
-                     1pts
+                  <div class="pts" @click="ratingStore=true">
+                    {{storeData.averageRating}}pts
                   </div>
                </div>
                <div class="q-container">
@@ -197,17 +197,17 @@
          </q-carousel>
       </q-dialog>
       <!-- RATING STORE QDIALOG -->
-	      <q-dialog v-model="ratingStore" @hide="ratingStore=false;">
-	      <q-card style="width: 550px; max-width: 80vw;" class="bg-degradado">
+	      <q-dialog id="rating" v-model="ratingStore" @hide="ratingStore=false;">
+	      <q-card style="width: 550px; max-width: 80vw;" class="bg-degradado" >
 				   <q-card-section class="flex flex-center">
 					   <div class="text-h5 text-white">CALIFICACIÓN</div>
 				   </q-card-section>
 				   <q-card-section>
-					   <div class="bg-white q-mx-lg rounded-borders q-pa-lg">
+					   <div class="bg-white body-inter q-mx-lg rounded-borders q-pa-lg">
 						   <div class="flex flex-center q-mb-md">
 							   <q-rating
 								   readonly
-								   size="40px"
+								   size="30px"
 								   v-model="storeData.averageRating"
 								   :max="5"/>
 						   </div>
@@ -510,4 +510,18 @@ export default {
             font-size 15px !important
 
 
+   #rating
+     @media screen and (max-width: $breakpoint-xs)
+       .q-dialog__inner
+         padding 0 !important
+         .q-card
+           max-width 100% !important
+         .q-card__section
+           padding 10px
+         .body-inter
+           margin-left  0 !important
+           margin-right 0 !important
+           padding 24px 10px  !important
+       .q-rating
+         font-size 25px !important
 </style>
