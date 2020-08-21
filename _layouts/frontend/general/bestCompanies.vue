@@ -286,6 +286,7 @@
                     }
                     //Request
                     this.$crud.index('apiRoutes.qmarketplace.store', params).then(response => {
+                            this.stores=[]
                         if (response.data.length) {
                             this.stores.push(...response.data)
                             this.totalPage = response.meta.page.lastPage
