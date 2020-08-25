@@ -191,7 +191,6 @@
                                 </div>
                                 <infinite-loading
                                         class="q-pt-md"
-                                        :identifier="infiniteId"
                                         v-if="showInfiniteLoading"
                                         spinner="waveDots"
                                         @infinite="getStores">
@@ -286,7 +285,6 @@
                     }
                     //Request
                     this.$crud.index('apiRoutes.qmarketplace.store', params).then(response => {
-                            this.stores=[]
                         if (response.data.length) {
                             this.stores.push(...response.data)
                             this.totalPage = response.meta.page.lastPage
@@ -307,7 +305,7 @@
             getFilter() {
                 this.stores = [];
                 this.page = 1,
-                    this.infiniteId += 1;
+                this.infiniteId += 1;
                 this.getStores();
             },
             getCategoryStore() {
