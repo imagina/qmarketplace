@@ -31,13 +31,11 @@
                                 <div class="best-companies-list">
                                     <ul>
                                         <li v-for="(item,j) in stores" :key="j">
-                                            <!--
                                             <div class="text-center div-pts q-ml-md">
                                                 <div class="pts text-subtitle1">
                                                     <span>{{ j + 1 }}</span>
                                                 </div>
                                             </div>
-    -->
                                             <div class="row q-col-gutter-md items-center" v-if="$q.platform.is.desktop">
                                                 <div class="col text-truncate">
                                                     <div class="row">
@@ -48,7 +46,7 @@
                                                         </div>
                                                         <div class="col-xs-12 col-md-9 col-xl-10 ">
                                                             <div class="row"><span class="text-primary text-bold ">
-	                                           {{ j + 1 }}  {{item.name}}
+	                                           {{item.name}}
                                              </span>
                                                             </div>
                                                             <div class="row">{{item.slogan}}</div>
