@@ -119,7 +119,7 @@
       .text-ellipsis
          white-space nowrap
          overflow hidden
-         text-overflow ellipsis 
+         text-overflow ellipsis
       & .card-title
          margin-right 30px
          margin-top -30px
@@ -138,16 +138,16 @@
             padding 5px
             margin-top 0
             margin-right 5px
-            .price 
+            .price
                font-size 1rem!important
-               line-height 1rem !important      
+               line-height 1rem !important
       & .card-main
          font-size 16px
          .q-rating
             font-size 20px
          @media screen and (max-width: $breakpoint-xs)
-            .q-rating 
-               font-size 15px    
+            .q-rating
+               font-size 15px
       & .q-card__actions
          .q-btn
             margin-left -8px
@@ -163,9 +163,9 @@
             .q-btn__content > div
                display block !important
                color #fff
-            @media screen and (max-width: $breakpoint-xs)   
+            @media screen and (max-width: $breakpoint-xs)
                padding-left 10px
                .q-btn__content > div
                   display none !important
-                  
+
 </style>

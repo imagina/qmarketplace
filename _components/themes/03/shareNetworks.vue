@@ -3,7 +3,7 @@
     <div class="row items-center">
       <div class="col-12">
         <div class="networks text-center">
-          <a v-for="soc in store.social" v-if="soc.active" :href="soc.url" target="_blank">
+          <a v-for="soc in storeData.social" v-if="soc.active" :href="soc.url" target="_blank">
             <i :class="soc.icon"></i>
             <q-tooltip>
               {{soc.url}}

@@ -57,6 +57,25 @@
           </div>
         </div>
       </div>
+
+      <div class="col-12 bg-store-primary menuStore menu-02">
+        <div class="q-container">
+          <div class="bg-white rounded-lg text-white shadow-4 q-mx-xl q-py-sm relative-position">
+            <div class="row">
+              <div class="col q-pl-md">
+                <chat class="chat" color="store-primary" type="0" v-if="$store.state.quserAuth.userId"></chat>
+              </div>
+              <div class="col-auto q-pr-md">
+                <div class="line-vertical"></div>
+
+              </div>
+            </div>
+          </div>
+          <p class="text-h6 text-center text-italic text-white q-my-xl">{{ storeData.slogan }} </p>
+
+        </div>
+      </div>
+
     </div>
     <div class="row" v-else>
       <div class="col-12 bg-store-primary">
@@ -155,10 +174,15 @@ export default {
       followedStore: false,
       loading: false,
       openChat: false,
+      ratingStore: false,
+      comments: [],
     }
   },
   mounted() {
     this.getFollowedStore();
+    if (this.$store.state.quserAuth.userId) {
+      this.getCommentsOfStore()
+    }
   },
   computed: {
     storeData() {
@@ -167,6 +191,25 @@ export default {
     }
   },
   methods: {
+    getCommentsOfStore() {
+      this.$axios.get(config('apiRoutes.icomments.comments'), {
+        params: {
+          filter: {
+            commentableId: this.storeData.id,
+            commentableType: "Modules\\Marketplace\\Entities\\Store",
+            order: {
+              field: 'created_at',
+              way: 'desc',
+            }
+          },
+          take: 8
+        }
+      }).then(response => {
+        this.comments = response.data.data;
+      }).catch(error => {
+        this.$alert.error({message: error.response.data.errors, pos: 'bottom'})
+      });
+    },
     getFollowedStore() {
       this.$crud.index("apiRoutes.qmarketplace.favoriteStore", {
         params: {
