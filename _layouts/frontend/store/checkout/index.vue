@@ -648,8 +648,9 @@
                     address2: this.form.paymentAddress2,
                     countryId: 48,
                     country: "Colombia",
-                    provinceId: this.province_id.value,
+                    provinceId: this.province_id,
                     city: this.city_id.label,
+                    city_id: this.form.paymentCity,//
                     type: "shipping"
 
                 };
@@ -765,7 +766,7 @@
                             include: '',
                             filter: {
                                 allTranslations: true,
-                                province_id: this.province_id.value
+                                province_id: this.province_id
                             }
                         }
                     };//params
