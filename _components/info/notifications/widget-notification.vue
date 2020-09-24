@@ -166,7 +166,7 @@
                   include: '',
                   filter: {
                      me: true,
-                     read: false,
+                     //read: false,
                   },
                   take: 5,
                   page: 1
@@ -174,9 +174,17 @@
             };//params
             this.loading = true
             this.$crud.index("apiRoutes.qnotification.notifications", params).then(response => {
-               this.notifications = response.meta.page.total
-               if (this.notifications > 99) {
+               //this.notifications = response.meta.page.total;
+               let quantityNoti=0;
+               for (let i in response.data){
+                if(!response.data[i].isRead){
+                  quantityNoti++;
+                }
+               }
+               if (quantityNoti > 99) {
                   this.notifications = 99
+               }else{
+                  this.notifications=quantityNoti;
                }
                this.notificationData = response.data
 
