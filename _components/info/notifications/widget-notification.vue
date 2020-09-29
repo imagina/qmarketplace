@@ -222,7 +222,7 @@
                encrypted: env('PUSHER_APP_ENCRYPTED'),
             })
             this.echo.channel('imagina.notifications')
-                .listen(`.notification.new.${this.$store.state.quserAuth.userData.id}`, response => {
+                .listen(`notification.new.${this.$store.state.quserAuth.userData.id}`, response => {
                    this.getNotifications()
                    this.showPushNotitication(response)
                 })
