@@ -138,7 +138,7 @@
       },
       mounted() {
          this.$nextTick(function () {
-
+            alert("mounted notification component");
             this.checkPermissionForNotification()
             if(this.$store.state.quserAuth.userData.id){
                this.getNotifications()
@@ -215,6 +215,7 @@
             })
          },
          initPusher() {
+          alert('init pusher');
             this.echo = new Echo({
                broadcaster: env('BROADCAST_DRIVER', 'pusher'),
                key: env('PUSHER_APP_KEY'),
@@ -222,12 +223,16 @@
                encrypted: env('PUSHER_APP_ENCRYPTED'),
             })
             this.echo.channel('imagina.notifications')
-                .listen(`notification.new.${this.$store.state.quserAuth.userData.id}`, response => {
+                .listen(`.notification.new.${this.$store.state.quserAuth.userData.id}`, response => {
                    this.getNotifications()
-                   this.showPushNotitication(response)
+                   this.showPushNotitication(response);
+                   alert("pusher recibe notificacion");
+                   console.log("recibo msg ");
+                   console.log(response);
                 })
             if(this.$q.platform.is.cordova){
-               FCMPlugin.subscribeToTopic(`notification.new.${this.$store.state.quserAuth.userData.id}`);
+              alert('es app cordova, ejecuta fcmplugin');
+               FCMPlugin.subscribeToTopic(`.notification.new.${this.$store.state.quserAuth.userData.id}`);
 
                cordova.plugins.firebase.analytics.setCurrentScreen(this.$store.state.quserAuth.userData.fullName);
             }
@@ -250,6 +255,9 @@
       })
     },
     showPushNotitication(data) {
+      alert('pase por aca show push notification');
+      console.log('pase por aca show push notification');
+      console.log(data);
       if (this.permissionForNotification && this.focused) {
         navigator.serviceWorker.ready.then(registration => {
           registration.showNotification(data.title, {
